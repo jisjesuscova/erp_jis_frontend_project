@@ -1,3 +1,5 @@
+![image](https://github.com/jisjesuscova/erp_jis_frontend_project/assets/116112886/d549c7d1-f988-42d1-9774-b74bc3961104)
+
 ## Jisparking ERP: Una Solución Integral
 
 Jisparking ERP es una solución empresarial altamente especializada que se destaca por su capacidad para gestionar de manera integral una amplia gama de operaciones relacionadas con estacionamientos y activos. Este sistema se ha diseñado para abordar los aspectos clave de la gestión empresarial en este contexto, incluyendo recursos humanos, ventas, abonados, recaudaciones y contratos.
