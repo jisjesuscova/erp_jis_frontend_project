@@ -1,41 +1,43 @@
 import { createWebHistory, createRouter } from "vue-router";
+import Bank from './pages/Bank.vue'
+import BranchOffice from './components/BranchOffice.vue'
+import CreateContractEmployee from './pages/CreateContractEmployee.vue'
+import CreateDocumentManagement from './pages/CreateDocumentManagement.vue'
+import CreateEmployee from './pages/CreateEmployee.vue'
+import CreateExtraDataEmployee from './components/CreateExtraDataEmployee.vue'
+import CreateFamily from './pages/CreateFamily.vue'
+import CreateHonorary from './pages/CreateHonorary.vue'
+import CreateKardexDocument from './pages/CreateKardexDocument.vue'
+import CreateMedicalLicense from './pages/CreateMedicalLicense.vue'
+import CreateProgressiveVacation from './components/CreateProgressiveVacation.vue'
+import CreateUniformDataEmployee from './components/CreateUniformDataEmployee.vue'
+import CreateVacation from './components/CreateVacation.vue'
+import DocumentManagementEmployee from './components/DocumentManagementEmployee.vue'
+import EditFamilyDataEmployee from './components/EditFamilyDataEmployee.vue'
+import EditHonorary from './components/EditHonorary.vue'
+import Employee from './components/Employee.vue'
+import ExtraDataEmployee from './components/ExtraDataEmployee.vue'
+import FamilyDataEmployee from './components/FamilyDataEmployee.vue'
+import Forgot from './components/Forgot.vue'
 import Home from './components/Home.vue'
+import Honorary from './components/Honorary.vue'
+import KardexDataEmployee from './components/KardexDataEmployee.vue'
+import LaborDataEmployee from './components/LaborDataEmployee.vue'
+import MedicalLicenseDataEmployee from './components/MedicalLicenseDataEmployee.vue'
 import Nationality from './components/Nationality.vue'
 import Pention from './components/Pention.vue'
-import Bank from './components/Bank.vue'
-import BranchOffice from './components/BranchOffice.vue'
-import Employee from './components/Employee.vue'
-import PersonalDataEmployee from './components/PersonalDataEmployee.vue'
-import Forgot from './components/Forgot.vue'
-import CreateEmployee from './components/CreateEmployee.vue'
-import ExtraDataEmployee from './components/ExtraDataEmployee.vue'
-import LaborDataEmployee from './components/LaborDataEmployee.vue'
-import FamilyDataEmployee from './components/FamilyDataEmployee.vue'
-import KardexDataEmployee from './components/KardexDataEmployee.vue'
-import UniformDataEmployee from './components/UniformDataEmployee.vue'
-import SettlementDataEmployee from './components/SettlementDataEmployee.vue'
-import VacationDataEmployee from './components/VacationDataEmployee.vue'
-import MedicalLicenseDataEmployee from './components/MedicalLicenseDataEmployee.vue'
-import CreateFamilyDataEmployee from './components/CreateFamilyDataEmployee.vue'
-import CreateUniformDataEmployee from './components/CreateUniformDataEmployee.vue'
-import EditFamilyDataEmployee from './components/EditFamilyDataEmployee.vue'
-import CreateKardexDataEmployee from './components/CreateKardexDataEmployee.vue'
-import CreateMedicalLicenseEmployee from './components/CreateMedicalLicenseEmployee.vue'
-import Honorary from './components/Honorary.vue'
-import CreateHonorary from './components/CreateHonorary.vue'
-import EditHonorary from './components/EditHonorary.vue'
 import Pdf from './components/Pdf.vue'
-import CreateVacation from './components/CreateVacation.vue'
-import UploadVacation from './components/UploadVacation.vue'
-import UploadMedicalLicense from './components/UploadMedicalLicense.vue'
-import CreateProgressiveVacation from './components/CreateProgressiveVacation.vue'
-import UploadProgressiveVacation from './components/UploadProgressiveVacation.vue'
-import CreateContractEmployee from './components/CreateContractEmployee.vue'
-import SalarySettlementEmployee from './components/SalarySettlementEmployee.vue'
-import DocumentManagementEmployee from './components/DocumentManagementEmployee.vue'
-import CreateDocumentManagementEmployee from './components/CreateDocumentManagementEmployee.vue'
-import ShowVacationDataEmployee from './components/ShowVacationDataEmployee.vue'
+import PersonalDataEmployee from './components/PersonalDataEmployee.vue'
 import RequestedDocumentManagementEmployee from './components/RequestedDocumentManagementEmployee.vue'
+import SalarySettlementEmployee from './components/SalarySettlementEmployee.vue'
+import SettlementDataEmployee from './components/SettlementDataEmployee.vue'
+import ShowVacationDataEmployee from './components/ShowVacationDataEmployee.vue'
+import UniformDataEmployee from './components/UniformDataEmployee.vue'
+import UploadMedicalLicense from './components/UploadMedicalLicense.vue'
+import UploadProgressiveVacation from './components/UploadProgressiveVacation.vue'
+import UploadVacation from './components/UploadVacation.vue'
+import VacationDataEmployee from './components/VacationDataEmployee.vue'
+
 
 const routes = [
     {
@@ -111,8 +113,8 @@ const routes = [
         component: MedicalLicenseDataEmployee
     },
     {
-        path:'/create_family_employee/:rut',
-        component: CreateFamilyDataEmployee
+        path:'/create_family/:rut',
+        component: CreateFamily
     },
     {
         path:'/create_uniform_employee/:rut',
@@ -123,12 +125,12 @@ const routes = [
         component: EditFamilyDataEmployee
     },
     {
-        path:'/create_kardex_employee/:rut',
-        component: CreateKardexDataEmployee
+        path:'/create_kardex_document/:rut',
+        component: CreateKardexDocument
     },
     {
-        path:'/create_medical_license_employee/:rut',
-        component: CreateMedicalLicenseEmployee
+        path:'/create_medical_license/:rut',
+        component: CreateMedicalLicense
     },
     {
         path:'/honoraries',
@@ -184,8 +186,8 @@ const routes = [
         component: DocumentManagementEmployee
     },
     {
-        path:'/create_document_management_employee/:rut',
-        component: CreateDocumentManagementEmployee
+        path:'/create_document_management/:rut',
+        component: CreateDocumentManagement
     },
     {
         path:'/show_vacation_data_employee/:rut/:id',
