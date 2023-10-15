@@ -111,7 +111,7 @@
                 window.location.href = '/sent';
             })
             .catch(error => {
-            // Manejar el error aquí
+                console.log(error);
             });
         },
     },

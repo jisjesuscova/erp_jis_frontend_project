@@ -3,15 +3,12 @@
     <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72">
         <div v-if="loading" class="flex justify-center items-center h-screen">
             <div role="status">
-                <!-- SVG spinner -->
                 <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
                     <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
                 </svg>
                 <span class="sr-only">Loading...</span>
             </div>
-
-            <!-- You can use a spinner or any other loading animation here -->
         </div>
 
         <div v-else class="flex flex-col pt-10">
@@ -22,7 +19,7 @@
             <div class="mt-3">
                 <div id="bar-with-underline-1" role="tabpanel" aria-labelledby="bar-with-underline-item-1">
                     <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
-                        <form @submit.prevent="createHonorary">
+                        <form @submit.prevent="updateHonorary">
                             <div class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700">
                                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
                                     Datos Personales
@@ -160,7 +157,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5">
+                            <div class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5">
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">N° de Cuenta</label>
                                     <input
@@ -179,6 +176,19 @@
                                         <option value="1">Full-Time</option>
                                         <option value="2">Part-Time</option>
                                     </select>
+                                </div>
+                                <div>
+                                    <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">
+                                        Monto
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="amount_input"
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Monto"
+                                        v-model="amount_input"
+                                        required
+                                        />
                                 </div>
                             </div>
                             <div class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5">
@@ -242,14 +252,21 @@
 import axios from 'axios';
 import EmployeeMenu from '../components/EmployeeMenu.vue';
 
-
 export default {
     components: {
         EmployeeMenu
     },
     data() {
         return {
-            loading: false,
+            loading_1: true,
+            loading_2: true,
+            loading_3: true,
+            loading_4: true,
+            loading_5: true,
+            loading_6: true,
+            loading_7: true,
+            loading_8: true,
+            loading: true,
             reason_input: '',
             start_input: '',
             end_input: '',
@@ -277,26 +294,36 @@ export default {
     methods: {
         handleFileChange(event) {
             const selectedFile = event.target.files[0];
-
             this.support = selectedFile;
         },
-        getCommunes() {
+        async getCommunes() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get('https://apijis.com/communes/' + this.region_input, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    'Content-Type': 'multipart/form-data',
-                },
-            }).then(response => {
-                console.log(response);
-                this.communes = response.data.message;
-            }).catch(error => {
-                console.error(error);
-                this.loading = false;
-            });
+            this.communes = [];
+
+            this.commune_input = '';
+
+            try {
+                const response = await axios.get('https://apijis.com/communes/' + this.region_input, {
+                    headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                    },
+                });
+
+                this.regions = response.data.message;
+
+                this.loading_2 = false;
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener la lista de comunas:', error);
+                }
+            }
         },
-        createHonorary() {
+        updateHonorary() {
             this.loading = true;
 
             const rut = localStorage.getItem('rut');
@@ -316,7 +343,7 @@ export default {
                 region_id: this.region_input,
                 commune_id: this.commune_input,
                 requested_by: rut,
-                status_id: 1,
+                status_id: 2,
                 accountability_status_id: 0,
                 employee_to_replace: employee_to_replace_input_value,
                 rut: this.rut_input,
@@ -326,13 +353,13 @@ export default {
                 account_number: this.account_number_input,
                 start_date: this.start_input,
                 end_date: this.end_input,
-                amount: 0,
+                amount: this.amount_input,
                 observation: this.observation_input
             };
 
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.post('https://apijis.com/honoraries/store', dataToSend, {
+            axios.patch('https://apijis.com/honoraries/update/' + this.$route.params.id, dataToSend, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     accept: 'application/json',
@@ -340,146 +367,212 @@ export default {
             }).then(response => {
                 console.log(response);
                 this.loading = false;
-
                 localStorage.setItem('created_honorary', 1);
-
                 this.$router.push('/honoraries');
             }).catch(error => {
                 console.error(error);
                 this.loading = false;
             });
         },
+        async getRegions() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            try {
+                const response = await axios.get('https://apijis.com/regions', {
+                    headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                    },
+                });
+
+                this.regions = response.data.message;
+
+                this.loading_2 = false;
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener la lista de sucursales:', error);
+                }
+            }
+        },
+        async getBranchOffices() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            try {
+                const response = await axios.get('https://apijis.com/branch_offices', {
+                    headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                    },
+                });
+
+                this.branch_offices = response.data.message;
+
+                this.loading_3 = false;
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener la lista de sucursales:', error);
+                }
+            }
+        },
+        async getHonoraryReasons() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            try {
+                const response = await axios.get('https://apijis.com/honorary_reasons', {
+                    headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                    },
+                });
+
+                this.honorary_reasons = response.data.message;
+
+                this.loading_4 = false;
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener la lista de motivos:', error);
+                }
+            }
+        },
+        async getPatoloyTypes() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            try {
+                const response = await axios.get('https://apijis.com/patology_types', {
+                    headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                    },
+                });
+
+                this.patology_types = response.data.message;
+
+                this.loading_5 = false;
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener la lista de patologias:', error);
+                }
+            }
+        },
+        async getBanks() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            try {
+                const response = await axios.get('https://apijis.com/banks', {
+                    headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                    },
+                });
+
+                this.banks = response.data.message;
+
+                this.loading_6 = false;
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener la lista de bancos:', error);
+                }
+            }
+        },
+        async getHonorary() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            try {
+                const response = await axios.get('https://apijis.com/honoraries/edit/' + this.$route.params.id, {
+                    headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}`
+                    },
+                });
+
+                this.honorary = response.data.message;
+
+                this.reason_input = this.honorary.reason_id;
+                this.start_input = this.honorary.start_date;
+                this.end_input = this.honorary.end_date;
+                this.region_input = this.honorary.region_id;
+                this.branch_office_input = this.honorary.branch_office_id;
+                this.commune_input = this.honorary.commune_id;
+                this.foreigner_input = this.honorary.foreigner_id;
+                this.bank_input = this.honorary.bank_id;
+                this.schedule_input = this.honorary.schedule_id;
+                this.rut_input = this.honorary.rut;
+                this.full_name_input = this.honorary.full_name;
+                this.email_input = this.honorary.email;
+                this.address_input = this.honorary.address;
+                this.account_number_input = this.honorary.account_number;
+                this.observation_input = this.honorary.observation;
+                this.employee_to_replace_input = this.honorary.employee_to_replace;
+
+                this.loading_7 = false;
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener los datos del honorario:', error);
+                }
+            }
+        },
+        async getEmployees() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            const rut = localStorage.getItem('rut');
+            const rol_id = localStorage.getItem('rol_id');
+            const page = 0;
+
+            const dataToSend = {
+                        rut: rut,
+                        rol_id: rol_id,
+                        page: page
+                    };
+
+            try {
+                const response = await axios.post('https://apijis.com/employees/', dataToSend, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        accept: 'application/json',
+                    },
+                });
+                console.log(response.data.message.data)
+                this.employees = response.data.message;
+                this.loading_8 = false;
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener la lista de empleados:', error);
+                }
+            }
+        },
     },
     async created() {
-        const accessToken = localStorage.getItem('accessToken');
+        await this.getHonoraryReasons();
+        await this.getRegions();
+        await this.getBranchOffices();
+        await this.getEmployees();
+        await this.getHonorary();
+        await this.getCommunes();
+        await this.getBanks();
 
-        try {
-            const response = await axios.get('https://apijis.com/regions', {
-                headers: {
-                accept: 'application/json',
-                Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
-                },
-            });
-
-            this.regions = response.data.message;
-
+        if (this.loading_1 == false && this.loading_2 == false && this.loading_3 == false && this.loading_4 == false && this.loading_5 == false && this.loading_6 == false && this.loading_7 == false && this.loading_8 == false) {
             this.loading = false;
-        } catch (error) {
-            if (error.message == "Request failed with status code 401") {
-                localStorage.removeItem('accessToken');
-                window.location.reload();
-            } else {
-                console.error('Error al obtener la lista de sucursales:', error);
-            }
-        }
-
-        try {
-            const response = await axios.get('https://apijis.com/branch_offices', {
-                headers: {
-                accept: 'application/json',
-                Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
-                },
-            });
-
-            this.branch_offices = response.data.message;
-
-            this.loading = false;
-        } catch (error) {
-            if (error.message == "Request failed with status code 401") {
-                localStorage.removeItem('accessToken');
-                window.location.reload();
-            } else {
-                console.error('Error al obtener la lista de sucursales:', error);
-            }
-        }
-
-        try {
-            const response = await axios.get('https://apijis.com/honorary_reasons', {
-                headers: {
-                accept: 'application/json',
-                Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
-                },
-            });
-
-            this.honorary_reasons = response.data.message;
-
-            this.loading = false;
-        } catch (error) {
-            if (error.message == "Request failed with status code 401") {
-                localStorage.removeItem('accessToken');
-                window.location.reload();
-            } else {
-                console.error('Error al obtener la lista de motivos:', error);
-            }
-        }
-
-        try {
-            const response = await axios.get('https://apijis.com/patology_types', {
-                headers: {
-                accept: 'application/json',
-                Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
-                },
-            });
-
-            this.patology_types = response.data.message;
-
-            this.loading = false;
-        } catch (error) {
-            if (error.message == "Request failed with status code 401") {
-                localStorage.removeItem('accessToken');
-                window.location.reload();
-            } else {
-                console.error('Error al obtener la lista de patologias:', error);
-            }
-        }
-
-        try {
-            const response = await axios.get('https://apijis.com/banks', {
-                headers: {
-                accept: 'application/json',
-                Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
-                },
-            });
-
-            this.banks = response.data.message;
-
-            this.loading = false;
-        } catch (error) {
-            if (error.message == "Request failed with status code 401") {
-                localStorage.removeItem('accessToken');
-                window.location.reload();
-            } else {
-                console.error('Error al obtener la lista de bancos:', error);
-            }
-        }
-
-        const rut = localStorage.getItem('rut');
-        const rol_id = localStorage.getItem('rol_id');
-        const page = 0;
-
-        const dataToSend = {
-                    rut: rut,
-                    rol_id: rol_id,
-                    page: page
-                };
-
-        try {
-            const response = await axios.post('https://apijis.com/employees/', dataToSend, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    accept: 'application/json',
-                },
-            });
-            console.log(response.data.message.data)
-            this.employees = response.data.message;
-            this.loading = false;
-        } catch (error) {
-            if (error.message == "Request failed with status code 401") {
-                localStorage.removeItem('accessToken');
-                window.location.reload();
-            } else {
-                console.error('Error al obtener la lista de empleados:', error);
-            }
         }
     }
 }
