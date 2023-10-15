@@ -10,47 +10,60 @@
                 </svg>
                 <span class="sr-only">Loading...</span>
             </div>
-
-            <!-- You can use a spinner or any other loading animation here -->
         </div>
 
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">
-                Crear Kardex
+                Crear Vacación Progresiva
             </h2>
 
             <EmployeeMenu />
 
-            <div class="mt-3">
+            <div class="mt-10">
                 <div id="bar-with-underline-1" role="tabpanel" aria-labelledby="bar-with-underline-item-1">
                     <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
-                        <form @submit.prevent="createKardex">
+                        <form @submit.prevent="createProgressiveVacation">
                             <div class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700">
                                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
-                                    Datos Personales
+                                    Datos
                                 </p>
                             </div>
-
-                            <div class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5">
+                            <div class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5">
                                 <div>
-                                    <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Tipo de Documento</label>
-                                    <select v-model="document_type_input" class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option value="">- Tipo de Documento -</option>
-                                        <option v-for="document_type in document_types" :key="document_type.id" :value="document_type.id">{{ document_type.document_type }}</option>
-                                    </select>
+                                    <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Desde</label>
+                                    <input
+                                        type="date"
+                                        id="since_input"
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Fecha Desde"
+                                        v-model="since_input"
+                                        required
+                                        />
                                 </div>
                                 <div>
-                                    <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Documento</label>
-                                    <input type="file" name="file-input-medium" id="file-input-medium" class="block w-full border border-gray-200 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400
-                                    file:bg-transparent file:border-0
-                                    file:bg-gray-100 file:mr-4
-                                    file:py-3 file:px-4
-                                    dark:file:bg-gray-700 dark:file:text-gray-400"
-                                    @change="handleFileChange"
-                                    >
+                                    <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Hasta</label>
+                                    <input
+                                        type="date"
+                                        id="until_input"
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Fecha Hasta"
+                                        v-model="until_input"
+                                        required
+                                        />
                                 </div>
-                                
+                                <div>
+                                    <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Días No Válidos</label>
+                                    <input
+                                        type="number"
+                                        id="no_valid_days_input"
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Días No Válidos"
+                                        v-model="no_valid_days_input"
+                                        required
+                                        />
+                                </div>
                             </div>
+                            
                             <div class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5">
                                 <div v-if="loading" class="flex items-center justify-center h-full">
                                     <div role="status">
@@ -70,7 +83,7 @@
                                 </div>
                                 
                                 <router-link
-                                    :to="`/kardex_data_employee/${$route.params.id}`"
+                                    :to="`/vacation_data_employee/${$route.params.rut}`"
                                     class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                                 >
                                     Cancelar
@@ -89,7 +102,6 @@
 import axios from 'axios';
 import EmployeeMenu from '../components/EmployeeMenu.vue';
 
-
 export default {
     components: {
         EmployeeMenu
@@ -97,72 +109,44 @@ export default {
     data() {
         return {
             loading: false,
-            status_input: '',
-            document_type_input: '',
-            old_document_input: '',
-            support: null,
-            document_types: [],
+            since_input: '',
+            until_input: '',
+            no_valid_days_input: '',
         };
     },
     methods: {
-        handleFileChange(event) {
-            const selectedFile = event.target.files[0];
-
-            this.support = selectedFile;
-        },
-        createKardex() {
+        async createProgressiveVacation() {
             this.loading = true;
 
-            const formData = new FormData();
-            formData.append('rut', this.$route.params.rut);
-            formData.append('status_id', 3);
-            formData.append('document_type_id', this.document_type_input);
-            formData.append('old_document_status_id', 0);
-            formData.append('support', this.support);
+            const dataToSend = {
+                rut: this.$route.params.rut,
+                since: this.since_input,
+                until: this.until_input,
+                no_valid_days: this.no_valid_days_input,
+                status_id: 3,
+                document_type_id: 36
+            };
 
             const accessToken = localStorage.getItem('accessToken');
 
-            // Make the POST request using axios
-            axios.post('https://apijis.com/kardex_data/store', formData, {
+            const response = await axios.post('https://apijis.com/progressive_vacations/store', dataToSend, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
-                    'Content-Type': 'multipart/form-data',
+                    accept: 'application/json',
                 },
             }).then(response => {
                 console.log(response);
                 this.loading = false;
 
-                localStorage.setItem('created_kardex', 1);
+                localStorage.setItem('created_progressive_vacation', 1);
 
-                this.$router.push('/kardex_data_employee/' + this.$route.params.id);
+                this.$router.push('/vacation_data_employee/' + this.$route.params.rut);
             }).catch(error => {
                 console.error(error);
                 this.loading = false;
             });
+            
         },
     },
-    async created() {
-        const accessToken = localStorage.getItem('accessToken');
-
-        try {
-            const response = await axios.get('https://apijis.com/document_types/1', {
-                headers: {
-                accept: 'application/json',
-                Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
-                },
-            });
-
-            this.document_types = response.data.message;
-
-            this.loading = false;
-        } catch (error) {
-            if (error.message == "Request failed with status code 401") {
-                localStorage.removeItem('accessToken');
-                window.location.reload();
-            } else {
-                console.error('Error al obtener la lista de sucursales:', error);
-            }
-        }
-    }
 }
 </script>

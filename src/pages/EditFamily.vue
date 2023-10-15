@@ -10,8 +10,6 @@
                 </svg>
                 <span class="sr-only">Loading...</span>
             </div>
-
-            <!-- You can use a spinner or any other loading animation here -->
         </div>
 
         <div v-else class="flex flex-col pt-10">
@@ -159,7 +157,6 @@
 import axios from 'axios';
 import EmployeeMenu from '../components/EmployeeMenu.vue';
 
-
 export default {
     components: {
         EmployeeMenu
@@ -212,53 +209,48 @@ export default {
             }
         },
         handleFileChange(event) {
-            // Access the selected file from the event object
             const selectedFile = event.target.files[0];
-
-            // Do something with the selected file, such as storing it in the component's data or uploading it to a server.
-            // For example, you can assign it to the data property 'birth_certificate':
             this.birth_certificate = selectedFile;
         },
         updateFamilyEmployee() {
             this.loading = true;
 
-            var employee_rut = this.$route.params.id;
-            var employee_rut = employee_rut.split("-");
-            var numeric_employee_rut = employee_rut[0];
+            try {
+                const employeeRut = this.$route.params.id;
+                const employeeRutParts = employeeRut.split("-");
+                const numericEmployeeRut = employeeRutParts[0];
 
-            const formData = new FormData();
-            formData.append('family_type_id', this.family_type_input);
-            formData.append('employee_rut', numeric_employee_rut);
-            formData.append('gender_id', this.gender_input);
-            formData.append('rut', this.rut_input);
-            formData.append('names', this.names_input);
-            formData.append('father_lastname', this.father_lastname_input);
-            formData.append('mother_lastname', this.mother_lastname_input);
-            formData.append('born_date', this.born_date_input);
+                const formData = new FormData();
+                formData.append('family_type_id', this.family_type_input);
+                formData.append('employee_rut', numericEmployeeRut);
+                formData.append('gender_id', this.gender_input);
+                formData.append('rut', this.rut_input);
+                formData.append('names', this.names_input);
+                formData.append('father_lastname', this.father_lastname_input);
+                formData.append('mother_lastname', this.mother_lastname_input);
+                formData.append('born_date', this.born_date_input);
 
-            if (this.birth_certificate != null) {
-                formData.append('support', this.birth_certificate);
-            }
+                if (this.birth_certificate !== null) {
+                    formData.append('support', this.birth_certificate);
+                }
 
-            const accessToken = localStorage.getItem('accessToken');
+                const accessToken = localStorage.getItem('accessToken');
 
-            // Make the POST request using axios
-            axios.patch('https://apijis.com/family_core_data/update/'+ this.$route.params.id, formData, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    'Content-Type': 'multipart/form-data', // Add this line for file upload
-                },
-            }).then(response => {
+                const response = await axios.patch('https://apijis.com/family_core_data/update/' + this.$route.params.id, formData, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+
                 console.log(response);
-                this.loading = false;
-
                 localStorage.setItem('updated_family', 1);
-
                 this.$router.push('/family_data_employee/' + this.$route.params.rut);
-            }).catch(error => {
+            } catch (error) {
                 console.error(error);
+            } finally {
                 this.loading = false;
-            });
+            }
         },
     },
 }

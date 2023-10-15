@@ -81,12 +81,12 @@
                 </div>
             </div>
             <div class="text-center mt-10">
-                <vue-awesome-paginate
-                    :total-items="50"
-                    :items-per-page="10"
-                    :max-pages-shown="10"
+              <vue-awesome-paginate
+                    :total-items="totalItems"
+                    :items-per-page="itemsPerPage"
+                    :max-pages-shown="maxPagesShown"
                     v-model="currentPage"
-                    :click-handler="onClickHandler()"
+                    :on-click="onClickHandler"
                 />
             </div>
         </div>
@@ -97,86 +97,112 @@ import Searcher from '../components/Searcher.vue';
 import axios from 'axios';
 
 export default {
-    components: {
-      Searcher
+  components: {
+    Searcher
+  },
+  data() {
+    return {
+      employees: [],
+      loading: true,
+      searchParams: {},
+      searchData: {},
+      itemsPerPage: 10,
+      maxPagesShown: 5,
+      currentPage: 1,
+      totalItems: 0,
+    }
+  },
+  methods: {
+    onClickHandler () {
+      console.log(this.currentPage);
+      this.getPosts();
     },
-    data() {
-        return {
-            employees: [],
-            loading: true,
-            searchParams: {},
-            searchData: {},
-            itemsPerPage: 2, // Cantidad de elementos por página
-            currentPage: 1, // Página actual
-        }
-    },
-    methods: {
-        async onClickHandler () {
-            console.log(1);
-        },
-        async handleSearchData(searchData) {
-            try {
+    async handleSearchData(searchData) {
+      const rut = localStorage.getItem('rut');
+      const rol_id = localStorage.getItem('rol_id');
+      const page = this.currentPage;
 
-                const dataToSend = {
-                    rut: searchData.rut_input,
-                    names: searchData.names_input,
-                    father_lastname: searchData.father_lastname_input,
-                    mother_lastname: searchData.mother_lastname_input,
-                    branch_office_id: searchData.branch_office_input,
-                    status_id: searchData.status_input
-                };
+      this.loading = true;
 
-                const accessToken = localStorage.getItem('accessToken');
+      if (searchData.rut_input != '' 
+      || searchData.names_input != '' 
+      || searchData.father_lastname_input != '' 
+      || searchData.mother_lastname_input != '' 
+      || searchData.branch_office_input != '' 
+      || searchData.status_input != '') {
+          try {
+          const dataToSend = {
+              rut: searchData.rut_input,
+              names: searchData.names_input,
+              father_lastname: searchData.father_lastname_input,
+              mother_lastname: searchData.mother_lastname_input,
+              branch_office_id: searchData.branch_office_input,
+              status_id: searchData.status_input,
+              user_rut: rut,
+              rol_id: rol_id,
+              page: page
+            };
 
-                const response = await axios.post('https://apijis.com/employees/search', dataToSend, {
+          const accessToken = localStorage.getItem('accessToken');
+
+          const response = await axios.post('https://apijis.com/employees/search', dataToSend, {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        accept: 'application/json',
-                    },
-                });
+                          Authorization: `Bearer ${accessToken}`,
+                          accept: 'application/json',
+                        },
+                    });
 
-                this.employees = response.data.message;
-                console.log(response)
-                this.loading = false;
-            } catch (error) {
-                console.error('Error al obtener la lista de empleados:', error);
-            }
-        },
-        async getPosts() {
-            const accessToken = localStorage.getItem('accessToken');
-            const rut = localStorage.getItem('rut');
-            const rol_id = localStorage.getItem('rol_id');
-            const page = 1;
+          this.employees = response.data.message.data;
+          this.totalItems = response.data.message.total_items;
+          this.itemsPerPage = response.data.message.items_per_page;
+          this.loading = false;
+        } catch (error) {
+          console.error('Error al obtener la lista de empleados:', error);
+        }
+      } else {
+        this.getPosts();
+      }
+      
+    },
+    async getPosts() {
+      const accessToken = localStorage.getItem('accessToken');
+      const rut = localStorage.getItem('rut');
+      const rol_id = localStorage.getItem('rol_id');
+      const page = this.currentPage;
 
-            const dataToSend = {
+      this.loading = true;
+
+      const dataToSend = {
                         rut: rut,
                         rol_id: rol_id,
                         page: page
                     };
 
-            try {
-                const response = await axios.post('https://apijis.com/employees/', dataToSend, {
+      try {
+        const response = await axios.post('https://apijis.com/employees/', dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
                     },
                 });
-                console.log(response.data.message.data)
-                this.employees = response.data.message.data;
-                this.loading = false;
-            } catch (error) {
-                if (error.message == "Request failed with status code 401") {
-                    localStorage.removeItem('accessToken');
-                    window.location.reload();
-                } else {
-                    console.error('Error al obtener la lista de empleados:', error);
-                }
-            }
-        }
-    },
-    async created() {
 
-    },
+        this.employees = response.data.message.data;
+        this.totalItems = response.data.message.total_items;
+        this.itemsPerPage = response.data.message.items_per_page;
+        this.loading = false;
+      } catch (error) {
+        if (error.message == "Request failed with status code 401") {
+          localStorage.removeItem('accessToken');
+          window.location.reload();
+        } else {
+          console.error('Error al obtener la lista de empleados:', error);
+        }
+      }
+    }
+  },
+  async mounted() {
+    this.getPosts();
+  },
 }
 </script>
 
@@ -198,11 +224,11 @@ export default {
     background-color: #d8d8d8;
   }
   .active-page {
-    background-color: #3498db;
-    border: 1px solid #3498db;
+    background-color: #7e5bef;
+    border: 1px solid #7e5bef;
     color: white;
   }
   .active-page:hover {
-    background-color: #2988c8;
+    background-color: #7e5bef;
   }
 </style>

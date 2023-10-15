@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- Condición para mostrar el contenido si el token está definido y no es null o una cadena vacía -->
     <template v-if="accessToken !== null && accessToken !== ''">
       <Header />
       <Siderbar />
@@ -8,12 +7,10 @@
       <Footer />
     </template>
 
-    <!-- Condición para mostrar el componente de inicio de sesión si el token es null o una cadena vacía -->
     <template v-else>
       <div v-if="showForgotComponent">
         <Forgot />
       </div>
-      <!-- Mostrar componente "Login" si no se cumple la condición anterior -->
       <div v-else>
         <Login />
       </div>
@@ -33,8 +30,7 @@ import Forgot from './components/Forgot.vue';
 export default {
   name: 'App',
   setup() {
-    // Aquí defines la variable para almacenar el token (puedes obtenerlo del localStorage)
-    const accessToken = ref(localStorage.getItem('accessToken') || ''); // Usa el valor predeterminado ''
+    const accessToken = ref(localStorage.getItem('accessToken') || '');
 
     return {
       accessToken,

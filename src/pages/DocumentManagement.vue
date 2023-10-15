@@ -10,8 +10,6 @@
                 </svg>
                 <span class="sr-only">Loading...</span>
             </div>
-
-            <!-- You can use a spinner or any other loading animation here -->
         </div>
 
         <div v-else class="flex flex-col pt-10">
@@ -111,21 +109,17 @@ export default {
     },
     methods: {
         formatDateToCustomFormat(dateString) {
-            // Parsea la cadena de fecha en un objeto Date
             const date = new Date(dateString);
             
-            // Define los nombres de los meses en español
             const monthNames = [
                 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
                 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
             ];
             
-            // Obtiene el día, mes y año
             const day = date.getDate();
             const month = date.getMonth();
             const year = date.getFullYear();
             
-            // Formatea la fecha en el formato deseado
             const formattedDate = `${day} de ${monthNames[month]} del ${year}`;
             
             return formattedDate;
@@ -141,113 +135,107 @@ export default {
         },
         getBase64ImageFromURL(url) {
             return new Promise((resolve, reject) => {
-                var img = new Image();
+                const img = new Image();
                 img.setAttribute("crossOrigin", "anonymous");
 
                 img.onload = () => {
-                var canvas = document.createElement("canvas");
-                canvas.width = img.width;
-                canvas.height = img.height;
+                    const canvas = document.createElement("canvas");
+                    canvas.width = img.width;
+                    canvas.height = img.height;
 
-                var ctx = canvas.getContext("2d");
-                ctx.drawImage(img, 0, 0);
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0);
 
-                var dataURL = canvas.toDataURL("image/png");
+                    const dataURL = canvas.toDataURL("image/png");
 
-                resolve(dataURL);
+                    resolve(dataURL);
                 };
 
-                img.onerror = error => {
-                reject(error);
+                img.onerror = (error) => {
+                    reject(error);
                 };
 
                 img.src = url;
             });
         },
         async generateDocumentManagement() {
-            var logo = await this.getBase64ImageFromURL('http://localhost:5173/src/assets/images/logo.png');
+            try {
+                const logo = await getBase64ImageFromURL('http://localhost:5173/src/assets/images/logo.png');
+                const company_signature = await getBase64ImageFromURL('http://localhost:5173/src/assets/images/signature.png');
+                const full_name = `${localStorage.getItem('names')} ${localStorage.getItem('father_lastname')} ${localStorage.getItem('mother_lastname')}`;
+                const visual_rut = localStorage.getItem('visual_rut');
+                const current_date = `Santiago, ${this.formatDateToCustomFormat(new Date())}`;
+                const entrance_company = this.formatDateToCustomFormat(localStorage.getItem('entrance_company'));
+                const job_position = localStorage.getItem('job_position');
 
-            var company_signature = await this.getBase64ImageFromURL('http://localhost:5173/src/assets/images/signature.png');
+                const docDefinition = {
+                    content: [
+                        {
+                            image: logo,
+                            width: 80,
+                            alignment: 'left',
+                            margin: [0, 0, 0, 20],
+                        },
+                        {
+                            text: 'CERTIFICADO DE ANTIGÜEDAD',
+                            bold: true,
+                            alignment: 'center',
+                            fontSize: 14,
+                            margin: [0, 50, 0, 50],
+                        },
+                        {
+                            text: current_date,
+                            bold: true,
+                            alignment: 'right',
+                            fontSize: 9,
+                            margin: [0, 10, 0, 50],
+                        },
+                        {
+                            text: [
+                                'JIS PARKING S.P.A Rut. 76.063.822-6, representada por Don Marcelo Alejandro Inzunza González con RUN: 10.033.741-K, domiciliado en Matucana # 40, Estación Central, ciudad de Santiago de Chile, certifica al',
+                                { text: ` Sr(a). ${full_name} `, bold: true },
+                                'cédula de identidad N° ',
+                                { text: visual_rut, bold: true },
+                                { text: ` ingresó a Jis Parking SPA con fecha ${entrance_company} con el cargo de ${job_position}.` },
+                            ],
+                            fontSize: 10,
+                            alignment: 'justify',
+                            margin: [0, 0, 0, 20],
+                            lineHeight: 1.5,
+                        },
+                        {
+                            text: ['Se extiende el certificado a petición del interesado para los fines que estime conveniente.'],
+                            fontSize: 10,
+                            alignment: 'justify',
+                            margin: [0, 0, 0, 20],
+                            lineHeight: 1.5,
+                        },
+                        {
+                            text: ['Saluda atentamente.'],
+                            fontSize: 10,
+                            alignment: 'justify',
+                            margin: [0, 0, 0, 20],
+                            lineHeight: 1.5,
+                        },
+                        {
+                            image: company_signature,
+                            width: 120,
+                            alignment: 'center',
+                            margin: [0, 50, 0, 0],
+                        },
+                    ],
+                    pageMargins: [80, 40, 80, 40],
+                    styles: {
+                        defaultStyle: {
+                            font: 'Helvetica',
+                        },
+                    },
+                };
 
-            var full_name = localStorage.getItem('names') +' '+ localStorage.getItem('father_lastname') +' '+ localStorage.getItem('mother_lastname');
-
-            var visual_rut = localStorage.getItem('visual_rut');
-
-            var current_date = 'Santiago, ' + this.formatDateToCustomFormat(new Date());
-
-            var entrance_company = this.formatDateToCustomFormat(localStorage.getItem('entrance_company'));
-
-            var job_position = localStorage.getItem('job_position');
-
-            const docDefinition = {
-                content: [
-                    {
-                        image: logo,
-                        width: 80,
-                        alignment: 'left',
-                        margin: [0, 0, 0, 20],
-                    },
-                    {
-                        text: 'CERTIFICADO DE ANTIGÜEDAD',
-                        bold: true,
-                        alignment: 'center',
-                        fontSize: 14,
-                        margin: [0, 50, 0, 50],
-                    },
-                    {
-                        text: current_date,
-                        bold: true,
-                        alignment: 'right',
-                        fontSize: 9,
-                        margin: [0, 10, 0, 50],
-                    },
-                    {
-                        text: [
-                            'JIS PARKING S.P.A Rut. 76.063.822-6, representada por Don Marcelo Alejandro Inzunza González con RUN: 10.033.741-K, domiciliado en Matucana # 40, Estación Central, ciudad de Santiago de Chile, certifica al',
-                            { text: ' Sr(a). ' + full_name + ' ', bold: true },
-                            'cédula de identidad N° ',
-                            { text: visual_rut, bold: true },
-                            { text: ' ingresó a Jis Parking SPA con fecha ' + entrance_company + ' con el cargo de ' + job_position + '.' }
-                        ],
-                        fontSize: 10,
-                        alignment: 'justify',
-                        margin: [0, 0, 0, 20],
-                        lineHeight: 1.5,
-                    },
-                    {
-                        text: [
-                            'Se extiende el certificado a petición del interesado para los fines que estime conveniente.',
-                        ],
-                        fontSize: 10,
-                        alignment: 'justify',
-                        margin: [0, 0, 0, 20],
-                        lineHeight: 1.5,
-                    },
-                    {
-                        text: [
-                            'Saluda atentamente.',
-                        ],
-                        fontSize: 10,
-                        alignment: 'justify',
-                        margin: [0, 0, 0, 20],
-                        lineHeight: 1.5,
-                    },
-                    {
-                        image: company_signature,
-                        width: 120,
-                        alignment: 'center',
-                        margin: [0, 50, 0, 0],
-                    },
-                ],
-                pageMargins: [80, 40, 80, 40],
-                styles: {
-                    defaultStyle: {
-                        font: 'Helvetica',
-                    },
-                },
-            };
-
-            pdfMake.createPdf(docDefinition).download('certificado.pdf');
+                pdfMake.createPdf(docDefinition).download('certificado.pdf');
+            } catch (error) {
+                console.error(error);
+            }
         },
         formatDate(date) {
             return format(new Date(date), 'dd-MM-yyyy');

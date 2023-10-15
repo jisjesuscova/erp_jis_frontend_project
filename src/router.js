@@ -9,19 +9,19 @@ import CreateFamily from './pages/CreateFamily.vue'
 import CreateHonorary from './pages/CreateHonorary.vue'
 import CreateKardexDocument from './pages/CreateKardexDocument.vue'
 import CreateMedicalLicense from './pages/CreateMedicalLicense.vue'
-import CreateProgressiveVacation from './components/CreateProgressiveVacation.vue'
-import CreateUniformDataEmployee from './components/CreateUniformDataEmployee.vue'
-import CreateVacation from './components/CreateVacation.vue'
-import DocumentManagementEmployee from './components/DocumentManagementEmployee.vue'
-import EditFamilyDataEmployee from './components/EditFamilyDataEmployee.vue'
-import EditHonorary from './components/EditHonorary.vue'
-import Employee from './components/Employee.vue'
-import ExtraDataEmployee from './components/ExtraDataEmployee.vue'
-import FamilyDataEmployee from './components/FamilyDataEmployee.vue'
-import Forgot from './components/Forgot.vue'
-import Home from './components/Home.vue'
-import Honorary from './components/Honorary.vue'
-import KardexDataEmployee from './components/KardexDataEmployee.vue'
+import CreateProgressiveVacation from './pages/CreateProgressiveVacation.vue'
+import CreateUniform from './pages/CreateUniform.vue'
+import CreateVacation from './pages/CreateVacation.vue'
+import DocumentManagement from './pages/DocumentManagement.vue'
+import EditFamily from './pages/EditFamily.vue'
+import EditHonorary from './pages/EditHonorary.vue'
+import Employee from './pages/Employee.vue'
+import ExtraDataEmployee from './pages/ExtraDataEmployee.vue'
+import Family from './pages/Family.vue'
+import Forgot from './pages/Forgot.vue'
+import Home from './pages/Home.vue'
+import Honorary from './pages/Honorary.vue'
+import KardexDocument from './pages/KardexDocument.vue'
 import LaborDataEmployee from './components/LaborDataEmployee.vue'
 import MedicalLicenseDataEmployee from './components/MedicalLicenseDataEmployee.vue'
 import Nationality from './components/Nationality.vue'
@@ -89,12 +89,12 @@ const routes = [
         component: LaborDataEmployee
     },
     {
-        path:'/family_data_employee/:rut',
-        component: FamilyDataEmployee
+        path:'/family/:rut',
+        component: Family
     },
     {
-        path:'/kardex_data_employee/:rut',
-        component: KardexDataEmployee
+        path:'/kardex_document/:rut',
+        component: KardexDocument
     },
     {
         path:'/uniform_data_employee/:rut',
@@ -117,12 +117,12 @@ const routes = [
         component: CreateFamily
     },
     {
-        path:'/create_uniform_employee/:rut',
-        component: CreateUniformDataEmployee
+        path:'/create_uniform/:rut',
+        component: CreateUniform
     },
     {
-        path:'/edit_family_employee/:rut/:id',
-        component: EditFamilyDataEmployee
+        path:'/edit_family/:rut/:id',
+        component: EditFamily
     },
     {
         path:'/create_kardex_document/:rut',
@@ -141,7 +141,7 @@ const routes = [
         component: CreateHonorary
     },
     {
-        path:'/edit_honorary_employee/:id',
+        path:'/edit_honorary/:id',
         component: EditHonorary
     },
     {
@@ -182,8 +182,8 @@ const routes = [
         component: SalarySettlementEmployee
     },
     {
-        path:'/document_management_employee/:rut',
-        component: DocumentManagementEmployee
+        path:'/document_management/:rut',
+        component: DocumentManagement
     },
     {
         path:'/create_document_management/:rut',
