@@ -15,8 +15,6 @@
                 Validar Vacaciones
             </h2>
 
-            <EmployeeMenu />
-
             <div class="mt-10">
                 <div id="bar-with-underline-1" role="tabpanel" aria-labelledby="bar-with-underline-item-1">
                     <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
