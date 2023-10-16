@@ -100,7 +100,7 @@
                                 <i class="fa-solid fa-check"></i>
                             </button>
 
-                            <button @click="rejectVacation" type="submit" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+                            <button @click="denyVacation" type="submit" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
                                 Rechazar
                                 <i class="fa-solid fa-times"></i>
                             </button>
@@ -141,7 +141,8 @@ export default {
         },
         async acceptVacation() {
             const accessToken = localStorage.getItem('accessToken');
-
+            const rut = localStorage.getItem('rut');
+            
             this.loading = true;
 
             try {
@@ -154,12 +155,59 @@ export default {
                 });
 
                 this.loading = false;
+
+                localStorage.setItem('accepted_document_employee', 1);
+                this.$router.push('/requested_document_management/' + rut);
             } catch (error) {
                 if (error.message == "Request failed with status code 401") {
                     localStorage.removeItem('accessToken');
                     window.location.reload();
                 } else {
-                    console.error('Error al actualizar los datos del empleado:', error);
+                    console.error('Error al actualizar los datos de la vacación:', error);
+                }
+            }
+        },
+        async denyVacation() {
+            const accessToken = localStorage.getItem('accessToken');
+            const rut = localStorage.getItem('rut');
+            
+            this.loading = true;
+
+            try {
+                const update_response = await axios.patch(`http://localhost:8000/documents_employees/update/${this.$route.params.id}`, {
+                    status_id: 0
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    },
+                });
+
+                const dataToSend = {
+                    alert_type_id: 5,
+                    status_id: 0,
+                    rut: rut
+                };
+
+                axios.post('http://localhost:8000/alerts/store', dataToSend, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        accept: 'application/json',
+                    },
+                }).then(response => {
+                    console.log(response);
+                    this.loading = false;
+                    localStorage.setItem('denied_document_employee', 1);
+                    this.$router.push('/requested_document_management/' + rut);
+                }).catch(error => {
+                    console.error(error);
+                    this.loading = false;
+                });
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al actualizar los datos de la vacación:', error);
                 }
             }
         },
