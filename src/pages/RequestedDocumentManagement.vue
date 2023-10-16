@@ -12,57 +12,95 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
+            <div v-if="totalItems > 0" class="flex flex-col pt-10">
+                <h2 class="text-4xl dark:text-white pb-10">
+                    Solicitudes de Gestión Documental
+                </h2>
 
-            <h2 class="text-4xl dark:text-white pb-10">
-                Solicitudes de Gestión Documental
-            </h2>
-
-            <EmployeeMenu />
-
-            <div class="-m-1.5 overflow-x-auto pt-12">
-                <div class="bg-green-500 text-sm text-white rounded-md p-4 mb-10" role="alert" v-if="created_document_management == 1">
-                    Registro agregado con <span class="font-bold">éxito</span>.
+                <div class="-m-1.5 overflow-x-auto pt-12">
+                    <div class="bg-green-500 text-sm text-white rounded-md p-4 mb-10" role="alert" v-if="accepted_document_employee == 1">
+                        Solicitud aceptada con <span class="font-bold">éxito</span>.
+                    </div>
+                    <div class="bg-red-500 text-sm text-white rounded-md p-4 mb-10" role="alert" v-if="denied_document_employee == 1">
+                        Solicitud rechazada con <span class="font-bold">éxito</span>.
+                    </div>
+                    <div class="bg-red-500 text-sm text-white rounded-md p-4 mb-10" role="alert" v-if="error_document_management == 1">
+                        <span class="font-bold">Error</span> para descargar el documento.
+                    </div>
+                    <div class="p-1.5 min-w-full inline-block align-middle">
+                        <div class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
+                            <div class="overflow-hidden">
+                                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Id</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Empleado</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Documento</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estatus</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha de Solicitud</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700" >
+                                        <tr v-for="document_management in document_managements" :key="document_management.id">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{{ document_management.id }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ document_management.names }} {{ document_management.father_lastname }} {{ document_management.mother_lastname }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ document_management.document_type }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                                <span v-if="document_management.status_id == 1" class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-500 text-white">Solicitada</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ formatDate(document_management.added_date) }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                                <router-link class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2" href="javascript:;" :to="`/show_vacation/${document_management.id}`">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </router-link>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="bg-red-500 text-sm text-white rounded-md p-4 mb-10" role="alert" v-if="error_document_management == 1">
-                    <span class="font-bold">Error</span> para descargar el documento.
-                </div>
-                <div class="p-1.5 min-w-full inline-block align-middle">
-                    <div class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
-                        <div class="overflow-hidden">
-                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                <thead class="bg-gray-50 dark:bg-gray-700">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Id</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Empleado</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Documento</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estatus</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha de Solicitud</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-200 dark:divide-gray-700" >
-                                    <tr v-for="document_management in document_managements" :key="document_management.id">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{{ document_management.id }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ document_management.names }} {{ document_management.father_lastname }} {{ document_management.mother_lastname }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ document_management.document_type }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                            <span v-if="document_management.status_id == 1" class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-500 text-white">Solicitada</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ formatDate(document_management.added_date) }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                            <router-link class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2" href="javascript:;" :to="`/show_vacation/${document_management.id}`">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </router-link>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+            </div>
+            <div v-else>
+                <div class="-m-1.5 overflow-x-auto pt-12">
+                    <div class="bg-green-500 text-sm text-white rounded-md p-4 mb-10" role="alert" v-if="accepted_document_employee == 1">
+                        Solicitud aceptada con <span class="font-bold">éxito</span>.
+                    </div>
+                    <div class="bg-red-500 text-sm text-white rounded-md p-4 mb-10" role="alert" v-if="denied_document_employee == 1">
+                        Solicitud rechazada con <span class="font-bold">éxito</span>.
+                    </div>
+                    <div class="bg-red-500 text-sm text-white rounded-md p-4 mb-10" role="alert" v-if="error_document_management == 1">
+                        <span class="font-bold">Error</span> para descargar el documento.
+                    </div>
+                    <div class="p-1.5 min-w-full inline-block align-middle">
+                        <div class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
+                            <div class="overflow-hidden">
+                                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Id</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Empleado</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Documento</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estatus</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha de Solicitud</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200 text-center" colspan="6">No hay registro de solicitudes</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="text-center mt-10">
+        <div class="text-center mt-10" v-if="totalItems > 0">
             <vue-awesome-paginate
                 :total-items="totalItems"
                 :items-per-page="itemsPerPage"
@@ -75,16 +113,12 @@
 </template>
 <script>
 import axios from 'axios';
-import EmployeeMenu from '../components/EmployeeMenu.vue';
 import { format } from 'date-fns';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts && pdfFonts.pdfMake ? pdfFonts.pdfMake.vfs : globalThis.pdfMake.vfs;
 
 export default {
-    components: {
-        EmployeeMenu
-    },
     data() {
         return {
             loading: false,
@@ -96,10 +130,24 @@ export default {
             totalItems: 0,
             rol_id: '',
             error_document_management: 0,
+            accepted_document_employee: 0,
+            denied_document_employee: 0,
         };
     },
     async mounted() {
         const rol_id = localStorage.getItem('rol_id');
+
+        this.accepted_document_employee = localStorage.getItem('accepted_document_employee');
+
+        if (this.accepted_document_employee == 1) {
+            localStorage.removeItem('accepted_document_employee');
+        }
+
+        this.denied_document_employee = localStorage.getItem('denied_document_employee');
+
+        if (this.denied_document_employee == 1) {
+            localStorage.removeItem('denied_document_employee');
+        }
 
         this.rol_id = rol_id;
 
@@ -127,9 +175,11 @@ export default {
             this.getDocumentManagements();
         },
         formatPeriod(date) {
-            date = date.split('T');
-            date = date[0].split('-');
-            return date[1] + '-' + date[0];
+            if (date != '') {
+                date = date.split('T');
+                date = date[0].split('-');
+                return date[1] + '-' + date[0];
+            }
         },
         getBase64ImageFromURL(url) {
             return new Promise((resolve, reject) => {
@@ -246,20 +296,24 @@ export default {
             const page = this.currentPage;
 
             try {
-                const response = await axios.get('https://apijis.com/documents_employees/requested/'+ this.$route.params.rut + '/' + page, {
+                const response = await axios.get('http://localhost:8000/documents_employees/requested/'+ this.$route.params.rut + '/' + page, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
                     },
                 });
 
-                const decodedData = JSON.parse(response.data.message);
+                try {
+                    const decodedData = JSON.parse(response.data.message);
 
-                this.document_managements = decodedData.data;
-                this.totalItems = decodedData.total_items;
-                this.itemsPerPage = decodedData.items_per_page;
-
-                this.loading = false;
+                    this.document_managements = decodedData.data;
+                    this.totalItems = decodedData.total_items;
+                    this.itemsPerPage = decodedData.items_per_page;
+                    this.loading = false;
+                } catch (error) {
+                    this.loading = false;
+                    this.totalItems = 0;
+                }
             } catch (error) {
                 if (error.message == "Request failed with status code 401") {
                     localStorage.removeItem('accessToken');
