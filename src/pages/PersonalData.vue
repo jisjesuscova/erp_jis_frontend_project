@@ -2,15 +2,12 @@
     <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72">
         <div v-if="loading" class="flex justify-center items-center h-screen">
             <div role="status">
-                <!-- SVG spinner -->
                 <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
                     <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
                 </svg>
                 <span class="sr-only">Loading...</span>
             </div>
-
-            <!-- You can use a spinner or any other loading animation here -->
         </div>
 
         <div v-else class="flex flex-col pt-10">
@@ -43,15 +40,64 @@
 
                     <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
 
+                        <form @submit.prevent="updatePicture">
+                            <div class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700">
+                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
+                                    Foto
+                                </p>
+                            </div>
+                            
+                            <div v-if="uploaded_picture != ''" class="text-center pt-10 pb-10">
+                                <img class="rounded-xl sm:w-48 sm:h-48 lg:w-60 lg:h-60 mx-auto" :src="uploaded_picture" alt="Image Description">
+                            </div>
+
+                            <div v-if="uploaded_picture == ''" class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5">
+                                <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Foto</label>
+                                <input type="file" name="file-input-medium" id="file-input-medium" class="block w-full border border-gray-200 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400
+                                    file:bg-transparent file:border-0
+                                    file:bg-gray-100 file:mr-4
+                                    file:py-3 file:px-4
+                                    dark:file:bg-gray-700 dark:file:text-gray-400"
+                                    required
+                                    @change="handleFileChange"
+                                    >
+                            </div>
+
+                            <div v-if="uploaded_picture == ''" class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5">
+
+                                <button :disabled="validationsPassed" type="submit" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+                                    Guardar
+                                    <i class="fa-solid fa-check"></i>
+                                </button>
+
+                                <router-link v-if="rol_id == 4" href="javascript:;" to="/employees" class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
+                                    Cancelar
+                                    <i class="fa-solid fa-remove"></i>
+                                </router-link>
+
+                            </div>
+
+                            <div v-if="uploaded_picture != ''"  class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5">
+                                            
+                                <button :disabled="validationsPassed" @click="confirmPicture" type="button" class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
+                                    Borrar 
+                                    <i class="fa-solid fa-remove"></i>
+                                </button>
+
+                            </div>
+                            
+                        </form>
+                    </div>
+
+                    <hr class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
+
+                    <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+
                         <form @submit.prevent="updatePersonalDataEmployee">
                             <div class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700">
                                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
                                     Datos Personales
                                 </p>
-                            </div>
-                            
-                            <div class="text-center pt-10 pb-10">
-                                <img class="rounded-xl sm:w-48 sm:h-48 lg:w-60 lg:h-60 mx-auto" src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=900&h=900&q=80" alt="Image Description">
                             </div>
 
                             <div class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5">
@@ -66,7 +112,6 @@
                                         v-mask="['########-X']"
                                         required
                                         @blur="onRutBlur"
-                                        :disabled="disabledFields"
                                         />
                                 </div>
                                 <div>
@@ -332,7 +377,7 @@
 
             <hr class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
 
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+            <div v-if="signature == ''" class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
                 <div class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700">
                     <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
                         Firma
@@ -340,7 +385,10 @@
                 </div>
                 <div class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5">
                     <div>
-                        <Vue3Signature ref="signature1" :sigOption="state.option" :w="'100%'" :h="'400px'"
+                        <div class="bg-red-500 text-sm text-white rounded-md p-4 mb-10 mt-10" role="alert">
+                            <i class="fa-solid fa-circle-exclamation"></i> Es la firma que se uilizará para los documentos.
+                        </div>
+                        <Vue3Signature ref="signature1" :sigOption="state.option" :w="'70%'" :h="'400px'"
                 :disabled="state.disabled" class="example"></Vue3Signature>
                     </div>
                 </div>
@@ -355,15 +403,46 @@
                             <span class="sr-only">Loading...</span>
                         </div>
                     </div>
-                    <div v-else class="w-full">
-                        <button :disabled="validationsPassed" @click="save('image/jpeg')" type="button" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-                            Guardar
-                            <i class="fa-solid fa-check"></i>
-                        </button>
-                    </div>
+                    <button
+                    @click="save('image/jpeg')"
+                    type="button"
+                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                    >
+                    Guardar
+                    <i class="fa-solid fa-check"></i>
+                    </button>
                                 
                     <button :disabled="validationsPassed" @click="clear" type="button" class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
                         Borrar
+                        <i class="fa-solid fa-remove"></i>
+                    </button>
+
+                </div>
+            </div>
+
+            <div v-if="signature != ''" class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+                <div class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700">
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
+                        Firma
+                    </p>
+                </div>
+                <div class="text-center">
+                    <img :src="signature" style="height: 200px;" class="mx-auto my-auto">
+                </div>
+                <div class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5">
+                    <div v-if="loading" class="flex items-center justify-center h-full">
+                        <div role="status">
+                            <!-- SVG spinner -->
+                            <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                            </svg>
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                                
+                    <button :disabled="validationsPassed" @click="confirmSignature" type="button" class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
+                        Borrar 
                         <i class="fa-solid fa-remove"></i>
                     </button>
 
@@ -401,8 +480,7 @@ export default {
             loading_2: true,
             loading_3: true,
             loading_4: true,
-            loading_5: true,
-            loading: false,
+            loading: true,
             nationalities: [],
             banks: [],
             bank_input: '',
@@ -424,12 +502,65 @@ export default {
             account_number_input: '',
             status_bank_id: 0,
             rol_id: '',
+            signature: '',
+            picture: '',
+            uploaded_picture: '',
         };
     },
     methods: {
-        save(t) {
+        handleFileChange(event) {
+            const selectedFile = event.target.files[0];
+
+            this.picture = selectedFile;
+        },
+        async confirmSignature() {
+            const shouldDelete = window.confirm('¿Estás seguro de que deseas borrar la firma?');
+
+            if (shouldDelete) {
+                await this.deleteSignature();
+            }
+        },
+        async confirmPicture() {
+            const shouldDelete = window.confirm('¿Estás seguro de que deseas borrar la foto?');
+
+            if (shouldDelete) {
+                await this.deletePicture();
+            }
+        },
+        async checkPhone() {
+            const celularKeywords = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+
+            if(celularKeywords.test(navigator.userAgent)) {
+                return 1;
+            } else {
+                return 2;
+            }
+        },
+        async save(t) {
+            const check_phone_status = await this.checkPhone();
+            
+            this.loading = true;
+
             if (this.signature1) {
-                console.log(this.signature1.save(t));
+                try {
+                    const formData = new FormData();
+                    formData.append('rut', this.$route.params.rut);
+                    formData.append('signature', this.signature1.save(t));
+                    formData.append('signature_type_id', check_phone_status);
+
+                    const accessToken = localStorage.getItem('accessToken');
+
+                    const response = await axios.post('http://localhost:8000/employees/signature/', formData, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    });
+
+                    this.getPersonalDataEmployee();
+                } catch (error) {
+                    console.error(error);
+                }
             }
         },
         clear() {
@@ -437,10 +568,87 @@ export default {
                 this.signature1.clear();
             }
         },
+        async deletePicture() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            this.loading = true;
+
+            try {
+                const response = await axios.delete('https://apijis.com/employees/delete/picture/'+this.$route.params.rut, {
+                    headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                    },
+                });
+
+                this.uploaded_picture = '';
+
+                
+                window.location.reload();
+
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener los daos de la cuenta bancaria:', error);
+                }
+            }
+        },
+        async deleteSignature() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            this.loading = true;
+
+            try {
+                const response = await axios.delete('https://apijis.com/employees/delete/signature/'+this.$route.params.rut, {
+                    headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                    },
+                });
+
+                this.signature = '';
+
+                
+                window.location.reload();
+
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener los daos de la cuenta bancaria:', error);
+                }
+            }
+        },
+        async updatePicture() {
+            this.loading = true;
+
+            const formData = new FormData();
+            formData.append('rut', this.$route.params.rut);
+            formData.append('picture', this.picture);
+
+            const accessToken = localStorage.getItem('accessToken');
+
+            axios.post('https://apijis.com/employees/upload/picture', formData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            }).then(response => {
+                console.log(response);
+
+                this.getPersonalDataEmployee();
+            }).catch(error => {
+                console.error(error);
+                this.loading = false;
+            });
+        },
         async updateEmployeeBankAccount() {
             this.loading = true;
-            var rut = this.rut_input.split("-");
-            var numeric_rut = rut[0]
+            const rut = this.rut_input.split("-");
+            const numeric_rut = rut[0]
 
             try {
                 const dataToSend = {
@@ -467,13 +675,9 @@ export default {
             }
         },
         async updatePersonalDataEmployee() {
-            this.loading_1 = true;
-            this.loading_2 = true;
-            this.loading_3 = true;
-            this.loading_4 = true;
             this.loading = true;
-            var rut = this.rut_input.split("-");
-            var numeric_rut = rut[0]
+            const rut = this.rut_input.split("-");
+            const numeric_rut = rut[0]
 
             try {
                 const dataToSend = {
@@ -558,25 +762,29 @@ export default {
             this.validateRutExist();
             this.onValidateRutBlur();
         },
-        validateRut: function(rutCompleto) {
-            rutCompleto = rutCompleto.replace("‐","-");
-            if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto ))
-                return false;
-            var tmp     = rutCompleto.split('-');
-            var digv    = tmp[1];
-            var rut     = tmp[0];
-            if ( digv == 'K' ) digv = 'k' ;
+        validateRut: function(completed_rut) {
+            completed_rut = completed_rut.replace(/‐/g, '-');
 
-            return (this.dv(rut) == digv );
+            if (!/^[0-9]+[-]{0,1}[0-9kK]{1}$/.test(completed_rut)) {
+                return false;
+            }
+
+            const [rut, digv] = completed_rut.split('-');
+
+            if (digv === 'K') {
+            digv = 'k';
+            }
+
+            return dv(rut) === digv;
         },
-        dv : function(T){
-            var M=0,S=1;
-            for(;T;T=Math.floor(T/10))
-                S=(S+T%10*(9-M++%6))%11;
-            return S?S-1:'k';
+        dv: function(T){
+            let M = 0;
+            let S = 1;
+            for (; T; T = Math.floor(T / 10))
+                S = (S + T % 10 * (9 - M++ % 6)) % 11;
+            return S ? String(S - 1) : 'k';
         },
         onCellphoneInput() {
-            // Filtrar el valor del campo para permitir solo dígitos numéricos
             this.cellphone_input = this.cellphone_input.replace(/\D/g, '');
         },
         async validateCellphoneExist() {
@@ -654,18 +862,32 @@ export default {
                     },
                 });
 
-                this.rut_input = response.data.message.EmployeeModel.visual_rut;
-                this.names_input = response.data.message.EmployeeModel.names;
-                this.father_lastname_input = response.data.message.EmployeeModel.father_lastname;
-                this.mother_lastname_input = response.data.message.EmployeeModel.mother_lastname;
-                this.gender_input = response.data.message.EmployeeModel.gender_id;
-                this.nationality_input = response.data.message.EmployeeModel.nationality_id;
-                this.email_input = response.data.message.EmployeeModel.personal_email;
-                this.cellphone_input = response.data.message.EmployeeModel.cellphone;
-                this.born_date_input = response.data.message.EmployeeModel.born_date;
-                this.privilege_input = response.data.message.privilege;
+                const decodedData = JSON.parse(response.data.message);
+
+                this.rut_input = decodedData.employee_data.visual_rut;
+                this.names_input = decodedData.employee_data.names;
+                this.father_lastname_input = decodedData.employee_data.father_lastname;
+                this.mother_lastname_input = decodedData.employee_data.mother_lastname;
+                this.gender_input = decodedData.employee_data.gender_id;
+                this.nationality_input = decodedData.employee_data.nationality_id;
+                this.email_input = decodedData.employee_data.personal_email;
+                this.cellphone_input = decodedData.employee_data.cellphone;
+                this.born_date_input = decodedData.employee_data.born_date;
+                this.privilege_input = decodedData.employee_data.privilege;
+
+                if (decodedData.signature == null) {
+                    this.signature = '';
+                } else {
+                    this.signature = decodedData.signature;
+                }
+            
+                this.uploaded_picture = decodedData.picture;
+
+                localStorage.setItem('signature', decodedData.signature);
+                localStorage.setItem('signature_type_id', decodedData.employee_data.signature_type_id);
 
                 this.loading = false;
+
             } catch (error) {
                 if (error.message == "Request failed with status code 401") {
                     localStorage.removeItem('accessToken');
@@ -696,7 +918,7 @@ export default {
                     this.status_bank_id = 1;
                 }
 
-                this.loading_1 = false;
+                this.loading_2 = false;
             } catch (error) {
                 if (error.message == "Request failed with status code 401") {
                     localStorage.removeItem('accessToken');
@@ -710,7 +932,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/nationalities', {
+                const response = await axios.get('https://apijis.com/nationalities/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -733,40 +955,35 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/banks', {
+                const response = await axios.post('https://apijis.com/banks/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
                     },
                 });
 
+                console.log(response);
+
                 this.banks = response.data.message;
 
                 this.loading_4 = false;
             } catch (error) {
-                if (error.message == "Request failed with status code 401") {
-                    localStorage.removeItem('accessToken');
-                    window.location.reload();
-                } else {
-                    console.error('Error al obtener la lista de sucursales:', error);
-                }
+                console.error('Error al obtener la lista de sucursales:', error);
             }
         }
     },
-    mounted() {
-        this.signature1 = this.$refs.signature1;
-
+    async mounted() {
         const rol_id = localStorage.getItem('rol_id');
 
         this.rol_id = rol_id;
 
-        this.getPersonalDataEmployee();
-        this.getBankAccountEmployee();
-        this.getBanks();
-        this.getNationalities();
+        await this.getBankAccountEmployee();
+        await this.getBanks();
+        await this.getNationalities();
+        await this.getPersonalDataEmployee();
 
-        if (this.loading_1 == false && this.loading_2 == false && this.loading_3 == false && this.loading_4 == false) {
-            this.loading = false;
+        if (this.loading == false) {
+            this.signature1 = await this.$refs.signature1;
         }
     },
 }

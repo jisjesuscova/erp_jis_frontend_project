@@ -1,10 +1,9 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Bank from './pages/Bank.vue'
-import BranchOffice from './components/BranchOffice.vue'
+import BranchOffice from './pages/BranchOffice.vue'
 import CreateContractEmployee from './pages/CreateContractEmployee.vue'
 import CreateDocumentManagement from './pages/CreateDocumentManagement.vue'
 import CreateEmployee from './pages/CreateEmployee.vue'
-import CreateExtraDataEmployee from './components/CreateExtraDataEmployee.vue'
 import CreateFamily from './pages/CreateFamily.vue'
 import CreateHonorary from './pages/CreateHonorary.vue'
 import CreateKardexDocument from './pages/CreateKardexDocument.vue'
@@ -22,22 +21,20 @@ import Forgot from './pages/Forgot.vue'
 import Home from './pages/Home.vue'
 import Honorary from './pages/Honorary.vue'
 import KardexDocument from './pages/KardexDocument.vue'
-import LaborDataEmployee from './components/LaborDataEmployee.vue'
-import MedicalLicenseDataEmployee from './components/MedicalLicenseDataEmployee.vue'
-import Nationality from './components/Nationality.vue'
-import Pention from './components/Pention.vue'
-import Pdf from './components/Pdf.vue'
-import PersonalDataEmployee from './components/PersonalDataEmployee.vue'
-import RequestedDocumentManagementEmployee from './components/RequestedDocumentManagementEmployee.vue'
-import SalarySettlementEmployee from './components/SalarySettlementEmployee.vue'
+import LaborData from './pages/LaborData.vue'
+import MedicalLicense from './pages/MedicalLicense.vue'
+import Nationality from './pages/Nationality.vue'
+import Pention from './pages/Pention.vue'
+import PersonalData from './pages/PersonalData.vue'
+import RequestedDocumentManagement from './pages/RequestedDocumentManagement.vue'
+import SalarySettlement from './pages/SalarySettlement.vue'
 import SettlementDataEmployee from './components/SettlementDataEmployee.vue'
-import ShowVacationDataEmployee from './components/ShowVacationDataEmployee.vue'
+import ShowVacation from './pages/ShowVacation.vue'
 import UniformDataEmployee from './components/UniformDataEmployee.vue'
 import UploadMedicalLicense from './components/UploadMedicalLicense.vue'
 import UploadProgressiveVacation from './components/UploadProgressiveVacation.vue'
 import UploadVacation from './components/UploadVacation.vue'
-import VacationDataEmployee from './components/VacationDataEmployee.vue'
-
+import Vacation from './pages/Vacation.vue'
 
 const routes = [
     {
@@ -70,7 +67,7 @@ const routes = [
     },
     {
         path:'/employee/:rut',
-        component: PersonalDataEmployee
+        component: PersonalData
     },
     {
         path:'/forgot',
@@ -85,8 +82,8 @@ const routes = [
         component: ExtraDataEmployee
     },
     {
-        path:'/labor_data_employee/:rut',
-        component: LaborDataEmployee
+        path:'/labor_data/:rut',
+        component: LaborData
     },
     {
         path:'/family/:rut',
@@ -105,12 +102,12 @@ const routes = [
         component: SettlementDataEmployee
     },
     {
-        path:'/vacation_data_employee/:rut',
-        component: VacationDataEmployee
+        path:'/vacation/:rut',
+        component: Vacation
     },
     {
-        path:'/medical_license_data_employee/:rut',
-        component: MedicalLicenseDataEmployee
+        path:'/medical_license/:rut',
+        component: MedicalLicense
     },
     {
         path:'/create_family/:rut',
@@ -145,14 +142,6 @@ const routes = [
         component: EditHonorary
     },
     {
-        path:'/pdf',
-        component: Pdf
-    },
-    {
-        path:'/vacation_data_employee/:rut',
-        component: VacationDataEmployee
-    },
-    {
         path:'/create_vacation_data_employee/:rut',
         component: CreateVacation
     },
@@ -178,8 +167,8 @@ const routes = [
         component: CreateContractEmployee
     },
     {
-        path:'/salary_settlement_employee/:rut',
-        component: SalarySettlementEmployee
+        path:'/salary_settlement/:rut',
+        component: SalarySettlement
     },
     {
         path:'/document_management/:rut',
@@ -190,16 +179,16 @@ const routes = [
         component: CreateDocumentManagement
     },
     {
-        path:'/show_vacation_data_employee/:rut/:id',
-        component: ShowVacationDataEmployee
+        path:'/show_vacation/:rut/:id',
+        component: ShowVacation
     },
     {
-        path:'/requested_document_management_employee/:rut',
-        component: RequestedDocumentManagementEmployee
+        path:'/requested_document_management/:rut',
+        component: RequestedDocumentManagement
     },
     {
-        path:'/show_vacation_data_employee/:id',
-        component: ShowVacationDataEmployee
+        path:'/show_vacation/:id',
+        component: ShowVacation
     },
 ]
 

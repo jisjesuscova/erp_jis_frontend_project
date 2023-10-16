@@ -212,7 +212,7 @@ export default {
             const selectedFile = event.target.files[0];
             this.birth_certificate = selectedFile;
         },
-        updateFamilyEmployee() {
+        async updateFamilyEmployee() {
             this.loading = true;
 
             try {

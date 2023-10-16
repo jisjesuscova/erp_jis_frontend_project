@@ -22,10 +22,10 @@
 import { ref } from 'vue';
 import Header from './components/Header.vue';
 import Siderbar from './components/Sidebar.vue';
-import Home from './components/Home.vue';
+import Home from './pages/Home.vue';
 import Footer from './components/Footer.vue';
-import Login from './components/Login.vue';
-import Forgot from './components/Forgot.vue';
+import Login from './pages/Login.vue';
+import Forgot from './pages/Forgot.vue';
 
 export default {
   name: 'App',
