@@ -4,7 +4,9 @@
             El RUT ya está <span class="font-bold">registrado</span>.
         </div>
         <div v-if="validate_cellphone_status == 1" class="bg-red-500 text-sm text-white rounded-md p-4 mb-10" role="alert">
-            El celular ya está <span class="font-bold">registrado</span>.
+            El celular ya está <span class="font-bold">registrado </span>. por <span class="font-bold"> 
+                {{fullNameRut}} 
+            </span>.
         </div>
         <div v-if="isValidRut == false" class="bg-red-500 text-sm text-white rounded-md p-4 mb-10" role="alert">
             El RUT no es <span class="font-bold">correcto</span>.
@@ -189,6 +191,8 @@ export default {
             validate_rut_status: 0,
             isValidRut: true,
             validationsPassed: false,
+            employeeData: null,
+            fullNameRut:null,
         };
     },
     methods: {
@@ -376,12 +380,21 @@ export default {
 
                 this.validate_cellphone_status = response.data.message;
             
-                if (response.data.message == 1) {
+                if (response.data.message[0] == 1) {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
 
                 if (this.validate_cellphone_status == 1) {
                     this.validationsPassed = true
+                    this.employeeData = response.data.message[1]
+                    this.fullNameRut = `
+                    ${this.employeeData.names} 
+                    ${this.employeeData.father_lastname} 
+                    ${this.employeeData.mother_lastname}
+                    RUT:
+                    ${this.employeeData.visual_rut}`
+
+                    return this.fullNameRut
                 } else {
                     this.validationsPassed = false
                 }
