@@ -129,9 +129,11 @@ export default {
             this.getDocumentManagements();
         },
         formatPeriod(date) {
-            date = date.split('T');
-            date = date[0].split('-');
-            return date[1] + '-' + date[0];
+            if (date != '' && date != undefined && date != null) {
+                date = date.split('T');
+                date = date[0].split('-');
+                return date[1] + '-' + date[0];
+            }
         },
         getBase64ImageFromURL(url) {
             return new Promise((resolve, reject) => {

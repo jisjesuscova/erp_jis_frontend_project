@@ -175,7 +175,7 @@ export default {
             this.getDocumentManagements();
         },
         formatPeriod(date) {
-            if (date != '') {
+            if (date != '' && date != undefined && date != null) {
                 date = date.split('T');
                 date = date[0].split('-');
                 return date[1] + '-' + date[0];
