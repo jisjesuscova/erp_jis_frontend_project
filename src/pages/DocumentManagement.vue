@@ -16,7 +16,7 @@
 
             <h2 class="text-4xl dark:text-white pb-10">
                 Gestión Documental
-                <router-link href="javascript:;" :to="`/create_document_management_employee/${this.$route.params.rut}`" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+                <router-link href="javascript:;" :to="`/create_document_management/${this.$route.params.rut}`" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
                     Agregar
                 </router-link>
             </h2>
@@ -160,8 +160,8 @@ export default {
         },
         async generateDocumentManagement() {
             try {
-                const logo = await getBase64ImageFromURL('http://localhost:5173/src/assets/images/logo.png');
-                const company_signature = await getBase64ImageFromURL('http://localhost:5173/src/assets/images/signature.png');
+                const logo = await this.getBase64ImageFromURL('http://localhost:5173/src/assets/images/logo.png');
+                const company_signature = await this.getBase64ImageFromURL('http://localhost:5173/src/assets/images/signature.png');
                 const full_name = `${localStorage.getItem('names')} ${localStorage.getItem('father_lastname')} ${localStorage.getItem('mother_lastname')}`;
                 const visual_rut = localStorage.getItem('visual_rut');
                 const current_date = `Santiago, ${this.formatDateToCustomFormat(new Date())}`;
