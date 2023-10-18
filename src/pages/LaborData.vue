@@ -21,7 +21,7 @@
             <div class="mt-10">
 
                 <div v-if="validate_update_status == 1" class="bg-green-500 text-sm text-white rounded-md p-4 mb-10 mt-10" role="alert">
-                        <span class="font-bold">Actualizado con éxito </span> 
+                    Registro actualizado con <span class="font-bold">éxito</span>. 
                 </div>
 
                 <div id="bar-with-underline-1" role="tabpanel" aria-labelledby="bar-with-underline-item-1">
@@ -421,42 +421,41 @@ export default {
                         Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
                         },
                 });
-                if(response?.data?.message != undefined || response?.data?.message != null) {
-                    this.contract_type_input    = response.data.message.contract_type_id;
-                    this.branch_office_input  = response.data.message.branch_office_id;
-                    this.address_input      = response.data.message.address;
-                    this.region_input   = response.data.message.region_id;
-                    this.civil_state_input      = response.data.message.civil_state_id;
-                    this.health_input   = response.data.message.health_id;
-                    this.pention_input   = response.data.message.pention_id;
-                    this.job_position_input     = response.data.message.job_position_id;
-                    this.employee_type_input    = response.data.message.employee_type_id;
-                    this.regime_input   = response.data.message.regime_id;
+
+                if(response?.data?.message != undefined 
+                || 
+                response?.data?.message != null) {
+                    this.contract_type_input = response.data.message.contract_type_id;
+                    this.branch_office_input = response.data.message.branch_office_id;
+                    this.address_input = response.data.message.address;
+                    this.region_input = response.data.message.region_id;
+                    this.civil_state_input = response.data.message.civil_state_id;
+                    this.health_input = response.data.message.health_id;
+                    this.pention_input = response.data.message.pention_id;
+                    this.job_position_input = response.data.message.job_position_id;
+                    this.employee_type_input = response.data.message.employee_type_id;
+                    this.regime_input = response.data.message.regime_id;
                     this.entrance_company_input = response.data.message.entrance_company;
-                    this.entrance_pention_input     = response.data.message.entrance_pention;
-                    this.entrance_health_input      = response.data.message.entrance_health;
-                    this.salary_input   = response.data.message.salary;
-                    this.collation_input    = response.data.message.collation;
-                    this.locomotion_input   = response.data.message.locomotion;
-                    this.extra_health_amount_input      = response.data.message.extra_health_amount;
-                    this.extra_health_payment_type_input    = response.data.message.extra_health_payment_type_id;
-                    this.apv_payment_type_input     = response.data.message.apv_payment_type_id;
-                    this.apv_amount_input   = response.data.message.apv_amount;
-                    this.getCommunes();
+                    this.entrance_pention_input = response.data.message.entrance_pention;
+                    this.entrance_health_input = response.data.message.entrance_health;
+                    this.salary_input = response.data.message.salary;
+                    this.collation_input = response.data.message.collation;
+                    this.locomotion_input = response.data.message.locomotion;
+                    this.extra_health_amount_input = response.data.message.extra_health_amount;
+                    this.extra_health_payment_type_input = response.data.message.extra_health_payment_type_id;
+                    this.apv_payment_type_input = response.data.message.apv_payment_type_id;
+                    this.apv_amount_input = response.data.message.apv_amount;
                     this.commune_input = response.data.message.commune_id;
                 }
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener los datos laborales del empleado:', error);
                 }
-
-            catch (error) {
-                    if (error.message == "Request failed with status code 401") {
-                        localStorage.removeItem('accessToken');
-                        window.location.reload();
-                    } else {
-                        console.error('Error al obtener los datos laborales del empleado:', error);
-                    }
-                }
+            }
         },
-
         async getPentions() {
             const accessToken = localStorage.getItem('accessToken');
 
@@ -619,25 +618,29 @@ export default {
             }
         },
         async getCommunes() {
-            const accessToken = localStorage.getItem('accessToken');
+            if (this.region_input != '' && this.region_input != undefined && this.region_input != null) {
+                const accessToken = localStorage.getItem('accessToken');
 
-            try {
-                const response = await axios.get('http://localhost:8000/communes/' + this.region_input, {
-                    headers: {
-                    accept: 'application/json',
-                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
-                    },
-                });
-                this.communes = response.data.message;
+                try {
+                    const response = await axios.get('http://localhost:8000/communes/' + this.region_input, {
+                        headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                        },
+                    });
+                    this.communes = response.data.message;
 
-                this.loading_8 = false;
-            } catch (error) {
-                if (error.message == "Request failed with status code 401") {
-                    localStorage.removeItem('accessToken');
-                    window.location.reload();
-                } else {
-                    console.error('Error al obtener la lista de comunas:', error);
+                    this.loading_8 = false;
+                } catch (error) {
+                    if (error.message == "Request failed with status code 401") {
+                        localStorage.removeItem('accessToken');
+                        window.location.reload();
+                    } else {
+                        console.error('Error al obtener la lista de comunas:', error);
+                    }
                 }
+            } else {
+                this.commune_input = '';
             }
         },
         async getRegions() {
@@ -692,6 +695,7 @@ export default {
         await this.getContractTypes();
         await this.getBranchOffices();
         await this.getRegions();
+        await this.getCommunes();
         await this.getCivilStates();
         await this.getEmployeeTypes();
         await this.getJobPositions();

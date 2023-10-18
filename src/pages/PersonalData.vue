@@ -792,10 +792,9 @@ export default {
         },
         async validateCellphoneExist() {
             try {
-
                 const accessToken = localStorage.getItem('accessToken');
 
-                const response = await axios.get('http://localhost:8000/employees/validate_cellphone/'+this.cellphone_input, {
+                const response = await axios.get('http://localhost:8000/employees/validate_cellphone/' + this.cellphone_input, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
@@ -811,9 +810,10 @@ export default {
                     this.validationsPassed = true
                     this.employeeData = response.data.message[1]
                     this.fullNameRut = `
+                    Trabajador: 
                     ${this.employeeData.names} 
                     ${this.employeeData.father_lastname} 
-                    ${this.employeeData.mother_lastname}
+                    ${this.employeeData.mother_lastname}. 
                     RUT:
                     ${this.employeeData.visual_rut}`
 
