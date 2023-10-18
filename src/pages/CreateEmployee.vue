@@ -4,7 +4,8 @@
             El RUT ya está <span class="font-bold">registrado</span>.
         </div>
         <div v-if="validate_cellphone_status == 1" class="bg-red-500 text-sm text-white rounded-md p-4 mb-10" role="alert">
-            El celular ya está <span class="font-bold">registrado </span>. por <span class="font-bold"> 
+            El celular se encuentra <span class="font-bold">registrado</span> por 
+            <span class="font-bold"> 
                 {{fullNameRut}} 
             </span>.
         </div>
@@ -388,9 +389,10 @@ export default {
                     this.validationsPassed = true
                     this.employeeData = response.data.message[1]
                     this.fullNameRut = `
+                    Trabajador: 
                     ${this.employeeData.names} 
                     ${this.employeeData.father_lastname} 
-                    ${this.employeeData.mother_lastname}
+                    ${this.employeeData.mother_lastname}. 
                     RUT:
                     ${this.employeeData.visual_rut}`
 

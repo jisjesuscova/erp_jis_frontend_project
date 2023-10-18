@@ -175,6 +175,10 @@ const routes = [
         component: DocumentManagement
     },
     {
+        path:'/document_managements',
+        component: DocumentManagement
+    },
+    {
         path:'/create_document_management/:rut',
         component: CreateDocumentManagement
     },

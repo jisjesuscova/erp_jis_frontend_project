@@ -16,12 +16,10 @@
 
             <h2 class="text-4xl dark:text-white pb-10">
                 Gestión Documental
-                <router-link href="javascript:;" :to="`/create_document_management/${this.$route.params.rut}`" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+                <router-link v-if="this.$route.params.rut != undefined" href="javascript:;" :to="`/create_document_management/${this.$route.params.rut}`" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
                     Agregar
                 </router-link>
             </h2>
-
-            <EmployeeMenu />
 
             <div class="-m-1.5 overflow-x-auto pt-12">
                 <div class="bg-green-500 text-sm text-white rounded-md p-4 mb-10" role="alert" v-if="created_document_management == 1">
@@ -30,26 +28,81 @@
                 <div class="bg-red-500 text-sm text-white rounded-md p-4 mb-10" role="alert" v-if="error_document_management == 1">
                     <span class="font-bold">Error</span> para descargar el documento.
                 </div>
-                <div class="p-1.5 min-w-full inline-block align-middle">
+                <div class="p-1.5 min-w-full inline-block align-middle" v-if="totalItems > 0">
+                    <div class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
+                        <div class="overflow-hidden">
+                            <div v-if="this.$route.params.rut != undefined">
+                                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Id</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Periodo</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700" >
+                                        <tr v-for="document_management in document_managements" :key="document_management.id">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{{ document_management.id }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ formatPeriod(document_management.added_date) }} </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                                <button type="button" @click="generateDocumentManagement(document_management.id)" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2">
+                                                    <i class="fa-solid fa-file"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div v-else>
+                                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">RUT</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Trabajador</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Documento</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Periodo</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estatus</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700" >
+                                        <tr v-for="document_management in document_managements" :key="document_management.id">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{{ document_management.visual_rut }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{{ document_management.names }} {{ document_management.father_lastname }} {{ document_management.mother_lastname }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ document_management.document_type }} </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ formatPeriod(document_management.added_date) }} </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                                <span v-if="document_management.status_id == 2" class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-500 text-white">Aceptada por Supervisor</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                                <router-link class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2" href="javascript:;" :to="`/show_vacation/${document_management.id}`">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </router-link>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-else>
                     <div class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
                         <div class="overflow-hidden">
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-gray-700">
                                     <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Id</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">RUT</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Trabajador</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Documento</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Periodo</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estatus</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-gray-200 dark:divide-gray-700" >
-                                    <tr v-for="document_management in document_managements" :key="document_management.id">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{{ document_management.id }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ formatPeriod(document_management.added_date) }} </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                            <button type="button" @click="generateDocumentManagement(document_management.id)" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2">
-                                                <i class="fa-solid fa-file"></i>
-                                            </button>
-                                        </td>
+                                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                    <tr>
+                                        <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200 text-center" colspan="6">No hay registro de solicitudes</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -58,7 +111,7 @@
                 </div>
             </div>
         </div>
-        <div class="text-center mt-10">
+        <div v-if="totalItems > 0" class="text-center mt-10">
             <vue-awesome-paginate
                 :total-items="totalItems"
                 :items-per-page="itemsPerPage"
@@ -71,16 +124,12 @@
 </template>
 <script>
 import axios from 'axios';
-import EmployeeMenu from '../components/EmployeeMenu.vue';
 import { format } from 'date-fns';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts && pdfFonts.pdfMake ? pdfFonts.pdfMake.vfs : globalThis.pdfMake.vfs;
 
 export default {
-    components: {
-        EmployeeMenu
-    },
     data() {
         return {
             loading: false,
@@ -160,85 +209,6 @@ export default {
                 img.src = url;
             });
         },
-        async generateDocumentManagement() {
-            try {
-                const logo = await this.getBase64ImageFromURL('http://localhost:5173/src/assets/images/logo.png');
-                const company_signature = await this.getBase64ImageFromURL('http://localhost:5173/src/assets/images/signature.png');
-                const full_name = `${localStorage.getItem('names')} ${localStorage.getItem('father_lastname')} ${localStorage.getItem('mother_lastname')}`;
-                const visual_rut = localStorage.getItem('visual_rut');
-                const current_date = `Santiago, ${this.formatDateToCustomFormat(new Date())}`;
-                const entrance_company = this.formatDateToCustomFormat(localStorage.getItem('entrance_company'));
-                const job_position = localStorage.getItem('job_position');
-
-                const docDefinition = {
-                    content: [
-                        {
-                            image: logo,
-                            width: 80,
-                            alignment: 'left',
-                            margin: [0, 0, 0, 20],
-                        },
-                        {
-                            text: 'CERTIFICADO DE ANTIGÜEDAD',
-                            bold: true,
-                            alignment: 'center',
-                            fontSize: 14,
-                            margin: [0, 50, 0, 50],
-                        },
-                        {
-                            text: current_date,
-                            bold: true,
-                            alignment: 'right',
-                            fontSize: 9,
-                            margin: [0, 10, 0, 50],
-                        },
-                        {
-                            text: [
-                                'JIS PARKING S.P.A Rut. 76.063.822-6, representada por Don Marcelo Alejandro Inzunza González con RUN: 10.033.741-K, domiciliado en Matucana # 40, Estación Central, ciudad de Santiago de Chile, certifica al',
-                                { text: ` Sr(a). ${full_name} `, bold: true },
-                                'cédula de identidad N° ',
-                                { text: visual_rut, bold: true },
-                                { text: ` ingresó a Jis Parking SPA con fecha ${entrance_company} con el cargo de ${job_position}.` },
-                            ],
-                            fontSize: 10,
-                            alignment: 'justify',
-                            margin: [0, 0, 0, 20],
-                            lineHeight: 1.5,
-                        },
-                        {
-                            text: ['Se extiende el certificado a petición del interesado para los fines que estime conveniente.'],
-                            fontSize: 10,
-                            alignment: 'justify',
-                            margin: [0, 0, 0, 20],
-                            lineHeight: 1.5,
-                        },
-                        {
-                            text: ['Saluda atentamente.'],
-                            fontSize: 10,
-                            alignment: 'justify',
-                            margin: [0, 0, 0, 20],
-                            lineHeight: 1.5,
-                        },
-                        {
-                            image: company_signature,
-                            width: 120,
-                            alignment: 'center',
-                            margin: [0, 50, 0, 0],
-                        },
-                    ],
-                    pageMargins: [80, 40, 80, 40],
-                    styles: {
-                        defaultStyle: {
-                            font: 'Helvetica',
-                        },
-                    },
-                };
-
-                pdfMake.createPdf(docDefinition).download('certificado.pdf');
-            } catch (error) {
-                console.error(error);
-            }
-        },
         formatDate(date) {
             return format(new Date(date), 'dd-MM-yyyy');
         },
@@ -249,27 +219,64 @@ export default {
 
             const page = this.currentPage;
 
-            try {
-                const response = await axios.get('https://apijis.com/document_managements/' + this.$route.params.rut + '/' + page, {
-                    headers: {
-                    accept: 'application/json',
-                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
-                    },
-                });
+            if (this.$route.params.rut != '' && this.$route.params.rut != undefined && this.$route.params.rut != null) {
+                try {
+                    const response = await axios.get('http://localhost:8000/document_managements/' + this.$route.params.rut + '/' + page, {
+                        headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                        },
+                    });
 
-                const decodedData = JSON.parse(response.data.message);
+                    if (response.data.message != undefined && response.data.message != null && response.data.message != '') {
+                        const decodedData = JSON.parse(response.data.message);
 
-                this.document_managements = decodedData.data;
-                this.totalItems = decodedData.total_items;
-                this.itemsPerPage = decodedData.items_per_page;
+                        this.document_managements = decodedData.data;
+                        this.totalItems = decodedData.total_items;
+                        this.itemsPerPage = decodedData.items_per_page;
 
-                this.loading = false;
-            } catch (error) {
-                if (error.message == "Request failed with status code 401") {
-                    localStorage.removeItem('accessToken');
-                    window.location.reload();
-                } else {
-                    console.error('Error al obtener la lista de liquidaciones:', error);
+                        this.loading = false;
+                    } else {
+                        this.totalItems = 0;
+                        this.loading = false;
+                    }
+                    
+                } catch (error) {
+                    if (error.message == "Request failed with status code 401") {
+                        localStorage.removeItem('accessToken');
+                        window.location.reload();
+                    } else {
+                        console.error('Error al obtener la lista de documentos:', error);
+                    }
+                }
+            } else {
+                try {
+                    const response = await axios.get('http://localhost:8000/document_managements/' + page, {
+                        headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                        },
+                    });
+
+                    if (response.data.message != 'Invalid page number') {
+                        const decodedData = JSON.parse(response.data.message);
+
+                        this.document_managements = decodedData.data;
+                        this.totalItems = decodedData.total_items;
+                        this.itemsPerPage = decodedData.items_per_page;
+
+                        this.loading = false;
+                    } else {
+                        this.totalItems = 0;
+                        this.loading = false;
+                    }
+                } catch (error) {
+                    if (error.message == "Request failed with status code 401") {
+                        localStorage.removeItem('accessToken');
+                        window.location.reload();
+                    } else {
+                        console.error('Error al obtener la lista de documentos:', error);
+                    }
                 }
             }
         },

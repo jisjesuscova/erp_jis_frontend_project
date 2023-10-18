@@ -57,6 +57,17 @@
                                         required
                                         />
                             </div>
+                            
+                        </div>
+                        <div v-if="rol_id == 4" class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5">
+                            <div>
+                                <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Estatus</label>
+                                <select v-model="status_input" required class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="">- Estatus -</option>
+                                    <option value="3">Aceptada</option>
+                                    <option value="1">Rechazada</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div v-if="rol_id != 4" class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5">
@@ -95,15 +106,18 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                             </div>
-                            <button @click="acceptVacation" type="submit" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-                                Aceptar
+                            <button @click="updateDocumentManagement" type="submit" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+                                Actualizar
                                 <i class="fa-solid fa-check"></i>
                             </button>
 
-                            <button @click="denyVacation" type="submit" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-                                Rechazar
-                                <i class="fa-solid fa-times"></i>
-                            </button>
+                            <router-link
+                                    :to="`/document_management/${$route.params.rut}`"
+                                    class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                                >
+                                Cancelar
+                                <i class="fa-solid fa-remove"></i>
+                            </router-link>
                         </div>
                     </div>
                 </div>
@@ -124,6 +138,7 @@ export default {
             no_valid_days_input: '',
             rol_id: '',
             status_id: '',
+            status_input: '',
         };
     },
     methods: {
@@ -139,15 +154,24 @@ export default {
 
             return created_date = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes + ':' + seconds;
         },
-        async acceptVacation() {
+        async updateDocumentManagement() {
             const accessToken = localStorage.getItem('accessToken');
             const rut = localStorage.getItem('rut');
+            const rol_id = localStorage.getItem('rol_id');
             
             this.loading = true;
 
+            if (this.no_valid_days_input == '' || this.no_valid_days_input == null || this.no_valid_days_input == undefined) {
+                this.no_valid_days_input = 0;
+            }
+
             try {
                 const response = await axios.patch(`http://localhost:8000/documents_employees/update/${this.$route.params.id}`, {
-                    status_id: 2
+                    document_type_id: 6,
+                    since: this.since_input,
+                    until: this.until_input,
+                    no_valid_days: this.no_valid_days_input,
+                    status_id: this.status_input
                 }, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
@@ -156,52 +180,18 @@ export default {
 
                 this.loading = false;
 
-                localStorage.setItem('accepted_document_employee', 1);
-                this.$router.push('/requested_document_management/' + rut);
-            } catch (error) {
-                if (error.message == "Request failed with status code 401") {
-                    localStorage.removeItem('accessToken');
-                    window.location.reload();
+                if (this.status_input == 3) {
+                    localStorage.setItem('accepted_document_employee', 1);
                 } else {
-                    console.error('Error al actualizar los datos de la vacación:', error);
-                }
-            }
-        },
-        async denyVacation() {
-            const accessToken = localStorage.getItem('accessToken');
-            const rut = localStorage.getItem('rut');
-            
-            this.loading = true;
-
-            try {
-                const update_response = await axios.patch(`http://localhost:8000/documents_employees/update/${this.$route.params.id}`, {
-                    status_id: 0
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    },
-                });
-
-                const dataToSend = {
-                    alert_type_id: 5,
-                    status_id: 0,
-                    rut: rut
-                };
-
-                axios.post('http://localhost:8000/alerts/store', dataToSend, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        accept: 'application/json',
-                    },
-                }).then(response => {
-                    console.log(response);
-                    this.loading = false;
                     localStorage.setItem('denied_document_employee', 1);
-                    this.$router.push('/requested_document_management/' + rut);
-                }).catch(error => {
-                    console.error(error);
-                    this.loading = false;
-                });
+                }
+                
+                if (rol_id == 4) {
+                    this.$router.push('/requested_document_management');
+                } else {
+                    this.$router.push('/document_management_employee/' + rut);
+                }
+                
             } catch (error) {
                 if (error.message == "Request failed with status code 401") {
                     localStorage.removeItem('accessToken');
