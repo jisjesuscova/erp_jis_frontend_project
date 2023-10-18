@@ -16,7 +16,14 @@
             </div>
             <div id="navbar-collapse-with-animation" class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block">
                 <div class="flex flex-col gap-y-4 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-7 sm:mt-0 sm:pl-7">
-
+                    <div class="relative bell-container">
+                        <router-link to="/alerts/15538007" class="p-2 w-12 h-12 bg-blue-500 hover:bg-gray-300 focus:outline-none rounded-full flex items-center justify-center">
+                            <i class="fas fa-bell text-white"></i> <!-- Usar el icono de campana que prefieras -->
+                        </router-link>
+                        <span class="absolute top-0 right-0 bg-red-500 hover:bg-gray-600 text-white w-5 h-5 rounded-full text-center text-xs flex items-center justify-center bell-number">
+                            10 <!-- Número de alertas nuevas -->
+                        </span>
+                    </div>
                     <a class="flex items-center gap-x-2 font-medium text-white/[.8] hover:text-white sm:border-l sm:border-white/[.3] sm:my-6 sm:pl-6" href="#">
                         {{ nickname }}
                     </a>

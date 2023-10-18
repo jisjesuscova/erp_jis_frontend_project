@@ -35,6 +35,7 @@ import UploadMedicalLicense from './components/UploadMedicalLicense.vue'
 import UploadProgressiveVacation from './components/UploadProgressiveVacation.vue'
 import UploadVacation from './components/UploadVacation.vue'
 import Vacation from './pages/Vacation.vue'
+import Alert from './pages/Alert.vue'
 
 const routes = [
     {
@@ -193,6 +194,10 @@ const routes = [
     {
         path:'/show_vacation/:id',
         component: ShowVacation
+    },
+    {
+        path:'/alerts/:rut',
+        component: Alert
     },
 ]
 
