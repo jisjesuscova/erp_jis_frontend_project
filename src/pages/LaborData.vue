@@ -19,6 +19,11 @@
             <EmployeeMenu />
 
             <div class="mt-10">
+
+                <div v-if="validate_update_status == 1" class="bg-green-500 text-sm text-white rounded-md p-4 mb-10 mt-10" role="alert">
+                        <span class="font-bold">Actualizado con éxito </span> 
+                </div>
+
                 <div id="bar-with-underline-1" role="tabpanel" aria-labelledby="bar-with-underline-item-1">
                     <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
                         <form @submit.prevent="updateExtraDataEmployee">
@@ -44,15 +49,19 @@
                                 </div>
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Región</label>
-                                    <select v-model="region_input" required class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <select v-model="region_input" @change="getCommunes" required class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option value="">- Región -</option>
-                                        <option v-for="region in regions" :key="region.id" :value="region.id">{{ region.region }}</option>
+                                        <option v-for="region in regions" :key="region.id" :value="region.id" >{{ region.region }}</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5">
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Comuna</label>
+                                    <select v-model="commune_input" required class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="">- Comuna -</option>
+                                        <option v-for="commune in communes" :key="commune.id" :value="commune.id">{{ commune.commune }}</option>
+                                    </select>
                                 </div>
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Dirección</label>
@@ -319,15 +328,18 @@ export default {
             contract_types: [],
             branch_offices: [],
             regions: [],
+            communes: [],
             civil_states: [],
             employee_types: [],
             job_positions: [],
             regimes: [],
             healths: [],
             pentions: [],
-            contract_type_input: '',
+            contract_type_input:'',
+            branch_office_input: '',
             branch_office_input: '',
             region_input: '',
+            commune_input: '',
             civil_state_input: '',
             employee_type_input: '',
             job_position_input: '',
@@ -345,14 +357,68 @@ export default {
             apv_amount_input: '0',
             extra_health_payment_type_input: 3,
             extra_health_amount_input: '0',
+            validate_update_status: 0,
         };
     },
     methods: {
+        async updateExtraDataEmployee() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            if(this.regime_input != 1) {
+                this.pention_input = 0
+            }
+            
+            const dataToSend = {
+                rut: this.$route.params.rut,
+                contract_type_id: this.contract_type_input,
+                branch_office_id: this.branch_office_input,
+                address: this.address_input,
+                region_id: this.region_input,
+                commune_id: this.commune_input,
+                civil_state_id: this.civil_state_input,
+                health_id:this.health_input,
+                pention_id:this.pention_input,
+                job_position_id:this.job_position_input,
+                employee_type_id: this.employee_type_input,
+                regime_id:this.regime_input,
+                entrance_pention: this.entrance_pention_input,
+                entrance_company: this.entrance_company_input,
+                entrance_health: this.entrance_health_input,
+                salary: this.salary_input,
+                collation: this.collation_input,
+                locomotion: this.locomotion_input,
+                extra_health_amount: this.extra_health_amount_input,
+                extra_health_payment_type_id: this.extra_health_payment_type_input,
+                apv_payment_type_id: this.apv_payment_type_input,
+                apv_amount: this.apv_amount_input,
+                
+            };  
+            try {
+                alert(this.extra_health_amount_input);
+                const response = await axios.patch('http://localhost:8000/employee_labor_data/update/'+ this.$route.params.rut, dataToSend, {
+                    headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                    },
+                });
+                
+                console.log(dataToSend)
+                console.log(response)
+                this.validate_update_status = response.data.message;
+
+                if (response.data.message == 1) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+
+            } catch(error) {
+                console.log(error);
+            }
+        },
         async getPentions() {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/pentions', {
+                const response = await axios.get('http://localhost:8000/pentions', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -375,7 +441,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/healths', {
+                const response = await axios.get('http://localhost:8000/healths', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -398,7 +464,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/regimes', {
+                const response = await axios.get('http://localhost:8000/regimes', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -421,7 +487,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/job_positions', {
+                const response = await axios.get('http://localhost:8000/job_positions', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -444,7 +510,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/employee_types', {
+                const response = await axios.get('http://localhost:8000/employee_types', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -467,7 +533,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/contract_types', {
+                const response = await axios.get('http://localhost:8000/contract_types', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -490,7 +556,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/branch_offices', {
+                const response = await axios.get('http://localhost:8000/branch_offices', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -509,11 +575,33 @@ export default {
                 }
             }
         },
+        async getCommunes() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            try {
+                const response = await axios.get('http://localhost:8000/communes/' + this.region_input, {
+                    headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                    },
+                });
+                this.communes = response.data.message;
+
+                this.loading_8 = false;
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener la lista de comunas:', error);
+                }
+            }
+        },
         async getRegions() {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/regions', {
+                const response = await axios.get('http://localhost:8000/regions', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -536,7 +624,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/civil_states', {
+                const response = await axios.get('http://localhost:8000/civil_states', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud

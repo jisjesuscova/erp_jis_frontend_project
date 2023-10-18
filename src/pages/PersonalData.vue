@@ -577,7 +577,7 @@ export default {
             this.loading = true;
 
             try {
-                const response = await axios.delete('https://apijis.com/employees/delete/picture/'+this.$route.params.rut, {
+                const response = await axios.delete('http://localhost:8000/employees/delete/picture/'+this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -604,7 +604,7 @@ export default {
             this.loading = true;
 
             try {
-                const response = await axios.delete('https://apijis.com/employees/delete/signature/'+this.$route.params.rut, {
+                const response = await axios.delete('http://localhost:8000/employees/delete/signature/'+this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -634,7 +634,7 @@ export default {
 
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.post('https://apijis.com/employees/upload/picture', formData, {
+            axios.post('http://localhost:8000/employees/upload/picture', formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     'Content-Type': 'multipart/form-data',
@@ -663,7 +663,7 @@ export default {
 
                 const accessToken = localStorage.getItem('accessToken');
 
-                const response = await axios.patch('https://apijis.com/employee_bank_accounts/update/' + this.$route.params.rut, dataToSend, {
+                const response = await axios.patch('http://localhost:8000/employee_bank_accounts/update/' + this.$route.params.rut, dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
@@ -697,7 +697,7 @@ export default {
 
                 const accessToken = localStorage.getItem('accessToken');
 
-                const response = await axios.patch('https://apijis.com/employees/update/' + this.$route.params.rut, dataToSend, {
+                const response = await axios.patch('http://localhost:8000/employees/update/' + this.$route.params.rut, dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
@@ -719,7 +719,7 @@ export default {
 
                 const accessToken = localStorage.getItem('accessToken');
 
-                const response = await axios.patch('https://apijis.com/clock_users/update/' + this.$route.params.rut, dataToSend, {
+                const response = await axios.patch('http://localhost:8000/clock_users/update/' + this.$route.params.rut, dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
@@ -741,7 +741,7 @@ export default {
 
                 const accessToken = localStorage.getItem('accessToken');
 
-                const response = await axios.patch('https://apijis.com/users/update/' + this.$route.params.rut, dataToSend, {
+                const response = await axios.patch('http://localhost:8000/users/update/' + this.$route.params.rut, dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
@@ -795,19 +795,18 @@ export default {
 
                 const accessToken = localStorage.getItem('accessToken');
 
-                const response = await axios.get('https://apijis.com/employees/validate_cellphone/'+this.cellphone_input, {
+                const response = await axios.get('http://localhost:8000/employees/validate_cellphone/'+this.cellphone_input, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
                     },
                 });
 
-                this.validate_cellphone_status = response.data.message;
+                this.validate_cellphone_status = response.data.message[0];
             
                 if (response.data.message[0] == 1) {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
-
                 if (this.validate_cellphone_status == 1) {
                     this.validationsPassed = true
                     this.employeeData = response.data.message[1]
@@ -830,7 +829,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
             var rut = this.rut_input.split("-");
 
-            axios.get('https://apijis.com/employees/edit/'+rut[0], {
+            axios.get('http://localhost:8000/employees/edit/'+rut[0], {
                 headers: {
                 Authorization: `Bearer ${accessToken}`,
                 accept: 'application/json',
@@ -867,7 +866,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/employees/edit/'+this.$route.params.rut, {
+                const response = await axios.get('http://localhost:8000/employees/edit/'+this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -913,7 +912,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/employee_bank_accounts/edit/'+this.$route.params.rut, {
+                const response = await axios.get('http://localhost:8000/employee_bank_accounts/edit/'+this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -944,7 +943,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/nationalities/', {
+                const response = await axios.get('http://localhost:8000/nationalities/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -967,7 +966,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.post('https://apijis.com/banks/', {
+                const response = await axios.post('http://localhost:8000/banks/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
