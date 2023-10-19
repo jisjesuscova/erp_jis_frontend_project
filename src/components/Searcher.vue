@@ -104,7 +104,7 @@ export default {
     const accessToken = localStorage.getItem('accessToken');
 
     try {
-      const response = await axios.get('https://apijis.com/branch_offices', {
+      const response = await axios.get('https://apijis.com/branch_offices/', {
         headers: {
           accept: 'application/json',
           Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud

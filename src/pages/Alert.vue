@@ -24,11 +24,18 @@
 
         <div v-else class="flex flex-col pt-10">
             <div class="-m-1.5 overflow-x-auto">
+                <div
+                    class="bg-yellow-500 text-sm text-white rounded-md p-4 mb-10"
+                    role="alert"
+                >
+                    <span class="font-bold">Visualiza</span> de forma detallda
+                    cada una de las alertas descritas.
+                </div>
                 <div class="p-1.5 min-w-full inline-block align-middle">
                     <div
                         class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
                     >
-                        <div class="overflow-hidden">
+                        <div class="overflow-hidden" v-if="totalItems > 0">
                             <table
                                 class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
                             >
@@ -46,6 +53,12 @@
                                         >
                                             Alerta
                                         </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Fecha
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody
@@ -60,7 +73,52 @@
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ alert.alert }}
+                                            {{ alert.alert_type }}
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            {{ formatDate(alert.added_date) }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div v-else>
+                            <table
+                                class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+                            >
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Id
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Alerta
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Fecha
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="divide-y divide-gray-200 dark:divide-gray-700"
+                                >
+                                    <tr>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200 text-center"
+                                            colspan="3"
+                                        >
+                                            No hay alertas registradas
                                         </td>
                                     </tr>
                                 </tbody>
@@ -69,38 +127,140 @@
                     </div>
                 </div>
             </div>
+            <div class="text-center mt-10" v-if="totalItems > 0">
+                <vue-awesome-paginate
+                    :total-items="totalItems"
+                    :items-per-page="itemsPerPage"
+                    :max-pages-shown="maxPagesShown"
+                    v-model="currentPage"
+                    :on-click="onClickHandler"
+                />
+            </div>
         </div>
     </div>
 </template>
 <script>
 import axios from 'axios'
+import { format } from 'date-fns'
 
 export default {
     data() {
         return {
             alerts: [],
             loading: true,
+            itemsPerPage: 10,
+            maxPagesShown: 5,
+            currentPage: 1,
+            totalItems: 0,
         }
     },
-    async created() {
-        const accessToken = localStorage.getItem('accessToken')
+    methods: {
+        formatDate(date) {
+            return format(new Date(date), 'dd-MM-yyyy')
+        },
+        onClickHandler() {
+            console.log(this.currentPage)
+            this.getPosts()
+        },
+        async getPosts() {
+            const accessToken = localStorage.getItem('accessToken')
+            const rut = localStorage.getItem('rut')
+            const page = this.currentPage
 
-        try {
-            const response = await axios.get(
-                'http://localhost:8000/alerts/' + this.$route.params.rut,
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        accept: 'application/json',
+            this.loading = true
+
+            const dataToSend = {
+                rut: rut,
+                page: page,
+            }
+
+            try {
+                const response = await axios.post(
+                    'http://localhost:8000/alerts/',
+                    dataToSend,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            accept: 'application/json',
+                        },
                     },
-                },
-            )
+                )
 
-            this.alerts = response.data.message
-            this.loading = false
-        } catch (error) {
-            console.error('Error al obtener la lista de alertas:', error)
-        }
+                this.alerts = response.data.message.data
+                this.totalItems = response.data.message.total_items
+                this.itemsPerPage = response.data.message.items_per_page
+                this.loading = false
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error(
+                        'Error al obtener la lista de alertas:',
+                        error,
+                    )
+                }
+            }
+        },
+        updateAlert() {
+            const rut = localStorage.getItem('rut')
+
+            const dataToSend = {
+                status_id: 1,
+            }
+
+            const accessToken = localStorage.getItem('accessToken')
+
+            axios
+                .patch(
+                    'http://localhost:8000/alerts/update/' + rut,
+                    dataToSend,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            accept: 'application/json',
+                        },
+                    },
+                )
+                .then((response) => {
+                    console.log(response)
+                })
+                .catch((error) => {
+                    console.error(error)
+                    this.loading = false
+                })
+        },
+    },
+    async created() {
+        await this.getPosts()
+        this.updateAlert()
     },
 }
 </script>
+
+<style>
+.pagination-container {
+    display: flex;
+    column-gap: 10px;
+}
+.paginate-buttons {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: rgb(242, 242, 242);
+    border: 1px solid rgb(217, 217, 217);
+    color: black;
+}
+.paginate-buttons:hover {
+    background-color: #d8d8d8;
+}
+.active-page {
+    background-color: #7e5bef;
+    border: 1px solid #7e5bef;
+    color: white;
+}
+.active-page:hover {
+    background-color: #7e5bef;
+}
+</style>
