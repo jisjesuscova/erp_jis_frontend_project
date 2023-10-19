@@ -64,7 +64,7 @@
                         <span
                             class="absolute top-0 right-0 bg-red-500 hover:bg-gray-600 text-white w-5 h-5 rounded-full text-center text-xs flex items-center justify-center bell-number"
                         >
-                            10
+                            {{ totalItems }}
                             <!-- Número de alertas nuevas -->
                         </span>
                     </div>
@@ -80,19 +80,59 @@
     </header>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
     data() {
         return {
             nickname: '',
+            totalItems: 0,
         }
     },
-    async created() {
+    methods: {
+        async getPosts() {
+            const accessToken = localStorage.getItem('accessToken')
+            const rut = localStorage.getItem('rut')
+
+            this.loading = true
+
+            const dataToSend = {
+                rut: rut,
+                page: 1,
+            }
+
+            try {
+                const response = await axios.post(
+                    'http://localhost:8000/alerts/',
+                    dataToSend,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            accept: 'application/json',
+                        },
+                    },
+                )
+                
+                if (response.data.message.total_items != undefined) {
+                    this.totalItems = response.data.message.total_items
+                } else {
+                    this.totalItems = 0
+                }
+                
+            } catch (error) {
+                console.error('Error al obtener la lista de alertas:', error)
+            }
+        },
+    },
+    async mounted() {
         const nickname = localStorage.getItem('nickname')
         if (nickname) {
             this.nickname = nickname
         } else {
             this.nickname = ''
         }
+
+        await this.getPosts()
     },
 }
 </script>
