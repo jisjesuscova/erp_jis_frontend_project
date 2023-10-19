@@ -77,94 +77,128 @@
                         podrá editar los datos.
                     </div>
 
-                    <div
-                        class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-                    >
-                        <form @submit.prevent="updatePicture">
+                    <div v-if="rol_id == 4">
+                        <div
+                            v-if="
+                                uploaded_picture != '' &&
+                                uploaded_picture != undefined
+                            "
+                        >
                             <div
-                                class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                                class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                             >
-                                <p
-                                    class="mt-1 text-sm text-gray-500 dark:text-gray-500"
+                                <div
+                                    class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
                                 >
-                                    Foto
-                                </p>
-                            </div>
+                                    <p
+                                        class="mt-1 text-sm text-gray-500 dark:text-gray-500"
+                                    >
+                                        Foto
+                                    </p>
+                                </div>
 
-                            <div
-                                v-if="uploaded_picture != ''"
-                                class="text-center pt-10 pb-10"
-                            >
-                                <img
-                                    class="rounded-xl sm:w-48 sm:h-48 lg:w-60 lg:h-60 mx-auto"
-                                    :src="uploaded_picture"
-                                    alt="Image Description"
-                                />
-                            </div>
-
-                            <div
-                                v-if="uploaded_picture == ''"
-                                class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                            >
-                                <label
-                                    for="hs-validation-name-error"
-                                    class="block text-sm font-medium mb-2 dark:text-white"
-                                    >Foto</label
+                                <div
+                                    v-if="uploaded_picture != ''"
+                                    class="text-center pt-10 pb-10"
                                 >
-                                <input
-                                    type="file"
-                                    name="file-input-medium"
-                                    id="file-input-medium"
-                                    class="block w-full border border-gray-200 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 file:bg-transparent file:border-0 file:bg-gray-100 file:mr-4 file:py-3 file:px-4 dark:file:bg-gray-700 dark:file:text-gray-400"
-                                    required
-                                    @change="handleFileChange"
-                                />
+                                    <img
+                                        class="rounded-xl sm:w-48 sm:h-48 lg:w-60 lg:h-60 mx-auto"
+                                        :src="uploaded_picture"
+                                        alt="Image Description"
+                                    />
+                                </div>
                             </div>
-
-                            <div
-                                v-if="uploaded_picture == ''"
-                                class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                            >
-                                <button
-                                    :disabled="validationsPassed"
-                                    type="submit"
-                                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                >
-                                    Guardar
-                                    <i class="fa-solid fa-check"></i>
-                                </button>
-
-                                <router-link
-                                    v-if="rol_id == 4"
-                                    href="javascript:;"
-                                    to="/employees"
-                                    class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                                >
-                                    Cancelar
-                                    <i class="fa-solid fa-remove"></i>
-                                </router-link>
-                            </div>
-
-                            <div
-                                v-if="uploaded_picture != ''"
-                                class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                            >
-                                <button
-                                    :disabled="validationsPassed"
-                                    @click="confirmPicture"
-                                    type="button"
-                                    class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                                >
-                                    Borrar
-                                    <i class="fa-solid fa-remove"></i>
-                                </button>
-                            </div>
-                        </form>
+                            <hr
+                                class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
+                            />
+                        </div>
                     </div>
+                    <div v-else>
+                        <div
+                            class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
+                        >
+                            <form @submit.prevent="updatePicture">
+                                <div
+                                    class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                                >
+                                    <p
+                                        class="mt-1 text-sm text-gray-500 dark:text-gray-500"
+                                    >
+                                        Foto
+                                    </p>
+                                </div>
 
-                    <hr
-                        class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
-                    />
+                                <div
+                                    v-if="uploaded_picture != ''"
+                                    class="text-center pt-10 pb-10"
+                                >
+                                    <img
+                                        class="rounded-xl sm:w-48 sm:h-48 lg:w-60 lg:h-60 mx-auto"
+                                        :src="uploaded_picture"
+                                        alt="Image Description"
+                                    />
+                                </div>
+
+                                <div
+                                    v-if="uploaded_picture == ''"
+                                    class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                                >
+                                    <label
+                                        for="hs-validation-name-error"
+                                        class="block text-sm font-medium mb-2 dark:text-white"
+                                        >Foto</label
+                                    >
+                                    <input
+                                        type="file"
+                                        name="file-input-medium"
+                                        id="file-input-medium"
+                                        class="block w-full border border-gray-200 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 file:bg-transparent file:border-0 file:bg-gray-100 file:mr-4 file:py-3 file:px-4 dark:file:bg-gray-700 dark:file:text-gray-400"
+                                        required
+                                        @change="handleFileChange"
+                                    />
+                                </div>
+
+                                <div
+                                    v-if="uploaded_picture == ''"
+                                    class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                                >
+                                    <button
+                                        :disabled="validationsPassed"
+                                        type="submit"
+                                        class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                    >
+                                        Guardar
+                                        <i class="fa-solid fa-check"></i>
+                                    </button>
+
+                                    <router-link
+                                        v-if="rol_id == 4"
+                                        href="javascript:;"
+                                        to="/employees"
+                                        class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                                    >
+                                        Cancelar
+                                        <i class="fa-solid fa-remove"></i>
+                                    </router-link>
+                                </div>
+
+                                <div
+                                    v-if="uploaded_picture != ''"
+                                    class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                                >
+                                    <button
+                                        :disabled="validationsPassed"
+                                        @click="confirmPicture"
+                                        type="button"
+                                        class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                                    >
+                                        Borrar
+                                        <i class="fa-solid fa-remove"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div> 
 
                     <div
                         class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
@@ -691,10 +725,15 @@
 
             <hr
                 class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
+                v-if="signature != ''"
+            />
+            <hr
+                class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
+                v-if="signature == '' && rol_id !=4"
             />
 
             <div
-                v-if="signature == ''"
+                v-if="signature == '' && rol_id !=4"
                 class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
             >
                 <div
@@ -767,6 +806,7 @@
                         @click="clear"
                         type="button"
                         class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                      
                     >
                         Borrar
                         <i class="fa-solid fa-remove"></i>
@@ -826,6 +866,7 @@
                         @click="confirmSignature"
                         type="button"
                         class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                        v-if="rol_id !=4"
                     >
                         Borrar
                         <i class="fa-solid fa-remove"></i>
@@ -891,9 +932,23 @@ export default {
             uploaded_picture: '',
             employeeData: null,
             fullNameRut: null,
+            rolAndPictureValidate: false,
         }
     },
     methods: {
+        // rolAndPictureValidate() {
+        //   if(this.rol_id == 4) {
+        //     if(this.picture == '' && this.picture == undefined) {
+        //         this.rolAndPictureValidate == false
+        //     }
+        //     else {
+        //         this.rolAndPictureValidate == true
+        //     }
+        //   }
+        //   else {
+
+        //   }
+        // },
         handleFileChange(event) {
             const selectedFile = event.target.files[0]
 
@@ -901,7 +956,7 @@ export default {
         },
         async confirmSignature() {
             const shouldDelete = window.confirm(
-                '¿Estás seguro de que deseas borrar la firma?',
+                '¿Estás seguro de que deseas borrar la firma?'
             )
 
             if (shouldDelete) {
@@ -910,7 +965,7 @@ export default {
         },
         async confirmPicture() {
             const shouldDelete = window.confirm(
-                '¿Estás seguro de que deseas borrar la foto?',
+                '¿Estás seguro de que deseas borrar la foto?'
             )
 
             if (shouldDelete) {
@@ -949,7 +1004,7 @@ export default {
                                 Authorization: `Bearer ${accessToken}`,
                                 'Content-Type': 'multipart/form-data',
                             },
-                        },
+                        }
                     )
 
                     this.getPersonalDataEmployee()
@@ -977,7 +1032,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
 
                 this.uploaded_picture = ''
@@ -990,7 +1045,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener los daos de la cuenta bancaria:',
-                        error,
+                        error
                     )
                 }
             }
@@ -1009,7 +1064,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
 
                 this.signature = ''
@@ -1022,7 +1077,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener los daos de la cuenta bancaria:',
-                        error,
+                        error
                     )
                 }
             }
@@ -1035,7 +1090,8 @@ export default {
             formData.append('picture', this.picture)
 
             const accessToken = localStorage.getItem('accessToken')
-
+            console.log(formData)
+            console.log(this.picture)
             axios
                 .post(
                     'http://localhost:8000/employees/upload/picture',
@@ -1045,7 +1101,7 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             'Content-Type': 'multipart/form-data',
                         },
-                    },
+                    }
                 )
                 .then((response) => {
                     console.log(response)
@@ -1081,7 +1137,7 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    },
+                    }
                 )
 
                 this.updated_employee_bank_account = 1
@@ -1120,7 +1176,7 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    },
+                    }
                 )
 
                 this.loading_1 = false
@@ -1147,7 +1203,7 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    },
+                    }
                 )
 
                 this.loading_2 = false
@@ -1174,7 +1230,7 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    },
+                    }
                 )
 
                 this.loading_3 = false
@@ -1235,24 +1291,25 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    },
+                    }
                 )
 
-                this.validate_cellphone_status = response.data.message[0]
-
-                if (response.data.message[0] == 1) {
+                this.validate_cellphone_status = response.data.message
+                console.log(this.validate_cellphone_status)
+                console.log(response)
+                if (response.data.message == 1) {
                     window.scrollTo({ top: 0, behavior: 'smooth' })
                 }
                 if (this.validate_cellphone_status == 1) {
                     this.validationsPassed = true
-                    this.employeeData = response.data.message[1]
+                    // this.employeeData = response.data.message[1]
                     this.fullNameRut = `
                     Trabajador: 
-                    ${this.employeeData.names} 
-                    ${this.employeeData.father_lastname} 
-                    ${this.employeeData.mother_lastname}. 
+                    ${this.names_input} 
+                    ${this.father_lastname_input} 
+                    ${this.mother_lastname_input}. 
                     RUT:
-                    ${this.employeeData.visual_rut}`
+                    ${this.rut_input}`
 
                     return this.fullNameRut
                 } else {
@@ -1261,7 +1318,7 @@ export default {
             } catch (error) {
                 console.error(
                     'Error al obtener la validación del celular:',
-                    error,
+                    error
                 )
             }
         },
@@ -1314,7 +1371,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
 
                 const decodedData = JSON.parse(response.data.message)
@@ -1339,12 +1396,16 @@ export default {
                     this.signature = decodedData.signature
                 }
 
-                this.uploaded_picture = decodedData.picture
+                if (decodedData.picture == '' || decodedData.picture == null) {
+                    this.uploaded_picture = ''
+                } else {
+                    this.uploaded_picture = decodedData.picture
+                }
 
                 localStorage.setItem('signature', decodedData.signature)
                 localStorage.setItem(
                     'signature_type_id',
-                    decodedData.employee_data.signature_type_id,
+                    decodedData.employee_data.signature_type_id
                 )
 
                 this.loading = false
@@ -1355,7 +1416,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener la lista de nacionalidades:',
-                        error,
+                        error
                     )
                 }
             }
@@ -1372,7 +1433,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
 
                 this.bank_input = response.data.message.bank_id
@@ -1397,7 +1458,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener los daos de la cuenta bancaria:',
-                        error,
+                        error
                     )
                 }
             }
@@ -1413,7 +1474,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
 
                 this.nationalities = response.data.message
@@ -1426,7 +1487,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener la lista de sucursales:',
-                        error,
+                        error
                     )
                 }
             }
@@ -1442,7 +1503,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
 
                 console.log(response)
