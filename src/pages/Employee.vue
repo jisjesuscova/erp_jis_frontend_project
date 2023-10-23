@@ -43,7 +43,7 @@
                     <div
                         class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
                     >
-                        <div class="overflow-hidden">
+                        <div class="overflow-hidden" v-if="totalItems > 0">
                             <table
                                 class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
                             >
@@ -173,10 +173,49 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="overflow-hidden" v-else>
+                            <table
+                                class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+                            >
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            RUT
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Empleado
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        ></th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="divide-y divide-gray-200 dark:divide-gray-700"
+                                >
+                                    <tr
+                                    >
+                                        <td
+                                            colspan="3"
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200 text-center"
+                                        >
+                                            La busqueda no ha obtenido resultados
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-10">
+            <div class="text-center mt-10" v-if="totalItems > 0">
                 <vue-awesome-paginate
                     :total-items="totalItems"
                     :items-per-page="itemsPerPage"
@@ -244,7 +283,7 @@ export default {
                     const accessToken = localStorage.getItem('accessToken')
 
                     const response = await axios.post(
-                        'https://apijis.com/employees/search',
+                        'http://localhost:8000/employees/search',
                         dataToSend,
                         {
                             headers: {
@@ -253,11 +292,17 @@ export default {
                             },
                         },
                     )
-
-                    this.employees = response.data.message.data
-                    this.totalItems = response.data.message.total_items
-                    this.itemsPerPage = response.data.message.items_per_page
-                    this.loading = false
+                    
+                    if (response.data.message.data != undefined && response.data.message.data != '' && response.data.message.data != null) {
+                        this.employees = response.data.message.data
+                        this.totalItems = response.data.message.total_items
+                        this.itemsPerPage = response.data.message.items_per_page
+                        this.loading = false
+                    } else {
+                        this.employees = []
+                        this.totalItems = 0
+                        this.loading = false
+                    }
                 } catch (error) {
                     console.error(
                         'Error al obtener la lista de empleados:',
