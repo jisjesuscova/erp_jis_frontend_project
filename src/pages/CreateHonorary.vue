@@ -24,6 +24,13 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
+            <div
+                v-if="isValidRut == false"
+                class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
+                role="alert"
+            >
+                El RUT no es <span class="font-bold">correcto</span>.
+            </div>
             <h2 class="text-4xl dark:text-white pb-10">Crear Honorario</h2>
 
             <div class="mt-3">
@@ -173,6 +180,8 @@
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="RUT"
                                         v-model="rut_input"
+                                        v-mask="['########-X']"
+                                        @blur="onRutBlur"
                                         required
                                     />
                                 </div>
@@ -429,6 +438,7 @@
                                 <div v-else class="w-full">
                                     <button
                                         type="submit"
+                                        :disabled="validationsPassed"
                                         class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                                     >
                                         Guardar
@@ -454,8 +464,10 @@
 <script>
 import axios from 'axios'
 import EmployeeMenu from '../components/EmployeeMenu.vue'
+import { mask } from 'vue-the-mask'
 
 export default {
+    directives: { mask },
     components: {
         EmployeeMenu,
     },
@@ -484,9 +496,42 @@ export default {
             communes: [],
             banks: [],
             employees: [],
+            isValidRut: true,
+            validationsPassed: false,
         }
     },
     methods: {
+        onRutBlur() {
+            this.onValidateRutBlur()
+        },
+        validateRut: function (rutCompleto) {
+            rutCompleto = rutCompleto.replace('‐', '-')
+            if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test(rutCompleto)) return false
+            var tmp = rutCompleto.split('-')
+            var digv = tmp[1]
+            var rut = tmp[0]
+            if (digv == 'K') digv = 'k'
+
+            return this.dv(rut) == digv
+        },
+        dv: function (T) {
+            var M = 0,
+                S = 1
+            for (; T; T = Math.floor(T / 10))
+                S = (S + (T % 10) * (9 - (M++ % 6))) % 11
+            return S ? S - 1 : 'k'
+        },
+        onValidateRutBlur() {
+            this.isValidRut = this.validateRut(this.rut_input)
+
+            if(this.isValidRut == false) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                this.validationsPassed = true
+            } else {
+                this.validationsPassed = false
+            }
+        },
         handleFileChange(event) {
             const selectedFile = event.target.files[0]
 
@@ -662,7 +707,7 @@ export default {
         }
 
         try {
-            const response = await axios.post('https://apijis.com/banks/', {
+            const response = await axios.post('http://localhost:8000/banks/', {
                 headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
