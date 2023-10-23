@@ -225,9 +225,9 @@
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Monto Extra de Pago de Salud</label>
                                     <input
                                         type="number"
-                                        id="apv_amount_input"
+                                        id="extra_health_amount_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="Monto de la APV"
+                                        placeholder="Monto de Salud"
                                         v-model="extra_health_amount_input"
                                         required
                                         />
