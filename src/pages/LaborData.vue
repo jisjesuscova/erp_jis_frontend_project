@@ -371,7 +371,7 @@ export default {
             if(this.apv_payment_type_input == '') {
                 this.apv_payment_type_input = 3
             }
-            
+
             const dataToSend = {
                 rut: this.$route.params.rut,
                 contract_type_id: this.contract_type_input,
