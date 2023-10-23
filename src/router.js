@@ -79,7 +79,7 @@ const routes = [
         component: CreateEmployee
     },
     {
-        path:'/extra_data_employee/:rut',
+        path:'/extra_data/:rut',
         component: ExtraDataEmployee
     },
     {
@@ -95,11 +95,11 @@ const routes = [
         component: KardexDocument
     },
     {
-        path:'/uniform_data_employee/:rut',
+        path:'/uniform/:rut',
         component: UniformDataEmployee
     },
     {
-        path:'/settlement_data_employee/:rut',
+        path:'/settlement/:rut',
         component: SettlementDataEmployee
     },
     {

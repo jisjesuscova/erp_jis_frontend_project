@@ -36,10 +36,10 @@
             Datos de Contrato
         </router-link>
         <router-link
-            v-if="current_page == 'extra_data_employee'"
+            v-if="current_page == 'extra_data'"
             class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white dark:hs-tab-active:border-b-blue-600 relative min-w-0 flex-1 bg-white first:border-l-0 border-l border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 dark:bg-gray-800 dark:border-l-gray-700 dark:border-b-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-400 dark:hover:text-gray-300 active"
             href="javascript:;"
-            :to="`/extra_data_employee/${this.$route.params.rut}`"
+            :to="`/extra_data/${this.$route.params.rut}`"
         >
             Datos Extras
         </router-link>
@@ -48,15 +48,15 @@
             class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white dark:hs-tab-active:border-b-blue-600 relative min-w-0 flex-1 bg-white first:border-l-0 border-l border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 dark:bg-gray-800 dark:border-l-gray-700 dark:border-b-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-400 dark:hover:text-gray-300"
             id="bar-with-underline-item-3"
             href="javascript:;"
-            :to="`/extra_data_employee/${this.$route.params.rut}`"
+            :to="`/extra_data/${this.$route.params.rut}`"
         >
             Datos Extras
         </router-link>
         <router-link
-            v-if="current_page == 'family_data_employee'"
+            v-if="current_page == 'family'"
             class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white dark:hs-tab-active:border-b-blue-600 relative min-w-0 flex-1 bg-white first:border-l-0 border-l border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 dark:bg-gray-800 dark:border-l-gray-700 dark:border-b-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-400 dark:hover:text-gray-300 active"
             href="javascript:;"
-            :to="`/family_data_employee/${this.$route.params.rut}`"
+            :to="`/family/${this.$route.params.rut}`"
         >
             Datos de Nucleo Familiar
         </router-link>
@@ -64,15 +64,15 @@
             v-else
             class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white dark:hs-tab-active:border-b-blue-600 relative min-w-0 flex-1 bg-white first:border-l-0 border-l border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 dark:bg-gray-800 dark:border-l-gray-700 dark:border-b-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-400 dark:hover:text-gray-300"
             href="javascript:;"
-            :to="`/family_data_employee/${this.$route.params.rut}`"
+            :to="`/family/${this.$route.params.rut}`"
         >
             Datos de Nucleo Familiar
         </router-link>
         <router-link
-            v-if="current_page == 'kardex_data_employee'"
+            v-if="current_page == 'kardex_document'"
             class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white dark:hs-tab-active:border-b-blue-600 relative min-w-0 flex-1 bg-white first:border-l-0 border-l border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 dark:bg-gray-800 dark:border-l-gray-700 dark:border-b-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-400 dark:hover:text-gray-300 active"
             href="javascript:;"
-            :to="`/kardex_data_employee/${this.$route.params.rut}`"
+            :to="`/kardex_document/${this.$route.params.rut}`"
         >
             Kardex
         </router-link>
@@ -80,15 +80,15 @@
             v-else
             class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white dark:hs-tab-active:border-b-blue-600 relative min-w-0 flex-1 bg-white first:border-l-0 border-l border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 dark:bg-gray-800 dark:border-l-gray-700 dark:border-b-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-400 dark:hover:text-gray-300"
             href="javascript:;"
-            :to="`/kardex_data_employee/${this.$route.params.rut}`"
+            :to="`/kardex_document/${this.$route.params.rut}`"
         >
             Kardex
         </router-link>
         <router-link
-            v-if="current_page == 'uniform_data_employee'"
+            v-if="current_page == 'uniform'"
             class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white dark:hs-tab-active:border-b-blue-600 relative min-w-0 flex-1 bg-white first:border-l-0 border-l border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 dark:bg-gray-800 dark:border-l-gray-700 dark:border-b-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-400 dark:hover:text-gray-300 active"
             href="javascript:;"
-            :to="`/uniform_data_employee/${this.$route.params.rut}`"
+            :to="`/uniform/${this.$route.params.rut}`"
         >
             Uniforme
         </router-link>
@@ -96,15 +96,15 @@
             v-else
             class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white dark:hs-tab-active:border-b-blue-600 relative min-w-0 flex-1 bg-white first:border-l-0 border-l border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 dark:bg-gray-800 dark:border-l-gray-700 dark:border-b-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-400 dark:hover:text-gray-300"
             href="javascript:;"
-            :to="`/uniform_data_employee/${this.$route.params.rut}`"
+            :to="`/uniform/${this.$route.params.rut}`"
         >
             Uniforme
         </router-link>
         <router-link
-            v-if="current_page == 'settlement_data_employee'"
+            v-if="current_page == 'settlement'"
             class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white dark:hs-tab-active:border-b-blue-600 relative min-w-0 flex-1 bg-white first:border-l-0 border-l border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 dark:bg-gray-800 dark:border-l-gray-700 dark:border-b-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-400 dark:hover:text-gray-300 active"
             href="javascript:;"
-            :to="`/settlement_data_employee/${this.$route.params.rut}`"
+            :to="`/settlement/${this.$route.params.rut}`"
         >
             Liquidaciones
         </router-link>
@@ -112,15 +112,15 @@
             v-else
             class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white dark:hs-tab-active:border-b-blue-600 relative min-w-0 flex-1 bg-white first:border-l-0 border-l border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 dark:bg-gray-800 dark:border-l-gray-700 dark:border-b-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-400 dark:hover:text-gray-300"
             id="bar-with-underline-item-3"
-            :to="`/settlement_data_employee/${this.$route.params.rut}`"
+            :to="`/settlement/${this.$route.params.rut}`"
         >
             Liquidaciones
         </router-link>
         <router-link
-            v-if="current_page == 'vacation_data_employee'"
+            v-if="current_page == 'vacation'"
             class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white dark:hs-tab-active:border-b-blue-600 relative min-w-0 flex-1 bg-white first:border-l-0 border-l border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 dark:bg-gray-800 dark:border-l-gray-700 dark:border-b-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-400 dark:hover:text-gray-300 active"
             href="javascript:;"
-            :to="`/vacation_data_employee/${this.$route.params.rut}`"
+            :to="`/vacation/${this.$route.params.rut}`"
         >
             Vacaciones
         </router-link>
@@ -129,15 +129,15 @@
             class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white dark:hs-tab-active:border-b-blue-600 relative min-w-0 flex-1 bg-white first:border-l-0 border-l border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 dark:bg-gray-800 dark:border-l-gray-700 dark:border-b-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-400 dark:hover:text-gray-300"
             id="bar-with-underline-item-3"
             href="javascript:;"
-            :to="`/vacation_data_employee/${this.$route.params.rut}`"
+            :to="`/vacation/${this.$route.params.rut}`"
         >
             Vacaciones
         </router-link>
         <router-link
-            v-if="current_page == 'medical_license_data_employee'"
+            v-if="current_page == 'medical_license'"
             class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white dark:hs-tab-active:border-b-blue-600 relative min-w-0 flex-1 bg-white first:border-l-0 border-l border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 dark:bg-gray-800 dark:border-l-gray-700 dark:border-b-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-400 dark:hover:text-gray-300 active"
             href="javascript:;"
-            :to="`/medical_license_data_employee/${this.$route.params.rut}`"
+            :to="`/medical_license${this.$route.params.rut}`"
         >
             Licencias
         </router-link>
@@ -146,7 +146,7 @@
             class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white dark:hs-tab-active:border-b-blue-600 relative min-w-0 flex-1 bg-white first:border-l-0 border-l border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 dark:bg-gray-800 dark:border-l-gray-700 dark:border-b-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-400 dark:hover:text-gray-300"
             id="bar-with-underline-item-3"
             href="javascript:;"
-            :to="`/medical_license_data_employee/${this.$route.params.rut}`"
+            :to="`/medical_license/${this.$route.params.rut}`"
         >
             Licencias
         </router-link>
