@@ -506,7 +506,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.get(
-                    'https://apijis.com/employees/validate_cellphone/' +
+                    'http://localhost:8000/employees/validate_cellphone/' +
                         this.cellphone_input,
                     {
                         headers: {
@@ -516,12 +516,12 @@ export default {
                     },
                 )
 
-                this.validate_cellphone_status = response.data.message
+                this.validate_cellphone_status = response.data.message[0]
 
                 if (response.data.message[0] == 1) {
                     window.scrollTo({ top: 0, behavior: 'smooth' })
                 }
-
+                
                 if (this.validate_cellphone_status == 1) {
                     this.validationsPassed = true
                     this.employeeData = response.data.message[1]
