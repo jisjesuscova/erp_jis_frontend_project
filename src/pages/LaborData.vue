@@ -367,6 +367,10 @@ export default {
             if(this.regime_input != 1) {
                 this.pention_input = 0
             }
+
+            if(this.apv_payment_type_input == '') {
+                this.apv_payment_type_input = 3
+            }
             
             const dataToSend = {
                 rut: this.$route.params.rut,
