@@ -1388,7 +1388,12 @@ export default {
                 this.email_input = decodedData.employee_data.personal_email
                 this.cellphone_input = decodedData.employee_data.cellphone
                 this.born_date_input = decodedData.employee_data.born_date
-                this.privilege_input = decodedData.employee_data.privilege
+
+                if (decodedData.employee_data.privilege == undefined) {
+                    this.privilege_input = ''
+                } else {
+                    this.privilege_input = decodedData.employee_data.privilege
+                }
 
                 if (decodedData.signature == null) {
                     this.signature = ''

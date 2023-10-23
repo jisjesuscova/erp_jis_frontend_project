@@ -101,7 +101,7 @@
                                             <router-link
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-500 text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all text-sm dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
-                                                :to="`/labor_data_employee/${employee.rut}`"
+                                                :to="`/labor_data/${employee.rut}`"
                                             >
                                                 <i
                                                     class="fa-solid fa-file-contract"
@@ -110,14 +110,14 @@
                                             <router-link
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
-                                                :to="`/extra_data_employee/${employee.rut}`"
+                                                :to="`/extra_data/${employee.rut}`"
                                             >
                                                 <i class="fa-solid fa-plus"></i>
                                             </router-link>
                                             <router-link
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
-                                                :to="`/family_data_employee/${employee.rut}`"
+                                                :to="`/family_data/${employee.rut}`"
                                             >
                                                 <i
                                                     class="fa-solid fa-people-roof"
@@ -126,7 +126,7 @@
                                             <router-link
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
-                                                :to="`/kardex_data_employee/${employee.rut}`"
+                                                :to="`/kardex_data/${employee.rut}`"
                                             >
                                                 <i
                                                     class="fa-solid fa-folder-open"
@@ -135,7 +135,7 @@
                                             <router-link
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
-                                                :to="`/uniform_data_employee/${employee.rut}`"
+                                                :to="`/uniform_data/${employee.rut}`"
                                             >
                                                 <i
                                                     class="fa-solid fa-shirt"
@@ -144,7 +144,7 @@
                                             <router-link
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-indigo-500 text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
-                                                :to="`/settlement_data_employee/${employee.rut}`"
+                                                :to="`/settlement_data/${employee.rut}`"
                                             >
                                                 <i
                                                     class="fa-solid fa-file-contract"
@@ -153,7 +153,7 @@
                                             <router-link
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-purple-500 text-white hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
-                                                :to="`/vacation_data_employee/${employee.rut}`"
+                                                :to="`/vacation_data/${employee.rut}`"
                                             >
                                                 <i
                                                     class="fa-solid fa-plane"
@@ -162,7 +162,7 @@
                                             <router-link
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-pink-500 text-white hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
-                                                :to="`/medical_license_data_employee/${employee.rut}`"
+                                                :to="`/medical_license_data/${employee.rut}`"
                                             >
                                                 <i
                                                     class="fa-solid fa-truck-medical"
