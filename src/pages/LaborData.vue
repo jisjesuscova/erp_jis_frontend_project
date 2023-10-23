@@ -421,6 +421,7 @@ export default {
                         Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
                         },
                 });
+                console.log(response)
                 if(response?.data?.message != undefined || response?.data?.message != null) {
                     this.contract_type_input    = response.data.message.contract_type_id;
                     this.branch_office_input  = response.data.message.branch_office_id;
