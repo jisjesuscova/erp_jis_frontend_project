@@ -936,19 +936,6 @@ export default {
         }
     },
     methods: {
-        // rolAndPictureValidate() {
-        //   if(this.rol_id == 4) {
-        //     if(this.picture == '' && this.picture == undefined) {
-        //         this.rolAndPictureValidate == false
-        //     }
-        //     else {
-        //         this.rolAndPictureValidate == true
-        //     }
-        //   }
-        //   else {
-
-        //   }
-        // },
         handleFileChange(event) {
             const selectedFile = event.target.files[0]
 
@@ -1294,10 +1281,8 @@ export default {
                     }
                 )
 
-                this.validate_cellphone_status = response.data.message
-                console.log(this.validate_cellphone_status)
-                console.log(response)
-                if (response.data.message == 1) {
+                this.validate_cellphone_status = response.data.message[0]
+                if (response.data.message[0] == 1) {
                     window.scrollTo({ top: 0, behavior: 'smooth' })
                 }
                 if (this.validate_cellphone_status == 1) {
@@ -1511,13 +1496,13 @@ export default {
                     }
                 )
 
-                console.log(response)
+                console.log(response.data.message)
 
                 this.banks = response.data.message
 
                 this.loading_4 = false
             } catch (error) {
-                console.error('Error al obtener la lista de sucursales:', error)
+                console.error('Error al obtener la lista de bancos:', error)
             }
         },
     },
