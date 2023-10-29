@@ -34,8 +34,6 @@
                 Solicitar Vacación
             </h2>
 
-            <EmployeeMenu />
-
             <div class="mt-10">
                 <div
                     id="bar-with-underline-1"
@@ -181,7 +179,7 @@
                                 </div>
 
                                 <router-link
-                                    :to="`/vacation_data_employee/${$route.params.rut}`"
+                                    :to="`/vacation/${$route.params.rut}`"
                                     class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                                 >
                                     Cancelar
@@ -197,12 +195,8 @@
 </template>
 <script>
 import axios from 'axios'
-import EmployeeMenu from '../components/EmployeeMenu.vue'
 
 export default {
-    components: {
-        EmployeeMenu,
-    },
     data() {
         return {
             loading: false,
@@ -254,7 +248,7 @@ export default {
                     localStorage.setItem('created_vacation', 1)
 
                     this.$router.push(
-                        '/vacation_data_employee/' + this.$route.params.rut,
+                        '/vacation/' + this.$route.params.rut,
                     )
                 })
                 .catch((error) => {

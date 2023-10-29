@@ -30,7 +30,7 @@
                 Vacaciones
                 <router-link
                     href="javascript:;"
-                    :to="`/create_vacation_data_employee/${this.$route.params.rut}`"
+                    :to="`/create_vacation/${this.$route.params.rut}`"
                     class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                 >
                     Agregar
@@ -410,7 +410,7 @@
                                         >
                                             <router-link
                                                 v-if="
-                                                    vacation.status_id == 1000
+                                                    vacation.status_id == 3
                                                 "
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
@@ -422,7 +422,7 @@
                                             </router-link>
 
                                             <button
-                                                v-if="vacation.status_id == 3"
+                                                v-if="vacation.status_id == 3 && signature != ''"
                                                 type="button"
                                                 @click="
                                                     confirmSignVacation(
@@ -466,8 +466,7 @@
 
                                             <button
                                                 v-if="
-                                                    rol_id == 4 &&
-                                                    vacation.status_id == 1
+                                                    rol_id == 4
                                                 "
                                                 type="button"
                                                 @click="
@@ -762,6 +761,7 @@ export default {
             rol_id: '',
             pdf_vacations: [],
             pdf_progressive_vacations: [],
+            signature: '',
         }
     },
     async mounted() {
@@ -774,6 +774,7 @@ export default {
         await this.getProgressiveTakenDays()
         await this.getPdfVacations()
         await this.getPdfProgressiveVacations()
+        await this.getPersonalDataEmployee
 
         const rol_id = localStorage.getItem('rol_id')
 
@@ -2479,10 +2480,12 @@ export default {
                         },
                     },
                 )
+                
+                if (response.data.message != '' && response.data.message != null && response.data.message != undefined) {
+                    const decodedData = JSON.parse(response.data.message)
 
-                const decodedData = JSON.parse(response.data.message)
-
-                this.pdf_vacations = decodedData.data
+                    this.pdf_vacations = decodedData.data
+                }
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
@@ -2514,13 +2517,19 @@ export default {
                     },
                 )
 
-                const decodedData = JSON.parse(response.data.message)
+                if (response.data.message != 'Invalid page number') {
+                    const decodedData = JSON.parse(response.data.message)
 
-                this.progressive_vacations = decodedData.data
-                this.progressive_totalItems = decodedData.total_items
-                this.progressive_itemsPerPage = decodedData.items_per_page
+                    this.progressive_vacations = decodedData.data
+                    this.progressive_totalItems = decodedData.total_items
+                    this.progressive_itemsPerPage = decodedData.items_per_page
 
-                this.loading_3 = false
+                    this.loading_3 = false
+                } else {
+                    this.loading_3 = false
+
+                    this.progressive_totalItems = 0
+                }
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
@@ -2551,12 +2560,16 @@ export default {
                         },
                     },
                 )
+                
+                if (response.data.message != 'Invalid page number') {
+                    const decodedData = JSON.parse(response.data.message)
 
-                const decodedData = JSON.parse(response.data.message)
+                    this.pdf_progressive_vacations = decodedData.data
 
-                this.pdf_progressive_vacations = decodedData.data
-
-                this.loading = false
+                    this.loading = false
+                } else {
+                    this.loading = false
+                }
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
@@ -2685,6 +2698,43 @@ export default {
                     window.location.reload()
                 } else {
                     console.error('Error al obtener los datos:', error)
+                }
+            }
+        },
+        async getPersonalDataEmployee() {
+            const accessToken = localStorage.getItem('accessToken')
+
+            try {
+                const response = await axios.get(
+                    'http://localhost:8000/employees/edit/' +
+                        this.$route.params.rut,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                        },
+                    }
+                )
+
+                const decodedData = JSON.parse(response.data.message)
+
+                if (decodedData.signature == null) {
+                    this.signature = ''
+                } else {
+                    this.signature = decodedData.signature
+                }
+
+                this.loading_8 = false
+
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error(
+                        'Error al obtener la lista de nacionalidades:',
+                        error
+                    )
                 }
             }
         },

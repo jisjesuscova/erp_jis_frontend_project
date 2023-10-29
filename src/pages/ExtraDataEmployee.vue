@@ -63,7 +63,7 @@
                                         required
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
-                                        <option value="">
+                                        <option value="0">
                                             - Zona Extrema -
                                         </option>
                                         <option value="1">Si</option>
@@ -107,7 +107,7 @@
                                         required
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
-                                        <option value="">
+                                        <option value="0">
                                             - Subsidio Empleo Jovén -
                                         </option>
                                         <option value="1">Si</option>
@@ -129,7 +129,7 @@
                                         required
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
-                                        <option value="">
+                                        <option value="0">
                                             - ¿Goce de Sueldo? -
                                         </option>
                                         <option value="1">Si</option>
@@ -147,7 +147,7 @@
                                         required
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
-                                        <option value="">- Invalidez-</option>
+                                        <option value="0">- Invalidez-</option>
                                         <option value="1">Si</option>
                                         <option value="2">No</option>
                                     </select>
@@ -163,7 +163,7 @@
                                         required
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
-                                        <option value="">- Aporte SIS -</option>
+                                        <option value="0">- Aporte SIS -</option>
                                         <option value="1">Si</option>
                                         <option value="2">No</option>
                                     </select>
@@ -185,7 +185,7 @@
                                         required
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
-                                        <option value="">
+                                        <option value="0">
                                             - ¿Tiene Seguro Complementario? -
                                         </option>
                                         <option value="1">Si</option>
@@ -203,7 +203,7 @@
                                         required
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
-                                        <option value="">
+                                        <option value="0">
                                             - Vacaciones Progresivas -
                                         </option>
                                         <option value="1">Si</option>

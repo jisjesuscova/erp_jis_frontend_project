@@ -26,8 +26,6 @@
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">Crear Uniforme</h2>
 
-            <EmployeeMenu />
-
             <div class="mt-3">
                 <div
                     id="bar-with-underline-1"
@@ -61,7 +59,7 @@
                                         required
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
-                                        <option value="">- Sucursal -</option>
+                                        <option value="">- Tipos de Uniformes -</option>
                                         <option
                                             v-for="uniform_type in uniform_types"
                                             :key="uniform_type.id"
@@ -127,7 +125,7 @@
                                 </div>
 
                                 <router-link
-                                    :to="`/uniform_data_employee/${$route.params.id}`"
+                                    :to="`/uniform/${$route.params.rut}`"
                                     class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                                 >
                                     Cancelar
@@ -143,12 +141,8 @@
 </template>
 <script>
 import axios from 'axios'
-import EmployeeMenu from '../components/EmployeeMenu.vue'
 
 export default {
-    components: {
-        EmployeeMenu,
-    },
     data() {
         return {
             loading: false,
@@ -162,7 +156,7 @@ export default {
 
         try {
             const response = await axios.get(
-                'https://apijis.com/uniform_types',
+                'https://apijis.com/uniform_types/',
                 {
                     headers: {
                         accept: 'application/json',
@@ -189,7 +183,7 @@ export default {
 
             const dataToSend = {
                 uniform_type_id: this.uniform_type_input,
-                rut: this.$route.params.id,
+                rut: this.$route.params.rut,
                 delivered_date: this.delivered_date_input,
                 added_date: new Date().toISOString(),
                 updated_date: new Date().toISOString(),
@@ -198,7 +192,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             const response = await axios
-                .post('https://apijis.com/uniforms/store', dataToSend, {
+                .post('http://localhost:8000/uniforms/store', dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
@@ -209,7 +203,7 @@ export default {
                     this.loading = false
                     localStorage.setItem('created_uniform', 1)
                     this.$router.push(
-                        '/uniform_data_employee/' + this.$route.params.id,
+                        '/uniform/' + this.$route.params.rut,
                     )
                 })
                 .catch((error) => {

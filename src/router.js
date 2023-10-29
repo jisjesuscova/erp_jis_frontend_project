@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Bank from './pages/Bank.vue'
 import BranchOffice from './pages/BranchOffice.vue'
-import CreateContractEmployee from './pages/CreateContractEmployee.vue'
+import CreateEmployeeContract from './pages/CreateEmployeeContract.vue'
 import CreateDocumentManagement from './pages/CreateDocumentManagement.vue'
 import CreateEmployee from './pages/CreateEmployee.vue'
 import CreateFamily from './pages/CreateFamily.vue'
@@ -30,12 +30,13 @@ import RequestedDocumentManagement from './pages/RequestedDocumentManagement.vue
 import SalarySettlement from './pages/SalarySettlement.vue'
 import SettlementDataEmployee from './components/SettlementDataEmployee.vue'
 import ShowVacation from './pages/ShowVacation.vue'
-import UniformDataEmployee from './components/UniformDataEmployee.vue'
+import Uniform from './pages/Uniform.vue'
 import UploadMedicalLicense from './components/UploadMedicalLicense.vue'
 import UploadProgressiveVacation from './components/UploadProgressiveVacation.vue'
 import UploadVacation from './components/UploadVacation.vue'
 import Vacation from './pages/Vacation.vue'
 import Alert from './pages/Alert.vue'
+import UploadEmployeeContract from './pages/UploadEmployeeContract.vue'
 
 const routes = [
     {
@@ -96,7 +97,7 @@ const routes = [
     },
     {
         path:'/uniform/:rut',
-        component: UniformDataEmployee
+        component: Uniform
     },
     {
         path:'/settlement/:rut',
@@ -143,7 +144,7 @@ const routes = [
         component: EditHonorary
     },
     {
-        path:'/create_vacation_data_employee/:rut',
+        path:'/create_vacation/:rut',
         component: CreateVacation
     },
     {
@@ -164,8 +165,8 @@ const routes = [
         component: UploadProgressiveVacation
     },
     {
-        path:'/create_contract_employee/:rut',
-        component: CreateContractEmployee
+        path:'/create_contract/:rut',
+        component: CreateEmployeeContract
     },
     {
         path:'/salary_settlement/:rut',
@@ -198,6 +199,10 @@ const routes = [
     {
         path:'/alerts/:rut',
         component: Alert
+    },
+    {
+        path:'/upload_employee_contract/:rut/:id',
+        component: UploadEmployeeContract
     },
 ]
 

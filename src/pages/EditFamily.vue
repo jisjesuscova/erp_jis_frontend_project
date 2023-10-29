@@ -268,8 +268,8 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/family_core_data/edit/' +
-                        this.$route.params.rut +
+                    'http://localhost:8000/family_core_data/edit/' +
+                        this.$route.params.id +
                         '/1',
                     {
                         headers: {
@@ -330,7 +330,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.patch(
-                    'https://apijis.com/family_core_data/update/' +
+                    'http://localhost:8000/family_core_data/update/' +
                         this.$route.params.id,
                     formData,
                     {
@@ -344,7 +344,7 @@ export default {
                 console.log(response)
                 localStorage.setItem('updated_family', 1)
                 this.$router.push(
-                    '/family_data_employee/' + this.$route.params.rut,
+                    '/family/' + this.$route.params.rut,
                 )
             } catch (error) {
                 console.error(error)

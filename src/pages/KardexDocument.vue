@@ -27,7 +27,7 @@
                 Kardex
                 <router-link
                     href="javascript:;"
-                    :to="`/create_kardex_employee/${this.$route.params.rut}`"
+                    :to="`/create_kardex_document/${this.$route.params.rut}`"
                     class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                 >
                     Agregar
@@ -179,7 +179,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/kardex_data/download/' + id,
+                    'http://localhost:8000/kardex_data/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -216,7 +216,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/kardex_data/edit/' +
+                    'http://localhost:8000/kardex_data/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -256,7 +256,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `https://apijis.com/kardex_data/delete/${id}`,
+                    `http://localhost:8000/kardex_data/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',

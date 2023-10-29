@@ -1254,7 +1254,7 @@ export default {
                 digv = 'k'
             }
 
-            return dv(rut) === digv
+            return this.dv(rut) === digv
         },
         dv: function (T) {
             let M = 0

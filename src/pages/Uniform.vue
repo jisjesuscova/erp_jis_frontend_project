@@ -18,7 +18,7 @@
 
             <h2 class="text-4xl dark:text-white pb-10">
                 Uniforme
-                <router-link href="javascript:;" :to="`/create_uniform_employee/${this.$route.params.rut}`" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+                <router-link href="javascript:;" :to="`/create_uniform/${this.$route.params.rut}`" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
                     Agregar
                 </router-link>
             </h2>
@@ -94,7 +94,7 @@ export default {
             this.loading = true;
 
             try {
-                const response = await axios.get('https://apijis.com/uniforms/edit/' + this.$route.params.rut, {
+                const response = await axios.get('http://localhost:8000/uniforms/edit/' + this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -123,7 +123,7 @@ export default {
         async deleteUniform(id) {
             try {
                 const accessToken = localStorage.getItem('accessToken');
-                await axios.delete(`https://apijis.com/uniforms/delete/${id}`, {
+                await axios.delete(`http://localhost:8000/uniforms/delete/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`

@@ -46,7 +46,7 @@
                     <div
                         class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                     >
-                        <form @submit.prevent="createFamilyEmployee">
+                        <form @submit.prevent="createFamily">
                             <div
                                 class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
                             >
@@ -232,7 +232,7 @@
                                 </div>
 
                                 <router-link
-                                    :to="`/uniform_data_employee/${$route.params.id}`"
+                                    :to="`/family/${$route.params.rut}`"
                                     class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                                 >
                                     Cancelar
@@ -276,38 +276,39 @@ export default {
         onRutBlur() {
             this.onValidateRutBlur()
         },
-        onValidateRutBlur() {
-            this.isValidRut = this.validateRut(this.rut_input)
-
-            if (this.isValidRut == false) {
-                window.scrollTo({ top: 0, behavior: 'smooth' })
-            }
-        },
         validateRut: function (completed_rut) {
-            completed_rut = completed_rut.replace('‐', '-')
-            if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test(completed_rut)) return false
-            const tmp = completed_rut.split('-')
-            const digv = tmp[1]
-            const rut = tmp[0]
-            if (digv == 'K') digv = 'k'
+            completed_rut = completed_rut.replace(/‐/g, '-')
 
-            return dv(rut) === digv
+            if (!/^[0-9]+[-]{0,1}[0-9kK]{1}$/.test(completed_rut)) {
+                return false
+            }
+
+            const [rut, digv] = completed_rut.split('-')
+
+            if (digv === 'K') {
+                digv = 'k'
+            }
+
+            return this.dv(rut) === digv
         },
         dv: function (T) {
             let M = 0
             let S = 1
             for (; T; T = Math.floor(T / 10))
                 S = (S + (T % 10) * (9 - (M++ % 6))) % 11
-            return S ? S - 1 : 'k'
+            return S ? String(S - 1) : 'k'
+        },
+        onValidateRutBlur() {
+            this.isValidRut = this.validateRut(this.rut_input)
         },
         handleFileChange(event) {
             const selectedFile = event.target.files[0]
             this.birth_certificate = selectedFile
         },
-        createFamilyEmployee() {
+        createFamily() {
             this.loading = true
 
-            const employee_rut = this.$route.params.id
+            const employee_rut = this.$route.params.rut
             const employee_rut_parts = employee_rut.split('-')
             const numeric_employee_rut = employee_rut_parts[0]
 
@@ -325,7 +326,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .post('https://apijis.com/family_core_data/store', formData, {
+                .post('http://localhost:8000/family_core_data/store', formData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'multipart/form-data',
@@ -338,7 +339,7 @@ export default {
                     localStorage.setItem('created_family', 1)
 
                     this.$router.push(
-                        '/family_data_employee/' + this.$route.params.id,
+                        '/family/' + this.$route.params.rut,
                     )
                 })
                 .catch((error) => {

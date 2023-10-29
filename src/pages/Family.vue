@@ -2,7 +2,6 @@
     <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72">
         <div v-if="loading" class="flex justify-center items-center h-screen">
             <div role="status">
-                >
                 <svg
                     aria-hidden="true"
                     class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -29,7 +28,7 @@
                 <router-link
                     href="javascript:;"
                     v-if="rol_id == 4"
-                    :to="`/create_family_employee/${this.$route.params.id}`"
+                    :to="`/create_family/${this.$route.params.rut}`"
                     class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                 >
                     Agregar
@@ -119,7 +118,7 @@
                                                 v-if="rol_id == 4"
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
-                                                :to="`/edit_family_employee/${this.$route.params.id}/${family.id}`"
+                                                :to="`/edit_family/${this.$route.params.rut}/${family.id}`"
                                             >
                                                 <i class="fa-solid fa-edit"></i>
                                             </router-link>
@@ -233,7 +232,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `https://apijis.com/family_core_data/delete/${id}`,
+                    `http://localhost:8000/family_core_data/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',

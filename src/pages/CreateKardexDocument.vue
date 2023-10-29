@@ -26,8 +26,6 @@
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">Crear Kardex</h2>
 
-            <EmployeeMenu />
-
             <div class="mt-3">
                 <div
                     id="bar-with-underline-1"
@@ -128,7 +126,7 @@
                                 </div>
 
                                 <router-link
-                                    :to="`/kardex_data_employee/${$route.params.id}`"
+                                    :to="`/kardex_document/${$route.params.rut}`"
                                     class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                                 >
                                     Cancelar
@@ -144,12 +142,8 @@
 </template>
 <script>
 import axios from 'axios'
-import EmployeeMenu from '../components/EmployeeMenu.vue'
 
 export default {
-    components: {
-        EmployeeMenu,
-    },
     data() {
         return {
             loading: false,
@@ -170,7 +164,7 @@ export default {
             this.loading = true
 
             const formData = new FormData()
-            formData.append('rut', this.$route.params.id)
+            formData.append('rut', this.$route.params.rut)
             formData.append('status_id', 1)
             formData.append('document_type_id', this.document_type_input)
             formData.append('old_document_status_id', 0)
@@ -179,7 +173,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .post('https://apijis.com/kardex_data/store', formData, {
+                .post('http://localhost:8000/kardex_data/store', formData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'multipart/form-data',
@@ -192,7 +186,7 @@ export default {
                     localStorage.setItem('created_kardex', 1)
 
                     this.$router.push(
-                        '/kardex_data_employee/' + this.$route.params.id,
+                        '/kardex_document/' + this.$route.params.rut,
                     )
                 })
                 .catch((error) => {
