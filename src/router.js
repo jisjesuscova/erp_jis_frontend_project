@@ -11,6 +11,7 @@ import CreateMedicalLicense from './pages/CreateMedicalLicense.vue'
 import CreateProgressiveVacation from './pages/CreateProgressiveVacation.vue'
 import CreateUniform from './pages/CreateUniform.vue'
 import CreateVacation from './pages/CreateVacation.vue'
+import CreateEndDocumennt from './pages/CreateEndDocument.vue' 
 import DocumentManagement from './pages/DocumentManagement.vue'
 import EditFamily from './pages/EditFamily.vue'
 import EditHonorary from './pages/EditHonorary.vue'
@@ -22,6 +23,7 @@ import Home from './pages/Home.vue'
 import Honorary from './pages/Honorary.vue'
 import KardexDocument from './pages/KardexDocument.vue'
 import LaborData from './pages/LaborData.vue'
+// import OldLaborData from './pages/OldLaborData.vue'
 import MedicalLicense from './pages/MedicalLicense.vue'
 import Nationality from './pages/Nationality.vue'
 import Pention from './pages/Pention.vue'
@@ -167,6 +169,10 @@ const routes = [
     {
         path:'/create_contract/:rut',
         component: CreateEmployeeContract
+    },
+    {
+        path:'/create_end_document/:rut',
+        component: CreateEndDocumennt
     },
     {
         path:'/salary_settlement/:rut',

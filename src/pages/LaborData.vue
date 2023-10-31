@@ -2483,6 +2483,7 @@ export default {
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
                     },
                 });
+                console.log(response);
                 this.communes = response.data.message;
 
             } catch (error) {

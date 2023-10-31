@@ -1496,7 +1496,7 @@ export default {
                     }
                 )
 
-                console.log(response.data.message)
+                
 
                 this.banks = response.data.message
 
