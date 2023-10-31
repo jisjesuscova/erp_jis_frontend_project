@@ -444,12 +444,11 @@ export default {
                     this.locomotion_input   = response.data.message.locomotion;
                     this.extra_health_amount_input      = response.data.message.extra_health_amount;
                     this.extra_health_payment_type_input    = response.data.message.extra_health_payment_type_id;
-                    this.apv_payment_type_input     = (response.data.message.apv_payment_type_id) == '' ? this.apv_payment_type_input = 3 : response.data.message.apv_payment_type_id ;
+                    this.apv_payment_type_input     = response.data.message.apv_payment_type_id;
                     this.apv_amount_input   = response.data.message.apv_amount;
-                    this.commune_input = response.data.message.commune_id;
                     this.getCommunes();
+                    this.commune_input = response.data.message.commune_id;
                 }
-              
                 }
 
             catch (error) {
@@ -633,7 +632,6 @@ export default {
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
                     },
                 });
-                console.log(response);
                 this.communes = response.data.message;
 
                 this.loading_8 = false;
