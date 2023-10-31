@@ -154,7 +154,7 @@
                                             <span
                                                 v-if="
                                                     medical_license.status_id ==
-                                                        3 &&
+                                                        4 &&
                                                     medical_license.support !=
                                                         null
                                                 "
@@ -277,7 +277,8 @@ export default {
             this.getMedicalLicenses()
         },
         formatDate(date) {
-            return format(new Date(date), 'dd-MM-yyyy')
+            const [year, month, day] = date.split('-')
+            return `${day}-${month}-${year}`
         },
         async downloadMedicalLicense(id) {
             const accessToken = localStorage.getItem('accessToken')
@@ -368,7 +369,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `https://apijis.com/medical_licenses/delete/${id}`,
+                    `http://localhost:8000/medical_licenses/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',

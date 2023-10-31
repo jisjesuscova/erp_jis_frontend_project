@@ -281,6 +281,7 @@ export default {
             formData.append('since', this.since_input)
             formData.append('until', this.until_input)
             formData.append('status_id', 3)
+            formData.append('document_type_id', 35)
             formData.append('support', this.support)
 
             const accessToken = localStorage.getItem('accessToken')
