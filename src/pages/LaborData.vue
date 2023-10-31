@@ -465,6 +465,7 @@ export default {
             second_expiration: '',
             employee_contract_document: '',
             error_employee_contract_document: 0,
+            pention_name: '',
         };
     },
     methods: {
@@ -586,6 +587,14 @@ export default {
            
             const second_expiration =
                  this.formatDateToCustomFormat(new Date(this.second_expiration))
+
+            if (this.employee_labor_data && this.employee_labor_data.PentionModel) {
+                if (this.employee_labor_data.PentionModel.pention === undefined) {
+                    this.pention_name = 'Ninguna';
+                }
+            } else {
+                this.pention_name = 'Ninguna';
+            }
 
             if (this.employee_labor_data.EmployeeLaborDatumModel.employee_type_id == '1') {
 
@@ -755,7 +764,7 @@ export default {
                                 '\n\n',
                                 { text: 'DECIMO:', bold: true },
                                 'El TRABAJADOR señala que, para efectos de previsión y seguridad social, está afiliado a la AFP',
-                                { text: ' ' + this.employee_labor_data.PentionModel.pention + ', ', bold: true },
+                                { text: ' ' + this.pention_name + ', ', bold: true },
                                 ', y a la institución de salud previsional:',
                                 { text: ' ' + this.employee_labor_data.HealthModel.health + ', ', bold: true },
                                 '. Asimismo, declara que asume su propia responsabilidad por cambios o modificaciones que realice con su situación previsional; de forma tal que, el EMPLEADOR sólo se obliga en esta materia a enterar oportunamente las respectivas imposiciones en régimen de salud y previsión a las instituciones en las que se encuentre afiliado, según su propia declaración.',
@@ -1526,7 +1535,7 @@ export default {
                                 '\n\n',
                                 { text: 'DECIMO:', bold: true },
                                 'El TRABAJADOR señala que, para efectos de previsión y seguridad social, está afiliado a la AFP',
-                                { text: ' ' + this.employee_labor_data.PentionModel.pention + ', ', bold: true },
+                                { text: ' ' + this.pention_name, bold: true },
                                 ', y a la institución de salud previsional:',
                                 { text: ' ' + this.employee_labor_data.HealthModel.health + ', ', bold: true },
                                 '. Asimismo, declara que asume su propia responsabilidad por cambios o modificaciones que realice con su situación previsional; de forma tal que, el EMPLEADOR sólo se obliga en esta materia a enterar oportunamente las respectivas imposiciones en régimen de salud y previsión a las instituciones en las que se encuentre afiliado, según su propia declaración.',

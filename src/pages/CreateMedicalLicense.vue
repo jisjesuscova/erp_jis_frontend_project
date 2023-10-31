@@ -35,7 +35,7 @@
                     <div
                         class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                     >
-                        <form @submit.prevent="createKardex">
+                        <form @submit.prevent="createMedicalLicense">
                             <div
                                 class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
                             >
@@ -47,43 +47,113 @@
                             </div>
 
                             <div
-                                class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                                class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
                             >
+                                
                                 <div>
                                     <label
                                         for="hs-validation-name-error"
                                         class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Tipo de Documento</label
+                                        >Folio</label
+                                    >
+                                    <input
+                                        type="text"
+                                        id="email_input"
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Folio"
+                                        v-model="folio_input"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        for="hs-validation-name-error"
+                                        class="block text-sm font-medium mb-2 dark:text-white"
+                                        >Tipo de Licencia</label
                                     >
                                     <select
-                                        v-model="document_type_input"
+                                        v-model="medical_license_type_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
                                         <option value="">
                                             - Tipo de Documento -
                                         </option>
                                         <option
-                                            v-for="document_type in document_types"
-                                            :key="document_type.id"
-                                            :value="document_type.id"
+                                            v-for="medical_license_type in medical_license_types"
+                                            :key="medical_license_type.id"
+                                            :value="medical_license_type.id"
                                         >
-                                            {{ document_type.document_type }}
-                                        </option>
+                                            {{ medical_license_type.medical_license_type }}
+                                         </option>
                                     </select>
                                 </div>
                                 <div>
                                     <label
                                         for="hs-validation-name-error"
                                         class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Documento</label
+                                        >Tipo de Patología</label
+                                    >
+                                    <select
+                                        v-model="patology_type_input"
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    >
+                                        <option value="">
+                                            - Tipo de Documento -
+                                        </option>
+                                        <option
+                                            v-for="patology_type in patology_types"
+                                            :key="patology_type.id"
+                                            :value="patology_type.id"
+                                        >
+                                            {{ patology_type.patology_type }}
+                                         </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div
+                                class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                            >
+                                
+                                <div>
+                                    <label
+                                        for="hs-validation-name-error"
+                                        class="block text-sm font-medium mb-2 dark:text-white"
+                                        >Desde</label
                                     >
                                     <input
-                                        type="file"
-                                        name="file-input-medium"
-                                        id="file-input-medium"
-                                        class="block w-full border border-gray-200 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 file:bg-transparent file:border-0 file:bg-gray-100 file:mr-4 file:py-3 file:px-4 dark:file:bg-gray-700 dark:file:text-gray-400"
-                                        @change="handleFileChange"
+                                        type="date"
+                                        id="since_input"
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Desde"
+                                        v-model="since_input"
+                                        required
                                     />
+                                </div>
+                                <div>
+                                    <label
+                                        for="hs-validation-name-error"
+                                        class="block text-sm font-medium mb-2 dark:text-white"
+                                        >Hasta</label
+                                    >
+                                    <input
+                                        type="date"
+                                        id="until_input"
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Hasta"
+                                        v-model="until_input"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Licencia</label>
+                                    <input type="file" name="file-input-medium" id="file-input-medium" class="block w-full border border-gray-200 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400
+                                        file:bg-transparent file:border-0
+                                        file:bg-gray-100 file:mr-4
+                                        file:py-3 file:px-4
+                                        dark:file:bg-gray-700 dark:file:text-gray-400"
+                                        required
+                                        @change="handleFileChange"
+                                        >
                                 </div>
                             </div>
                             <div
@@ -125,7 +195,7 @@
                                 </div>
 
                                 <router-link
-                                    :to="`/medical_license/${$route.params.id}`"
+                                    :to="`/medical_license/${$route.params.rut}`"
                                     class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                                 >
                                     Cancelar
@@ -146,27 +216,71 @@ export default {
     data() {
         return {
             loading: false,
-            status_input: '',
-            document_type_input: '',
-            old_document_input: '',
             support: null,
-            document_types: [],
+            patology_types: [],
+            medical_license_types: [],
+            patology_type_input: '',
+            medical_license_type_input: '',
+            since_input: '',
+            until_input: '',
+            folio_input: '',
         }
     },
     methods: {
+        getPatologyTypes() {
+            const accessToken = localStorage.getItem('accessToken')
+
+            axios
+                .get('http://localhost:8000/patology_types/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
+                .then((response) => {
+                    console.log(response)
+                    this.patology_types = response.data.message
+                })
+                .catch((error) => {
+                    console.error(error)
+                    this.loading = false
+                })
+        },
+        getMedicalLicenseTypes() {
+            const accessToken = localStorage.getItem('accessToken')
+
+            axios
+                .get('http://localhost:8000/medical_license_types/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
+                .then((response) => {
+                    console.log(response)
+                    this.medical_license_types = response.data.message
+                })
+                .catch((error) => {
+                    console.error(error)
+                    this.loading = false
+                })
+        },
         handleFileChange(event) {
             const selectedFile = event.target.files[0]
 
             this.support = selectedFile
         },
-        createKardex() {
+        createMedicalLicense() {
             this.loading = true
 
             const formData = new FormData()
             formData.append('rut', this.$route.params.rut)
+            formData.append('folio', this.folio_input)
+            formData.append('medical_license_type_id', this.medical_license_type_input)
+            formData.append('patology_type_id', this.patology_type_input)
+            formData.append('since', this.since_input)
+            formData.append('until', this.until_input)
             formData.append('status_id', 3)
-            formData.append('document_type_id', this.document_type_input)
-            formData.append('old_document_status_id', 0)
             formData.append('support', this.support)
 
             const accessToken = localStorage.getItem('accessToken')
@@ -182,10 +296,10 @@ export default {
                     console.log(response)
                     this.loading = false
 
-                    localStorage.setItem('created_kardex', 1)
+                    localStorage.setItem('created_medical_license', 1)
 
                     this.$router.push(
-                        '/kardex_data_employee/' + this.$route.params.id,
+                        '/medical_license/' + this.$route.params.rut,
                     )
                 })
                 .catch((error) => {
@@ -193,38 +307,10 @@ export default {
                     this.loading = false
                 })
         },
-        async getDocumentTypes() {
-            const accessToken = localStorage.getItem('accessToken')
-
-            try {
-                const response = await axios.get(
-                    'http://localhost:8000/document_types/1',
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    },
-                )
-
-                this.document_types = response.data.message
-
-                this.loading = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error(
-                        'Error al obtener la lista de tipos de documentos:',
-                        error,
-                    )
-                }
-            }
-        },
     },
     async created() {
-        this.getDocumentTypes()
+        this.getPatologyTypes()
+        this.getMedicalLicenseTypes()
     },
 }
 </script>
