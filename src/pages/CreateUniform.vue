@@ -192,7 +192,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             const response = await axios
-                .post('http://localhost:8000/uniforms/store', dataToSend, {
+                .post('https://apijis.com/uniforms/store', dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',

@@ -439,7 +439,7 @@ export default {
             });
         },
         async generateFalseVacation() {
-            var logo = await this.getBase64ImageFromURL('http://localhost:5173/src/assets/images/logo.png');
+            var logo = await this.getBase64ImageFromURL('https://erpjis.com/assets/assets/images/logo.png');
 
             var signature_type_id = localStorage.getItem('signature_type_id');
 
@@ -731,9 +731,9 @@ export default {
             }
         },
         async generateVacation() {
-            var logo = await this.getBase64ImageFromURL('http://localhost:5173/src/assets/images/logo.png');
+            var logo = await this.getBase64ImageFromURL('https://erpjis.com/assets/assets/images/logo.png');
 
-            var company_signature = await this.getBase64ImageFromURL('http://localhost:5173/src/assets/images/signature.png');
+            var company_signature = await this.getBase64ImageFromURL('https://erpjis.com/assets/assets/images/signature.png');
 
             var signature = await this.getBase64ImageFromURL(localStorage.getItem('signature'));
 
@@ -1034,7 +1034,7 @@ export default {
             });
         },
         async generateFalseProgressiveVacation() {
-            var logo = await this.getBase64ImageFromURL('http://localhost:5173/src/assets/images/logo.png');
+            var logo = await this.getBase64ImageFromURL('https://erpjis.com/assets/assets/images/logo.png');
 
             var signature_type_id = localStorage.getItem('signature_type_id');
 
@@ -1326,9 +1326,9 @@ export default {
             }
         },
         async generateProgressiveVacation() {
-            var logo = await this.getBase64ImageFromURL('http://localhost:5173/src/assets/images/logo.png');
+            var logo = await this.getBase64ImageFromURL('https://erpjis.com/assets/assets/images/logo.png');
 
-            var company_signature = await this.getBase64ImageFromURL('http://localhost:5173/src/assets/images/signature.png');
+            var company_signature = await this.getBase64ImageFromURL('https://erpjis.com/assets/assets/images/signature.png');
 
             var signature = await this.getBase64ImageFromURL(localStorage.getItem('signature'));
 

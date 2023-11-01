@@ -268,7 +268,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/family_core_data/edit/' +
+                    'https://apijis.com/family_core_data/edit/' +
                         this.$route.params.id +
                         '/1',
                     {
@@ -330,7 +330,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.patch(
-                    'http://localhost:8000/family_core_data/update/' +
+                    'https://apijis.com/family_core_data/update/' +
                         this.$route.params.id,
                     formData,
                     {

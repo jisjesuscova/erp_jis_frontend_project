@@ -232,7 +232,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `http://localhost:8000/family_core_data/delete/${id}`,
+                    `https://apijis.com/family_core_data/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
