@@ -28,8 +28,6 @@
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">Crear Familiar</h2>
 
-            <EmployeeMenu />
-
             <div class="mt-3">
                 <div
                     v-if="isValidRut == false"
@@ -248,14 +246,10 @@
 </template>
 <script>
 import axios from 'axios'
-import EmployeeMenu from '../components/EmployeeMenu.vue'
 import { mask } from 'vue-the-mask'
 
 export default {
     directives: { mask },
-    components: {
-        EmployeeMenu,
-    },
     data() {
         return {
             loading: false,
