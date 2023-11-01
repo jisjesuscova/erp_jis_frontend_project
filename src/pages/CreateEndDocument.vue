@@ -1,37 +1,57 @@
 <template>
     <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72">
-        <div v-if="loading" class="flex justify-center items-center h-screen">
+        <div v-if="loading" class="flex flex-col justify-center items-center h-screen">
+            <div
+                v-if="personal_data_status == 1"
+                class="bg-red-500 text-sm text-white rounded-md p-4 mb-10 w-300"
+                role="alert"
+            >
+                Los datos personales del empleado se están <span class="font-bold">guardando</span>
+            </div>
+            <div
+                v-if="employee_extras_status == 1"
+                class="bg-orange-500 text-sm text-white rounded-md p-4 mb-10 w-300"
+                role="alert"
+            >
+                Los datos extras del empleado se están <span class="font-bold">guardando</span>
+            </div>
+            <div
+                v-if="employee_labor_data_status == 1"
+                class="bg-yellow-500 text-sm text-white rounded-md p-4 mb-10 w-300"
+                role="alert"
+            >
+                Los datos laborales del empleado se están <span class="font-bold">guardando</span>
+            </div>
+            <div
+                v-if="employee_documents_status == 1"
+                class="bg-indigo-500 text-sm text-white rounded-md p-4 mb-10 w-300"
+                role="alert"
+            >
+                Los documentos del empleado se están <span class="font-bold">guardando</span>
+            </div>
+            <div
+                v-if="employee_family_data_status == 1"
+                class="bg-blue-500 text-sm text-white rounded-md p-4 mb-10 w-300"
+                role="alert"
+            >
+                Los familiares del empleado se están <span class="font-bold">guardando</span>
+            </div>
+            <div
+                v-if="employee_vacations_status == 1"
+                class="bg-violet-500 text-sm text-white rounded-md p-4 mb-10 w-300"
+                role="alert"
+            >
+                Las vacaciones del empleado se están <span class="font-bold">guardando</span>
+            </div>
+            <div
+                v-if="employee_medical_status == 1"
+                class="bg-green-500 text-sm text-white rounded-md p-4 mb-10 w-300"
+                role="alert"
+            >
+                Las licencias del empleado se están <span class="font-bold">guardando</span>
+            </div>
             <div role="status">
-                
-                <div  v-if="employee_status == 1" class="bg-red-500 text-sm text-white rounded-md p-4 mb-10 flex justify-center items-center" role="alert"  >
-                     Guardando Datos del empleado
-                      
-                    </div>
-                <div  v-if="employee_extras_status == 1" class="bg-orange-500 text-sm text-white rounded-md p-4 mb-10 flex justify-center items-center" role="alert"  >
-                 Guardando Datos Extras del empleado
-                  
-                </div>
-                <div  v-if="employee_labor_data_status == 1" class="bg-yellow-500 text-sm text-white rounded-md p-4 mb-10 flex justify-center items-center" role="alert"  >
-                 Guardando Datos de contrato  del empleado
-                  
-                </div>
-                <div  v-if="employee_documents_status == 1" class="bg-indigo-500 text-sm text-white rounded-md p-4 mb-10 flex justify-center items-center" role="alert"  >
-                 Guardando documentos del empleado
-                  
-                </div>
-                <div  v-if="employee_family_data_status == 1" class="bg-blue-500 text-sm text-white rounded-md p-4 mb-10 flex justify-center items-center" role="alert"  >
-                 Guardando Datos familiares del empleado
-                  
-                </div>
-                <div  v-if="employee_vacations_status == 1" class="bg-violet-500 text-sm text-white rounded-md p-4 mb-10 flex justify-center items-center" role="alert"  >
-                 Guardando Vacaciones del empleado
-                  
-                </div>
-                <div  v-if="employee_medical_status == 1" class="bg-green-500 text-sm text-white rounded-md p-4 mb-10 flex justify-center items-center" role="alert"  >
-                 Guardando licencias medicas del empleado
-                  
-                </div>
-                <div class="flex justify-center items-center ml-2">
+                <!-- SVG spinner -->
                 <svg
                     aria-hidden="true"
                     class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -48,130 +68,126 @@
                         fill="currentFill"
                     />
                 </svg>
-                
                 <span class="sr-only">Loading...</span>
             </div>
-               
-            </div>
+
+            <!-- You can use a spinner or any other loading animation here -->
         </div>
+        
         <div v-else>
             <div
                 class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
             >
-                <form @submit.prevent="">
-                    <div
-                        class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                    >
-                        <p
-                            class="mt-1 text-sm text-gray-500 dark:text-gray-500"
+                <div
+                    class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                >
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
+                        Datos
+                    </p>
+                </div>
+                <div
+                    class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                >
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >RUT</label
                         >
-                            Datos
-                        </p>
+                        <input
+                            type="text"
+                            id="rut_input"
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="RUT"
+                            v-model="rut_input"
+                            v-mask="['########-X']"
+                            required
+                            disabled
+                        />
                     </div>
-                    <div
-                        class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                    >
-                        <div>
-                            <label
-                                for="hs-validation-name-error"
-                                class="block text-sm font-medium mb-2 dark:text-white"
-                                >RUT</label
-                            >
-                            <input
-                                type="text"
-                                id="rut_input"
-                                class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="RUT"
-                                v-model="rut_input"
-                                v-mask="['########-X']"
-                                required
-                                disabled
-                            />
-                        </div>
-                        <div>
-                            <label
-                                for="hs-validation-name-error"
-                                class="block text-sm font-medium mb-2 dark:text-white"
-                                >Estatus</label
-                            >
-                            <select
-                                v-model="status_input"
-                                @change="getCausals"
-                                required
-                                class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            >
-                                <option value="0">- Seleccionar -</option>
-                                <option value="1">Voluntario</option>
-                                <option value="2">Desvinculado</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label
-                                for="hs-validation-name-error"
-                                class="block text-sm font-medium mb-2 dark:text-white"
-                                >Causal</label
-                            >
-                            <select
-                                v-model="causal_input"
-                                required
-                                class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            >
-                                <option value="">- Seleccionar -</option>
-                                <option
-                                    v-for="causal in causals"
-                                    :key="causal.id"
-                                    :value="causal.id"
-                                >
-                                    {{ causal.causal }}
-                                </option>
-                            </select>
-                        </div>
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >Estatus</label
+                        >
+                        <select
+                            v-model="status_input"
+                            @change="getCausals"
+                            required
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                            <option value="0">- Seleccionar -</option>
+                            <option value="1">Voluntario</option>
+                            <option value="2">Desvinculado</option>
+                        </select>
                     </div>
-                    <div
-                        class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                    >
-                        <div>
-                            <label
-                                for="hs-validation-name-error"
-                                class="block text-sm font-medium mb-2 dark:text-white"
-                                >Fecha del Finiquito</label
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >Causal</label
+                        >
+                        <select
+                            v-model="causal_input"
+                            required
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                            <option value="">- Seleccionar -</option>
+                            <option
+                                v-for="causal in causals"
+                                :key="causal.id"
+                                :value="causal.id"
                             >
-                            <input
-                                type="date"
-                                v-model="exit_company_input"
-                                class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Fecha de Nacimiento"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label
-                                for="hs-validation-name-error"
-                                class="block text-sm font-medium mb-2 dark:text-white"
-                                >Cantidad de Vacaciones</label
-                            >
-                            <input
-                                type="number"
-                                v-model="vacations_input"
-                                class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label
-                                for="hs-validation-name-error"
-                                class="block text-sm font-medium mb-2 dark:text-white"
-                                >Indemnización Voluntaria</label
-                            >
-                            <input
-                                type="number"
-                                v-model="voluntary_compensation_input"
-                                class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required
-                            />
-                        </div>
+                                {{ causal.causal }}
+                            </option>
+                        </select>
                     </div>
-                </form>
+                </div>
+                <div
+                    class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                >
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >Fecha del Finiquito</label
+                        >
+                        <input
+                            type="date"
+                            v-model="exit_company_input"
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Fecha de Nacimiento"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >Cantidad de Vacaciones</label
+                        >
+                        <input
+                            type="number"
+                            v-model="vacations_input"
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >Indemnización Voluntaria</label
+                        >
+                        <input
+                            type="number"
+                            v-model="voluntary_compensation_input"
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required
+                        />
+                    </div>
+                </div>
             </div>
             <div class="mt-10" v-if="exit_company_input != ''">
                 <div
@@ -185,45 +201,45 @@
                     <div
                         class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                     >
-                        <form @submit.prevent="">
-                            <div
-                                class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                        <div
+                            class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                        >
+                            <p
+                                class="mt-1 text-sm text-gray-500 dark:text-gray-500"
                             >
-                                <p
-                                    class="mt-1 text-sm text-gray-500 dark:text-gray-500"
+                                Calculo de Indemnización Años de Servicios
+                            </p>
+                        </div>
+                        <div
+                            class="grid md:grid-cols-1 sm:grid-cols-1 gap-4 p-4 md:p-5"
+                        >
+                            <div>
+                                <label
+                                    for="hs-validation-name-error"
+                                    class="block text-sm font-medium mb-2 dark:text-white"
+                                    >Valor</label
                                 >
-                                    Calculo de Indemnización Años de Servicios
-                                </p>
+                                <input
+                                    type="number"
+                                    v-model="indemnity_year_input"
+                                    class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                />
                             </div>
-                            <div
-                                class="grid md:grid-cols-1 sm:grid-cols-1 gap-4 p-4 md:p-5"
-                            >
-                                <div>
-                                    <label
-                                        for="hs-validation-name-error"
-                                        class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Valor</label
-                                    >
-                                    <input
-                                        type="number"
-                                        v-model="indemnity_year_input"
-                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    />
-                                </div>
+                        </div>
+                        <div
+                            class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                        >
+                            <div class="w-full">
+                                <button
+                                    @click="calculateIndemnityYears"
+                                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                >
+                                    Calcular
+
+                                    <i class="fa-solid fa-dollar"></i>
+                                </button>
                             </div>
-                            <div
-                                class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                            >
-                                <div class="w-full">
-                                    <button
-                                        @click="calculateIndemnityYears"
-                                        class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                    >
-                                        Calcular
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                     <hr
                         class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
@@ -231,48 +247,48 @@
                     <div
                         class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                     >
-                        <form @submit.prevent="">
-                            <div
-                                class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                        <div
+                            class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                        >
+                            <p
+                                class="mt-1 text-sm text-gray-500 dark:text-gray-500"
                             >
-                                <p
-                                    class="mt-1 text-sm text-gray-500 dark:text-gray-500"
+                                Calculo de Indemnización Sustitutivo de Aviso
+                                Previo
+                            </p>
+                        </div>
+                        <div
+                            class="grid md:grid-cols-1 sm:grid-cols-1 gap-4 p-4 md:p-5"
+                        >
+                            <div>
+                                <label
+                                    for="hs-validation-name-error"
+                                    class="block text-sm font-medium mb-2 dark:text-white"
+                                    >Valor</label
                                 >
-                                    Calculo de Indemnización Sustitutivo de
-                                    Aviso Previo
-                                </p>
+                                <input
+                                    v-model="substitute_compensation_input"
+                                    type="number"
+                                    class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    required
+                                />
                             </div>
-                            <div
-                                class="grid md:grid-cols-1 sm:grid-cols-1 gap-4 p-4 md:p-5"
-                            >
-                                <div>
-                                    <label
-                                        for="hs-validation-name-error"
-                                        class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Valor</label
-                                    >
-                                    <input
-                                        v-model="substitute_compensation_input"
-                                        type="number"
-                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        required
-                                    />
-                                </div>
+                        </div>
+                        <div
+                            class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                        >
+                            <div class="w-full">
+                                <button
+                                    @click="substituteCompensation"
+                                    type="submit"
+                                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                >
+                                    Calcular
+
+                                    <i class="fa-solid fa-dollar"></i>
+                                </button>
                             </div>
-                            <div
-                                class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                            >
-                                <div class="w-full">
-                                    <button
-                                        @click="substituteCompensation"
-                                        type="submit"
-                                        class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                    >
-                                        Calcular
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                     <hr
                         class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
@@ -280,74 +296,73 @@
                     <div
                         class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                     >
-                        <form @submit.prevent="">
-                            <div
-                                class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                        <div
+                            class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                        >
+                            <p
+                                class="mt-1 text-sm text-gray-500 dark:text-gray-500"
                             >
-                                <p
-                                    class="mt-1 text-sm text-gray-500 dark:text-gray-500"
+                                Datos Calculo de Feriado Proporcional
+                            </p>
+                        </div>
+                        <div
+                            class="grid md:grid-cols-3 sm:grid-cols-1 gap-4 p-4 md:p-5"
+                        >
+                            <div>
+                                <label
+                                    for="hs-validation-name-error"
+                                    class="block text-sm font-medium mb-2 dark:text-white"
+                                    >Valor</label
                                 >
-                                    Datos Calculo de Feriado Proporcional
-                                </p>
+                                <input
+                                    v-model="fertility_proportional_input"
+                                    type="number"
+                                    class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    required
+                                />
                             </div>
-                            <div
-                                class="grid md:grid-cols-3 sm:grid-cols-1 gap-4 p-4 md:p-5"
-                            >
-                                <div>
-                                    <label
-                                        for="hs-validation-name-error"
-                                        class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Valor</label
-                                    >
-                                    <input
-                                        v-model="fertility_proportional_input"
-                                        type="number"
-                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        for="hs-validation-name-error"
-                                        class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Dias</label
-                                    >
-                                    <input
-                                        v-model="
-                                            fertility_proportional_days_input
-                                        "
-                                        type="number"
-                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        for="hs-validation-name-error"
-                                        class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Feriados</label
-                                    >
-                                    <input
-                                        type="number"
-                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        required
-                                    />
-                                </div>
+                            <div>
+                                <label
+                                    for="hs-validation-name-error"
+                                    class="block text-sm font-medium mb-2 dark:text-white"
+                                    >Dias</label
+                                >
+                                <input
+                                    v-model="fertility_proportional_days_input"
+                                    type="number"
+                                    class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    required
+                                />
                             </div>
-                            <div
-                                class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                            >
-                                <div class="w-full">
-                                    <button
-                                        @click="FertilityProportional"
-                                        type="submit"
-                                        class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                    >
-                                        Calcular
-                                    </button>
-                                </div>
+                            <div>
+                                <label
+                                    for="hs-validation-name-error"
+                                    class="block text-sm font-medium mb-2 dark:text-white"
+                                    >Feriados</label
+                                >
+                                <input
+                                    type="number"
+                                    v-model="number_holidays_input"
+                                    class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    required
+                                />
                             </div>
-                        </form>
+                        </div>
+                        <div
+                            class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                        >
+                            <div class="w-full">
+                                <button
+                                    @click="fertilityProportional"
+                                    type="submit"
+                                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                >
+                                    Calcular
+
+                                    <i class="fa-solid fa-dollar"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <hr
                         class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
@@ -355,59 +370,63 @@
                     <div
                         class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                     >
-                        <form @submit.prevent="">
-                            <div
-                                class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                        <div
+                            class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                        >
+                            <p
+                                class="mt-1 text-sm text-gray-500 dark:text-gray-500"
                             >
-                                <p
-                                    class="mt-1 text-sm text-gray-500 dark:text-gray-500"
+                                Total
+                            </p>
+                        </div>
+                        <div
+                            class="bg-yellow-500 text-sm text-white rounded-md p-4 mb-7 mt-7 ml-4 mr-4"
+                            role="alert"
+                        >
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            Recuerde que este va a ser el valor final a pagar al
+                            trabajador en el
+                            <span class="font-bold">finiquito</span>.
+                        </div>
+                        <div
+                            class="grid md:grid-cols-1 sm:grid-cols-1 gap-4 p-4 md:p-5"
+                        >
+                            <div>
+                                <label
+                                    for="hs-validation-name-error"
+                                    class="block text-sm font-medium mb-2 dark:text-white"
+                                    >Valor</label
                                 >
-                                    Total
-                                </p>
+                                <input
+                                    v-model="total_input"
+                                    type="number"
+                                    class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    required
+                                />
                             </div>
-                            <div
-                                class="my-5 mx-5 bg-yellow-500 text-sm text-white rounded-md p-4 mb-10"
-                                role="alert"
+                        </div>
+                        <div
+                            class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                        >
+                            <div class="w-full">
+                                <button
+                                    @click="createEndDocument"
+                                    type="submit"
+                                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                >
+                                    Guardar
+                                    <i class="fa-solid fa-check"></i>
+                                </button>
+                            </div>
+
+                            <router-link
+                                :to="`/labor_data/${this.$route.params.rut}`"
+                                class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                             >
-                                <p class="text-black">
-                                    Recuerde que este va a ser el valor final a
-                                    pagar al empleado en el finiquito.
-                                </p>
-                            </div>
-                            <div
-                                class="grid md:grid-cols-1 sm:grid-cols-1 gap-4 p-4 md:p-5"
-                            >
-                                <div>
-                                    <label
-                                        for="hs-validation-name-error"
-                                        class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Valor</label
-                                    >
-                                    <input
-                                        v-model="total_input"
-                                        type="number"
-                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <div
-                                class=" md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                            >
-                                <div class="w-full">
-                                    <button
-                                        @click="createEndDocument"
-                                        type="submit"
-                                        class="py-3 me-10 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                    >
-                                        Guardar
-                                    </button>
-                                    <router-link href="javascript:;" :to="`/labor_data/${this.$route.params.rut}`" class="py-3 my-5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-                                    Cancelar
-                                </router-link>
-                                </div>
-                            </div>
-                        </form>
+                                Cancelar
+                                <i class="fa-solid fa-remove"></i>
+                            </router-link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -439,6 +458,7 @@ export default {
             substitute_compensation_input: 0,
             fertility_proportional_input: 0,
             fertility_proportional_days_input: 0,
+            number_holidays_input: 0,
             total_input: 0,
             legal_vacations: 0,
             progressive_legal_vacations: 0,
@@ -471,14 +491,13 @@ export default {
             apv_amount: 0,
             extra_health_payment_type_id: 0,
             extra_health_amount: 0,
-            employee_status:0,
-            employee_extras_status:0,
-            employee_labor_data_status:0,
-            employee_documents_status:0,
-            employee_family_data_status:0,
-            employee_vacations_status:0,
-            employee_medical_status:0
-
+            personal_data_status: 0,
+            employee_extras_status: 0,
+            employee_labor_data_status: 0,
+            employee_documents_status: 0,
+            employee_family_data_status: 0,
+            employee_vacations_status: 0,
+            employee_medical_status: 0,
         }
     },
     methods: {
@@ -493,7 +512,7 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    }
+                    },
                 )
                 .then((response) => {
                     const decodedData = JSON.parse(response.data.message)
@@ -513,7 +532,7 @@ export default {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
                     },
-                }
+                },
             )
             this.employee_extra_data = responseExtras.data.message
 
@@ -525,99 +544,120 @@ export default {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
                     },
-                }
+                },
             )
             this.employee_labor_data = responseLaborData.data.message
-
         },
         async createEndDocument() {
             const accessToken = localStorage.getItem('accessToken')
+
             try {
-                 this.loading = true
-                 this.loading_1 = true
-                 this.employee_status = 1   
-                await axios.post('http://localhost:8000/old_employees/store', this.employee_data,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`,
-                                accept: 'application/json',
-                            },
-                        }
+                this.loading = true
+                this.loading_1 = true
+                this.personal_data_status = 1
 
-                )
-                // await axios.delete('http://localhost:8000/employees/delete/' + this.$route.params.rut,
-                //         {
-                //             headers: {
-                //                 Authorization: `Bearer ${accessToken}`,
-                //                 accept: 'application/json',
-                //             },
-                //         }
-                // )
-                
-                    if(this.employee_extra_data.progressive_vacation_date == 'null') {
-                        progressive_vacation_date = null
-                    }
-                    else if (this.employee_extra_data.recognized_years == 'null') {
-                        recognized_years = null
-                    }
-                const dataToSend = {
-                    rut : this.$route.params.rut,
-                    extreme_zone_id: this.employee_extra_data.extreme_zone_id,
-                    employee_type_id: this.employee_extra_data.employee_type_id,
-                    young_job_status_id: this.employee_extra_data.young_job_status_id,
-                    be_paid_id: this.employee_extra_data.be_paid_id,
-                    suplemental_health_insurance_id: this.employee_extra_data.suplemental_health_insurance_id,
-                    disability_id: this.employee_extra_data.disability_id,
-                    pensioner_id: this.employee_extra_data.pensioner_id,
-                    progressive_vacation_status_id: this.employee_extra_data.progressive_vacation_status_id,
-                    progressive_vacation_date: this.employee_extra_data.progressive_vacation_date,
-                    recognized_years: this.employee_extra_data.recognized_years
-
-                }
-                this.loading_1 = false
-                this.employee_status = 0 
-
-                this.loading_2 = true
-                this.employee_extras_status = 1
                 await axios.post(
-                    'http://localhost:8000/old_employee_extras/store',
-                    dataToSend,
+                    'http://localhost:8000/old_employees/transfer',
+                    this.employee_data,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    }
+                    },
                 )
-                // await axios.delete(
-                //     'http://localhost:8000/employee_extras/delete/' +
-                //         this.$route.params.rut,
-                //     {
-                //         headers: {
-                //             Authorization: `Bearer ${accessToken}`,
-                //             accept: 'application/json',
-                //         },
-                //     }
-                // )
-                    if(this.employee_labor_data.pention_id !=  'null' || this.employee_labor_data.pention_id !=  '' || this.employee_labor_data.pention_id !=  undefined) {
-                        this.pention_id = this.employee_labor_data.pention_id
-                    }
-                    else if(this.employee_labor_data.entrance_pention !=  'null' || this.employee_labor_data.entrance_pention !=  '' || this.employee_labor_data.entrance_pention !=  undefined) {
-                        this.entrance_pention = this.employee_labor_data.entrance_pention
-                    }
-                    else if(this.employee_labor_data.apv_payment_type_id != 'null' || this.employee_labor_data.apv_payment_type_id !=  '' || this.employee_labor_data.apv_payment_type_id !=  undefined) {
-                        this.apv_payment_type_id = this.employee_labor_data.apv_payment_type_id
-                    }
-                    else if(this.employee_labor_data.apv_amount != 'null' || this.employee_labor_data.apv_amount !=  '' || this.employee_labor_data.apv_amount != undefined) {
-                        this.apv_amount = this.employee_labor_data.apv_amount
-                    }
-                    else if(this.employee_labor_data.extra_health_payment_type_id != 'null' || this.employee_labor_data.extra_health_payment_type_id !=  '' || this.employee_labor_data.extra_health_payment_type_id !=  undefined) {
-                        this.extra_health_payment_type_id = this.employee_labor_data.extra_health_payment_type_id
-                    }
-                    else if(this.employee_labor_data.extra_health_amount !=  'null' || this.employee_labor_data.extra_health_amount !=  '' || this.employee_labor_data.extra_health_amount !=  undefined) {
-                        this.extra_health_amount = this.employee_labor_data.extra_health_amount
-                    }
-                const dataToSendLabor= {
+
+                if (
+                    this.employee_extra_data.progressive_vacation_date == 'null'
+                ) {
+                    progressive_vacation_date = null
+                } else if (
+                    this.employee_extra_data.recognized_years == 'null'
+                ) {
+                    recognized_years = null
+                }
+
+                const employeeExtraDataToSend = {
+                    rut: this.$route.params.rut,
+                    extreme_zone_id: this.employee_extra_data.extreme_zone_id,
+                    employee_type_id: this.employee_extra_data.employee_type_id,
+                    young_job_status_id:
+                        this.employee_extra_data.young_job_status_id,
+                    be_paid_id: this.employee_extra_data.be_paid_id,
+                    suplemental_health_insurance_id:
+                        this.employee_extra_data
+                            .suplemental_health_insurance_id,
+                    disability_id: this.employee_extra_data.disability_id,
+                    pensioner_id: this.employee_extra_data.pensioner_id,
+                    progressive_vacation_status_id:
+                        this.employee_extra_data.progressive_vacation_status_id,
+                    progressive_vacation_date:
+                        this.employee_extra_data.progressive_vacation_date,
+                    recognized_years: this.employee_extra_data.recognized_years,
+                }
+
+                this.loading_1 = false
+                this.personal_data_status = 0
+                this.loading_2 = true
+                this.employee_extras_status = 1
+
+                await axios.post(
+                    'http://localhost:8000/old_employee_extras/transfer',
+                    employeeExtraDataToSend,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            accept: 'application/json',
+                        },
+                    },
+                )
+
+                if (
+                    this.employee_labor_data.pention_id != 'null' ||
+                    this.employee_labor_data.pention_id != '' ||
+                    this.employee_labor_data.pention_id != undefined
+                ) {
+                    this.pention_id = this.employee_labor_data.pention_id
+                } else if (
+                    this.employee_labor_data.entrance_pention != 'null' ||
+                    this.employee_labor_data.entrance_pention != '' ||
+                    this.employee_labor_data.entrance_pention != undefined
+                ) {
+                    this.entrance_pention =
+                        this.employee_labor_data.entrance_pention
+                } else if (
+                    this.employee_labor_data.apv_payment_type_id != 'null' ||
+                    this.employee_labor_data.apv_payment_type_id != '' ||
+                    this.employee_labor_data.apv_payment_type_id != undefined
+                ) {
+                    this.apv_payment_type_id =
+                        this.employee_labor_data.apv_payment_type_id
+                } else if (
+                    this.employee_labor_data.apv_amount != 'null' ||
+                    this.employee_labor_data.apv_amount != '' ||
+                    this.employee_labor_data.apv_amount != undefined
+                ) {
+                    this.apv_amount = this.employee_labor_data.apv_amount
+                } else if (
+                    this.employee_labor_data.extra_health_payment_type_id !=
+                        'null' ||
+                    this.employee_labor_data.extra_health_payment_type_id !=
+                        '' ||
+                    this.employee_labor_data.extra_health_payment_type_id !=
+                        undefined
+                ) {
+                    this.extra_health_payment_type_id =
+                        this.employee_labor_data.extra_health_payment_type_id
+                } else if (
+                    this.employee_labor_data.extra_health_amount != 'null' ||
+                    this.employee_labor_data.extra_health_amount != '' ||
+                    this.employee_labor_data.extra_health_amount != undefined
+                ) {
+                    this.extra_health_amount =
+                        this.employee_labor_data.extra_health_amount
+                }
+
+                const employeeLaborDataToSend = {
                     rut: this.$route.params.rut,
                     contract_type_id: this.employee_labor_data.contract_type_id,
                     branch_office_id: this.employee_labor_data.branch_office_id,
@@ -631,8 +671,10 @@ export default {
                     employee_type_id: this.employee_labor_data.employee_type_id,
                     regime_id: this.employee_labor_data.regime_id,
                     status_id: this.employee_labor_data.status_id,
-                    health_payment_id: this.employee_labor_data.health_payment_id,
-                    extra_health_payment_type_id: this.extra_health_payment_type_id,
+                    health_payment_id:
+                        this.employee_labor_data.health_payment_id,
+                    extra_health_payment_type_id:
+                        this.extra_health_payment_type_id,
                     apv_payment_type_id: this.apv_payment_type_id,
                     entrance_pention: this.entrance_pention,
                     entrance_company: this.employee_labor_data.entrance_company,
@@ -644,104 +686,105 @@ export default {
                     extra_health_amount: this.extra_health_amount,
                     apv_amount: this.apv_amount,
                 }
+
                 this.loading_2 = false
                 this.employee_extras_status = 0
-
-                this.loading_3 = true 
+                this.loading_3 = true
                 this.employee_labor_data_status = 1
+
                 await axios.post(
-                    'http://localhost:8000/old_employee_labor_data/store',
-                    dataToSendLabor,
+                    'http://localhost:8000/old_employee_labor_data/transfer',
+                    employeeLaborDataToSend,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    }
+                    },
                 )
-                // await axios.delete(
-                //     'http://localhost:8000/employee_labor_data/delete/' +
-                //         this.$route.params.rut,
-                //     {
-                //         headers: {
-                //             Authorization: `Bearer ${accessToken}`,
-                //             accept: 'application/json',
-                //         },
-                //     }
-                // )
-              
+
                 this.loading_3 = false
                 this.employee_labor_data_status = 0
-
                 this.loading_4 = true
                 this.employee_documents_status = 1
+
                 await axios.post(
-                    'http://localhost:8000/old_documents_employees/transfer/'+
-                    this.$route.params.rut, {},
+                    'http://localhost:8000/old_documents_employees/transfer/' +
+                        this.$route.params.rut,
+                    {},
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    }
-                    )
-                  
+                    },
+                )
+
                 this.loading_4 = false
                 this.employee_documents_status = 0
-
                 this.loading_5 = true
                 this.employee_family_data_status = 1
+
                 await axios.post(
-                    'http://localhost:8000/old_family_core_data/transfer/'+
-                    this.$route.params.rut, {},
+                    'http://localhost:8000/old_family_core_data/transfer/' +
+                        this.$route.params.rut,
+                    {},
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    }
-                    )
-                   
+                    },
+                )
+
                 this.loading_5 = false
                 this.employee_family_data_status = 0
-
                 this.loading_6 = true
                 this.employee_vacations_status = 1
 
-                 await axios.post(
-                    'http://localhost:8000/old_vacations/transfer/'+
-                    this.$route.params.rut, {},
+                await axios.post(
+                    'http://localhost:8000/old_vacations/transfer/' +
+                        this.$route.params.rut,
+                    {},
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    }
-                    )
-                
+                    },
+                )
+
                 this.loading_6 = false
                 this.employee_vacations_status = 0
-
                 this.loading_7 = true
                 this.employee_medical_status = 1
+
                 await axios.post(
-                    'http://localhost:8000/old_medical_licenses/transfer/'+
-                    this.$route.params.rut, {},
+                    'http://localhost:8000/old_medical_licenses/transfer/' +
+                        this.$route.params.rut,
+                    {},
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    }
-                    )
+                    },
+                )
 
                 this.loading_7 = false
                 this.employee_medical_status = 0
 
-                if(this.loading_1 == false && this.loading_2 == false && this.loading_3 == false && this.loading_4 ==false && this.loading_5 == false && this.loading_6 == false && this.loading_7 == false) {
+                if (
+                    this.loading_1 == false &&
+                    this.loading_2 == false &&
+                    this.loading_3 == false &&
+                    this.loading_4 == false &&
+                    this.loading_5 == false &&
+                    this.loading_6 == false &&
+                    this.loading_7 == false
+                ) {
                     this.loading = false
                 }
-                    
             } catch (error) {
                 this.loading_1 = false
                 this.loading_2 = false
@@ -764,7 +807,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    }
+                    },
                 )
                 this.causals = response.data.message
                 this.loading_1 = false
@@ -775,7 +818,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener la lista de Causales:',
-                        error
+                        error,
                     )
                 }
             }
@@ -792,7 +835,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    }
+                    },
                 )
                 const responseTakenDays = await axios.get(
                     'http://localhost:8000/vacations/taken/' +
@@ -802,7 +845,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    }
+                    },
                 )
                 this.legal_vacations = responseLegal.data.message
                 this.taken_days = responseTakenDays.data.message
@@ -817,12 +860,11 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener las vacaciones legales:',
-                        error
+                        error,
                     )
                 }
             }
         },
-
         async getProgressiveLegalAndTaken() {
             const accessToken = localStorage.getItem('accessToken')
 
@@ -835,7 +877,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    }
+                    },
                 )
                 const responseProgresssiveTaken = await axios.get(
                     'http://localhost:8000/progressive_vacations/taken/' +
@@ -845,7 +887,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    }
+                    },
                 )
 
                 this.progressive_legal_vacations =
@@ -886,8 +928,9 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    }
+                    },
                 )
+
                 this.indemnity_year_input = response.data.message
                 this.total_input =
                     this.indemnity_year_input +
@@ -916,7 +959,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    }
+                    },
                 )
                 this.substitute_compensation_input = response.data.message
                 this.total_input =
@@ -929,7 +972,7 @@ export default {
                 this.loading = false
             }
         },
-        async FertilityProportional() {
+        async fertilityProportional() {
             try {
                 this.loading = true
 
@@ -937,7 +980,7 @@ export default {
                     rut: this.$route.params.rut,
                     exit_company: this.exit_company_input,
                     balance: 10,
-                    number_holidays: 10,
+                    number_holidays: this.number_holidays_input,
                 }
                 const accessToken = localStorage.getItem('accessToken')
 
@@ -949,7 +992,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    }
+                    },
                 )
                 this.fertility_proportional_input = response.data.message
                 this.total_input =
@@ -968,7 +1011,7 @@ export default {
         await this.getLegalAndTaken()
         await this.getProgressiveLegalAndTaken()
         await this.getEmployee()
-        // await this.createEndDocumentExtra()
+
         if (
             this.loading_1 == false &&
             this.loading_2 == false &&
