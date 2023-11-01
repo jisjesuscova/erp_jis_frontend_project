@@ -391,6 +391,94 @@
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
                                     </tr>
                                 </thead>
+                                <tbody
+                                    class="divide-y divide-gray-200 dark:divide-gray-700"
+                                >
+                                    <tr
+                                        v-for="end_document in end_documents"
+                                        :key="end_document.id"
+                                    >
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            {{ end_document.exit_company }}
+                                        </td>
+                                        <td
+                                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                            >
+                                                <span
+                                                    v-if="
+                                                        end_document.status_id ==
+                                                        3
+                                                    "
+                                                    class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-500 text-white"
+                                                    >Aceptada</span
+                                                >
+                                                <span
+                                                    v-if="
+                                                        end_document.status_id ==
+                                                        4
+                                                    "
+                                                    class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-500 text-white"
+                                                    >Firmada</span
+                                                >
+                                            </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                                        >
+                                            <button
+                                                v-if="
+                                                    end_document.support !=
+                                                        '' &&
+                                                        end_document.support !=
+                                                        null
+                                                "
+                                                type="button"
+                                                @click="
+                                                    downloadEmployeeContract(
+                                                        employee_contract.id,
+                                                    )
+                                                "
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-arrow-down"
+                                                ></i>
+                                            </button>
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                v-if="end_document.status_id == 3"
+                                                :to="`/upload_employee_contract/${end_document.rut}/${end_document.id}`"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-arrow-up"
+                                                ></i>
+                                            </router-link>
+                                            <button
+                                                type="button"
+                                                @click="
+                                                    generateContract()
+                                                "
+                                                v-if="end_document.status_id == 3"
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i class="fa-solid fa-file"></i>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                @click="
+                                                     confirmContract(end_document.id)
+                                                "
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-trash"
+                                                ></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -435,6 +523,7 @@ export default {
             healths: [],
             pentions: [],
             employee_contracts: [],
+            end_documents: [],
             contract_type_input:'',
             branch_office_input: '',
             branch_office_input: '',
@@ -2624,6 +2713,29 @@ export default {
                 }
             }
         },
+        async getEndDocuments() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            try {
+                const response = await axios.get('http://localhost:8000/end_documents/edit/' + this.$route.params.rut, {
+                    headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                    },
+                });
+
+                this.end_documents = response.data.message;
+
+                this.loading_14 = false;
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener la lista de isapres:', error);
+                }
+            }
+        },
     },
     async mounted() {
         this.created_employee_contract = localStorage.getItem(
@@ -2650,6 +2762,7 @@ export default {
         await this.getPersonalDataEmployee();
         await this.getLaborDataEmployee();
         await this.getExpirations();
+        await this.getEndDocuments();
 
         if (this.loading_1 == false 
         && this.loading_2 == false 
@@ -2663,7 +2776,8 @@ export default {
         && this.loading_10 == false 
         && this.loading_11 == false 
         && this.loading_12 == false
-        && this.loading_13 == false) {
+        && this.loading_13 == false
+        && this.loading_14 == false) {
             this.loading = false;
         }
     },
