@@ -198,8 +198,9 @@ export default {
                         },
                     },
                 )
-
-                this.families = response.data.message
+                
+                const decodedData = JSON.parse(response.data.message)
+                this.families = decodedData
 
                 this.loading = false
             } catch (error) {

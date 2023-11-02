@@ -933,6 +933,7 @@ export default {
             employeeData: null,
             fullNameRut: null,
             rolAndPictureValidate: false,
+            created_employee_bank_account: 0,
         }
     },
     methods: {
@@ -1094,6 +1095,39 @@ export default {
                     console.log(response)
 
                     this.getPersonalDataEmployee()
+                })
+                .catch((error) => {
+                    console.error(error)
+                    this.loading = false
+                })
+        },
+        createEmployeeBankAccount() {
+            this.loading = true
+
+            const dataToSend = {
+                bank_id: this.bank_input,
+                account_type_id: this.account_type_input,
+                rut: this.$route.params.rut,
+                account_number: this.account_number_input,
+            }
+
+            const accessToken = localStorage.getItem('accessToken')
+
+            axios
+                .post('https://apijis.com/employee_bank_accounts/store', dataToSend, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        accept: 'application/json',
+                    },
+                })
+                .then((response) => {
+                    console.log(response)
+
+                    window.location.reload();
+
+                    this.loading = false
+
+                    this.created_employee_bank_account = 1
                 })
                 .catch((error) => {
                     console.error(error)
@@ -1507,6 +1541,7 @@ export default {
         },
     },
     async mounted() {
+
         const rol_id = localStorage.getItem('rol_id')
 
         this.rol_id = rol_id

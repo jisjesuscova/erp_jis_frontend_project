@@ -86,7 +86,8 @@ export default {
     },
     methods: {
         formatDate(date) {
-            return format(new Date(date), 'dd-MM-yyyy');
+            const [year, month, day] = date.split('-')
+            return `${day}-${month}-${year}`
         },
         async getUniforms() {
             const accessToken = localStorage.getItem('accessToken');
@@ -101,7 +102,8 @@ export default {
                     },
                 });
 
-                this.uniforms = response.data.message;
+                const decodedData = JSON.parse(response.data.message)
+                this.uniforms = decodedData;
 
                 this.loading = false;
             } catch (error) {
