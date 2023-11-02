@@ -369,7 +369,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `http://localhost:8000/medical_licenses/delete/${id}`,
+                    `https://apijis.com/medical_licenses/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',

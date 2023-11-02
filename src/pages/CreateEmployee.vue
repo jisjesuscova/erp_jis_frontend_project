@@ -506,7 +506,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.get(
-                    'http://localhost:8000/employees/validate_cellphone/' +
+                    'https://apijis.com/employees/validate_cellphone/' +
                         this.cellphone_input,
                     {
                         headers: {

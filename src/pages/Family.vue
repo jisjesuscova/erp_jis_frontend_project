@@ -198,8 +198,9 @@ export default {
                         },
                     },
                 )
-
-                this.families = response.data.message
+                
+                const decodedData = JSON.parse(response.data.message)
+                this.families = decodedData
 
                 this.loading = false
             } catch (error) {
@@ -232,7 +233,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `http://localhost:8000/family_core_data/delete/${id}`,
+                    `https://apijis.com/family_core_data/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',

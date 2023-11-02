@@ -274,7 +274,7 @@
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-gray-700">
                                     <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Id</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estatus</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
                                     </tr>
@@ -289,7 +289,7 @@
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ formatDate(employee_contract.added_date) }}
+                                            {{ employee_contract.id }}
                                         </td>
                                         <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
@@ -381,108 +381,6 @@
                     </router-link>
                 </h2>
 
-                <div class="p-1.5 min-w-full inline-block align-middle">
-                    <div class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
-                        <div class="overflow-hidden">
-                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                <thead class="bg-gray-50 dark:bg-gray-700">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha del Finiquito</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
-                                    </tr>
-                                </thead>
-                                <tbody
-                                    class="divide-y divide-gray-200 dark:divide-gray-700"
-                                >
-                                    <tr
-                                        v-for="end_document in end_documents"
-                                        :key="end_document.id"
-                                    >
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
-                                        >
-                                            {{ end_document.exit_company }}
-                                        </td>
-                                        <td
-                                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
-                                            >
-                                                <span
-                                                    v-if="
-                                                        end_document.status_id ==
-                                                        3
-                                                    "
-                                                    class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-500 text-white"
-                                                    >Aceptada</span
-                                                >
-                                                <span
-                                                    v-if="
-                                                        end_document.status_id ==
-                                                        4
-                                                    "
-                                                    class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-500 text-white"
-                                                    >Firmada</span
-                                                >
-                                            </td>
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
-                                        >
-                                            <button
-                                                v-if="
-                                                    end_document.support !=
-                                                        '' &&
-                                                        end_document.support !=
-                                                        null
-                                                "
-                                                type="button"
-                                                @click="
-                                                    downloadEmployeeContract(
-                                                        employee_contract.id,
-                                                    )
-                                                "
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-arrow-down"
-                                                ></i>
-                                            </button>
-                                            <router-link
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                                href="javascript:;"
-                                                v-if="end_document.status_id == 3"
-                                                :to="`/upload_employee_contract/${end_document.rut}/${end_document.id}`"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-arrow-up"
-                                                ></i>
-                                            </router-link>
-                                            <button
-                                                type="button"
-                                                @click="
-                                                    generateContract()
-                                                "
-                                                v-if="end_document.status_id == 3"
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                            >
-                                                <i class="fa-solid fa-file"></i>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                @click="
-                                                     confirmContract(end_document.id)
-                                                "
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-trash"
-                                                ></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -565,7 +463,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employee_contracts/download/' + id,
+                    'https://apijis.com/employee_contracts/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -648,19 +546,19 @@ export default {
         },
         async generateContract() {
             const logo = await this.getBase64ImageFromURL(
-                'http://localhost:5173/src/assets/images/logo.png',
+                'https://erpjis.com/assets/assets/images/logo.png',
             )
 
             const company_signature = await this.getBase64ImageFromURL(
-                'http://localhost:5173/src/assets/images/signature.png',
+                'https://erpjis.com/assets/assets/images/signature.png',
             )
 
             const schedule = await this.getBase64ImageFromURL(
-                'http://localhost:5173/src/assets/images/schedule.jpg',
+                'https://erpjis.com/assets/assets/images/schedule.jpg',
             )
 
             const bonuses = await this.getBase64ImageFromURL(
-                'http://localhost:5173/src/assets/images/bonuses.png',
+                'https://erpjis.com/assets/assets/images/bonuses.png',
             )
 
             const original_date = new Date(this.employee_labor_data.EmployeeLaborDatumModel.entrance_company);
@@ -2252,7 +2150,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `http://localhost:8000/employee_contracts/delete/${id}`,
+                    `https://apijis.com/employee_contracts/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -2310,7 +2208,7 @@ export default {
             };  
             try {
                 
-                const response = await axios.patch('http://localhost:8000/employee_labor_data/update/'+ this.$route.params.rut, dataToSend, {
+                const response = await axios.patch('https://apijis.com/employee_labor_data/update/'+ this.$route.params.rut, dataToSend, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2332,7 +2230,7 @@ export default {
         async getEmployeeLaborData() {
           const accessToken = localStorage.getItem('accessToken');
             try {
-                const response = await axios.get('http://localhost:8000/employee_labor_data/edit/'+ this.$route.params.rut,  {
+                const response = await axios.get('https://apijis.com/employee_labor_data/edit/'+ this.$route.params.rut,  {
                         headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2377,7 +2275,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/pentions', {
+                const response = await axios.get('https://apijis.com/pentions', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2404,7 +2302,7 @@ export default {
             };  
 
             try {
-                const response = await axios.post('http://localhost:8000/contract_data/expiration', dataToSend, {
+                const response = await axios.post('https://apijis.com/contract_data/expiration', dataToSend, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2428,7 +2326,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/healths', {
+                const response = await axios.get('https://apijis.com/healths', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2451,7 +2349,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/regimes', {
+                const response = await axios.get('https://apijis.com/regimes', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2474,7 +2372,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/job_positions', {
+                const response = await axios.get('https://apijis.com/job_positions', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2497,7 +2395,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/employee_types', {
+                const response = await axios.get('https://apijis.com/employee_types', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2520,7 +2418,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/contract_types', {
+                const response = await axios.get('https://apijis.com/contract_types', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2543,7 +2441,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/branch_offices', {
+                const response = await axios.get('https://apijis.com/branch_offices', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2566,7 +2464,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/communes/' + this.region_input, {
+                const response = await axios.get('https://apijis.com/communes/' + this.region_input, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2588,7 +2486,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/regions', {
+                const response = await axios.get('https://apijis.com/regions', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2611,7 +2509,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/civil_states', {
+                const response = await axios.get('https://apijis.com/civil_states', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2634,7 +2532,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/employee_contracts/edit/' + this.$route.params.rut, {
+                const response = await axios.get('https://apijis.com/employee_contracts/edit/' + this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2658,7 +2556,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employees/edit/' +
+                    'https://apijis.com/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -2689,7 +2587,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employee_labor_data/edit/' +
+                    'https://apijis.com/employee_labor_data/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -2718,7 +2616,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/end_documents/edit/' + this.$route.params.rut, {
+                const response = await axios.get('https://apijis.com/end_documents/edit/' + this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud

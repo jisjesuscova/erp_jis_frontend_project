@@ -707,7 +707,7 @@ export default {
         }
 
         try {
-            const response = await axios.post('http://localhost:8000/banks/', {
+            const response = await axios.post('https://apijis.com/banks/', {
                 headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud

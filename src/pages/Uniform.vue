@@ -86,7 +86,8 @@ export default {
     },
     methods: {
         formatDate(date) {
-            return format(new Date(date), 'dd-MM-yyyy');
+            const [year, month, day] = date.split('-')
+            return `${day}-${month}-${year}`
         },
         async getUniforms() {
             const accessToken = localStorage.getItem('accessToken');
@@ -94,14 +95,15 @@ export default {
             this.loading = true;
 
             try {
-                const response = await axios.get('http://localhost:8000/uniforms/edit/' + this.$route.params.rut, {
+                const response = await axios.get('https://apijis.com/uniforms/edit/' + this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
                     },
                 });
 
-                this.uniforms = response.data.message;
+                const decodedData = JSON.parse(response.data.message)
+                this.uniforms = decodedData;
 
                 this.loading = false;
             } catch (error) {
@@ -123,7 +125,7 @@ export default {
         async deleteUniform(id) {
             try {
                 const accessToken = localStorage.getItem('accessToken');
-                await axios.delete(`http://localhost:8000/uniforms/delete/${id}`, {
+                await axios.delete(`https://apijis.com/uniforms/delete/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`
