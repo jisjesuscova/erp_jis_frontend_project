@@ -1346,14 +1346,14 @@ export default {
             var rut = this.rut_input.split('-')
 
             axios
-                .get('https://apijis.com/employees/edit/' + rut[0], {
+                .get('https://apijis.com/employees/validate_rut/' + rut[0], {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
                     },
                 })
                 .then((response) => {
-                    if (response.data.message.EmployeeModel.rut == rut[0]) {
+                    if (response.data.message == 1) {
                         this.validate_rut_status = 1
 
                         window.scrollTo({ top: 0, behavior: 'smooth' })

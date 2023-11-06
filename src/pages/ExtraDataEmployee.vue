@@ -341,19 +341,69 @@ export default {
                         },
                     },
                 )
+                
+                if(response.data.message.extreme_zone_id == null) {
+                    this.extreme_zone_input = 2
+                } else {
+                    this.extreme_zone_input = response.data.message.extreme_zone_id
+                }
 
-                this.extreme_zone_input = response.data.message.extreme_zone_id
-                this.employee_type_input =
+                if(response.data.message.employee_type_id == null) {
+                    this.extreme_zone_input = 1
+                } else {
+                    this.employee_type_input =
                     response.data.message.employee_type_id
-                this.young_employee_input =
-                    response.data.message.young_job_status_id
-                this.be_paid_input = response.data.message.be_paid_id
-                this.disability_input = response.data.message.disability_id
-                this.pensioner_input = response.data.message.pensioner_id
-                this.suplemental_health_insurance_input =
-                    response.data.message.suplemental_health_insurance_id
-                this.progressive_vacation_input =
-                    response.data.message.progressive_vacation_status_id
+                }
+
+                if(response.data.message.young_job_status_id == null) {
+                    this.young_employee_input = 2
+                } else {
+                    this.young_employee_input = response.data.message.young_job_status_id
+                }
+
+                if(response.data.message.extreme_zone_id == null) {
+                    this.extreme_zone_input = 2
+                } else {
+                    this.extreme_zone_input = response.data.message.extreme_zone_id
+                }
+
+                if(response.data.message.be_paid_id == null) {
+                    this.be_paid_input = 1
+                } else {
+                    this.be_paid_input = response.data.message.be_paid_id
+                }
+
+                if(response.data.message.disability_id == null) {
+                    this.disability_input = 2
+                } else {
+                    this.disability_input = response.data.message.disability_id
+                }
+
+                if(response.data.message.pensioner_id == null) {
+                    this.pensioner_input = 1
+                } else {
+                    this.pensioner_input = response.data.message.pensioner_id
+                }
+
+                if(response.data.message.suplemental_health_insurance_id == null) {
+                    this.suplemental_health_insurance_input = 2
+                } else {
+                    this.suplemental_health_insurance_input = response.data.message.suplemental_health_insurance_id
+                }
+
+                if(response.data.message.progressive_vacation_status_id == null) {
+                    this.progressive_vacation_input = 2
+                } else {
+                    this.progressive_vacation_input = response.data.message.progressive_vacation_status_id
+                }
+                
+                if(response.data.message.recognized_years == null) {
+                    this.recognized_years_input = 0
+                } else {
+                    this.recognized_years_input = response.data.message.recognized_years
+                }
+
+                this.progressive_vacation_date_input = response.data.message.progressive_vacation_date
 
                 this.loading = false
             } catch (error) {
@@ -379,7 +429,7 @@ export default {
                     {
                         extreme_zone_id: this.extreme_zone_input,
                         employee_type_id: this.employee_type_input,
-                        young_job_status_id: this.young_job_status_id,
+                        young_job_status_id: this.young_employee_input,
                         be_paid_id: this.be_paid_input,
                         suplemental_health_insurance_id:
                             this.suplemental_health_insurance_input,

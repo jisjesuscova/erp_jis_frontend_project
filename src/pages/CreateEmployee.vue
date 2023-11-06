@@ -544,39 +544,42 @@ export default {
                 )
             }
         },
-        validateRutExist() {
+        async validateRutExist() {
             const accessToken = localStorage.getItem('accessToken')
             var rut = this.rut_input.split('-')
 
-            axios
-                .get('https://apijis.com/employees/edit/' + rut[0], {
+            try {
+                const response = await axios.get('https://apijis.com/employees/validate_rut/' + rut[0], {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        accept: 'application/json',
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
                     },
-                })
-                .then((response) => {
-                    if (response.data.message.EmployeeModel.rut == rut[0]) {
-                        this.validate_rut_status = 1
+                });
 
-                        window.scrollTo({ top: 0, behavior: 'smooth' })
-                    } else {
-                        this.validate_rut_status = 0
-                    }
+                if (response.data.message == 1) {
+                    this.validate_rut_status = 1
 
-                    if (this.validate_rut_status == 1) {
-                        this.validationsPassed = true
-
-                        window.scrollTo({ top: 0, behavior: 'smooth' })
-                    } else {
-                        this.validationsPassed = false
-                    }
-                })
-                .catch((error) => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                } else {
                     this.validate_rut_status = 0
+                }
 
+                if (this.validate_rut_status == 1) {
+                    this.validationsPassed = true
+
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                } else {
                     this.validationsPassed = false
-                })
+                }
+
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al validar el rut:', error);
+                }
+            }
         },
     },
     async created() {

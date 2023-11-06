@@ -35,8 +35,6 @@
                 </router-link>
             </h2>
 
-            <EmployeeMenu />
-
             <div class="-m-1.5 overflow-x-auto pt-12">
                 <div
                     class="bg-green-500 text-sm text-white rounded-md p-4 mb-10"
@@ -140,13 +138,9 @@
 </template>
 <script>
 import axios from 'axios'
-import EmployeeMenu from '../components/EmployeeMenu.vue'
 import { format } from 'date-fns'
 
 export default {
-    components: {
-        EmployeeMenu,
-    },
     data() {
         return {
             loading: false,
@@ -234,10 +228,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/salary_settlements/edit/' +
-                        this.$route.params.rut +
-                        '/' +
-                        page,
+                    'http://localhost:8000/salary_settlements/all/' + page,
                     {
                         headers: {
                             accept: 'application/json',

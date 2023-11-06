@@ -170,7 +170,9 @@ export default {
     },
     methods: {
         formatDate(date) {
-            return format(new Date(date), 'dd-MM-yyyy')
+            date = date.split(' ')
+            const [year, month, day] = date[0].split('-')
+            return `${day}-${month}-${year}`
         },
         async downloadKardex(id) {
             const accessToken = localStorage.getItem('accessToken')
@@ -226,7 +228,13 @@ export default {
                     },
                 )
 
-                this.kardex_documents = response.data.message
+                if (response.data.message != 0) {
+                    const decodedData = JSON.parse(response.data.message)
+
+                    console.log(decodedData)
+
+                    this.kardex_documents = decodedData
+                }
 
                 this.loading = false
             } catch (error) {
@@ -266,6 +274,10 @@ export default {
                 )
 
                 this.getKardexData()
+
+                location.reload();
+
+                this.loading = false
             } catch (error) {
                 console.error('Error al borrar el documento de kardex:', error)
             }

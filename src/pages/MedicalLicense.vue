@@ -222,7 +222,7 @@
                 </div>
             </div>
         </div>
-        <div class="text-center mt-10">
+        <div class="text-center mt-10" v-if="totalItems > 0">
             <vue-awesome-paginate
                 :total-items="totalItems"
                 :items-per-page="itemsPerPage"
@@ -337,13 +337,17 @@ export default {
                         },
                     },
                 )
+  
+                if (response.data.message != 'Invalid page number') {
+                    const decodedData = JSON.parse(response.data.message)
 
-                const decodedData = JSON.parse(response.data.message)
-
-                this.medical_licenses = decodedData.data
-                this.totalItems = decodedData.total_items
-                this.itemsPerPage = decodedData.items_per_page
-
+                    this.medical_licenses = decodedData.data
+                    this.totalItems = decodedData.total_items
+                    this.itemsPerPage = decodedData.items_per_page
+                } else {
+                    this.totalItems = 0
+                }
+                
                 this.loading = false
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {

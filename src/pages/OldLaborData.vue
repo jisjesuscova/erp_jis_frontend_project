@@ -16,7 +16,7 @@
                 Datos de Contrato
             </h2>
 
-            <EmployeeMenu />
+            <OldEmployeeMenu />
 
             <div class="mt-10">
 
@@ -169,7 +169,7 @@
                                         type="date"
                                         id="entrance_health_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="Fecha de Nacimiento"
+                                        placeholder="Fecha de Entrada a Salud"
                                         v-model="entrance_health_input"
                                         required
                                         />
@@ -263,9 +263,6 @@
                 
                 <h2 class="text-4xl dark:text-white pb-10">
                     Contratos
-                    <router-link href="javascript:;" :to="`/create_contract/${this.$route.params.rut}`" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-                        Agregar
-                    </router-link>
                 </h2>
 
                 <div class="p-1.5 min-w-full inline-block align-middle">
@@ -274,13 +271,14 @@
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-gray-700">
                                     <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Id</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estatus</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
                                     </tr>
                                 </thead>
                                 <tbody
                                     class="divide-y divide-gray-200 dark:divide-gray-700"
+                                    v-if="employee_contracts != 'No data found'"
                                 >
                                     <tr
                                         v-for="employee_contract in employee_contracts"
@@ -289,7 +287,7 @@
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ formatDate(employee_contract.added_date) }}
+                                            {{ employee_contract.id }}
                                         </td>
                                         <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
@@ -331,37 +329,6 @@
                                             >
                                                 <i
                                                     class="fa-solid fa-arrow-down"
-                                                ></i>
-                                            </button>
-                                            <router-link
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                                href="javascript:;"
-                                                v-if="employee_contract.status_id == 3"
-                                                :to="`/upload_employee_contract/${employee_contract.rut}/${employee_contract.id}`"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-arrow-up"
-                                                ></i>
-                                            </router-link>
-                                            <button
-                                                type="button"
-                                                @click="
-                                                    generateContract()
-                                                "
-                                                v-if="employee_contract.status_id == 3"
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                            >
-                                                <i class="fa-solid fa-file"></i>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                @click="
-                                                     confirmContract(employee_contract.id)
-                                                "
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-trash"
                                                 ></i>
                                             </button>
                                         </td>
@@ -376,9 +343,6 @@
 
                 <h2 class="text-4xl dark:text-white pb-10">
                     Finiquitos
-                    <router-link href="javascript:;" :to="`/create_end_document/${this.$route.params.rut}`" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-                        Agregar
-                    </router-link>
                 </h2>
 
                 <div class="p-1.5 min-w-full inline-block align-middle">
@@ -387,12 +351,14 @@
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-gray-700">
                                     <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha del Finiquito</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Id</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estatus</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
                                     </tr>
                                 </thead>
                                 <tbody
                                     class="divide-y divide-gray-200 dark:divide-gray-700"
+                                    v-if="end_documents != 'No data found'"
                                 >
                                     <tr
                                         v-for="end_document in end_documents"
@@ -401,7 +367,7 @@
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ end_document.exit_company }}
+                                            {{ end_document.id }}
                                         </td>
                                         <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
@@ -427,54 +393,14 @@
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                                         >
                                             <button
-                                                v-if="
-                                                    end_document.support !=
-                                                        '' &&
-                                                        end_document.support !=
-                                                        null
-                                                "
                                                 type="button"
                                                 @click="
-                                                    downloadEmployeeContract(
-                                                        employee_contract.id,
-                                                    )
-                                                "
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-arrow-down"
-                                                ></i>
-                                            </button>
-                                            <router-link
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                                href="javascript:;"
-                                                v-if="end_document.status_id == 3"
-                                                :to="`/upload_employee_contract/${end_document.rut}/${end_document.id}`"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-arrow-up"
-                                                ></i>
-                                            </router-link>
-                                            <button
-                                                type="button"
-                                                @click="
-                                                    generateContract()
+                                                    generateEndDocument()
                                                 "
                                                 v-if="end_document.status_id == 3"
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                             >
                                                 <i class="fa-solid fa-file"></i>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                @click="
-                                                     confirmContract(end_document.id)
-                                                "
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-trash"
-                                                ></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -489,12 +415,12 @@
 </template>
 <script>
 import axios from 'axios';
-import EmployeeMenu from '../components/EmployeeMenu.vue';
+import OldEmployeeMenu from '../components/OldEmployeeMenu.vue';
 import { format } from 'date-fns'
 
 export default {
     components: {
-        EmployeeMenu
+        OldEmployeeMenu
     },
     data() {
         return {
@@ -648,19 +574,19 @@ export default {
         },
         async generateContract() {
             const logo = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/assets/images/logo.png',
+                'https://erpjis.com/assets/logo-18c151a6.png',
             )
 
             const company_signature = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/assets/images/signature.png',
+                'https://erpjis.com/assets/signature.png',
             )
 
             const schedule = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/assets/images/schedule.jpg',
+                'https://erpjis.com/assets/schedule.jpg',
             )
 
             const bonuses = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/assets/images/bonuses.png',
+                'https://erpjis.com/assets/bonuses.png',
             )
 
             const original_date = new Date(this.employee_labor_data.EmployeeLaborDatumModel.entrance_company);
@@ -2237,6 +2163,108 @@ export default {
                 pdfMake.createPdf(docDefinition).download('contrato.pdf')
             }
         },
+        async generateEndDocument() {
+            const logo = await this.getBase64ImageFromURL(
+                'http://localhost:5173/src/assets/images/logo.png',
+            )
+
+            const company_signature = await this.getBase64ImageFromURL(
+                'http://localhost:5173/src/assets/images/signature.png',
+            )
+
+            const schedule = await this.getBase64ImageFromURL(
+                'http://localhost:5173/src/assets/images/schedule.jpg',
+            )
+
+            const original_date = new Date(this.employee_labor_data.EmployeeLaborDatumModel.exit_company);
+
+            const current_date =
+                'Santiago, ' + this.formatDateToCustomFormat(new Date(original_date))
+
+            const short_current_date =
+                 this.formatDateToCustomFormat(new Date(original_date))
+
+                const docDefinition = {
+                    content: [
+                        {
+                            image: logo,
+                            width: 50,
+                            alignment: 'left',
+                            margin: [0, 0, 0, 10],
+                        },
+                        {
+                            text: 'FINIQUITO',
+                            bold: true,
+                            alignment: 'center',
+                            fontSize: 10,
+                            margin: [0, 30, 0, 20],
+                        },
+                        {
+                            text: current_date,
+                            bold: true,
+                            alignment: 'right',
+                            fontSize: 9,
+                            margin: [0, 10, 0, 50],
+                        },
+                        {
+                            text: ['En Estación Central,',
+                                { text: ' ' + current_date + ' ', bold: true },
+                            ],
+                            fontSize: 9,
+                            alignment: 'justify',
+                            margin: [0, 0, 0, 40],
+                            lineHeight: 1.5,
+                        },
+                        {
+                            table: {
+                                widths: ['*', '*'],
+                                body: [
+                                        [
+                                            {
+                                                image: company_signature,
+                                                width: 80,
+                                                alignment: 'center',
+                                                margin: [0, 20, 0, 0],
+                                            },
+                                            {
+                                                text: '',
+                                                width: 100,
+                                                alignment: 'center',
+                                                margin: [0, -10, 0, 0],
+                                            },
+                                        ],
+                                        [
+                                            {
+                                                text: 'RUT: 76063822-6',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -30, 0, 0],
+                                            },
+                                            {
+                                                text: 'RUT: ' + this.employee_personal_data.visual_rut ,
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -30, 0, 0],
+                                            },
+                                        ],
+                                    ],
+                                },
+                            
+                            layout: 'noBorders',
+                        },
+                    ],
+                    pageMargins: [80, 40, 80, 70],
+                    styles: {
+                        defaultStyle: {
+                            font: 'Helvetica',
+                        },
+                    },
+                }
+
+            pdfMake.createPdf(docDefinition).download('contrato.pdf')
+        },
         async confirmContract(id) {
             const shouldDelete = window.confirm(
                 '¿Estás seguro de que deseas borrar el contrato?',
@@ -2308,6 +2336,8 @@ export default {
                 apv_payment_type_id: this.apv_payment_type_input,
                 apv_amount: this.apv_amount_input,
             };  
+
+            console.log(dataToSend)
             try {
                 
                 const response = await axios.patch('https://apijis.com/employee_labor_data/update/'+ this.$route.params.rut, dataToSend, {
@@ -2332,52 +2362,57 @@ export default {
         async getEmployeeLaborData() {
           const accessToken = localStorage.getItem('accessToken');
             try {
-                const response = await axios.get('https://apijis.com/employee_labor_data/edit/'+ this.$route.params.rut,  {
-                        headers: {
-                        accept: 'application/json',
-                        Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
-                        },
+                const response = await axios.get('https://apijis.com/old_employee_labor_data/edit/'+ this.$route.params.rut, {
+                    headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                    },
                 });
-                if(response?.data?.message != undefined || response?.data?.message != null) {
-                    this.contract_type_input    = response.data.message.EmployeeLaborDatumModel.contract_type_id;
-                    this.branch_office_input  = response.data.message.EmployeeLaborDatumModel.branch_office_id;
-                    this.address_input      = response.data.message.EmployeeLaborDatumModel.address;
-                    this.region_input   = response.data.message.EmployeeLaborDatumModel.region_id;
-                    this.civil_state_input      = response.data.message.EmployeeLaborDatumModel.civil_state_id;
-                    this.health_input   = response.data.message.EmployeeLaborDatumModel.health_id;
-                    this.pention_input   = response.data.message.EmployeeLaborDatumModel.pention_id;
-                    this.job_position_input     = response.data.message.EmployeeLaborDatumModel.job_position_id;
-                    this.employee_type_input    = response.data.message.EmployeeLaborDatumModel.employee_type_id;
-                    this.regime_input   = response.data.message.EmployeeLaborDatumModel.regime_id;
-                    this.entrance_company_input = response.data.message.EmployeeLaborDatumModel.entrance_company;
-                    this.entrance_pention_input     = response.data.message.EmployeeLaborDatumModel.entrance_pention;
-                    this.entrance_health_input      = response.data.message.EmployeeLaborDatumModel.entrance_health;
-                    this.salary_input   = response.data.message.EmployeeLaborDatumModel.salary;
-                    this.collation_input    = response.data.message.EmployeeLaborDatumModel.collation;
-                    this.locomotion_input   = response.data.message.EmployeeLaborDatumModel.locomotion;
-                    this.extra_health_amount_input      = response.data.message.EmployeeLaborDatumModel.extra_health_amount;
-                    this.extra_health_payment_type_input    = response.data.message.EmployeeLaborDatumModel.extra_health_payment_type_id;
-                    this.apv_payment_type_input     = response.data.message.EmployeeLaborDatumModel.apv_payment_type_id;
-                    this.apv_amount_input   = response.data.message.EmployeeLaborDatumModel.apv_amount;
-                    this.getCommunes();
-                    this.commune_input = response.data.message.EmployeeLaborDatumModel.commune_id;
+
+                const decodedData = JSON.parse(response.data.message)
+                console.log(response.data.message)
+                this.employee_labor_data = decodedData
+
+                this.contract_type_input    = decodedData.EmployeeLaborDatumModel.contract_type_id;
+                this.branch_office_input  = decodedData.EmployeeLaborDatumModel.branch_office_id;
+                this.address_input      = decodedData.EmployeeLaborDatumModel.address;
+                this.region_input   = decodedData.EmployeeLaborDatumModel.region_id;
+                this.civil_state_input      = decodedData.EmployeeLaborDatumModel.civil_state_id;
+                this.health_input   = decodedData.EmployeeLaborDatumModel.health_id;
+                this.pention_input   = decodedData.EmployeeLaborDatumModel.pention_id;
+                this.job_position_input     = decodedData.EmployeeLaborDatumModel.job_position_id;
+                this.employee_type_input    = decodedData.EmployeeLaborDatumModel.employee_type_id;
+                this.regime_input   = decodedData.EmployeeLaborDatumModel.regime_id;
+                this.entrance_company_input = decodedData.EmployeeLaborDatumModel.entrance_company;
+                this.entrance_pention_input     = decodedData.EmployeeLaborDatumModel.entrance_pention;
+                this.entrance_health_input      = decodedData.EmployeeLaborDatumModel.entrance_health;
+                this.salary_input   = decodedData.EmployeeLaborDatumModel.salary;
+                this.collation_input    = decodedData.EmployeeLaborDatumModel.collation;
+                this.locomotion_input   = decodedData.EmployeeLaborDatumModel.locomotion;
+                this.extra_health_amount_input      = decodedData.EmployeeLaborDatumModel.extra_health_amount;
+                this.extra_health_payment_type_input    = decodedData.EmployeeLaborDatumModel.extra_health_payment_type_id;
+                this.apv_payment_type_input     = decodedData.EmployeeLaborDatumModel.apv_payment_type_id;
+                this.apv_amount_input   = decodedData.EmployeeLaborDatumModel.apv_amount;
+                this.getCommunes();
+                this.commune_input = decodedData.EmployeeLaborDatumModel.commune_id;
+
+
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener los datos laborales:', error);
                 }
             }
 
-            catch (error) {
-                    if (error.message == "Request failed with status code 401") {
-                        localStorage.removeItem('accessToken');
-                        window.location.reload();
-                    } else {
-                        console.error('Error al obtener los datos laborales del empleado:', error);
-                    }
-                }
+            
         },
         async getPentions() {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/pentions', {
+                const response = await axios.get('https://apijis.com/pentions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2428,7 +2463,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/healths', {
+                const response = await axios.get('https://apijis.com/healths/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2451,7 +2486,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/regimes', {
+                const response = await axios.get('https://apijis.com/regimes/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2474,7 +2509,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/job_positions', {
+                const response = await axios.get('https://apijis.com/job_positions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2497,7 +2532,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/employee_types', {
+                const response = await axios.get('https://apijis.com/employee_types/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2520,7 +2555,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/contract_types', {
+                const response = await axios.get('https://apijis.com/contract_types/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2543,7 +2578,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/branch_offices', {
+                const response = await axios.get('https://apijis.com/branch_offices/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2588,7 +2623,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/regions', {
+                const response = await axios.get('https://apijis.com/regions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2611,7 +2646,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/civil_states', {
+                const response = await axios.get('https://apijis.com/civil_states/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2641,7 +2676,9 @@ export default {
                     },
                 });
 
-                this.employee_contracts = response.data.message;
+                const decodedData = JSON.parse(response.data.message)
+                console.log(response.data.message)
+                this.employee_contracts = decodedData;
 
                 this.loading_11 = false;
             } catch (error) {
@@ -2684,36 +2721,6 @@ export default {
                 }
             }
         },
-        async getLaborDataEmployee() {
-            const accessToken = localStorage.getItem('accessToken')
-
-            try {
-                const response = await axios.get(
-                    'https://apijis.com/employee_labor_data/edit/' +
-                        this.$route.params.rut,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    }
-                )
-                console.log(response.data.message)
-                this.employee_labor_data = response.data.message
-
-                this.loading_13 = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error(
-                        'Error al obtener la lista de datos laborales:',
-                        error
-                    )
-                }
-            }
-        },
         async getEndDocuments() {
             const accessToken = localStorage.getItem('accessToken');
 
@@ -2725,15 +2732,21 @@ export default {
                     },
                 });
 
-                this.end_documents = response.data.message;
+                if (response.data.message != 0) {
+                    const decodedData = JSON.parse(response.data.message)
+                    console.log(response.data.message)
+                    this.end_documents = decodedData;
+                } else {
+                    this.end_documents = ''
+                }
 
-                this.loading_14 = false;
+                this.loading_13 = false;
             } catch (error) {
                 if (error.message == "Request failed with status code 401") {
                     localStorage.removeItem('accessToken');
                     window.location.reload();
                 } else {
-                    console.error('Error al obtener la lista de isapres:', error);
+                    console.error('Error al obtener los contratos del empleado:', error);
                 }
             }
         },
@@ -2748,7 +2761,7 @@ export default {
 
             this.created_employee_contract = ''
         }
-
+   
         await this.getEmployeeLaborData();
         await this.getContractTypes();
         await this.getBranchOffices();
@@ -2761,7 +2774,6 @@ export default {
         await this.getPentions();
         await this.getEmployeeContracts();
         await this.getPersonalDataEmployee();
-        await this.getLaborDataEmployee();
         await this.getExpirations();
         await this.getEndDocuments();
 
@@ -2778,7 +2790,7 @@ export default {
         && this.loading_11 == false 
         && this.loading_12 == false
         && this.loading_13 == false
-        && this.loading_14 == false) {
+        ) {
             this.loading = false;
         }
     },

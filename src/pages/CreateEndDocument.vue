@@ -535,18 +535,28 @@ export default {
                 },
             )
             this.employee_extra_data = responseExtras.data.message
-
-            const responseLaborData = await axios.get(
-                'https://apijis.com/employee_labor_data/edit/' +
-                    this.$route.params.rut,
-                {
+        },
+        async getEmployeeLaborData() {
+          const accessToken = localStorage.getItem('accessToken');
+            try {
+                const response = await axios.get('https://apijis.com/employee_labor_data/edit/'+ this.$route.params.rut, {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        accept: 'application/json',
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
                     },
-                },
-            )
-            this.employee_labor_data = responseLaborData.data.message
+                });
+
+                const decodedData = JSON.parse(response.data.message)
+                this.employee_labor_data = decodedData.EmployeeLaborDatumModel
+
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener los datos laborales:', error);
+                }
+            }
         },
         async createEndDocument() {
             const accessToken = localStorage.getItem('accessToken')
@@ -783,6 +793,12 @@ export default {
                     this.loading_6 == false &&
                     this.loading_7 == false
                 ) {
+                    this.storeEndDocument();
+
+                    localStorage.setItem('created_end_document', 1)
+                    this.$router.push(
+                        '/old_labor_data/' + this.$route.params.rut,
+                    )
                     this.loading = false
                 }
             } catch (error) {
@@ -796,6 +812,32 @@ export default {
                 this.loading = false
                 console.log(error)
             }
+        },
+        storeEndDocument() {
+            const dataToSend = {
+                rut: this.$route.params.rut,
+                status_id: 3,
+                document_type_id: 22,
+            }
+
+            const accessToken = localStorage.getItem('accessToken')
+
+            axios
+                .post('https://apijis.com/documents_employees/store', dataToSend, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        accept: 'application/json',
+                    },
+                })
+                .then((response) => {
+                    console.log(response)
+
+                    localStorage.setItem('created_end_document', 1)
+                })
+                .catch((error) => {
+                    console.error(error)
+                    this.loading = false
+                })
         },
         async getCausals() {
             const accessToken = localStorage.getItem('accessToken')
@@ -1011,6 +1053,7 @@ export default {
         await this.getLegalAndTaken()
         await this.getProgressiveLegalAndTaken()
         await this.getEmployee()
+        await this.getEmployeeLaborData()
 
         if (
             this.loading_1 == false &&

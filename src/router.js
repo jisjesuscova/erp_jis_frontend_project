@@ -23,7 +23,7 @@ import Home from './pages/Home.vue'
 import Honorary from './pages/Honorary.vue'
 import KardexDocument from './pages/KardexDocument.vue'
 import LaborData from './pages/LaborData.vue'
-// import OldLaborData from './pages/OldLaborData.vue'
+import OldLaborData from './pages/OldLaborData.vue'
 import MedicalLicense from './pages/MedicalLicense.vue'
 import Nationality from './pages/Nationality.vue'
 import Pention from './pages/Pention.vue'
@@ -39,6 +39,7 @@ import UploadVacation from './components/UploadVacation.vue'
 import Vacation from './pages/Vacation.vue'
 import Alert from './pages/Alert.vue'
 import UploadEmployeeContract from './pages/UploadEmployeeContract.vue'
+import GeneralSalarySettlement from './pages/GeneralSalarySettlement.vue'
 
 const routes = [
     {
@@ -88,6 +89,10 @@ const routes = [
     {
         path:'/labor_data/:rut',
         component: LaborData
+    },
+    {
+        path:'/old_labor_data/:rut',
+        component: OldLaborData
     },
     {
         path:'/family/:rut',
@@ -177,6 +182,10 @@ const routes = [
     {
         path:'/salary_settlement/:rut',
         component: SalarySettlement
+    },
+    {
+        path:'/salary_settlement',
+        component: GeneralSalarySettlement
     },
     {
         path:'/document_management/:rut',

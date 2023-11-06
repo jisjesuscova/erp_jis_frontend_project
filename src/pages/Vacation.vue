@@ -2442,12 +2442,14 @@ export default {
                         },
                     },
                 )
+                
+                if (response.data.message != '' && response.data.message != null && response.data.message != undefined) {
+                    const decodedData = JSON.parse(response.data.message)
 
-                const decodedData = JSON.parse(response.data.message)
-
-                this.vacations = decodedData.data
-                this.totalItems = decodedData.total_items
-                this.itemsPerPage = decodedData.items_per_page
+                    this.vacations = decodedData.data
+                    this.totalItems = decodedData.total_items
+                    this.itemsPerPage = decodedData.items_per_page
+                }
 
                 this.loading_2 = false
             } catch (error) {

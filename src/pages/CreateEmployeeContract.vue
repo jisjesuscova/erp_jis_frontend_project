@@ -623,47 +623,50 @@ export default {
         async getEmployeeLaborData() {
           const accessToken = localStorage.getItem('accessToken');
             try {
-                const response = await axios.get('https://apijis.com/employee_labor_data/edit/'+ this.$route.params.rut,  {
-                        headers: {
-                        accept: 'application/json',
-                        Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
-                        },
+                const response = await axios.get('https://apijis.com/employee_labor_data/edit/'+ this.$route.params.rut, {
+                    headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                    },
                 });
 
-                if(response?.data?.message != undefined || response?.data?.message != null) {
-                    this.contract_type_input    = response.data.message.EmployeeLaborDatumModel.contract_type_id;
-                    this.branch_office_input  = response.data.message.EmployeeLaborDatumModel.branch_office_id;
-                    this.address_input      = response.data.message.EmployeeLaborDatumModel.address;
-                    this.region_input   = response.data.message.EmployeeLaborDatumModel.region_id;
-                    this.civil_state_input      = response.data.message.EmployeeLaborDatumModel.civil_state_id;
-                    this.health_input   = response.data.message.EmployeeLaborDatumModel.health_id;
-                    this.pention_input   = response.data.message.EmployeeLaborDatumModel.pention_id;
-                    this.job_position_input     = response.data.message.EmployeeLaborDatumModel.job_position_id;
-                    this.employee_type_input    = response.data.message.EmployeeLaborDatumModel.employee_type_id;
-                    this.regime_input   = response.data.message.EmployeeLaborDatumModel.regime_id;
-                    this.entrance_company_input = response.data.message.EmployeeLaborDatumModel.entrance_company;
-                    this.entrance_pention_input     = response.data.message.EmployeeLaborDatumModel.entrance_pention;
-                    this.entrance_health_input      = response.data.message.EmployeeLaborDatumModel.entrance_health;
-                    this.salary_input   = response.data.message.EmployeeLaborDatumModel.salary;
-                    this.collation_input    = response.data.message.EmployeeLaborDatumModel.collation;
-                    this.locomotion_input   = response.data.message.EmployeeLaborDatumModel.locomotion;
-                    this.extra_health_amount_input      = response.data.message.EmployeeLaborDatumModel.extra_health_amount;
-                    this.extra_health_payment_type_input    = response.data.message.EmployeeLaborDatumModel.extra_health_payment_type_id;
-                    this.apv_payment_type_input     = response.data.message.EmployeeLaborDatumModel.apv_payment_type_id;
-                    this.apv_amount_input   = response.data.message.EmployeeLaborDatumModel.apv_amount;
-                    this.getCommunes();
-                    this.commune_input = response.data.message.EmployeeLaborDatumModel.commune_id;
+                const decodedData = JSON.parse(response.data.message)
+
+                console.log(decodedData.EmployeeLaborDatumModel)
+                this.contract_type_input    = decodedData.EmployeeLaborDatumModel.contract_type_id;
+                this.branch_office_input  = decodedData.EmployeeLaborDatumModel.branch_office_id;
+                this.address_input      = decodedData.EmployeeLaborDatumModel.address;
+                this.region_input   = decodedData.EmployeeLaborDatumModel.region_id;
+                this.civil_state_input      = decodedData.EmployeeLaborDatumModel.civil_state_id;
+                this.health_input   = decodedData.EmployeeLaborDatumModel.health_id;
+                this.pention_input   = decodedData.EmployeeLaborDatumModel.pention_id;
+                this.job_position_input     = decodedData.EmployeeLaborDatumModel.job_position_id;
+                this.employee_type_input    = decodedData.EmployeeLaborDatumModel.employee_type_id;
+                this.regime_input   = decodedData.EmployeeLaborDatumModel.regime_id;
+                this.entrance_company_input = decodedData.EmployeeLaborDatumModel.entrance_company;
+                this.entrance_pention_input     = decodedData.EmployeeLaborDatumModel.entrance_pention;
+                this.entrance_health_input      = decodedData.EmployeeLaborDatumModel.entrance_health;
+                this.salary_input   = decodedData.EmployeeLaborDatumModel.salary;
+                this.collation_input    = decodedData.EmployeeLaborDatumModel.collation;
+                this.locomotion_input   = decodedData.EmployeeLaborDatumModel.locomotion;
+                this.extra_health_amount_input      = decodedData.EmployeeLaborDatumModel.extra_health_amount;
+                this.extra_health_payment_type_input    = decodedData.EmployeeLaborDatumModel.extra_health_payment_type_id;
+                this.apv_payment_type_input     = decodedData.EmployeeLaborDatumModel.apv_payment_type_id;
+                this.apv_amount_input   = decodedData.EmployeeLaborDatumModel.apv_amount;
+                this.getCommunes();
+                this.commune_input = decodedData.EmployeeLaborDatumModel.commune_id;
+
+
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener la lista de pensiones:', error);
                 }
             }
 
-            catch (error) {
-                    if (error.message == "Request failed with status code 401") {
-                        localStorage.removeItem('accessToken');
-                        window.location.reload();
-                    } else {
-                        console.error('Error al obtener los datos laborales del empleado:', error);
-                    }
-                }
+            
         },
         async getPentions() {
             const accessToken = localStorage.getItem('accessToken')
