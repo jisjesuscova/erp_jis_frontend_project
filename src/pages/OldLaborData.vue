@@ -481,6 +481,7 @@ export default {
             employee_contract_document: '',
             error_employee_contract_document: 0,
             pention_name: '',
+            causals: '',
         };
     },
     methods: {
@@ -2177,12 +2178,17 @@ export default {
             )
 
             const original_date = new Date(this.employee_labor_data.EmployeeLaborDatumModel.exit_company);
+            const entrance_date = new Date(this.employee_labor_data.EmployeeLaborDatumModel.entrance_company);
 
             const current_date =
                 'Santiago, ' + this.formatDateToCustomFormat(new Date(original_date))
 
-            const short_current_date =
-                 this.formatDateToCustomFormat(new Date(original_date))
+            const short_entrance_company =
+                 this.formatDateToCustomFormat(new Date(entrance_date))
+
+            const short_exit_company =
+                this.formatDateToCustomFormat(new Date(original_date))
+                 
 
                 const docDefinition = {
                     content: [
@@ -2206,6 +2212,75 @@ export default {
                             fontSize: 9,
                             margin: [0, 10, 0, 50],
                         },
+                           {text: ['En Santiago',
+                        { text: ' '+ current_date + ' ', bold: true},
+                        'entre',
+                        { text: ' '+'JIS PARKING SPA RUT: 76063822-6' + ' ', bold:true},
+                        'con domicilio en MATUCANA 40 Estacion Central en adelante tambien "LA EMPRESA" por una parte, y la otra don (a)',
+                        { text: ' ' + this.employee_personal_data.names + ' ' + this.employee_personal_data.father_lastname + ' ' + this.employee_personal_data.mother_lastname + ' ' , bold: true },
+                        'en adelante, también, \"EL TRABAJADOR(a)\" se deja testimonio y se ha acordado el finiquito que consta de las siguientes cláusulas:',
+                        '\n\n',
+                        { text: ' '+ 'PRIMERO:' + ' ', bold:true},
+                        'Sr(a)',
+                        { text: ' ' + this.employee_personal_data.names + ' ' + this.employee_personal_data.father_lastname + ' ' + this.employee_personal_data.mother_lastname + ' ' , bold: true },
+                        'Declara haberle prestado servicio en calidad de',
+                        { text: ' ' + this.employee_labor_data.JobPositionModel.job_position},
+                        ',a',
+                        { text: ' '+'JIS PARKING SPA ' + ' ', bold:true},
+                        'desde el',
+                        { text: ' ' + short_entrance_company + ' ', bold:true},
+                        'hasta el ',
+                        { text: ' ' + short_exit_company + ' ', bold:true},
+                        ', Fecha de terminación de sus servicios por la siguiente causal,',
+                        { text: ' ' + this.employee_labor_data.causal + ' ', bold:true},
+                        'del código del Trabajo.',
+                        '\n\n',
+                        { text: ' '+ 'SEGUNDO:' + ' ', bold:true},
+                        'Sr(a)',
+                        { text: ' ' + this.employee_personal_data.names + ' ' + this.employee_personal_data.father_lastname + ' ' + this.employee_personal_data.mother_lastname + ' ' , bold: true },
+                        ', Declara recibir en este acto, a su entera satisfacción, de parte de',
+                        { text: ' '+'JIS PARKING SPA ' + ' ', bold:true},
+                        ', las sumas que a continuación se indica, por los siguientes conceptos:',
+                        '\n\n',
+                        { text: ' '+'Resumen Monto' + ' ', bold:true},
+                        '\n\n',
+                        'Indemnización Años de Servicios               ',
+                        { text: ' '+'$ '+ this.end_documents[0].indemnity_years_service + ' ', bold:true},
+                        '\n',
+                        'Indemnización Sustitutivo Aviso Previo             ',
+                        { text: ' '+'$ '+ this.end_documents[0].substitute_compensation + ' ', bold:true},
+                        '\n',
+                        'Indemnización Voluntaria                  ',
+                        { text: ' '+'$ '+ this.end_documents[0].voluntary_indemnity + ' ', bold:true},
+                        '\n',
+                        'Feriado Proporcional',
+                        { text: ' ('+ this.end_documents[0].fertility_proportional_days + ')', bold:true},
+                        { text: ' '+'$ '+ this.end_documents[0].fertility_proportional + ' ', bold:true},
+                        '\n',
+                        'Total                            ',
+                        { text: ' '+'$ '+ this.end_documents[0].total + ' ', bold:true},
+                        '\n\n',
+                        { text: ' '+ 'TERCERO:' + ' ', bold:true},
+                        'Sr(a)',
+                        { text: ' ' + this.employee_personal_data.names + ' ' + this.employee_personal_data.father_lastname + ' ' + this.employee_personal_data.mother_lastname + ' ' , bold: true },
+                        ', deja constancia que durante todo el tiempo que prestó servicios a la firma',
+                        { text: ' '+'JIS PARKING SPA ' + ' ', bold:true},
+                        ', recibió oportunamente el total de las remuneraciones, beneficios y demás prestaciones convenidas de acuerdo asu contrato de trabajo, clase de trabajo ejecutado y disposiciones legales pertinentes, y que en tal virtud el empleador nada le adeuda por tales conceptos, ni por horas extraordinarias, asignación familiar, feriado, indemnización por años de servicios,imposiciones previsionales, así como por ningún otro concepto, ya sea legal o contra ctual, derivado de la prestación de sus servicios, de su contrato de trabajo o de la terminación del mismo. En consecuencia \"EL TRABAJADOR\" declara que no tiene reclamo alguno que formular en contra de',
+                        { text: ' '+'JIS PARKING SPA ' + ' ', bold:true},
+                        ', renunciando a todas las acciones que pudieran emanar del contrato que los vinculó, y deja expresa constacia que',
+                        { text: ' '+'JIS PARKING SPA ' + ' ', bold:true},
+                        'A nada le adeuda. en relación con los servicios prestados, con el contrato de trabajo o con motivo de la terminación del mismo, por lo que libre y espontáneamente, y con el pleno y cabal conocimiento de sus derechos, otorga a su empleador, el mas amplio, completo, total y definitivo finiquito por los servicios prestados o la terminación de ellos, ya diga relación con remuneraciones, cotizaciones previsionales, de seguridad social o de salud, subsidios, beneficios contractuales adicionales a las remuneraciones, indemnizaciones, compensaciones, o con cualquiera causa o concepto.',
+                        '\n\n',
+                        { text: ' '+ 'CUARTO:' + ' ', bold:true},
+                        ': En conformidad a lo establecido en la Ley 21.389, sobre abandono de familia y pago de pensiones alimenticias, elempleador declara que a la fecha de este finiquito no ha sido notificado por los tribunales de familia, respecto a alguna resoluciónque establezca que el trabajador compareciente mantenga deuda por pensión de alimentos y en consecuencia se ordene a suempleador practicar retención por concepto de deuda por pensión alimenticia, decretadas en conformidad a lo prescrito en losartículos 8,11 de la Ley 14.908 ya referida, motivo por el cuál no se aplican descuentos y retenciones en el presente acto a losconceptos que se pagan por este finiquito al trabajador.',
+
+
+                            ],
+                            fontSize: 9,
+                            alignment: 'justify',
+                            margin: [0, 0, 0, 40],
+                            lineHeight: 1.5,
+                    },
                         {
                             text: ['En Estación Central,',
                                 { text: ' ' + current_date + ' ', bold: true },
@@ -2362,7 +2437,7 @@ export default {
         async getEmployeeLaborData() {
           const accessToken = localStorage.getItem('accessToken');
             try {
-                const response = await axios.get('https://apijis.com/old_employee_labor_data/edit/'+ this.$route.params.rut, {
+                const response = await axios.get('http://localhost:8000/old_employee_labor_data/edit/'+ this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2725,7 +2800,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/end_documents/edit/' + this.$route.params.rut, {
+                const response = await axios.get('http://localhost:8000/end_documents/edit/' + this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2734,11 +2809,20 @@ export default {
 
                 if (response.data.message != 0) {
                     const decodedData = JSON.parse(response.data.message)
-                    console.log(response.data.message)
+                    console.log('end_documents',decodedData)
                     this.end_documents = decodedData;
                 } else {
                     this.end_documents = ''
                 }
+
+                const responseCausals = await axios.get('http://localhost:8000/causals/', {
+                    headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                    },
+                    });
+                    this.causals = responseCausals.data.message.filter(causal => causal.id == 2); 
+                    console.log(this.causals);          
 
                 this.loading_13 = false;
             } catch (error) {

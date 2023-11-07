@@ -567,7 +567,7 @@ export default {
                 this.personal_data_status = 1
 
                 await axios.post(
-                    'https://apijis.com/old_employees/transfer',
+                    'https://apijis.com/old_employees/transfer/',
                     this.employee_data,
                     {
                         headers: {
@@ -612,7 +612,7 @@ export default {
                 this.employee_extras_status = 1
 
                 await axios.post(
-                    'https://apijis.com/old_employee_extras/transfer',
+                    'https://apijis.com/old_employee_extras/transfer/',
                     employeeExtraDataToSend,
                     {
                         headers: {
@@ -793,6 +793,7 @@ export default {
                     this.loading_6 == false &&
                     this.loading_7 == false
                 ) {
+                    this.storeDocumentEmployee();
                     this.storeEndDocument();
 
                     localStorage.setItem('created_end_document', 1)
@@ -813,7 +814,37 @@ export default {
                 console.log(error)
             }
         },
+
         storeEndDocument() {
+            const dataToSend = {
+                rut: this.$route.params.rut,
+                document_type_id: 22,
+                causal_id :this.causal_input,
+                fertility_proportional_days: this.fertility_proportional_days_input,
+                voluntary_indemnity: this.voluntary_compensation_input,
+                indemnity_years_service: this.indemnity_year_input,
+                substitute_compensation: this.substitute_compensation_input,
+                fertility_proportional:this.fertility_proportional_input,
+                total: this.total_input
+            }
+            const accessToken = localStorage.getItem('accessToken')
+             axios.post('http://localhost:8000/end_documents/store/', dataToSend, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        accept: 'application/json',
+                    },
+                })  
+                .then((response) => {
+                    console.log(response)
+
+                    localStorage.setItem('endDocument', 1)
+                })
+                .catch((error) => {
+                    console.error(error)
+                    this.loading = false
+                })
+        },
+        storeDocumentEmployee() {
             const dataToSend = {
                 rut: this.$route.params.rut,
                 status_id: 3,
@@ -823,7 +854,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .post('https://apijis.com/documents_employees/store', dataToSend, {
+                .post('https://apijis.com/documents_employees/store/', dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
