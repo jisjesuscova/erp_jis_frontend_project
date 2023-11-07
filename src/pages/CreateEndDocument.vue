@@ -328,7 +328,7 @@
                                     >Dias</label
                                 >
                                 <input
-                                    v-model="fertility_proportional_days_input"
+                                    v-model="fertility_proportional_total_input"
                                     type="number"
                                     class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required
@@ -457,6 +457,7 @@ export default {
             voluntary_compensation_input: 0,
             substitute_compensation_input: 0,
             fertility_proportional_input: 0,
+            fertility_proportional_total_input:0,
             fertility_proportional_days_input: 0,
             number_holidays_input: 0,
             total_input: 0,
@@ -838,6 +839,7 @@ export default {
                     this.loading_6 == false &&
                     this.loading_7 == false
                 ) {
+                    
                     this.storeEndDocument();
 
                     localStorage.setItem('created_end_document', 1)
@@ -861,26 +863,31 @@ export default {
         storeEndDocument() {
             const dataToSend = {
                 rut: this.$route.params.rut,
-                status_id: 3,
                 document_type_id: 22,
+                causal_id :this.causal_input,
+                fertility_proportional_days: this.fertility_proportional_days_input,
+                voluntary_indemnity: this.voluntary_compensation_input,
+                indemnity_years_service: this.indemnity_year_input,
+                substitute_compensation: this.substitute_compensation_input,
+                fertility_proportional:this.fertility_proportional_input,
+                total: this.total_input,
+                status_id: 3,
             }
-
+            console.log('dataToSend',dataToSend);
             const accessToken = localStorage.getItem('accessToken')
-
-            axios
-                .post('https://apijis.com/documents_employees/store', dataToSend, {
+             axios.post('http://localhost:8000/end_documents/store/', dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
                     },
-                })
+                })  
                 .then((response) => {
-                    console.log(response)
+                    console.log('responseEnddocumnet',response)
 
-                    localStorage.setItem('created_end_document', 1)
+                    localStorage.setItem('endDocument', 1)
                 })
                 .catch((error) => {
-                    console.error(error)
+                    console.error('responseEnddocumnet',error)
                     this.loading = false
                 })
         },
@@ -1022,7 +1029,8 @@ export default {
                 this.total_input =
                     this.indemnity_year_input +
                     this.substitute_compensation_input +
-                    this.fertility_proportional_input
+                    this.fertility_proportional_input +
+                    this.voluntary_compensation_input
                 this.loading = false
             } catch (error) {
                 console.log(error)
@@ -1052,7 +1060,8 @@ export default {
                 this.total_input =
                     this.indemnity_year_input +
                     this.substitute_compensation_input +
-                    this.fertility_proportional_input
+                    this.fertility_proportional_input +
+                    this.voluntary_compensation_input
                 this.loading = false
             } catch (error) {
                 console.log(error)
@@ -1066,7 +1075,7 @@ export default {
                 const dataToSend = {
                     rut: this.$route.params.rut,
                     exit_company: this.exit_company_input,
-                    balance: 10,
+                    balance: this.vacations_input,
                     number_holidays: this.number_holidays_input,
                 }
                 const accessToken = localStorage.getItem('accessToken')
@@ -1082,10 +1091,13 @@ export default {
                     },
                 )
                 this.fertility_proportional_input = response.data.message
+                this.fertility_proportional_total_input = response.data.total
+                
                 this.total_input =
                     this.indemnity_year_input +
                     this.substitute_compensation_input +
-                    this.fertility_proportional_input
+                    this.fertility_proportional_input +
+                    this.voluntary_compensation_input
                 this.loading = false
             } catch (error) {
                 console.log(error)
