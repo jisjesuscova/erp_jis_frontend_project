@@ -339,6 +339,8 @@ export default {
                     },
                 )
 
+                console.log(response)
+
                 this.employees = response.data.message.data
                 this.totalItems = response.data.message.total_items
                 this.itemsPerPage = response.data.message.items_per_page

@@ -547,7 +547,7 @@ export default {
         },
         async generateContract() {
             const logo = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/logo-18c151a6.png',
+                'https://erpjis.com/assets/logo.png',
             )
 
             const company_signature = await this.getBase64ImageFromURL(
@@ -816,7 +816,7 @@ export default {
                             image: logo,
                             width: 50,
                             alignment: 'left',
-                            margin: [0, 0, 0, 10],
+                            margin: [0, 50, 0, 20],
                         },
                         {
                             text: 'ANEXO TURNOS JORNADA',
@@ -1592,7 +1592,7 @@ export default {
                             image: logo,
                             width: 50,
                             alignment: 'left',
-                            margin: [0, 0, 0, 10],
+                            margin: [0, 50, 0, 20],
                         },
                         {
                             text: 'ANEXO TURNOS JORNADA',

@@ -40,6 +40,7 @@ import Vacation from './pages/Vacation.vue'
 import Alert from './pages/Alert.vue'
 import UploadEmployeeContract from './pages/UploadEmployeeContract.vue'
 import GeneralSalarySettlement from './pages/GeneralSalarySettlement.vue'
+import CreateSalarySettlement from './pages/CreateSalarySettlement.vue'
 
 const routes = [
     {
@@ -218,6 +219,10 @@ const routes = [
     {
         path:'/upload_employee_contract/:rut/:id',
         component: UploadEmployeeContract
+    },
+    {
+        path:'/create_salary_settlement',
+        component: CreateSalarySettlement
     },
 ]
 

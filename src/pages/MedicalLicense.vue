@@ -384,6 +384,7 @@ export default {
 
                 this.getMedicalLicenses()
             } catch (error) {
+                window.location.reload()
                 console.error('Error al borrar la licencia médica:', error)
             }
         },

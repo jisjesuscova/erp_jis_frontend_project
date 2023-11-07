@@ -246,6 +246,7 @@ export default {
 
                 this.loading = false
             } catch (error) {
+                window.location.reload()
                 console.error('Error al borrar el familiar:', error)
             }
         },

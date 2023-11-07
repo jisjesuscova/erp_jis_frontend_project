@@ -195,7 +195,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/salary_settlements/download/' + id,
+                    'https://erpjis.com/salary_settlements/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',

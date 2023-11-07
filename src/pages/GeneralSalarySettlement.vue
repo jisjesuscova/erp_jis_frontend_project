@@ -28,7 +28,7 @@
                 <router-link
                     v-if="rol_id == 4"
                     href="javascript:;"
-                    :to="`/create_salary_settlement_employee/${this.$route.params.rut}`"
+                    :to="`/create_salary_settlement`"
                     class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                 >
                     Agregar
@@ -71,6 +71,12 @@
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
+                                            Trabajador
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
                                             Periodo
                                         </th>
                                         <th
@@ -90,6 +96,11 @@
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                                         >
                                             {{ salary_settlement.id }}
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            {{ salary_settlement.names }} {{ salary_settlement.father_lastname }} {{ salary_settlement.mother_lastname }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
@@ -189,7 +200,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/salary_settlements/download/' + id,
+                    'https://erpjis.com/salary_settlements/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -228,7 +239,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/salary_settlements/all/' + page,
+                    'https://erpjis.com/salary_settlements/all/' + page,
                     {
                         headers: {
                             accept: 'application/json',

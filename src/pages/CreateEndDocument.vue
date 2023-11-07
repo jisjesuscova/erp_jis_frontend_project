@@ -623,49 +623,94 @@ export default {
                 )
 
                 if (
-                    this.employee_labor_data.pention_id != 'null' ||
-                    this.employee_labor_data.pention_id != '' ||
-                    this.employee_labor_data.pention_id != undefined
+                    this.employee_labor_data.pention_id != 'null' &&
+                    this.employee_labor_data.pention_id != '' &&
+                    this.employee_labor_data.pention_id != undefined &&
+                    this.employee_labor_data.pention_id != null
                 ) {
                     this.pention_id = this.employee_labor_data.pention_id
-                } else if (
-                    this.employee_labor_data.entrance_pention != 'null' ||
-                    this.employee_labor_data.entrance_pention != '' ||
-                    this.employee_labor_data.entrance_pention != undefined
+                } else {
+                    this.pention_id = 0
+                } 
+                
+                if (
+                    this.employee_labor_data.entrance_pention != 'null' &&
+                    this.employee_labor_data.entrance_pention != '' &&
+                    this.employee_labor_data.entrance_pention != undefined &&
+                    this.employee_labor_data.entrance_pention != null
                 ) {
                     this.entrance_pention =
                         this.employee_labor_data.entrance_pention
-                } else if (
-                    this.employee_labor_data.apv_payment_type_id != 'null' ||
-                    this.employee_labor_data.apv_payment_type_id != '' ||
-                    this.employee_labor_data.apv_payment_type_id != undefined
+                } else {
+                    this.entrance_pention = null
+                }
+                
+                if (
+                    this.employee_labor_data.apv_payment_type_id != 'null' &&
+                    this.employee_labor_data.apv_payment_type_id != '' &&
+                    this.employee_labor_data.apv_payment_type_id != undefined &&
+                    this.employee_labor_data.apv_payment_type_id != null
                 ) {
                     this.apv_payment_type_id =
                         this.employee_labor_data.apv_payment_type_id
-                } else if (
-                    this.employee_labor_data.apv_amount != 'null' ||
-                    this.employee_labor_data.apv_amount != '' ||
-                    this.employee_labor_data.apv_amount != undefined
+                } else {
+                    this.apv_payment_type_id = 0
+                }
+                
+                if (
+                    this.employee_labor_data.apv_amount != 'null' &&
+                    this.employee_labor_data.apv_amount != '' &&
+                    this.employee_labor_data.apv_amount != undefined &&
+                    this.employee_labor_data.apv_amount != null
                 ) {
                     this.apv_amount = this.employee_labor_data.apv_amount
-                } else if (
+                } else {
+                    this.apv_amount = 0
+                }
+                
+                if (
                     this.employee_labor_data.extra_health_payment_type_id !=
-                        'null' ||
+                        'null' &&
                     this.employee_labor_data.extra_health_payment_type_id !=
-                        '' ||
+                        '' &&
                     this.employee_labor_data.extra_health_payment_type_id !=
                         undefined
+                        && 
+                    this.employee_labor_data.extra_health_payment_type_id != null
                 ) {
                     this.extra_health_payment_type_id =
                         this.employee_labor_data.extra_health_payment_type_id
-                } else if (
-                    this.employee_labor_data.extra_health_amount != 'null' ||
-                    this.employee_labor_data.extra_health_amount != '' ||
-                    this.employee_labor_data.extra_health_amount != undefined
+                } else {
+                    this.extra_health_payment_type_id = 0
+                }
+                
+                if (
+                    this.employee_labor_data.extra_health_amount != 'null' &&
+                    this.employee_labor_data.extra_health_amount != '' &&
+                    this.employee_labor_data.extra_health_amount != undefined &&
+                    this.employee_labor_data.extra_health_amount != null
                 ) {
                     this.extra_health_amount =
                         this.employee_labor_data.extra_health_amount
+                } else {
+                    this.extra_health_amount = 0
                 }
+
+                console.log(this.employee_labor_data.health_payment_id)
+
+                if (
+                    this.employee_labor_data.health_payment_id != 'null' &&
+                    this.employee_labor_data.health_payment_id != '' &&
+                    this.employee_labor_data.health_payment_id != undefined &&
+                    this.employee_labor_data.health_payment_id != null
+                ) {
+                    this.health_payment_id =
+                        this.employee_labor_data.health_payment_id
+                } else {
+                    this.health_payment_id = 0
+                }
+
+                console.log(this.health_payment_id)
 
                 const employeeLaborDataToSend = {
                     rut: this.$route.params.rut,
@@ -680,9 +725,9 @@ export default {
                     job_position_id: this.employee_labor_data.job_position_id,
                     employee_type_id: this.employee_labor_data.employee_type_id,
                     regime_id: this.employee_labor_data.regime_id,
-                    status_id: this.employee_labor_data.status_id,
+                    status_id: this.status_input,
                     health_payment_id:
-                        this.employee_labor_data.health_payment_id,
+                        this.health_payment_id,
                     extra_health_payment_type_id:
                         this.extra_health_payment_type_id,
                     apv_payment_type_id: this.apv_payment_type_id,
