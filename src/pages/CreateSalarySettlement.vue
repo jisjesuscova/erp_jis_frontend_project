@@ -35,6 +35,37 @@
                     <div
                         class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                     >
+                        <div
+                            class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                        >
+                            <p
+                                class="mt-1 text-sm text-gray-500 dark:text-gray-500"
+                            >
+                                Datos
+                            </p>
+                        </div>
+
+                        <div
+                            class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                        >
+                            <div>
+                                <label
+                                    for="hs-validation-name-error"
+                                    class="block text-sm font-medium mb-2 dark:text-white"
+                                    >¿Usted va a realizar una carga
+                                    masiva?</label
+                                >
+                                <select
+                                    v-model="upload_type_input"
+                                    class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                >
+                                    <option value="">- Tipo de Carga -</option>
+                                    <option value="1">Si</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <form @submit.prevent="createSalarySettlement">
                             <div
                                 class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
@@ -49,60 +80,81 @@
                             <div
                                 class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
                             >
-                                
                                 <div>
                                     <label
                                         for="hs-validation-name-error"
                                         class="block text-sm font-medium mb-2 dark:text-white"
-                                        >¿Usted va a realizar una carga masiva?</label
+                                        >¿Usted va a realizar una carga
+                                        masiva?</label
                                     >
                                     <select
                                         v-model="upload_type_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
                                         <option value="">
-                                            - Tipo de Documento -
+                                            - Tipo de Carga -
                                         </option>
-                                        <option value="1">
-                                            Si
-                                        </option>
-                                        <option value="">
-                                            No
-                                        </option>
+                                        <option value="1">Si</option>
+                                        <option value="2">No</option>
                                     </select>
                                 </div>
-                                <div>
-                                    <label
-                                        for="hs-validation-name-error"
-                                        class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Tipo de Licencia</label
-                                    >
-                                    <select
-                                        v-model="medical_license_type_input"
-                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    >
-                                        <option value="">
-                                            - Empleados -
-                                        </option>
-                                        <option
-                                            v-for="employee in employees"
-                                            :key="employee.rut"
-                                            :value="employee.rut"
+                                <div v-if="upload_type_input == 1">
+                                    <div>
+                                        <label
+                                            for="hs-validation-name-error"
+                                            class="block text-sm font-medium mb-2 dark:text-white"
+                                            >Liquidación</label
                                         >
-                                            {{ employee.names }}
-                                         </option>
-                                    </select>
+                                        <input
+                                            type="file"
+                                            name="file-input-medium"
+                                            id="file-input-medium"
+                                            class="block w-full border border-gray-200 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 file:bg-transparent file:border-0 file:bg-gray-100 file:mr-4 file:py-3 file:px-4 dark:file:bg-gray-700 dark:file:text-gray-400"
+                                            required
+                                            @change="handleFileChange"
+                                        />
+                                    </div>
                                 </div>
-                                <div>
-                                    <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Liquidación</label>
-                                    <input type="file" name="file-input-medium" id="file-input-medium" class="block w-full border border-gray-200 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400
-                                        file:bg-transparent file:border-0
-                                        file:bg-gray-100 file:mr-4
-                                        file:py-3 file:px-4
-                                        dark:file:bg-gray-700 dark:file:text-gray-400"
-                                        required
-                                        @change="handleFileChange"
+                                <div v-if="upload_type_input == 2">
+                                    <div>
+                                        <label
+                                            for="hs-validation-name-error"
+                                            class="block text-sm font-medium mb-2 dark:text-white"
+                                            >Empleados</label
                                         >
+                                        <select
+                                            v-model="employee_input"
+                                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        >
+                                            <option value="">
+                                                - Empleados -
+                                            </option>
+                                            <option
+                                                v-for="employee in employees"
+                                                :key="employee.rut"
+                                                :value="employee.rut"
+                                            >
+                                                {{ employee.names }}
+                                                {{ employee.father_lastname }}
+                                                {{ employee.mother_lastname }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label
+                                            for="hs-validation-name-error"
+                                            class="block text-sm font-medium mb-2 dark:text-white"
+                                            >Liquidación</label
+                                        >
+                                        <input
+                                            type="file"
+                                            name="file-input-medium"
+                                            id="file-input-medium"
+                                            class="block w-full border border-gray-200 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 file:bg-transparent file:border-0 file:bg-gray-100 file:mr-4 file:py-3 file:px-4 dark:file:bg-gray-700 dark:file:text-gray-400"
+                                            required
+                                            @change="handleFileChange"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                             <div
@@ -167,7 +219,12 @@ export default {
             upload_type_input: '',
             loading: false,
             support: null,
+            employees: [],
+            employee_input: '',
         }
+    },
+    mounted() {
+        this.getEmployee()
     },
     methods: {
         handleFileChange(event) {
@@ -177,22 +234,12 @@ export default {
         },
         async getEmployee() {
             const accessToken = localStorage.getItem('accessToken')
-            const rut = localStorage.getItem('rut')
-            const rol_id = localStorage.getItem('rol_id')
-            const page = this.currentPage
 
             this.loading = true
 
-            const dataToSend = {
-                rut: rut,
-                rol_id: rol_id,
-                page: page,
-            }
-
             try {
-                const response = await axios.post(
-                    'https://apijis.com/employees/',
-                    dataToSend,
+                const response = await axios.get(
+                    'http://localhost:8000/employees/select_inputs/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -201,27 +248,19 @@ export default {
                     },
                 )
 
-                this.employees = response.data.message.data
-                this.totalItems = response.data.message.total_items
-                this.itemsPerPage = response.data.message.items_per_page
+                const decodedData = JSON.parse(response.data.message)
+
+                this.employees = decodedData
                 this.loading = false
             } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error(
-                        'Error al obtener la lista de empleados:',
-                        error,
-                    )
-                }
+                console.error('Error al obtener la lista de empleados:', error)
             }
         },
         createSalarySettlement() {
             this.loading = true
 
             const formData = new FormData()
-            formData.append('rut', this.$route.params.rut)
+            formData.append('rut', this.employee_input)
             formData.append('document_type_id', 5)
             formData.append('status_id', 3)
             formData.append('support', this.support)
@@ -229,27 +268,29 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .post('https://erpjis.com/salary_settlement/store', formData, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        'Content-Type': 'multipart/form-data',
+                .post(
+                    'http://localhost:8000/salary_settlements/store',
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            'Content-Type': 'multipart/form-data',
+                        },
                     },
-                })
+                )
                 .then((response) => {
                     console.log(response)
                     this.loading = false
 
                     localStorage.setItem('created_salary_settlement', 1)
 
-                    this.$router.push(
-                        '/salary_settlement/',
-                    )
+                    this.$router.push('/salary_settlement/')
                 })
                 .catch((error) => {
                     console.error(error)
                     this.loading = false
                 })
         },
-    }
+    },
 }
 </script>
