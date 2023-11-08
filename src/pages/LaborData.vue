@@ -2273,6 +2273,7 @@ export default {
                     window.location.reload();
                 } else {
                     console.error('Error al obtener los datos laborales:', error);
+                    
                 }
             }
             
@@ -2318,13 +2319,40 @@ export default {
                 this.first_expiration = response.data.first_expiration;
                 this.second_expiration = response.data.second_expiration;
 
-                this.loading_2 = false;
+                    this.loading_1 = false;
+                    this.loading_2 = false;
+                    this.loading_3 = false;
+                    this.loading_4 = false;
+                    this.loading_5 = false;
+                    this.loading_6 = false;
+                    this.loading_7 = false;
+                    this.loading_8 = false;
+                    this.loading_9 = false;
+                    this.loading_10 = false;
+                    this.loading_11 = false;
+                    this.loading_12 = false;
+                    this.loading_13 = false;
+                    this.loading = false;
             } catch (error) {
                 if (error.message == "Request failed with status code 401") {
                     localStorage.removeItem('accessToken');
                     window.location.reload();
                 } else {
                     console.error('Error al obtener la lista de vencimientos:', error);
+                    this.loading_1 = false;
+                    this.loading_2 = false;
+                    this.loading_3 = false;
+                    this.loading_4 = false;
+                    this.loading_5 = false;
+                    this.loading_6 = false;
+                    this.loading_7 = false;
+                    this.loading_8 = false;
+                    this.loading_9 = false;
+                    this.loading_10 = false;
+                    this.loading_11 = false;
+                    this.loading_12 = false;
+                    this.loading_13 = false;
+                    this.loading = false;
                 }
             }
         },
@@ -2508,6 +2536,7 @@ export default {
                     window.location.reload();
                 } else {
                     console.error('Error al obtener la lista de regiones:', error);
+                   
                 }
             }
         },
@@ -2531,6 +2560,7 @@ export default {
                     window.location.reload();
                 } else {
                     console.error('Error al obtener la lista de estados civiles:', error);
+                    
                 }
             }
         },
@@ -2556,6 +2586,7 @@ export default {
                     window.location.reload();
                 } else {
                     console.error('Error al obtener la lista de isapres:', error);
+                    
                 }
             }
         },
@@ -2590,29 +2621,29 @@ export default {
                 }
             }
         },
-        async getEndDocuments() {
-            const accessToken = localStorage.getItem('accessToken');
+        // async getEndDocuments() {
+        //     const accessToken = localStorage.getItem('accessToken');
 
-            try {
-                const response = await axios.get('https://apijis.com/end_documents/edit/' + this.$route.params.rut, {
-                    headers: {
-                    accept: 'application/json',
-                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
-                    },
-                });
+        //     try {
+        //         const response = await axios.get('https://apijis.com/end_documents/edit/' + this.$route.params.rut, {
+        //             headers: {
+        //             accept: 'application/json',
+        //             Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+        //             },
+        //         });
 
-                this.end_documents = response.data.message;
+        //         this.end_documents = response.data.message;
 
-                this.loading_13 = false;
-            } catch (error) {
-                if (error.message == "Request failed with status code 401") {
-                    localStorage.removeItem('accessToken');
-                    window.location.reload();
-                } else {
-                    console.error('Error al obtener la lista de isapres:', error);
-                }
-            }
-        },
+        //         this.loading_13 = false;
+        //     } catch (error) {
+        //         if (error.message == "Request failed with status code 401") {
+        //             localStorage.removeItem('accessToken');
+        //             window.location.reload();
+        //         } else {
+        //             console.error('Error al obtener la lista de isapres:', error);
+        //         }
+        //     }
+        // },
     },
     async mounted() {
         this.created_employee_contract = localStorage.getItem(
@@ -2637,8 +2668,8 @@ export default {
         await this.getPentions();
         await this.getEmployeeContracts();
         await this.getPersonalDataEmployee();
+        // await this.getEndDocuments();
         await this.getExpirations();
-        await this.getEndDocuments();
 
         if (this.loading_1 == false 
         && this.loading_2 == false 
