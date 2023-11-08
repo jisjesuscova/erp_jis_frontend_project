@@ -875,7 +875,7 @@ export default {
             }
             console.log('dataToSend',dataToSend);
             const accessToken = localStorage.getItem('accessToken')
-             axios.post('http://localhost:8000/end_documents/store/', dataToSend, {
+             axios.post('https://apijis.com/end_documents/store/', dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
