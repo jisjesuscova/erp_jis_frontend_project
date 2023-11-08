@@ -2169,15 +2169,15 @@ export default {
         },
         async generateEndDocument() {
             const logo = await this.getBase64ImageFromURL(
-                'http://localhost:5173/src/assets/images/logo.png',
+                'https://erpjis.com/assets/logo.png',
             )
 
             const company_signature = await this.getBase64ImageFromURL(
-                'http://localhost:5173/src/assets/images/signature.png',
+                'https://erpjis.com/assets/signature.png',
             )
 
             const schedule = await this.getBase64ImageFromURL(
-                'http://localhost:5173/src/assets/images/schedule.jpg',
+                'https://erpjis.com/assets/schedule.jpg',
             )
 
             const original_date = new Date(this.employee_labor_data.EmployeeLaborDatumModel.exit_company);
@@ -2445,7 +2445,7 @@ export default {
         async getEmployeeLaborData() {
           const accessToken = localStorage.getItem('accessToken');
             try {
-                const response = await axios.get('http://localhost:8000/old_employee_labor_data/edit/'+ this.$route.params.rut, {
+                const response = await axios.get('https://apijis.com/old_employee_labor_data/edit/'+ this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2808,7 +2808,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/end_documents/edit/' + this.$route.params.rut, {
+                const response = await axios.get('https://apijis.com/end_documents/edit/' + this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2823,7 +2823,7 @@ export default {
                     this.end_documents = ''
                 }
 
-                const responseCausals = await axios.get('http://localhost:8000/causals/', {
+                const responseCausals = await axios.get('https://apijis.com/causals/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud

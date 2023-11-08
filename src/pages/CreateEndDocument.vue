@@ -1,54 +1,64 @@
 <template>
     <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72">
-        <div v-if="loading" class="flex flex-col justify-center items-center h-screen">
+        <div
+            v-if="loading"
+            class="flex flex-col justify-center items-center h-screen"
+        >
             <div
                 v-if="personal_data_status == 1"
                 class="bg-red-500 text-sm text-white rounded-md p-4 mb-10 w-300"
                 role="alert"
             >
-                Los datos personales del empleado se están <span class="font-bold">guardando</span>
+                Los datos personales del empleado se están
+                <span class="font-bold">guardando</span>
             </div>
             <div
                 v-if="employee_extras_status == 1"
                 class="bg-orange-500 text-sm text-white rounded-md p-4 mb-10 w-300"
                 role="alert"
             >
-                Los datos extras del empleado se están <span class="font-bold">guardando</span>
+                Los datos extras del empleado se están
+                <span class="font-bold">guardando</span>
             </div>
             <div
                 v-if="employee_labor_data_status == 1"
                 class="bg-yellow-500 text-sm text-white rounded-md p-4 mb-10 w-300"
                 role="alert"
             >
-                Los datos laborales del empleado se están <span class="font-bold">guardando</span>
+                Los datos laborales del empleado se están
+                <span class="font-bold">guardando</span>
             </div>
             <div
                 v-if="employee_documents_status == 1"
                 class="bg-indigo-500 text-sm text-white rounded-md p-4 mb-10 w-300"
                 role="alert"
             >
-                Los documentos del empleado se están <span class="font-bold">guardando</span>
+                Los documentos del empleado se están
+                <span class="font-bold">guardando</span>
             </div>
             <div
                 v-if="employee_family_data_status == 1"
                 class="bg-blue-500 text-sm text-white rounded-md p-4 mb-10 w-300"
                 role="alert"
             >
-                Los familiares del empleado se están <span class="font-bold">guardando</span>
+                Los familiares del empleado se están
+                <span class="font-bold">guardando</span>
             </div>
             <div
                 v-if="employee_vacations_status == 1"
                 class="bg-violet-500 text-sm text-white rounded-md p-4 mb-10 w-300"
                 role="alert"
             >
-                Las vacaciones del empleado se están <span class="font-bold">guardando</span>
+                Las vacaciones del empleado se están
+                <span class="font-bold">guardando</span>
             </div>
             <div
                 v-if="employee_medical_status == 1"
                 class="bg-green-500 text-sm text-white rounded-md p-4 mb-10 w-300"
                 role="alert"
             >
-                Las licencias del empleado se están <span class="font-bold">guardando</span>
+                Las licencias del empleado se están
+                <span class="font-bold">guardando</span>
             </div>
             <div role="status">
                 <!-- SVG spinner -->
@@ -73,7 +83,7 @@
 
             <!-- You can use a spinner or any other loading animation here -->
         </div>
-        
+
         <div v-else>
             <div
                 class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
@@ -457,7 +467,7 @@ export default {
             voluntary_compensation_input: 0,
             substitute_compensation_input: 0,
             fertility_proportional_input: 0,
-            fertility_proportional_total_input:0,
+            fertility_proportional_total_input: 0,
             fertility_proportional_days_input: 0,
             number_holidays_input: 0,
             total_input: 0,
@@ -538,24 +548,30 @@ export default {
             this.employee_extra_data = responseExtras.data.message
         },
         async getEmployeeLaborData() {
-          const accessToken = localStorage.getItem('accessToken');
+            const accessToken = localStorage.getItem('accessToken')
             try {
-                const response = await axios.get('https://apijis.com/employee_labor_data/edit/'+ this.$route.params.rut, {
-                    headers: {
-                    accept: 'application/json',
-                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                const response = await axios.get(
+                    'https://apijis.com/employee_labor_data/edit/' +
+                        this.$route.params.rut,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                        },
                     },
-                });
+                )
 
                 const decodedData = JSON.parse(response.data.message)
                 this.employee_labor_data = decodedData.EmployeeLaborDatumModel
-
             } catch (error) {
-                if (error.message == "Request failed with status code 401") {
-                    localStorage.removeItem('accessToken');
-                    window.location.reload();
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
                 } else {
-                    console.error('Error al obtener los datos laborales:', error);
+                    console.error(
+                        'Error al obtener los datos laborales:',
+                        error,
+                    )
                 }
             }
         },
@@ -632,8 +648,8 @@ export default {
                     this.pention_id = this.employee_labor_data.pention_id
                 } else {
                     this.pention_id = 0
-                } 
-                
+                }
+
                 if (
                     this.employee_labor_data.entrance_pention != 'null' &&
                     this.employee_labor_data.entrance_pention != '' &&
@@ -645,7 +661,7 @@ export default {
                 } else {
                     this.entrance_pention = null
                 }
-                
+
                 if (
                     this.employee_labor_data.apv_payment_type_id != 'null' &&
                     this.employee_labor_data.apv_payment_type_id != '' &&
@@ -657,7 +673,7 @@ export default {
                 } else {
                     this.apv_payment_type_id = 0
                 }
-                
+
                 if (
                     this.employee_labor_data.apv_amount != 'null' &&
                     this.employee_labor_data.apv_amount != '' &&
@@ -668,23 +684,23 @@ export default {
                 } else {
                     this.apv_amount = 0
                 }
-                
+
                 if (
                     this.employee_labor_data.extra_health_payment_type_id !=
                         'null' &&
                     this.employee_labor_data.extra_health_payment_type_id !=
                         '' &&
                     this.employee_labor_data.extra_health_payment_type_id !=
-                        undefined
-                        && 
-                    this.employee_labor_data.extra_health_payment_type_id != null
+                        undefined &&
+                    this.employee_labor_data.extra_health_payment_type_id !=
+                        null
                 ) {
                     this.extra_health_payment_type_id =
                         this.employee_labor_data.extra_health_payment_type_id
                 } else {
                     this.extra_health_payment_type_id = 0
                 }
-                
+
                 if (
                     this.employee_labor_data.extra_health_amount != 'null' &&
                     this.employee_labor_data.extra_health_amount != '' &&
@@ -711,8 +727,6 @@ export default {
                     this.health_payment_id = 0
                 }
 
-                console.log(this.health_payment_id)
-
                 const employeeLaborDataToSend = {
                     rut: this.$route.params.rut,
                     contract_type_id: this.employee_labor_data.contract_type_id,
@@ -727,8 +741,7 @@ export default {
                     employee_type_id: this.employee_labor_data.employee_type_id,
                     regime_id: this.employee_labor_data.regime_id,
                     status_id: this.status_input,
-                    health_payment_id:
-                        this.health_payment_id,
+                    health_payment_id: this.health_payment_id,
                     extra_health_payment_type_id:
                         this.extra_health_payment_type_id,
                     apv_payment_type_id: this.apv_payment_type_id,
@@ -839,8 +852,7 @@ export default {
                     this.loading_6 == false &&
                     this.loading_7 == false
                 ) {
-                    
-                    this.storeEndDocument();
+                    this.storeEndDocument()
 
                     localStorage.setItem('created_end_document', 1)
                     this.$router.push(
@@ -864,30 +876,36 @@ export default {
             const dataToSend = {
                 rut: this.$route.params.rut,
                 document_type_id: 22,
-                causal_id :this.causal_input,
-                fertility_proportional_days: this.fertility_proportional_days_input,
+                causal_id: this.causal_input,
+                fertility_proportional_days:
+                    this.fertility_proportional_days_input,
                 voluntary_indemnity: this.voluntary_compensation_input,
                 indemnity_years_service: this.indemnity_year_input,
                 substitute_compensation: this.substitute_compensation_input,
-                fertility_proportional:this.fertility_proportional_input,
+                fertility_proportional: this.fertility_proportional_input,
                 total: this.total_input,
                 status_id: 3,
             }
-            console.log('dataToSend',dataToSend);
+            console.log('dataToSend', dataToSend)
             const accessToken = localStorage.getItem('accessToken')
-             axios.post('http://localhost:8000/end_documents/store/', dataToSend, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        accept: 'application/json',
+            axios
+                .post(
+                    'https://apijis.com/end_documents/store/',
+                    dataToSend,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            accept: 'application/json',
+                        },
                     },
-                })  
+                )
                 .then((response) => {
-                    console.log('responseEnddocumnet',response)
+                    console.log('responseEnddocumnet', response)
 
                     localStorage.setItem('endDocument', 1)
                 })
                 .catch((error) => {
-                    console.error('responseEnddocumnet',error)
+                    console.error('responseEnddocumnet', error)
                     this.loading = false
                 })
         },
@@ -1092,7 +1110,7 @@ export default {
                 )
                 this.fertility_proportional_input = response.data.message
                 this.fertility_proportional_total_input = response.data.total
-                
+
                 this.total_input =
                     this.indemnity_year_input +
                     this.substitute_compensation_input +
