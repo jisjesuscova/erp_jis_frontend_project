@@ -93,6 +93,7 @@
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-800 text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2 transition-all text-sm dark:focus:ring-gray-900 dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
                                                 :to="`/employee/${employee.rut}`"
+                                                title="Datos Personales"
                                             >
                                                 <i
                                                     class="fa-solid fa-address-card"
@@ -102,6 +103,7 @@
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-500 text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all text-sm dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
                                                 :to="`/labor_data/${employee.rut}`"
+                                                title="Datos Laborales"
                                             >
                                                 <i
                                                     class="fa-solid fa-file-contract"
@@ -111,6 +113,7 @@
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
                                                 :to="`/extra_data/${employee.rut}`"
+                                                title="Datos Extras"
                                             >
                                                 <i class="fa-solid fa-plus"></i>
                                             </router-link>
@@ -118,6 +121,7 @@
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
                                                 :to="`/family/${employee.rut}`"
+                                                title="Familiares"
                                             >
                                                 <i
                                                     class="fa-solid fa-people-roof"
@@ -127,6 +131,7 @@
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
                                                 :to="`/kardex_document/${employee.rut}`"
+                                                title="Kardex"
                                             >
                                                 <i
                                                     class="fa-solid fa-folder-open"
@@ -136,6 +141,7 @@
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
                                                 :to="`/uniform/${employee.rut}`"
+                                                title="Uniforme"
                                             >
                                                 <i
                                                     class="fa-solid fa-shirt"
@@ -145,6 +151,7 @@
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-indigo-500 text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
                                                 :to="`/settlement/${employee.rut}`"
+                                                title="Liquidaciones"
                                             >
                                                 <i
                                                     class="fa-solid fa-file-contract"
@@ -154,6 +161,7 @@
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-purple-500 text-white hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
                                                 :to="`/vacation/${employee.rut}`"
+                                                title="Vacaciones"
                                             >
                                                 <i
                                                     class="fa-solid fa-plane"
@@ -163,6 +171,7 @@
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-pink-500 text-white hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
                                                 :to="`/medical_license/${employee.rut}`"
+                                                title="Licencias Médicas"
                                             >
                                                 <i
                                                     class="fa-solid fa-truck-medical"

@@ -447,7 +447,7 @@
                                         type="submit"
                                         class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                                     >
-                                        Guardar
+                                        Generar
                                         <i class="fa-solid fa-check"></i>
                                     </button>
                                 </div>
@@ -549,7 +549,7 @@ export default {
             }
         },
         generateHonorary() {
-            if (window.confirm("¿Desea generar el finiquito?")) {
+            if (window.confirm("¿Desea generar el honorario?")) {
             this.loading = true
 
             const rut = localStorage.getItem('rut')
@@ -755,13 +755,9 @@ export default {
             }
         },
         addThousands() {
-            var number = this.amount_input;
-            number = number.replace(/\./g, "");
-            const numeroFormateado = this.convertNumber(number);
-            this.amount_input = numeroFormateado;
-        },
-        convertNumber(number) {
-            return new Intl.NumberFormat("es-ES").format(number);
+            const amount = new Intl.NumberFormat('es-419').format(  this.amount_input );
+            const formatted_value = amount.replace(/\,/g, '.')
+            this.amount_input = formatted_value
         },
         async getHonorary() {
             const accessToken = localStorage.getItem('accessToken')

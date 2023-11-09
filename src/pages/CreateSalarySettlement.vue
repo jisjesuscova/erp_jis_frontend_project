@@ -363,7 +363,7 @@ export default {
 
             axios
                 .post(
-                'http://localhost:8000/salary_settlements/multiple_store',
+                'https://apijis.com/salary_settlements/multiple_store',
                 formData,
                 {
                     headers: {
