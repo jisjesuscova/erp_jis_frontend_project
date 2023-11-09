@@ -117,7 +117,7 @@
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Sueldo Base</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="salary_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Sueldo Base"
@@ -128,7 +128,7 @@
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Colación</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="collation_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Colación"
@@ -139,7 +139,7 @@
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Movilización</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="locomotion_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Movilización"
@@ -207,7 +207,7 @@
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Monto de la APV</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="apv_amount_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Monto de la APV"
@@ -228,7 +228,7 @@
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Monto Extra de Pago de Salud</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="extra_health_amount_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Monto Extra de Pago de Salud"
@@ -1439,7 +1439,7 @@ export default {
                                 '\n\n',
                                 { text: 'CUARTO:', bold: true },
                                 ' El trabajador recibirá a título de remuneración un sueldo base bruto mensual de $',
-                                { text: ' ' + this.employee_labor_data.EmployeeLaborDatumModel.salary + '.- ', bold: true },
+                                { text: ' ' + this.formatNumber(this.employee_labor_data.EmployeeLaborDatumModel.salary)+ '.- ', bold: true },
                                 'por las labores indicadas en la cláusula segunda del presente contrato. Además, el empleador el empleador opta, en relación con este beneficio, por la alternativa contemplada en el artículo 50 del Código del Trabajo, vale decir, por abonar o pagar el 25% de lo devengado en el respectivo ejercicio comercial por concepto de remuneraciones mensuales, con un tope máximo de 4,75 ingresos mínimos mensuales. A la suma que legalmente pudiere corresponder por concepto de este beneficio, en el evento de existir utilidades líquidas que hicieran exigible el pago de gratificación legal, se imputará lo pagado en razón de la gratificación convencional que se pacta a continuación. Vale decir, ambas gratificaciones no se sumarán en caso alguno y aquello que se hubiere pagado por concepto de gratificación convencional, por estar contractualmente garantizada, eximirá al empleador del pago de lo que pudiere corresponder por gratificación legal.',
                                 '\n\n',
                                 'Por otra parte, se pacta una gratificación garantizada, haya o no utilidades, ascendente al 25% de lo devengado por el trabajador en el respectivo ejercicio comercial por concepto de remuneración, con el tope máximo legal que proceda, el cual en ningún caso podrá exceder del equivalente a 4,75 ingresos mínimos al año. Esta gratificación se pagará mensualmente, en la misma oportunidad establecida para el pago del sueldo.',
@@ -2170,6 +2170,12 @@ export default {
         formatDate(date) {
             return format(new Date(date), 'dd-MM-yyyy')
         },
+        async replacedotandtransformtoint(text) {
+
+            const textWithoutDots = text.replace(/\./g, '');
+            const toNumber = Number(textWithoutDots);
+            return toNumber;
+        },
         async updateLaborData() {
             const accessToken = localStorage.getItem('accessToken');
 
@@ -2182,6 +2188,9 @@ export default {
             if(this.apv_payment_type_input == '') {
                 this.apv_payment_type_input = 3
             }
+
+           
+
 
             const dataToSend = {
                 rut: this.$route.params.rut,
@@ -2199,13 +2208,13 @@ export default {
                 entrance_pention: this.entrance_pention_input,
                 entrance_company: this.entrance_company_input,
                 entrance_health: this.entrance_health_input,
-                salary: this.salary_input,
-                collation: this.collation_input,
-                locomotion: this.locomotion_input,
-                extra_health_amount: this.extra_health_amount_input,
+                salary: this.replacedotandtransformtoint(this.salary_input),
+                collation: this.replacedotandtransformtoint(this.collation_input),
+                locomotion: this.replacedotandtransformtoint(this.locomotion_input),
+                extra_health_amount: this.replacedotandtransformtoint(this.extra_health_amount_input),
                 extra_health_payment_type_id: this.extra_health_payment_type_input,
                 apv_payment_type_id: this.apv_payment_type_input,
-                apv_amount: this.apv_amount_input,
+                apv_amount: this.replacedotandtransformtoint(this.apv_amount_input),
             };  
 
             console.log(dataToSend)
@@ -2229,6 +2238,9 @@ export default {
             } catch(error) {
                 console.log(error);
             }
+        },
+        formatNumber(number) {
+            return number.toLocaleString('de-DE');
         },
         async getEmployeeLaborData() {
           const accessToken = localStorage.getItem('accessToken');
@@ -2257,13 +2269,13 @@ export default {
                 this.entrance_company_input = decodedData.EmployeeLaborDatumModel.entrance_company;
                 this.entrance_pention_input     = decodedData.EmployeeLaborDatumModel.entrance_pention;
                 this.entrance_health_input      = decodedData.EmployeeLaborDatumModel.entrance_health;
-                this.salary_input   = decodedData.EmployeeLaborDatumModel.salary;
-                this.collation_input    = decodedData.EmployeeLaborDatumModel.collation;
-                this.locomotion_input   = decodedData.EmployeeLaborDatumModel.locomotion;
-                this.extra_health_amount_input      = decodedData.EmployeeLaborDatumModel.extra_health_amount;
+                this.salary_input   = this.formatNumber(decodedData.EmployeeLaborDatumModel.salary);
+                this.collation_input    = this.formatNumber(decodedData.EmployeeLaborDatumModel.collation);
+                this.locomotion_input   = this.formatNumber(decodedData.EmployeeLaborDatumModel.locomotion);
+                this.extra_health_amount_input      = this.formatNumber(decodedData.EmployeeLaborDatumModel.extra_health_amount);
                 this.extra_health_payment_type_input    = decodedData.EmployeeLaborDatumModel.extra_health_payment_type_id;
                 this.apv_payment_type_input     = decodedData.EmployeeLaborDatumModel.apv_payment_type_id;
-                this.apv_amount_input   = decodedData.EmployeeLaborDatumModel.apv_amount;
+                this.apv_amount_input   = this.formatNumber(decodedData.EmployeeLaborDatumModel.apv_amount);
                 this.getCommunes();
                 this.commune_input = decodedData.EmployeeLaborDatumModel.commune_id;
 
@@ -2498,13 +2510,15 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/communes/' + this.region_input, {
+                const response = await axios.get('http://localhost:8000/communes/' + this.region_input, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
                     },
                 });
                 console.log(response);
+                //ordena las comunas alfabeticamente y luego las guarda en la variable this.communes
+                
                 this.communes = response.data.message;
 
             } catch (error) {

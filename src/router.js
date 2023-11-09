@@ -17,17 +17,21 @@ import EditFamily from './pages/EditFamily.vue'
 import EditHonorary from './pages/EditHonorary.vue'
 import Employee from './pages/Employee.vue'
 import ExtraDataEmployee from './pages/ExtraDataEmployee.vue'
+import OldExtraDataEmployee from './pages/OldExtraDataEmployee.vue'
 import Family from './pages/Family.vue'
+import OldFamily from './pages/OldFamily.vue'
 import Forgot from './pages/Forgot.vue'
 import Home from './pages/Home.vue'
 import Honorary from './pages/Honorary.vue'
 import KardexDocument from './pages/KardexDocument.vue'
+import OldKardexDocument from './pages/OldKardexDocument.vue'
 import LaborData from './pages/LaborData.vue'
 import OldLaborData from './pages/OldLaborData.vue'
 import MedicalLicense from './pages/MedicalLicense.vue'
 import Nationality from './pages/Nationality.vue'
 import Pention from './pages/Pention.vue'
 import PersonalData from './pages/PersonalData.vue'
+import OldPersonalData from './pages/OldPersonalData.vue'
 import RequestedDocumentManagement from './pages/RequestedDocumentManagement.vue'
 import SalarySettlement from './pages/SalarySettlement.vue'
 import SettlementDataEmployee from './components/SettlementDataEmployee.vue'
@@ -76,6 +80,10 @@ const routes = [
         component: PersonalData
     },
     {
+        path:'/old_employee/:rut',
+        component: OldPersonalData
+    },
+    {
         path:'/forgot',
         component: Forgot
     },
@@ -86,6 +94,10 @@ const routes = [
     {
         path:'/extra_data/:rut',
         component: ExtraDataEmployee
+    },
+    {
+        path:'/old_extra_data/:rut',
+        component: OldExtraDataEmployee
     },
     {
         path:'/labor_data/:rut',
@@ -100,8 +112,16 @@ const routes = [
         component: Family
     },
     {
+        path:'/old_family/:rut',
+        component: OldFamily
+    },
+    {
         path:'/kardex_document/:rut',
         component: KardexDocument
+    },
+    {
+        path:'/old_kardex_document/:rut',
+        component: OldKardexDocument
     },
     {
         path:'/uniform/:rut',

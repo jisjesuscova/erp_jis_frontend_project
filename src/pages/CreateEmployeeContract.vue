@@ -254,7 +254,7 @@
                                         >Sueldo Base</label
                                     >
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="salary_input"
                                         disabled
                                         class="bg-gray-200 text-black text-sm rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -270,7 +270,7 @@
                                         >Colación</label
                                     >
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="collation_input"
                                         disabled
                                         class="bg-gray-200 text-black text-sm rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -286,7 +286,7 @@
                                         >Movilización</label
                                     >
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="locomotion_input"
                                         disabled
                                         class="bg-gray-200 text-black text-sm rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -435,7 +435,7 @@
                                         >Monto de la APV</label
                                     >
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="apv_amount_input"
                                         disabled
                                         class="bg-gray-200 text-black text-sm rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -475,7 +475,7 @@
                                         >Monto Extra de Pago de Salud</label
                                     >
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="apv_amount_input"
                                         disabled
                                         class="bg-gray-200 text-black text-sm rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -584,6 +584,9 @@ export default {
         }
     },
     methods: {
+        formatNumber(number) {
+            return number.toLocaleString('de-DE');
+        },
         async createContractEmployee() {
             this.loading = true
 
@@ -646,12 +649,12 @@ export default {
                 this.entrance_company_input = decodedData.EmployeeLaborDatumModel.entrance_company;
                 this.entrance_pention_input     = decodedData.EmployeeLaborDatumModel.entrance_pention;
                 this.entrance_health_input      = decodedData.EmployeeLaborDatumModel.entrance_health;
-                this.salary_input   = decodedData.EmployeeLaborDatumModel.salary;
-                this.collation_input    = decodedData.EmployeeLaborDatumModel.collation;
-                this.locomotion_input   = decodedData.EmployeeLaborDatumModel.locomotion;
-                this.extra_health_amount_input      = decodedData.EmployeeLaborDatumModel.extra_health_amount;
+                this.salary_input   =this.formatNumber( decodedData.EmployeeLaborDatumModel.salary);
+                this.collation_input    = this.formatNumber(decodedData.EmployeeLaborDatumModel.collation);
+                this.locomotion_input   = this.formatNumber(decodedData.EmployeeLaborDatumModel.locomotion);
+                this.extra_health_amount_input      = this.formatNumber(decodedData.EmployeeLaborDatumModel.extra_health_amount);
                 this.extra_health_payment_type_input    = decodedData.EmployeeLaborDatumModel.extra_health_payment_type_id;
-                this.apv_payment_type_input     = decodedData.EmployeeLaborDatumModel.apv_payment_type_id;
+                this.apv_payment_type_input     = this.formatNumber(decodedData.EmployeeLaborDatumModel.apv_payment_type_id);
                 this.apv_amount_input   = decodedData.EmployeeLaborDatumModel.apv_amount;
                 this.getCommunes();
                 this.commune_input = decodedData.EmployeeLaborDatumModel.commune_id;
