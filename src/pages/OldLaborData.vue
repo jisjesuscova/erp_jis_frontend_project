@@ -2169,15 +2169,15 @@ export default {
         },
         async generateEndDocument() {
             const logo = await this.getBase64ImageFromURL(
-                'http://localhost:5173/src/assets/images/logo.png',
+                'https://erpjis.com/src/assets/images/logo.png',
             )
 
             const company_signature = await this.getBase64ImageFromURL(
-                'http://localhost:5173/src/assets/images/signature.png',
+                'https://erpjis.com/src/assets/images/signature.png',
             )
 
             const schedule = await this.getBase64ImageFromURL(
-                'http://localhost:5173/src/assets/images/schedule.jpg',
+                'https://erpjis.com/src/assets/images/schedule.jpg',
             )
 
             const original_date = new Date(this.employee_labor_data.EmployeeLaborDatumModel.exit_company);
