@@ -2806,7 +2806,6 @@ export default {
         },
         async getEndDocuments() {
             const accessToken = localStorage.getItem('accessToken');
-
             try {
                 const response = await axios.get('https://apijis.com/end_documents/edit/' + this.$route.params.rut, {
                     headers: {
@@ -2814,13 +2813,15 @@ export default {
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
                     },
                 });
-
+                console.log(response);
                 if (response.data.message != 0) {
                     const decodedData = JSON.parse(response.data.message)
                     console.log('end_documents',decodedData)
                     this.end_documents = decodedData;
+                    this.loading = false;
                 } else {
                     this.end_documents = ''
+                    this.loading = false
                 }
 
                 const responseCausals = await axios.get('https://apijis.com/causals/', {
@@ -2839,6 +2840,7 @@ export default {
                     window.location.reload();
                 } else {
                     console.error('Error al obtener los contratos del empleado:', error);
+                    this.loading = false
                 }
             }
         },

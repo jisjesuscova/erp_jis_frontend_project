@@ -659,7 +659,7 @@ export default {
                     this.entrance_pention =
                         this.employee_labor_data.entrance_pention
                 } else {
-                    this.entrance_pention = null
+                    this.entrance_pention = ''
                 }
 
                 if (
@@ -888,6 +888,7 @@ export default {
             }
             console.log('dataToSend', dataToSend)
             const accessToken = localStorage.getItem('accessToken')
+<<<<<<< HEAD
             axios
                 .post(
                     'https://apijis.com/end_documents/store/',
@@ -897,6 +898,12 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
+=======
+             axios.post('http://localhost:8000/end_documents/store/', dataToSend, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        accept: 'application/json',
+>>>>>>> 6d37516fa559d9d667e28a96c2253b01b6b9ffce
                     },
                 )
                 .then((response) => {
