@@ -359,7 +359,7 @@
                                         Monto
                                     </label>
                                     <input
-                                        type="text"
+                                        type="number"
                                         id="amount_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Monto"
@@ -507,6 +507,7 @@ export default {
             communes: [],
             banks: [],
             employees: [],
+            amount_input: 0,
         }
     },
     methods: {
@@ -519,8 +520,6 @@ export default {
 
             this.communes = []
 
-            this.commune_input = ''
-
             try {
                 const response = await axios.get(
                     'https://apijis.com/communes/' + this.region_input,
@@ -532,7 +531,7 @@ export default {
                     },
                 )
 
-                this.regions = response.data.message
+                this.communes = response.data.message
 
                 this.loading_2 = false
             } catch (error) {
@@ -622,6 +621,8 @@ export default {
                 )
 
                 this.regions = response.data.message
+
+                console.log(response.data.message)
 
                 this.loading_2 = false
             } catch (error) {
@@ -764,12 +765,15 @@ export default {
                     },
                 )
 
-                this.honorary = response.data.message
+                const decodedData = JSON.parse(response.data.message)
+
+                this.honorary = decodedData
 
                 this.reason_input = this.honorary.reason_id
                 this.start_input = this.honorary.start_date
                 this.end_input = this.honorary.end_date
                 this.region_input = this.honorary.region_id
+                this.commune_input = this.honorary.commune_id
                 this.branch_office_input = this.honorary.branch_office_id
                 this.commune_input = this.honorary.commune_id
                 this.foreigner_input = this.honorary.foreigner_id
@@ -821,7 +825,7 @@ export default {
                         },
                     },
                 )
-                console.log(response.data.message.data)
+
                 this.employees = response.data.message
                 this.loading_8 = false
             } catch (error) {
@@ -846,18 +850,9 @@ export default {
         await this.getCommunes()
         await this.getBanks()
 
-        if (
-            this.loading_1 == false &&
-            this.loading_2 == false &&
-            this.loading_3 == false &&
-            this.loading_4 == false &&
-            this.loading_5 == false &&
-            this.loading_6 == false &&
-            this.loading_7 == false &&
-            this.loading_8 == false
-        ) {
+
             this.loading = false
-        }
+        
     },
 }
 </script>

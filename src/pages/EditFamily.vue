@@ -277,7 +277,7 @@ export default {
                         },
                     },
                 )
-                console.log(response.data.message)
+
                 this.rut_input = response.data.message.rut
                 this.names_input = response.data.message.names
                 this.father_lastname_input =

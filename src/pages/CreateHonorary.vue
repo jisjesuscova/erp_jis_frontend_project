@@ -111,14 +111,14 @@
                                     <label
                                         for="hs-validation-name-error"
                                         class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Motivo</label
+                                        >Trabajador</label
                                     >
                                     <select
                                         required
                                         v-model="employee_to_replace_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
-                                        <option value="">- Motivo -</option>
+                                        <option value="">- Trabajador -</option>
                                         <option
                                             v-for="employee in employees"
                                             :key="employee.rut"
