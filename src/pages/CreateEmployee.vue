@@ -306,8 +306,16 @@ export default {
     },
     methods: {
         onRutBlur() {
-            this.validateRutExist()
-            this.onValidateRutBlur()
+            const status_rut_exist = this.validateRutExist()
+            const status_rut = this.onValidateRutBlur()
+
+            if(status_rut_exist && status_rut) {
+                alert(1)
+            }
+
+            if (status_rut) {
+                alert(22)
+            }
         },
         validateRut: function (rutCompleto) {
             rutCompleto = rutCompleto.replace('‐', '-')

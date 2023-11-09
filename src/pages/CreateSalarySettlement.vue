@@ -332,7 +332,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employees/select_inputs/',
+                    'https://apijis.com/employees/select_inputs',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -353,20 +353,17 @@ export default {
             this.loading = true;
 
             const formData = new FormData();
-            formData.append('rut', this.employee_input);
-            formData.append('document_type_id', 5);
-            formData.append('status_id', 3);
 
             // Append each file to the formData
             for (let i = 0; i < this.support.length; i++) {
-                formData.append('support[]', this.support[i]);
+                formData.append('files', this.support[i]);
             }
 
             const accessToken = localStorage.getItem('accessToken');
 
             axios
                 .post(
-                'https://apijis.com/salary_settlements/store',
+                'https://apijis.com/salary_settlements/multiple_store',
                 formData,
                 {
                     headers: {
