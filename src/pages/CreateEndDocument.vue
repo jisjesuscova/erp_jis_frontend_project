@@ -886,8 +886,9 @@ export default {
                 total: this.total_input,
                 status_id: 3,
             }
-            console.log('dataToSend', dataToSend)
+
             const accessToken = localStorage.getItem('accessToken')
+            
             axios
                 .post('https://apijis.com/end_documents/store', dataToSend, {
                     headers: {
