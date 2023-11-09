@@ -523,7 +523,7 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    },
+                    }
                 )
                 .then((response) => {
                     const decodedData = JSON.parse(response.data.message)
@@ -543,7 +543,7 @@ export default {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
                     },
-                },
+                }
             )
             this.employee_extra_data = responseExtras.data.message
         },
@@ -558,7 +558,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
 
                 const decodedData = JSON.parse(response.data.message)
@@ -570,7 +570,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener los datos laborales:',
-                        error,
+                        error
                     )
                 }
             }
@@ -591,7 +591,7 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    },
+                    }
                 )
 
                 if (
@@ -636,7 +636,7 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    },
+                    }
                 )
 
                 if (
@@ -769,7 +769,7 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    },
+                    }
                 )
 
                 this.loading_3 = false
@@ -786,7 +786,7 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    },
+                    }
                 )
 
                 this.loading_4 = false
@@ -803,7 +803,7 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    },
+                    }
                 )
 
                 this.loading_5 = false
@@ -820,7 +820,7 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    },
+                    }
                 )
 
                 this.loading_6 = false
@@ -837,7 +837,7 @@ export default {
                             Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
                         },
-                    },
+                    }
                 )
 
                 this.loading_7 = false
@@ -856,7 +856,7 @@ export default {
 
                     localStorage.setItem('created_end_document', 1)
                     this.$router.push(
-                        '/old_labor_data/' + this.$route.params.rut,
+                        '/old_labor_data/' + this.$route.params.rut
                     )
                     this.loading = false
                 }
@@ -889,16 +889,13 @@ export default {
             console.log('dataToSend', dataToSend)
             const accessToken = localStorage.getItem('accessToken')
             axios
-                .post(
-                    'https://apijis.com/end_documents/store/',
-                    dataToSend,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                            accept: 'application/json',
-                        },
+                .post('https://apijis.com/end_documents/store', dataToSend, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
                     },
-                )
+                })
                 .then((response) => {
                     console.log('responseEnddocumnet', response)
 
@@ -919,7 +916,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
                 this.causals = response.data.message
                 this.loading_1 = false
@@ -930,7 +927,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener la lista de Causales:',
-                        error,
+                        error
                     )
                 }
             }
@@ -947,7 +944,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
                 const responseTakenDays = await axios.get(
                     'https://apijis.com/vacations/taken/' +
@@ -957,7 +954,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
                 this.legal_vacations = responseLegal.data.message
                 this.taken_days = responseTakenDays.data.message
@@ -972,7 +969,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener las vacaciones legales:',
-                        error,
+                        error
                     )
                 }
             }
@@ -989,7 +986,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
                 const responseProgresssiveTaken = await axios.get(
                     'https://apijis.com/progressive_vacations/taken/' +
@@ -999,7 +996,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
 
                 this.progressive_legal_vacations =
@@ -1040,7 +1037,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
 
                 this.indemnity_year_input = response.data.message
@@ -1072,7 +1069,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
                 this.substitute_compensation_input = response.data.message
                 this.total_input =
@@ -1106,7 +1103,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
                 this.fertility_proportional_input = response.data.message
                 this.fertility_proportional_total_input = response.data.total
