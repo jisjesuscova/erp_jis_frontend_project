@@ -903,7 +903,7 @@ export default {
                 .then((response) => {
                     console.log('responseEnddocumnet', response)
 
-                    localStorage.setItem('endDocument', 1)
+                    localStorage.setItem('created_end_document', 1)
                 })
                 .catch((error) => {
                     console.error('responseEnddocumnet', error)
