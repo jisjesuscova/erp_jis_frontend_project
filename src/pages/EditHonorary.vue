@@ -34,7 +34,7 @@
                     <div
                         class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                     >
-                        <form @submit.prevent="updateHonorary">
+                        <form @submit.prevent="generateHonorary">
                             <div
                                 class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
                             >
@@ -359,11 +359,12 @@
                                         Monto
                                     </label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="amount_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Monto"
                                         v-model="amount_input"
+                                        @blur="addThousands"
                                         required
                                     />
                                 </div>
@@ -508,6 +509,7 @@ export default {
             banks: [],
             employees: [],
             amount_input: 0,
+            formattedNumber: '',
         }
     },
     methods: {
@@ -546,7 +548,8 @@ export default {
                 }
             }
         },
-        updateHonorary() {
+        generateHonorary() {
+            if (window.confirm("¿Desea generar el finiquito?")) {
             this.loading = true
 
             const rut = localStorage.getItem('rut')
@@ -605,6 +608,7 @@ export default {
                     console.error(error)
                     this.loading = false
                 })
+            }
         },
         async getRegions() {
             const accessToken = localStorage.getItem('accessToken')
@@ -749,6 +753,15 @@ export default {
                     console.error('Error al obtener la lista de bancos:', error)
                 }
             }
+        },
+        addThousands() {
+            var number = this.amount_input;
+            number = number.replace(/\./g, "");
+            const numeroFormateado = this.convertNumber(number);
+            this.amount_input = numeroFormateado;
+        },
+        convertNumber(number) {
+            return new Intl.NumberFormat("es-ES").format(number);
         },
         async getHonorary() {
             const accessToken = localStorage.getItem('accessToken')
