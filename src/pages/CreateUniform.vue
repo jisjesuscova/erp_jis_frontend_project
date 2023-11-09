@@ -73,6 +73,21 @@
                                     <label
                                         for="hs-validation-name-error"
                                         class="block text-sm font-medium mb-2 dark:text-white"
+                                        >Tamaño del Uniforme</label
+                                 >
+                                 <input
+                                        type="text"
+                                        id="size_input"
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="S, M, L, XL, XXL o 39 - 40 - 41 - 42 - 43 - 44, etc"
+                                        v-model="size_input"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        for="hs-validation-name-error"
+                                        class="block text-sm font-medium mb-2 dark:text-white"
                                         >Fecha de Despacho</label
                                     >
                                     <input
@@ -149,6 +164,7 @@ export default {
             delivered_date_input: '',
             uniform_type_input: '',
             uniform_types: [],
+            size_input: '',
         }
     },
     async created() {
@@ -184,10 +200,12 @@ export default {
             const dataToSend = {
                 uniform_type_id: this.uniform_type_input,
                 rut: this.$route.params.rut,
+                size: this.size_input,
                 delivered_date: this.delivered_date_input,
                 added_date: new Date().toISOString(),
                 updated_date: new Date().toISOString(),
             }
+            console.log(dataToSend);
 
             const accessToken = localStorage.getItem('accessToken')
 

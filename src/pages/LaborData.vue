@@ -226,12 +226,12 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Monto Extra de Pago de Salud</label>
+                                    <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Monto Salud (Solo si es Isapre, indicar la cotización Pactada)</label>
                                     <input
                                         type="text"
                                         id="extra_health_amount_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="Monto Extra de Pago de Salud"
+                                        placeholder="Monto Salud (Solo si es Isapre, indicar la cotización Pactada)"
                                         v-model="extra_health_amount_input"
                                         required
                                         />
