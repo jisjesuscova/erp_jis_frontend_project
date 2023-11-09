@@ -200,7 +200,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://erpjis.com/salary_settlements/download/' + id,
+                    'https://apijis.com/salary_settlements/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -239,7 +239,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://erpjis.com/salary_settlements/all/' + page,
+                    'https://apijis.com/salary_settlements/all/' + page,
                     {
                         headers: {
                             accept: 'application/json',
@@ -247,7 +247,7 @@ export default {
                         },
                     },
                 )
-
+                console.log(response.data.message)
                 if (response.data.message != 'Invalid page number') {
                     const decodedData = JSON.parse(response.data.message)
 
