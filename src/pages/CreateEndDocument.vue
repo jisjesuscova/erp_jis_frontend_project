@@ -811,7 +811,15 @@ export default {
                 this.loading_6 = true
                 this.employee_vacations_status = 1
 
-                await axios.post(
+                const response = await axios.get('https://apijis.com/vacations/edit/' + this.$route.params.rut, {
+                    headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                    },
+                })
+                console.log('vacationsResponse',response)
+                if(response.data.message != 'null' && response.data.message != undefined && response.data.message != ''  && response.data.message != null){
+                    await axios.post(
                     'https://apijis.com/old_vacations/transfer/' +
                         this.$route.params.rut,
                     {},
@@ -821,7 +829,9 @@ export default {
                             accept: 'application/json',
                         },
                     }
-                )
+                    )
+                }
+               
 
                 this.loading_6 = false
                 this.employee_vacations_status = 0
