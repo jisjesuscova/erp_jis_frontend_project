@@ -90,7 +90,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="2"
                                 >
                                     VALOR UF
@@ -133,17 +133,17 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                 >
                                     VALOR
                                 </th>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                 >
                                     UTM
                                 </th>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                 >
                                     UTA
                                 </th>
@@ -179,7 +179,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="3"
                                 >
                                     RENTAS TOPES IMPONIBLES
@@ -234,7 +234,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="3"
                                 >
                                     RENTAS MÍNIMAS IMPONIBLES
@@ -310,7 +310,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="3"
                                 >
                                     AHORRO PREVISIONAL VOLUNTARIO (APV)
@@ -356,7 +356,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="3"
                                 >
                                     DEPÓSITO CONVENIDO
@@ -385,7 +385,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="3"
                                 >
                                     SEGURO DE CESANTÍA (AFC)
@@ -393,13 +393,13 @@
                             </tr>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     rowspan="2"
                                 >
                                     CONTRATO
                                 </th>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="2"
                                 >
                                     FINANCIAMIENTO
@@ -407,12 +407,12 @@
                             </tr>
                             <tr>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     TRABAJADOR
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     EMPLEADOR
                                 </td>
@@ -523,13 +523,13 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     rowspan="4"
                                 >
                                     AFP
                                 </th>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="3"
                                 >
                                     TASA COTIZACIÓN OBLIGATORIO AFP
@@ -537,7 +537,7 @@
                             </tr>
                             <tr>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                     colspan="3"
                                 >
                                     TASA AFP TRABAJADORES
@@ -545,30 +545,30 @@
                             </tr>
                             <tr>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                     colspan="2"
                                 >
                                     DEPENDIENTES
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     INDEPENDIENTES
                                 </td>
                             </tr>
                             <tr>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     TASA AFP
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     SIS (1) (2)
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     TASA AFP (3)
                                 </td>
@@ -784,13 +784,13 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border w-1 border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border w-1 border-gray-400 py-2 px-4"
                                     rowspan="2"
                                 >
                                     TRAMO
                                 </th>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="3"
                                 >
                                     ASIGNACIÓN FAMILIAR
@@ -798,12 +798,12 @@
                             </tr>
                             <tr>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py- px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py- px-4 font-bold"
                                 >
                                     MONTO
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                     colspan="2"
                                 >
                                     REQUISITO DE RENTA
@@ -913,7 +913,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="4"
                                 >
                                     COTIZACIÓN PARA TRABAJOS PESADOS
@@ -921,13 +921,13 @@
                             </tr>
                             <tr>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                     colspan="2"
                                 >
                                     CALIFICACIÓN
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                     colspan="2"
                                 >
                                     FINANCIAMIENTO
@@ -935,18 +935,18 @@
                             </tr>
                             <tr>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                     colspan="2"
                                 >
                                     PUESTO DE TRABAJO
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     EMPLEADOR
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     TRABAJADOR
                                 </td>
@@ -1019,7 +1019,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="4"
                                 >
                                     DISTRIBUCIÓN DEL 7% SALUD, PARA EMPLEADORES

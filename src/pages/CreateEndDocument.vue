@@ -1117,7 +1117,7 @@ export default {
                 )
                 console.log(response)
                 this.fertility_proportional_input = response.data.message
-                this.fertility_proportional_days_input = response.data.total
+                this.fertility_proportional_total_input = response.data.total
 
                 this.total_input =
                     this.indemnity_year_input +
