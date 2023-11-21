@@ -117,7 +117,7 @@
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Sueldo Base</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="salary_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Sueldo Base"
@@ -128,7 +128,7 @@
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Colación</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="collation_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Colación"
@@ -139,7 +139,7 @@
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Movilización</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="locomotion_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Movilización"
@@ -207,7 +207,7 @@
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Monto de la APV</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="apv_amount_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Monto de la APV"
@@ -248,12 +248,7 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                 </div>
-                                <div v-else class="w-full">
-                                    <button type="submit" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-                                        Actualizar
-                                        <i class="fa-solid fa-check"></i>
-                                    </button>
-                                </div>
+                               
                                 
                             </div>
                         </form>
@@ -271,7 +266,7 @@
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-gray-700">
                                     <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Id</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha de Emisión</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estatus</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
                                     </tr>
@@ -287,7 +282,7 @@
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ employee_contract.id }}
+                                            {{ formatDate(employee_contract.added_date) }}
                                         </td>
                                         <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
@@ -351,7 +346,7 @@
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-gray-700">
                                     <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Id</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha de Emisión</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estatus</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
                                     </tr>
@@ -367,7 +362,7 @@
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ end_document.id }}
+                                            {{ formatDate(end_document.added_date) }}
                                         </td>
                                         <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
@@ -494,7 +489,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employee_contracts/download/' + id,
+                    'http://localhost:8000/employee_contracts/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -524,10 +519,12 @@ export default {
                 }
             }
         },
-        formatDateToCustomFormat(dateString) {
-            const date = new Date(dateString)
+        formatDateToCustomFormat(date) {
+        let localDate = new Date(date);
+        let utcDate = new Date(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate());
 
-            const monthNames = [
+
+        const monthNames = [
                 'Enero',
                 'Febrero',
                 'Marzo',
@@ -542,12 +539,11 @@ export default {
                 'Diciembre',
             ]
 
-            const day = date.getDate()
-            const month = date.getMonth()
-            const year = date.getFullYear()
+            const day = utcDate.getDate()
+            const month = utcDate.getMonth()
+            const year = utcDate.getFullYear()
 
             const formattedDate = `${day} de ${monthNames[month]} del ${year}`
-
             return formattedDate
         },
         getBase64ImageFromURL(url) {
@@ -2220,7 +2216,7 @@ export default {
                         'entre',
                         { text: ' '+'JIS PARKING SPA RUT: 76063822-6' + ' ', bold:true},
                         'con domicilio en MATUCANA 40 Estacion Central en adelante tambien "LA EMPRESA" por una parte, y la otra don (a)',
-                        { text: ' ' + this.employee_personal_data.names + ' ' + this.employee_personal_data.father_lastname + ' ' + this.employee_personal_data.mother_lastname + ' ' , bold: true },
+                        { text: ' ' + this.employee_personal_data.names + ' ' + this.employee_personal_data.father_lastname + ' ' + this.employee_personal_data.mother_lastname + ' RUT:' + this.employee_personal_data.visual_rut + ' '  , bold: true },
                         'en adelante, también, \"EL TRABAJADOR(a)\" se deja testimonio y se ha acordado el finiquito que consta de las siguientes cláusulas:',
                         '\n',
                         { text: ' '+ 'PRIMERO:' + ' ', bold:true},
@@ -2283,15 +2279,7 @@ export default {
                             margin: [0, 0, 0, 10],
                             lineHeight: 1.5,
                     },
-                        {
-                            text: ['En Estación Central,',
-                                { text: ' ' + current_date + ' ', bold: true },
-                            ],
-                            fontSize: 9,
-                            alignment: 'justify',
-                            margin: [0, 0, 0, 10],
-                            lineHeight: 1.5,
-                        },
+                        
                         {
                             table: {
                                 widths: ['*', '*'],
@@ -2363,7 +2351,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `https://apijis.com/employee_contracts/delete/${id}`,
+                    `http://localhost:8000/employee_contracts/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -2380,7 +2368,9 @@ export default {
             }
         },
         formatDate(date) {
-            return format(new Date(date), 'dd-MM-yyyy')
+        let localDate = new Date(date);
+        let utcDate = new Date(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate());
+        return format(utcDate, 'dd-MM-yyyy');
         },
         async updateLaborData() {
             const accessToken = localStorage.getItem('accessToken');
@@ -2423,7 +2413,7 @@ export default {
             console.log(dataToSend)
             try {
                 
-                const response = await axios.patch('https://apijis.com/employee_labor_data/update/'+ this.$route.params.rut, dataToSend, {
+                const response = await axios.patch('http://localhost:8000/employee_labor_data/update/'+ this.$route.params.rut, dataToSend, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2445,7 +2435,7 @@ export default {
         async getEmployeeLaborData() {
           const accessToken = localStorage.getItem('accessToken');
             try {
-                const response = await axios.get('https://apijis.com/old_employee_labor_data/edit/'+ this.$route.params.rut, {
+                const response = await axios.get('http://localhost:8000/old_employee_labor_data/edit/'+ this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2469,13 +2459,13 @@ export default {
                 this.entrance_company_input = decodedData.EmployeeLaborDatumModel.entrance_company;
                 this.entrance_pention_input     = decodedData.EmployeeLaborDatumModel.entrance_pention;
                 this.entrance_health_input      = decodedData.EmployeeLaborDatumModel.entrance_health;
-                this.salary_input   = decodedData.EmployeeLaborDatumModel.salary;
-                this.collation_input    = decodedData.EmployeeLaborDatumModel.collation;
-                this.locomotion_input   = decodedData.EmployeeLaborDatumModel.locomotion;
+                this.salary_input   = this.formatNumber(decodedData.EmployeeLaborDatumModel.salary);
+                this.collation_input    = this.formatNumber(decodedData.EmployeeLaborDatumModel.collation);
+                this.locomotion_input   = this.formatNumber(decodedData.EmployeeLaborDatumModel.locomotion);
                 this.extra_health_amount_input      = decodedData.EmployeeLaborDatumModel.extra_health_amount;
                 this.extra_health_payment_type_input    = decodedData.EmployeeLaborDatumModel.extra_health_payment_type_id;
                 this.apv_payment_type_input     = decodedData.EmployeeLaborDatumModel.apv_payment_type_id;
-                this.apv_amount_input   = decodedData.EmployeeLaborDatumModel.apv_amount;
+                this.apv_amount_input   = this.formatNumber(decodedData.EmployeeLaborDatumModel.apv_amount);
                 this.getCommunes();
                 this.commune_input = decodedData.EmployeeLaborDatumModel.commune_id;
 
@@ -2495,7 +2485,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/pentions/', {
+                const response = await axios.get('http://localhost:8000/pentions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2522,7 +2512,7 @@ export default {
             };  
 
             try {
-                const response = await axios.post('https://apijis.com/contract_data/expiration', dataToSend, {
+                const response = await axios.post('http://localhost:8000/contract_data/expiration', dataToSend, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2546,7 +2536,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/healths/', {
+                const response = await axios.get('http://localhost:8000/healths/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2569,7 +2559,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/regimes/', {
+                const response = await axios.get('http://localhost:8000/regimes/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2592,7 +2582,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/job_positions/', {
+                const response = await axios.get('http://localhost:8000/job_positions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2615,7 +2605,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/employee_types/', {
+                const response = await axios.get('http://localhost:8000/employee_types/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2638,7 +2628,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/contract_types/', {
+                const response = await axios.get('http://localhost:8000/contract_types/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2661,7 +2651,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/branch_offices/', {
+                const response = await axios.get('http://localhost:8000/branch_offices/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2684,7 +2674,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/communes/' + this.region_input, {
+                const response = await axios.get('http://localhost:8000/communes/' + this.region_input, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2706,7 +2696,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/regions/', {
+                const response = await axios.get('http://localhost:8000/regions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2729,7 +2719,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/civil_states/', {
+                const response = await axios.get('http://localhost:8000/civil_states/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2752,7 +2742,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/employee_contracts/edit/' + this.$route.params.rut, {
+                const response = await axios.get('http://localhost:8000/employee_contracts/edit/' + this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2778,7 +2768,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employees/edit/' +
+                    'http://localhost:8000/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -2807,7 +2797,7 @@ export default {
         async getEndDocuments() {
             const accessToken = localStorage.getItem('accessToken');
             try {
-                const response = await axios.get('https://apijis.com/end_documents/edit/' + this.$route.params.rut, {
+                const response = await axios.get('http://localhost:8000/end_documents/edit/' + this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2824,13 +2814,13 @@ export default {
                     this.loading = false
                 }
 
-                const responseCausals = await axios.get('https://apijis.com/causals/', {
+                const responseCausals = await axios.get('http://localhost:8000/causals/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
                     },
                     });
-                    this.causals = responseCausals.data.message.filter(causal => causal.id == 2); 
+                    this.causals = responseCausals.data.message.filter(causal => causal.id ==  this.end_documents[0].causal_id); 
                     console.log(this.causals[0].causal);          
 
                 this.loading_13 = false;

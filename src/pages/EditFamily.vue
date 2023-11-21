@@ -262,16 +262,24 @@ export default {
 
             try {
                 const response = await axios.get(
+<<<<<<< HEAD
                     'https://apijis.com/family_core_data/family/edit/' +
                         this.$route.params.id +
                         '/1',
+=======
+                    'http://localhost:8000/family_core_data/edit/' +
+                        this.$route.params.id,
+>>>>>>> 0540b304ea9a2a8c8429e83f9aa5e3e7d8b8efa3
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
                     },
                 )
+                console.log(response)
+                console.log(this.$route.params.id)
 
+<<<<<<< HEAD
                 const decodedData = JSON.parse(response.data.message)
 
                 this.rut_input = decodedData.rut
@@ -283,6 +291,15 @@ export default {
                 this.gender_input = decodedData.gender_id
                 this.born_date_input = decodedData.born_date
                 this.family_type_input = decodedData.family_type_id
+=======
+                this.rut_input = response.data.message.rut
+                this.names_input = response.data.message.names
+                this.father_lastname_input = response.data.message.father_lastname
+                this.mother_lastname_input = response.data.message.mother_lastname
+                this.gender_input = response.data.message.gender_id
+                this.born_date_input = response.data.message.born_date
+                this.family_type_input = response.data.message.family_type_id
+>>>>>>> 0540b304ea9a2a8c8429e83f9aa5e3e7d8b8efa3
 
                 this.loading = false
             } catch (error) {
@@ -326,7 +343,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.patch(
-                    'https://apijis.com/family_core_data/update/' +
+                    'http://localhost:8000/family_core_data/update/' +
                         this.$route.params.id,
                     formData,
                     {

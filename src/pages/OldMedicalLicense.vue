@@ -2,6 +2,7 @@
     <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72">
         <div v-if="loading" class="flex justify-center items-center h-screen">
             <div role="status">
+                <!-- SVG spinner -->
                 <svg
                     aria-hidden="true"
                     class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -20,11 +21,13 @@
                 </svg>
                 <span class="sr-only">Loading...</span>
             </div>
+
+            <!-- You can use a spinner or any other loading animation here -->
         </div>
 
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">
-                Kardex
+                Licencias Médicas
             </h2>
 
             <OldEmployeeMenu />
@@ -33,7 +36,7 @@
                 <div
                     class="bg-green-500 text-sm text-white rounded-md p-4 mb-10"
                     role="alert"
-                    v-if="created_kardex == 1"
+                    v-if="created_medical_license == 1"
                 >
                     Registro agregado con <span class="font-bold">éxito</span>.
                 </div>
@@ -59,13 +62,37 @@
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            Documento
+                                            RUT
                                         </th>
                                         <th
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            Fecha
+                                            Folio
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Desde
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Hasta
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Dias
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Estatus
                                         </th>
                                         <th
                                             scope="col"
@@ -77,52 +104,59 @@
                                     class="divide-y divide-gray-200 dark:divide-gray-700"
                                 >
                                     <tr
-                                        v-for="kardex_document in kardex_documents"
-                                        :key="kardex_document.id"
+                                        v-for="medical_license in medical_licenses"
+                                        :key="medical_license.id"
                                     >
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ kardex_document.document_type }}
+                                            {{ medical_license.visual_rut }}
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            {{ medical_license.folio }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
                                             {{
                                                 formatDate(
-                                                    kardex_document.added_date,
+                                                    medical_license.since,
                                                 )
                                             }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            <button
-                                                type="button"
-                                                @click="
-                                                    downloadKardex(
-                                                        kardex_document.id,
-                                                    )
+                                            {{
+                                                formatDate(
+                                                    medical_license.until,
+                                                )
+                                            }}
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            {{ medical_license.days }}
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            <span
+                                                v-if="
+                                                    medical_license.status_id ==
+                                                        4 &&
+                                                    medical_license.support !=
+                                                        null
                                                 "
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-indigo-500 text-white"
+                                                >Firmada</span
                                             >
-                                                <i
-                                                    class="fa-solid fa-arrow-down"
-                                                ></i>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                @click="
-                                                    confirmKardex(
-                                                        kardex_document.id,
-                                                    )
-                                                "
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-trash"
-                                                ></i>
-                                            </button>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
                                         </td>
                                     </tr>
                                 </tbody>
@@ -131,6 +165,15 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="text-center mt-10" v-if="totalItems > 0">
+            <vue-awesome-paginate
+                :total-items="totalItems"
+                :items-per-page="itemsPerPage"
+                :max-pages-shown="maxPagesShown"
+                v-model="currentPage"
+                :on-click="onClickHandler"
+            />
         </div>
     </div>
 </template>
@@ -146,33 +189,49 @@ export default {
     data() {
         return {
             loading: false,
-            kardex_documents: [],
-            created_kardex: 0,
+            medical_licenses: [],
+            created_medical_license: 0,
             kardex_document: '',
             error_kardex: 0,
+            itemsPerPage: 10,
+            maxPagesShown: 5,
+            currentPage: 1,
+            totalItems: 0,
+            rol_id: '',
         }
     },
-    async created() {
-        this.getKardexData()
+    async mounted() {
+        const rol_id = localStorage.getItem('rol_id')
 
-        this.created_kardex = localStorage.getItem('created_kardex')
+        this.rol_id = rol_id
 
-        if (this.created_kardex == 1) {
-            localStorage.removeItem('created_kardex')
+        this.getMedicalLicenses()
+
+        this.created_medical_license = localStorage.getItem(
+            'created_medical_license',
+        )
+
+        if (this.created_medical_license == 1) {
+            localStorage.removeItem('created_medical_license')
         }
     },
     methods: {
-        formatDate(date) {
-            return format(new Date(date), 'dd-MM-yyyy')
+        onClickHandler() {
+            console.log(this.currentPage)
+            this.getMedicalLicenses()
         },
-        async downloadKardex(id) {
+        formatDate(date) {
+            const [year, month, day] = date.split('-')
+            return `${day}-${month}-${year}`
+        },
+        async downloadMedicalLicense(id) {
             const accessToken = localStorage.getItem('accessToken')
 
             this.loading = true
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/kardex_data/download/' + id,
+                    'http://localhost:8000/medical_licenses/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -202,15 +261,19 @@ export default {
                 }
             }
         },
-        async getKardexData() {
+        async getMedicalLicenses() {
             const accessToken = localStorage.getItem('accessToken')
 
             this.loading = true
 
+            const page = this.currentPage
+
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/kardex_data/edit/' +
-                        this.$route.params.rut,
+                    'http://localhost:8000/old_medical_licenses/edit/' +
+                        this.$route.params.rut +
+                        '/' +
+                        page,
                     {
                         headers: {
                             accept: 'application/json',
@@ -218,44 +281,43 @@ export default {
                         },
                     },
                 )
-
-                if (response.data.message != 0) {
+  
+                if (response.data.message != 'Invalid page number') {
                     const decodedData = JSON.parse(response.data.message)
 
-                    console.log(decodedData)
-
-                    this.kardex_documents = decodedData
+                    this.medical_licenses = decodedData.data
+                    this.totalItems = decodedData.total_items
+                    this.itemsPerPage = decodedData.items_per_page
+                } else {
+                    this.totalItems = 0
                 }
-
+                
                 this.loading = false
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
                     window.location.reload()
                 } else {
-                    console.error(
-                        'Error al obtener la lista de documentos de kardex:',
-                        error,
-                    )
+                    console.error('Error al obtener la lista licencias:', error)
                 }
             }
         },
-        async confirmKardex(id) {
+        async confirmMedicalLicense(id) {
             const shouldDelete = window.confirm(
                 '¿Estás seguro de que deseas borrar el registro?',
             )
 
             if (shouldDelete) {
-                await this.deleteKardex(id)
+                await this.deleteMedicalLicense(id)
             }
         },
-        async deleteKardex(id) {
+        async deleteMedicalLicense(id) {
             this.loading = true
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `http://localhost:8000/kardex_data/delete/${id}`,
+                    `http://localhost:8000/medical_licenses/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -264,15 +326,38 @@ export default {
                     },
                 )
 
-                this.getKardexData()
-
-                location.reload();
-
-                this.loading = false
+                this.getMedicalLicenses()
             } catch (error) {
-                console.error('Error al borrar el documento de kardex:', error)
+                window.location.reload()
+                console.error('Error al borrar la licencia médica:', error)
             }
         },
     },
 }
 </script>
+<style>
+.pagination-container {
+    display: flex;
+    column-gap: 10px;
+}
+.paginate-buttons {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: rgb(242, 242, 242);
+    border: 1px solid rgb(217, 217, 217);
+    color: black;
+}
+.paginate-buttons:hover {
+    background-color: #d8d8d8;
+}
+.active-page {
+    background-color: #7e5bef;
+    border: 1px solid #7e5bef;
+    color: white;
+}
+.active-page:hover {
+    background-color: #7e5bef;
+}
+</style>
