@@ -22,9 +22,66 @@
             </div>
         </div>
         <div v-else class="flex flex-col pt-10">
-            <h2 class="text-4xl dark:text-white pb-10">
-                Indicadores
-            </h2>
+            <h2 class="text-4xl dark:text-white pb-10">Indicadores</h2>
+            <hr
+                class="mb-7 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
+            />
+            <div
+                class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
+            >
+                <div
+                    class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                >
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
+                        Datos
+                    </p>
+                </div>
+                <div
+                    class="grid md:grid-cols-1 sm:grid-cols-1 gap-4 p-4 md:p-5"
+                >
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >Periodo</label
+                        >
+                        <input
+                            type="month"
+                            id="rut_input"
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Mes del periodo"
+                            v-model="period_input"
+                            required
+                        />
+                    </div>
+
+                    
+                </div>
+                <div
+                        class="grid md:grid-cols-6 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                    >
+                        <div class="w-full">
+                            <button
+                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                            >
+                                <i
+                                    class="fa-solid fa-search p-1"
+                                ></i>
+                                Refrescar
+                            </button>
+                        </div>
+                        <div class="w-full">
+                            <button
+                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                            >
+                                <i
+                                    class="fa-solid fa-check p-1"
+                                ></i>
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+            </div>
             <div class="grid grid-cols-2 pt-10">
                 <div class="bg-gray-50 p-4">
                     <table
@@ -33,7 +90,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="2"
                                 >
                                     VALOR UF
@@ -49,7 +106,8 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="uf_value_current_month"
+                                        v-model="uf_value_current_month_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -61,7 +119,8 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="uf_value_last_month"
+                                        v-model="uf_value_last_month_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -74,17 +133,17 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                 >
                                     VALOR
                                 </th>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                 >
                                     UTM
                                 </th>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                 >
                                     UTA
                                 </th>
@@ -99,14 +158,16 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="utm_value_current_month"
+                                        v-model="utm_value_current_month_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="uta_value_current_month"
+                                        v-model="uta_value_current_month_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -118,7 +179,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="3"
                                 >
                                     RENTAS TOPES IMPONIBLES
@@ -134,7 +195,8 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="cap_income_tax_afp"
+                                        v-model="cap_income_tax_afp_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -146,7 +208,8 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="cap_income_tax_ips"
+                                        v-model="cap_income_tax_ips_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -158,7 +221,8 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="cap_income_tax_unemployment"
+                                        v-model="cap_income_tax_unemployment_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -170,7 +234,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="3"
                                 >
                                     RENTAS MÍNIMAS IMPONIBLES
@@ -187,8 +251,9 @@
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            minimun_income_tax_dependent_independet
+                                            minimun_income_tax_dependent_independet_input
                                         "
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -201,8 +266,9 @@
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            minimun_income_tax_under_18_over_65
+                                            minimun_income_tax_under_18_over_65_input
                                         "
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -215,8 +281,9 @@
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            minimun_income_tax_domestic_worker
+                                            minimun_income_tax_domestic_worker_input
                                         "
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -229,8 +296,9 @@
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            minimun_income_tax_non_remunerational
+                                            minimun_income_tax_non_remunerational_input
                                         "
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -242,7 +310,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="3"
                                 >
                                     AHORRO PREVISIONAL VOLUNTARIO (APV)
@@ -259,8 +327,9 @@
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            voluntary_pension_savings_monthly
+                                            voluntary_pension_savings_monthly_input
                                         "
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -273,8 +342,9 @@
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            voluntary_pension_savings_annual
+                                            voluntary_pension_savings_annual_input
                                         "
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -286,7 +356,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="3"
                                 >
                                     DEPÓSITO CONVENIDO
@@ -302,7 +372,8 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="agreed_deposit_annual"
+                                        v-model="agreed_deposit_annual_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -314,7 +385,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="3"
                                 >
                                     SEGURO DE CESANTÍA (AFC)
@@ -322,13 +393,13 @@
                             </tr>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     rowspan="2"
                                 >
                                     CONTRATO
                                 </th>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="2"
                                 >
                                     FINANCIAMIENTO
@@ -336,12 +407,12 @@
                             </tr>
                             <tr>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     TRABAJADOR
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     EMPLEADOR
                                 </td>
@@ -356,14 +427,16 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="indefinite_term_worker"
+                                        v-model="indefinite_term_worker_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="indefinite_term_employeer"
+                                        v-model="indefinite_term_employeer_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -375,7 +448,8 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="fixed_term_worker"
+                                        v-model="fixed_term_worker_input"
+                                        required
                                     />
                                 </td>
                                 <td
@@ -384,7 +458,8 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="fixed_term_employeer"
+                                        v-model="fixed_term_employeer_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -397,8 +472,9 @@
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            indefinite_term_worker_11_years
+                                            indefinite_term_worker_11_years_input
                                         "
+                                        required
                                     />
                                 </td>
                                 <td
@@ -408,8 +484,9 @@
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            indefinite_term_employeer_11_years
+                                            indefinite_term_employeer_11_years_input
                                         "
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -421,7 +498,8 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="domestic_worker"
+                                        v-model="domestic_worker_input"
+                                        required
                                     />
                                 </td>
                                 <td
@@ -430,7 +508,8 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="domestic_employeer"
+                                        v-model="domestic_employeer_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -444,13 +523,13 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     rowspan="4"
                                 >
                                     AFP
                                 </th>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="3"
                                 >
                                     TASA COTIZACIÓN OBLIGATORIO AFP
@@ -458,7 +537,7 @@
                             </tr>
                             <tr>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                     colspan="3"
                                 >
                                     TASA AFP TRABAJADORES
@@ -466,30 +545,30 @@
                             </tr>
                             <tr>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                     colspan="2"
                                 >
                                     DEPENDIENTES
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     INDEPENDIENTES
                                 </td>
                             </tr>
                             <tr>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     TASA AFP
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     SIS (1) (2)
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     TASA AFP (3)
                                 </td>
@@ -504,21 +583,24 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="capital_dependent_rate_afp"
+                                        v-model="capital_dependent_rate_afp_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="capital_dependent_sis"
+                                        v-model="capital_dependent_sis_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="capital_independent_rate_afp"
+                                        v-model="capital_independent_rate_afp_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -530,21 +612,24 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="cuprum_dependent_rate_afp"
+                                        v-model="cuprum_dependent_rate_afp_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="cuprum_dependent_sis"
+                                        v-model="cuprum_dependent_sis_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="cuprum_independent_rate_afp"
+                                        v-model="cuprum_independent_rate_afp_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -556,21 +641,24 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="habitat_dependent_rate_afp"
+                                        v-model="habitat_dependent_rate_afp_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="habitat_dependent_sis"
+                                        v-model="habitat_dependent_sis_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="habitat_independent_rate_afp"
+                                        v-model="habitat_independent_rate_afp_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -582,21 +670,24 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="planvital_dependent_rate_afp"
+                                        v-model="planvital_dependent_rate_afp_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="planvital_dependent_sis"
+                                        v-model="planvital_dependent_sis_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="planvital_independent_rate_afp"
+                                        v-model="planvital_independent_rate_afp_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -608,21 +699,24 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="provida_dependent_rate_afp"
+                                        v-model="provida_dependent_rate_afp_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="provida_dependent_sis"
+                                        v-model="provida_dependent_sis_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="provida_independent_rate_afp"
+                                        v-model="provida_independent_rate_afp_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -634,21 +728,24 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="modelo_dependent_rate_afp"
+                                        v-model="modelo_dependent_rate_afp_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="modelo_dependent_sis"
+                                        v-model="modelo_dependent_sis_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="modelo_independent_rate_afp"
+                                        v-model="modelo_independent_rate_afp_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -658,21 +755,24 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="uno_dependent_rate_afp"
+                                        v-model="uno_dependent_rate_afp_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="uno_dependent_sis"
+                                        v-model="uno_dependent_sis_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="uno_independent_rate_afp"
+                                        v-model="uno_independent_rate_afp_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -684,13 +784,13 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border w-1 border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border w-1 border-gray-400 py-2 px-4"
                                     rowspan="2"
                                 >
                                     TRAMO
                                 </th>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="3"
                                 >
                                     ASIGNACIÓN FAMILIAR
@@ -698,12 +798,12 @@
                             </tr>
                             <tr>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py- px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py- px-4 font-bold"
                                 >
                                     MONTO
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                     colspan="2"
                                 >
                                     REQUISITO DE RENTA
@@ -719,7 +819,8 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="a_family_assignment_amount"
+                                        v-model="a_family_assignment_amount_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
@@ -727,8 +828,9 @@
                                         type="text"
                                         class="bg-white-50 border ps-16 border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            a_family_assignment_rent_requirement
+                                            a_family_assignment_rent_requirement_input
                                         "
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -740,7 +842,8 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="b_family_assignment_amount"
+                                        v-model="b_family_assignment_amount_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
@@ -748,8 +851,9 @@
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            b_family_assignment_rent_requirement
+                                            b_family_assignment_rent_requirement_input
                                         "
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -762,7 +866,8 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="c_family_assignment_amount"
+                                        v-model="c_family_assignment_amount_input"
+                                        required
                                     />
                                 </td>
 
@@ -771,8 +876,9 @@
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            c_family_assignment_rent_requirement
+                                            c_family_assignment_rent_requirement_input
                                         "
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -784,7 +890,8 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="d_family_assignment_amount"
+                                        v-model="d_family_assignment_amount_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
@@ -792,8 +899,9 @@
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            d_family_assignment_rent_requirement
+                                            d_family_assignment_rent_requirement_input
                                         "
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -805,7 +913,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="4"
                                 >
                                     COTIZACIÓN PARA TRABAJOS PESADOS
@@ -813,13 +921,13 @@
                             </tr>
                             <tr>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                     colspan="2"
                                 >
                                     CALIFICACIÓN
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                     colspan="2"
                                 >
                                     FINANCIAMIENTO
@@ -827,18 +935,18 @@
                             </tr>
                             <tr>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                     colspan="2"
                                 >
                                     PUESTO DE TRABAJO
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     EMPLEADOR
                                 </td>
                                 <td
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4 font-bold"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                 >
                                     TRABAJADOR
                                 </td>
@@ -853,21 +961,24 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="hard_work_porcentage"
+                                        v-model="hard_work_porcentage_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="hard_work_employeer"
+                                        v-model="hard_work_employeer_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="hard_work_worker"
+                                        v-model="hard_work_worker_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -879,21 +990,24 @@
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="less_hard_work_porcentage"
+                                        v-model="less_hard_work_porcentage_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="less_hard_work_employeer"
+                                        v-model="less_hard_work_employeer_input"
+                                        required
                                     />
                                 </td>
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        v-model="less_hard_work_worker"
+                                        v-model="less_hard_work_worker_input"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -905,7 +1019,7 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="bg-blue-200 text-center border border-gray-400 py-2 px-4"
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
                                     colspan="4"
                                 >
                                     DISTRIBUCIÓN DEL 7% SALUD, PARA EMPLEADORES
@@ -921,8 +1035,9 @@
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            distribution_7_percent_health_employeer_ccaf
+                                            distribution_7_percent_health_employeer_ccaf_input
                                         "
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -935,8 +1050,9 @@
                                         type="text"
                                         class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            distribution_7_percent_health_employeer_fonasa
+                                            distribution_7_percent_health_employeer_fonasa_input
                                         "
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -958,133 +1074,133 @@ export default {
             last_day_of_month: '',
             last_day_of_past_month: '',
             current_month: '',
-            uf_value_current_month: '',
-            uf_value_last_month: '',
-            utm_value_current_month: '',
-            uta_value_current_month: '',
-            cap_income_tax_afp: '',
-            cap_income_tax_ips: '',
-            cap_income_tax_unemployment: '',
-            minimun_income_tax_dependent_independet: '',
-            minimun_income_tax_under_18_over_65: '',
-            minimun_income_tax_domestic_worker: '',
-            minimun_income_tax_non_remunerational: '',
-            voluntary_pension_savings_monthly: '',
-            voluntary_pension_savings_annual: '',
-            agreed_deposit_annual: '',
-            indefinite_term_worker: '',
-            fixed_term_worker: '',
-            indefinite_term_worker_11_years: '',
-            domestic_worker: '',
-            indefinite_term_employeer: '',
-            fixed_term_employeer: '',
-            indefinite_term_employeer_11_years: '',
-            domestic_employeer: '',
-            capital_dependent_rate_afp: '',
-            capital_dependent_sis: '',
-            capital_independent_rate_afp: '',
-            cuprum_dependent_rate_afp: '',
-            cuprum_dependent_sis: '',
-            cuprum_independent_rate_afp: '',
-            habitat_dependent_rate_afp: '',
-            habitat_dependent_sis: '',
-            habitat_independent_rate_afp: '',
-            planvital_dependent_rate_afp: '',
-            planvital_dependent_sis: '',
-            planvital_independent_rate_afp: '',
-            provida_dependent_rate_afp: '',
-            provida_dependent_sis: '',
-            provida_independent_rate_afp: '',
-            modelo_dependent_rate_afp: '',
-            modelo_dependent_sis: '',
-            modelo_independent_rate_afp: '',
-            uno_dependent_rate_afp: '',
-            uno_dependent_sis: '',
-            uno_independent_rate_afp: '',
-            a_family_assignment_amount: '',
-            a_family_assignment_rent_requirement: '',
-            b_family_assignment_amount: '',
-            b_family_assignment_rent_requirement: '',
-            c_family_assignment_amount: '',
-            c_family_assignment_rent_requirement: '',
-            d_family_assignment_amount: '',
-            d_family_assignment_rent_requirement: '',
-            hard_work_porcentage: '',
-            hard_work_employeer: '',
-            hard_work_worker: '',
-            less_hard_work_porcentage: '',
-            less_hard_work_employeer: '',
-            less_hard_work_worker: '',
-            distribution_7_percent_health_employeer_ccaf: '',
-            distribution_7_percent_health_employeer_fonasa: '',
+            uf_value_current_month_input: '',
+            uf_value_last_month_input: '',
+            utm_value_current_month_input: '',
+            uta_value_current_month_input: '',
+            cap_income_tax_afp_input: '',
+            cap_income_tax_ips_input: '',
+            cap_income_tax_unemployment_input: '',
+            minimun_income_tax_dependent_independet_input: '',
+            minimun_income_tax_under_18_over_65_input: '',
+            minimun_income_tax_domestic_worker_input: '',
+            minimun_income_tax_non_remunerational_input: '',
+            voluntary_pension_savings_monthly_input: '',
+            voluntary_pension_savings_annual_input: '',
+            agreed_deposit_annual_input: '',
+            indefinite_term_worker_input: '',
+            fixed_term_worker_input: '',
+            indefinite_term_worker_11_years_input: '',
+            domestic_worker_input: '',
+            indefinite_term_employeer_input: '',
+            fixed_term_employeer_input: '',
+            indefinite_term_employeer_11_years_input: '',
+            domestic_employeer_input: '',
+            capital_dependent_rate_afp_input: '',
+            capital_dependent_sis_input: '',
+            capital_independent_rate_afp_input: '',
+            cuprum_dependent_rate_afp_input: '',
+            cuprum_dependent_sis_input: '',
+            cuprum_independent_rate_afp_input: '',
+            habitat_dependent_rate_afp_input: '',
+            habitat_dependent_sis_input: '',
+            habitat_independent_rate_afp_input: '',
+            planvital_dependent_rate_afp_input: '',
+            planvital_dependent_sis_input: '',
+            planvital_independent_rate_afp_input: '',
+            provida_dependent_rate_afp_input: '',
+            provida_dependent_sis_input: '',
+            provida_independent_rate_afp_input: '',
+            modelo_dependent_rate_afp_input: '',
+            modelo_dependent_sis_input: '',
+            modelo_independent_rate_afp_input: '',
+            uno_dependent_rate_afp_input: '',
+            uno_dependent_sis_input: '',
+            uno_independent_rate_afp_input: '',
+            a_family_assignment_amount_input: '',
+            a_family_assignment_rent_requirement_input: '',
+            b_family_assignment_amount_input: '',
+            b_family_assignment_rent_requirement_input: '',
+            c_family_assignment_amount_input: '',
+            c_family_assignment_rent_requirement_input: '',
+            d_family_assignment_amount_input: '',
+            d_family_assignment_rent_requirement_input: '',
+            hard_work_porcentage_input: '',
+            hard_work_employeer_input: '',
+            hard_work_worker_input: '',
+            less_hard_work_porcentage_input: '',
+            less_hard_work_employeer_input: '',
+            less_hard_work_worker_input: '',
+            distribution_7_percent_health_employeer_ccaf_input: '',
+            distribution_7_percent_health_employeer_fonasa_input: '',
         }
     },
     methods: {
         async getProvisionalIndicator() {
             const response = await axios.get(
-                'https://apijis.com/provisional_indicators/scrape'
+                'http://localhost:8000/provisional_indicators/scrape'
             )
             this.data = response.data
             console.log(this.data)
-            this.uf_value_current_month = this.data[4]
-            this.uf_value_last_month = this.data[6]
-            this.utm_value_current_month = this.data[11]
-            this.uta_value_current_month = this.data[12]
-            this.cap_income_tax_afp = this.data[15]
-            this.cap_income_tax_ips = this.data[17]
-            this.cap_income_tax_unemployment = this.data[19]
-            this.minimun_income_tax_dependent_independet = this.data[22]
-            this.minimun_income_tax_under_18_over_65 = this.data[24]
-            this.minimun_income_tax_domestic_worker = this.data[26]
-            this.minimun_income_tax_non_remunerational = this.data[28]
-            this.voluntary_pension_savings_monthly = this.data[31]
-            this.voluntary_pension_savings_annual = this.data[33]
-            this.agreed_deposit_annual = this.data[36]
-            this.indefinite_term_worker = this.data[43]
-            this.indefinite_term_employeer = this.data[44]
-            this.fixed_term_worker = this.data[46]
-            this.fixed_term_employeer = this.data[47]
-            this.indefinite_term_worker_11_years = this.data[49]
-            this.indefinite_term_employeer_11_years = this.data[50]
-            this.domestic_worker = this.data[52]
-            this.domestic_employeer = this.data[53]
-            this.capital_dependent_rate_afp = this.data[63]
-            this.capital_dependent_sis = this.data[64]
-            this.capital_independent_rate_afp = this.data[65]
-            this.cuprum_dependent_rate_afp = this.data[67]
-            this.cuprum_dependent_sis = this.data[68]
-            this.cuprum_independent_rate_afp = this.data[69]
-            this.habitat_dependent_rate_afp = this.data[71]
-            this.habitat_dependent_sis = this.data[72]
-            this.habitat_independent_rate_afp = this.data[73]
-            this.planvital_dependent_rate_afp = this.data[75]
-            this.planvital_dependent_sis = this.data[76]
-            this.planvital_independent_rate_afp = this.data[77]
-            this.provida_dependent_rate_afp = this.data[79]
-            this.provida_dependent_sis = this.data[80]
-            this.provida_independent_rate_afp = this.data[81]
-            this.modelo_dependent_rate_afp = this.data[83]
-            this.modelo_dependent_sis = this.data[84]
-            this.modelo_independent_rate_afp = this.data[85]
-            this.uno_dependent_rate_afp = this.data[87]
-            this.uno_dependent_sis = this.data[88]
-            this.uno_independent_rate_afp = this.data[89]
-            this.a_family_assignment_amount = this.data[95]
-            this.a_family_assignment_rent_requirement = this.data[96]
-            this.b_family_assignment_amount = this.data[98]
-            this.b_family_assignment_rent_requirement = this.data[99]
-            this.c_family_assignment_amount = this.data[101]
-            this.c_family_assignment_rent_requirement = this.data[102]
-            this.d_family_assignment_amount = this.data[104]
-            this.d_family_assignment_rent_requirement = this.data[105]
-            this.hard_work_porcentage = this.data[113]
-            this.hard_work_employeer = this.data[114]
-            this.hard_work_worker = this.data[115]
-            this.less_hard_work_porcentage = this.data[117]
-            this.less_hard_work_employeer = this.data[118]
-            this.less_hard_work_worker = this.data[119]
-            this.distribution_7_percent_health_employeer_ccaf = this.data[122]
-            this.distribution_7_percent_health_employeer_fonasa = this.data[124]
+            this.uf_value_current_month_input = this.data[4]
+            this.uf_value_last_month_input = this.data[6]
+            this.utm_value_current_month_input = this.data[11]
+            this.uta_value_current_month_input = this.data[12]
+            this.cap_income_tax_afp_input = this.data[15]
+            this.cap_income_tax_ips_input = this.data[17]
+            this.cap_income_tax_unemployment_input = this.data[19]
+            this.minimun_income_tax_dependent_independet_input = this.data[22]
+            this.minimun_income_tax_under_18_over_65_input = this.data[24]
+            this.minimun_income_tax_domestic_worker_input = this.data[26]
+            this.minimun_income_tax_non_remunerational_input = this.data[28]
+            this.voluntary_pension_savings_monthly_input = this.data[31]
+            this.voluntary_pension_savings_annual_input = this.data[33]
+            this.agreed_deposit_annual_input = this.data[36]
+            this.indefinite_term_worker_input = this.data[43]
+            this.indefinite_term_employeer_input = this.data[44]
+            this.fixed_term_worker_input = this.data[46]
+            this.fixed_term_employeer_input = this.data[47]
+            this.indefinite_term_worker_11_years_input = this.data[49]
+            this.indefinite_term_employeer_11_years_input = this.data[50]
+            this.domestic_worker_input = this.data[52]
+            this.domestic_employeer_input = this.data[53]
+            this.capital_dependent_rate_afp_input = this.data[63]
+            this.capital_dependent_sis_input = this.data[64]
+            this.capital_independent_rate_afp_input = this.data[65]
+            this.cuprum_dependent_rate_afp_input = this.data[67]
+            this.cuprum_dependent_sis_input = this.data[68]
+            this.cuprum_independent_rate_afp_input = this.data[69]
+            this.habitat_dependent_rate_afp_input = this.data[71]
+            this.habitat_dependent_sis_input = this.data[72]
+            this.habitat_independent_rate_afp_input = this.data[73]
+            this.planvital_dependent_rate_afp_input = this.data[75]
+            this.planvital_dependent_sis_input = this.data[76]
+            this.planvital_independent_rate_afp_input = this.data[77]
+            this.provida_dependent_rate_afp_input = this.data[79]
+            this.provida_dependent_sis_input = this.data[80]
+            this.provida_independent_rate_afp_input = this.data[81]
+            this.modelo_dependent_rate_afp_input = this.data[83]
+            this.modelo_dependent_sis_input = this.data[84]
+            this.modelo_independent_rate_afp_input = this.data[85]
+            this.uno_dependent_rate_afp_input = this.data[87]
+            this.uno_dependent_sis_input = this.data[88]
+            this.uno_independent_rate_afp_input = this.data[89]
+            this.a_family_assignment_amount_input = this.data[95]
+            this.a_family_assignment_rent_requirement_input = this.data[96]
+            this.b_family_assignment_amount_input = this.data[98]
+            this.b_family_assignment_rent_requirement_input = this.data[99]
+            this.c_family_assignment_amount_input = this.data[101]
+            this.c_family_assignment_rent_requirement_input = this.data[102]
+            this.d_family_assignment_amount_input = this.data[104]
+            this.d_family_assignment_rent_requirement_input = this.data[105]
+            this.hard_work_porcentage_input = this.data[113]
+            this.hard_work_employeer_input = this.data[114]
+            this.hard_work_worker_input = this.data[115]
+            this.less_hard_work_porcentage_input = this.data[117]
+            this.less_hard_work_employeer_input = this.data[118]
+            this.less_hard_work_worker_input = this.data[119]
+            this.distribution_7_percent_health_employeer_ccaf_input = this.data[122]
+            this.distribution_7_percent_health_employeer_fonasa_input = this.data[124]
             this.loading = false
         },
         currentMonth() {

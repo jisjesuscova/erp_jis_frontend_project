@@ -1,5 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Bank from './pages/Bank.vue'
+import PayrollItem from './pages/PayrollItem.vue'
 import BranchOffice from './pages/BranchOffice.vue'
 import CreateEmployeeContract from './pages/CreateEmployeeContract.vue'
 import CreateDocumentManagement from './pages/CreateDocumentManagement.vue'
@@ -77,6 +78,10 @@ const routes = [
     {
         path:'/banks',
         component: Bank
+    },
+    {
+        path:'/payroll_item',
+        component: PayrollItem
     },
     {
         path:'/employees',

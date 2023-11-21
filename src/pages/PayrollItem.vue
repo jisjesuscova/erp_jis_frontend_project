@@ -24,27 +24,25 @@
 
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">
-                Kardex
+                Mantenedor Nominas
+                <router-link
+                    href="javascript:;"
+                    to="/create_honorary"
+                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                >
+                    Agregar
+                </router-link>
             </h2>
-
-            <OldEmployeeMenu />
 
             <div class="-m-1.5 overflow-x-auto pt-12">
                 <div
                     class="bg-green-500 text-sm text-white rounded-md p-4 mb-10"
                     role="alert"
-                    v-if="created_kardex == 1"
+                    v-if="deleted_honorary == 1"
                 >
-                    Registro agregado con <span class="font-bold">éxito</span>.
+                    Registro eliminado con <span class="font-bold">éxito</span>.
                 </div>
-                <div
-                    class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
-                    role="alert"
-                    v-if="error_kardex == 1"
-                >
-                    <span class="font-bold">Error</span> para descargar el
-                    documento.
-                </div>
+
                 <div class="p-1.5 min-w-full inline-block align-middle">
                     <div
                         class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
@@ -59,70 +57,58 @@
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            Documento
+                                            Id
                                         </th>
                                         <th
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            Fecha
+                                            Tipo de Nomina
                                         </th>
                                         <th
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-                                        ></th>
+                                        >
+                                            Item
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody
                                     class="divide-y divide-gray-200 dark:divide-gray-700"
                                 >
                                     <tr
-                                        v-for="kardex_document in kardex_documents"
-                                        :key="kardex_document.id"
+                                        v-for="payroll_item in payroll_items"
+                                        :key="payroll_item.id"
                                     >
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ kardex_document.document_type }}
+                                            {{ payroll_item.id }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{
-                                                formatDate(
-                                                    kardex_document.added_date,
-                                                )
-                                            }}
+                                            <span v-if="payroll_item.item_type_id == 1">Manual</span>
+                                            <span v-else-if="payroll_item.item_type_id == 2">Electronica</span>
+                                            
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            <button
-                                                type="button"
-                                                @click="
-                                                    downloadKardex(
-                                                        kardex_document.id,
-                                                    )
-                                                "
+                                            {{ payroll_item.item }}
+                                        </td>
+                                       
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            <router-link
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/edit_honorary/${payroll_item.id}`"
                                             >
-                                                <i
-                                                    class="fa-solid fa-arrow-down"
-                                                ></i>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                @click="
-                                                    confirmKardex(
-                                                        kardex_document.id,
-                                                    )
-                                                "
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-trash"
-                                                ></i>
-                                            </button>
+                                                <i class="fa-solid fa-eye"></i>
+                                            </router-link>
+                                         
                                         </td>
                                     </tr>
                                 </tbody>
@@ -132,130 +118,52 @@
                 </div>
             </div>
         </div>
+
+        <div class="text-center mt-10">
+            <vue-awesome-paginate
+                :total-items="totalItems"
+                :items-per-page="itemsPerPage"
+                :max-pages-shown="maxPagesShown"
+                v-model="currentPage"
+                :on-click="onClickHandler"
+            />
+        </div>
     </div>
 </template>
 <script>
 import axios from 'axios'
 import { format } from 'date-fns'
-import OldEmployeeMenu from '../components/OldEmployeeMenu.vue'
 
 export default {
-    components: {
-    OldEmployeeMenu
-},
     data() {
         return {
-            loading: false,
-            kardex_documents: [],
-            created_kardex: 0,
-            kardex_document: '',
-            error_kardex: 0,
-        }
-    },
-    async created() {
-        this.getKardexData()
-
-        this.created_kardex = localStorage.getItem('created_kardex')
-
-        if (this.created_kardex == 1) {
-            localStorage.removeItem('created_kardex')
+            honoraries: [],
+            loading: true,
+            searchParams: {},
+            searchData: {},
+            deleted_honorary: 0,
+            itemsPerPage: 10,
+            maxPagesShown: 5,
+            currentPage: 1,
+            totalItems: 0,
+            payroll_items: [],
         }
     },
     methods: {
+        onClickHandler() {
+            console.log(this.currentPage)
+            this.getHonoraries()
+        },
         formatDate(date) {
             return format(new Date(date), 'dd-MM-yyyy')
         },
-        async downloadKardex(id) {
-            const accessToken = localStorage.getItem('accessToken')
-
-            this.loading = true
-
-            try {
-                const response = await axios.get(
-                    'http://localhost:8000/kardex_data/download/' + id,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
-                        },
-                    },
-                )
-
-                this.kardex_document = response.data.message
-
-                if (this.kardex_document == 0) {
-                    this.error_kardex = 1
-                } else {
-                    window.location.href = this.kardex_document
-                }
-
-                this.loading = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error(
-                        'Error al obtener el documento del kardex:',
-                        error,
-                    )
-                }
-            }
-        },
-        async getKardexData() {
-            const accessToken = localStorage.getItem('accessToken')
-
-            this.loading = true
-
-            try {
-                const response = await axios.get(
-                    'http://localhost:8000/kardex_data/edit/' +
-                        this.$route.params.rut,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
-                        },
-                    },
-                )
-
-                if (response.data.message != 0) {
-                    const decodedData = JSON.parse(response.data.message)
-
-                    console.log(decodedData)
-
-                    this.kardex_documents = decodedData
-                }
-
-                this.loading = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error(
-                        'Error al obtener la lista de documentos de kardex:',
-                        error,
-                    )
-                }
-            }
-        },
-        async confirmKardex(id) {
-            const shouldDelete = window.confirm(
-                '¿Estás seguro de que deseas borrar el registro?',
-            )
-
-            if (shouldDelete) {
-                await this.deleteKardex(id)
-            }
-        },
-        async deleteKardex(id) {
+        async deleteHonorary(id) {
             this.loading = true
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `http://localhost:8000/kardex_data/delete/${id}`,
+                    `http://localhost:8000/honoraries/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -264,15 +172,73 @@ export default {
                     },
                 )
 
-                this.getKardexData()
+                this.getHonoraries()
 
-                location.reload();
+                this.deleted_honorary = 1
+            } catch (error) {
+                console.error('Error al borrar el honorario:', error)
+            }
+        },
+        async getPayrollsItems() {
+            const accessToken = localStorage.getItem('accessToken')
+            this.loading = true
+
+            try {
+                const response = await axios.get(
+                    'http://localhost:8000/payroll_items/',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            accept: 'application/json',
+                        },
+                    },
+                )
+                this.payroll_items = response.data.message
+                console.log(this.payroll_items)
 
                 this.loading = false
             } catch (error) {
-                console.error('Error al borrar el documento de kardex:', error)
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error(
+                        'Error al obtener la lista de honorarios:',
+                        error,
+                    )
+                }
             }
         },
     },
+    async mounted() {
+        this.getPayrollsItems()
+    },
 }
 </script>
+
+<style>
+.pagination-container {
+    display: flex;
+    column-gap: 10px;
+}
+.paginate-buttons {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: rgb(242, 242, 242);
+    border: 1px solid rgb(217, 217, 217);
+    color: black;
+}
+.paginate-buttons:hover {
+    background-color: #d8d8d8;
+}
+.active-page {
+    background-color: #7e5bef;
+    border: 1px solid #7e5bef;
+    color: white;
+}
+.active-page:hover {
+    background-color: #7e5bef;
+}
+</style>
