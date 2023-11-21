@@ -437,7 +437,7 @@
                                             </button>
 
                                             <button
-                                                v-if="vacation.status_id == 3"
+                                               
                                                 type="button"
                                                 @click="
                                                     generateFalseVacation(
@@ -450,7 +450,7 @@
                                             </button>
 
                                             <button
-                                                v-if="vacation.status_id == 4"
+                                                
                                                 type="button"
                                                 @click="
                                                     generateVacation(
@@ -856,7 +856,7 @@ export default {
         },
         async generateFalseVacation() {
             var logo = await this.getBase64ImageFromURL(
-                'http://localhost:5173/assets/assets/images/logo.png',
+                'https://erpjis.com/assets/logo.png',
             )
 
             var signature_type_id = localStorage.getItem('signature_type_id')
@@ -1205,11 +1205,11 @@ export default {
         },
         async generateVacation() {
             var logo = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/assets/images/logo.png',
+                'https://erpjis.com/assets/logo.png',
             )
 
             var company_signature = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/assets/images/signature.png',
+                'https://erpjis.com//assets/signature.png',
             )
 
             var signature = await this.getBase64ImageFromURL(
