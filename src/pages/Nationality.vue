@@ -94,7 +94,7 @@ export default {
 
         try {
             const response = await axios.get(
-                'http://localhost:8000/nationalities/',
+                'https://apijis.com/nationalities/',
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,

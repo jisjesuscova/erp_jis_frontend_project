@@ -188,7 +188,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/family_core_data/edit/' +
+                    'https://apijis.com/family_core_data/edit/' +
                         this.$route.params.rut +
                         '/2',
                     {
@@ -233,7 +233,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `http://localhost:8000/family_core_data/delete/${id}`,
+                    `https://apijis.com/family_core_data/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
