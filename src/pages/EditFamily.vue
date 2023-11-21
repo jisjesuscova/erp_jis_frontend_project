@@ -26,8 +26,6 @@
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">Editar Familiar</h2>
 
-            <EmployeeMenu />
-
             <div class="mt-3">
                 <div
                     id="bar-with-underline-1"
@@ -238,12 +236,8 @@
 </template>
 <script>
 import axios from 'axios'
-import EmployeeMenu from '../components/EmployeeMenu.vue'
 
 export default {
-    components: {
-        EmployeeMenu,
-    },
     data() {
         return {
             loading: false,
@@ -268,7 +262,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/family_core_data/edit/' +
+                    'https://apijis.com/family_core_data/family/edit/' +
                         this.$route.params.id +
                         '/1',
                     {
@@ -278,15 +272,17 @@ export default {
                     },
                 )
 
-                this.rut_input = response.data.message.rut
-                this.names_input = response.data.message.names
+                const decodedData = JSON.parse(response.data.message)
+
+                this.rut_input = decodedData.rut
+                this.names_input = decodedData.names
                 this.father_lastname_input =
-                    response.data.message.father_lastname
+                decodedData.father_lastname
                 this.mother_lastname_input =
-                    response.data.message.mother_lastname
-                this.gender_input = response.data.message.gender_id
-                this.born_date_input = response.data.message.born_date
-                this.family_type_input = response.data.message.family_type_id
+                decodedData.mother_lastname
+                this.gender_input = decodedData.gender_id
+                this.born_date_input = decodedData.born_date
+                this.family_type_input = decodedData.family_type_id
 
                 this.loading = false
             } catch (error) {
