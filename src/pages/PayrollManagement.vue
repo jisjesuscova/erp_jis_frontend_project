@@ -85,7 +85,7 @@
                         <button
                             class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                         >
-                            <i class="fa-solid fa-check bg-green-600 p-1"></i>
+                            <i class="fa-solid fa-check  p-1"></i>
                             Refrescar
                         </button>
                     </div>
@@ -154,7 +154,7 @@
                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                             >
                                 <i
-                                    class="fa-solid fa-search bg-green-600 p-1"
+                                    class="fa-solid fa-search  p-1"
                                 ></i>
                                 Buscar
                             </button>
@@ -164,7 +164,7 @@
                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                             >
                                 <i
-                                    class="fa-solid fa-check bg-yellow-600 p-1"
+                                    class="fa-solid fa-check  p-1"
                                 ></i>
                                 Carga Masiva
                             </button>
@@ -207,7 +207,7 @@
                                     class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                                 >
                                     <i
-                                        class="fa-solid fa-check bg-green-600 p-1"
+                                        class="fa-solid fa-check p-1"
                                     ></i>
                                     Agregar
                                 </button>

@@ -93,7 +93,7 @@ export default {
         const accessToken = localStorage.getItem('accessToken')
 
         try {
-            const response = await axios.post('https://apijis.com/banks/', {
+            const response = await axios.post('http://localhost:8000/banks/', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     accept: 'application/json',
