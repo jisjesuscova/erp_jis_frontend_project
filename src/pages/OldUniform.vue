@@ -18,12 +18,9 @@
 
             <h2 class="text-4xl dark:text-white pb-10">
                 Uniforme
-                <router-link href="javascript:;" :to="`/create_uniform/${this.$route.params.rut}`" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-                    Agregar
-                </router-link>
             </h2>
 
-            <EmployeeMenu />
+            <OldEmployeeMenu />
 
             <div class="-m-1.5 overflow-x-auto pt-12">
                 <div class="bg-green-500 text-sm text-white rounded-md p-4 mb-10" role="alert" v-if="created_uniform == 1">
@@ -46,11 +43,6 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{{ uniform.uniform_type }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ (uniform.size) }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ formatDate(uniform.delivered_date) }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                            <button type="button" @click="confirmDeleteUniform(uniform.id)" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -63,13 +55,13 @@
 </template>
 <script>
 import axios from 'axios';
-import EmployeeMenu from '../components/EmployeeMenu.vue';
 import { format } from 'date-fns';
+import OldEmployeeMenu from '../components/OldEmployeeMenu.vue';
 
 export default {
     components: {
-        EmployeeMenu
-    },
+    OldEmployeeMenu
+},
     data() {
         return {
             loading: false,
@@ -116,28 +108,6 @@ export default {
                 } else {
                     console.error('Error al obtener la lista de uniformes:', error);
                 }
-            }
-        },
-        async confirmDeleteUniform(id) {
-            const shouldDelete = window.confirm('¿Estás seguro de que deseas borrar el registro?');
-
-            if (shouldDelete) {
-                await this.deleteUniform(id);
-            }
-        },
-        async deleteUniform(id) {
-            try {
-                const accessToken = localStorage.getItem('accessToken');
-                await axios.delete(`http://localhost:8000/uniforms/delete/${id}`, {
-                    headers: {
-                        accept: 'application/json',
-                        Authorization: `Bearer ${accessToken}`
-                    },
-                });
-                    
-                this.getUniforms();
-            } catch (error) {
-                console.error('Error al borrar el uniforme:', error);
             }
         },
     },

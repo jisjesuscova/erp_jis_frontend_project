@@ -268,22 +268,21 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/family_core_data/edit/' +
-                        this.$route.params.id +
-                        '/1',
+                    'http://localhost:8000/family_core_data/edit/' +
+                        this.$route.params.id,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
                     },
                 )
+                console.log(response)
+                console.log(this.$route.params.id)
 
                 this.rut_input = response.data.message.rut
                 this.names_input = response.data.message.names
-                this.father_lastname_input =
-                    response.data.message.father_lastname
-                this.mother_lastname_input =
-                    response.data.message.mother_lastname
+                this.father_lastname_input = response.data.message.father_lastname
+                this.mother_lastname_input = response.data.message.mother_lastname
                 this.gender_input = response.data.message.gender_id
                 this.born_date_input = response.data.message.born_date
                 this.family_type_input = response.data.message.family_type_id
@@ -330,7 +329,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.patch(
-                    'https://apijis.com/family_core_data/update/' +
+                    'http://localhost:8000/family_core_data/update/' +
                         this.$route.params.id,
                     formData,
                     {

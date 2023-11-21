@@ -1,5 +1,10 @@
 <template>
     <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72">
+        <h2 class="text-4xl dark:text-white pb-10">Datos del Contrato</h2>
+
+            <div class="bg-yellow-500 text-sm text-white rounded-md p-4 mb-2 mt-2" role="alert">
+                Recuerde, esta pagina es solo para calcular el finiquito <span class="font-bold">No podra guardarlo desde aqui</span> 
+            </div>
         <div
             v-if="loading"
             class="flex flex-col justify-center items-center h-screen"
@@ -418,22 +423,20 @@
                         <div
                             class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
                         >
-                            <div class="w-full">
-                                <button
-                                    @click="createEndDocument"
-                                    type="submit"
-                                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                >
-                                    Guardar
-                                    <i class="fa-solid fa-check"></i>
-                                </button>
-                            </div>
+                        <button
+                            type="button"
+                            @click="generateEndDocument()"
+                            class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                            >
+                                <i class="fa-solid fa-file"></i>
+                            </button> 
+                            
 
                             <router-link
                                 :to="`/labor_data/${this.$route.params.rut}`"
                                 class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                             >
-                                Cancelar
+                                Volver
                                 <i class="fa-solid fa-remove"></i>
                             </router-link>
                         </div>
@@ -479,7 +482,7 @@ export default {
             balance: 0,
             progressive_balance: 0,
             causals: [],
-            employee_data: [],
+            employee_personal_data: [],
             rut: '',
             visual_rut: '',
             names: '',
@@ -509,9 +512,215 @@ export default {
             employee_family_data_status: 0,
             employee_vacations_status: 0,
             employee_medical_status: 0,
+            branch_offices: [],
+            job_positions: [],
         }
     },
     methods: {
+        async generateEndDocument() {
+            const logo = await this.getBase64ImageFromURL(
+                'https://erpjis.com/assets/logo.png',
+            )
+
+            const company_signature = await this.getBase64ImageFromURL(
+                'https://erpjis.com/assets/signature.png',
+            )
+
+            const schedule = await this.getBase64ImageFromURL(
+                'https://erpjis.com/assets/schedule.jpg',
+            )
+
+            
+           
+            const actual_date = new Date()
+            const current_date =
+                 this.formatDateToCustomFormat(new Date(actual_date))
+
+
+                 
+
+                const docDefinition = {
+                    content: [
+                        {
+                            image: logo,
+                            width: 50,
+                            alignment: 'left',
+                            margin: [0, 0, 0, 0],
+                        },
+                        {
+                            text: 'CALCULO FINIQUITO',
+                            bold: true,
+                            alignment: 'center',
+                            fontSize: 10,
+                            margin: [0, 5, 0, 10],
+                        },
+                        {
+                            text: current_date,
+                            bold: true,
+                            alignment: 'right',
+                            fontSize: 9,
+                            margin: [0, 5, 0, 5],
+                        },
+                           {text: [
+                        '\n\n',
+                        { text: ' ' + this.employee_personal_data.names + ' ' + this.employee_personal_data.father_lastname +' ' + this.employee_personal_data.mother_lastname +' ' , bold:true},   
+                        { text: ' RUT: ' + this.employee_personal_data.visual_rut , bold:true},  
+                        { text: ' con el cargo de : '},
+                        { text: this.job_positions.job_position, bold:true },
+                        { text: ' en la Sucursal: '  },
+                        { text: this.branch_offices.branch_office + ' ', bold:true},  
+                        { text: ' con fecha de ingreso : '},
+                        { text: this.formatDateToCustomFormat(this.employee_labor_data.entrance_company), bold: true} ,
+                        '\n\n',      
+                        { text: 'Resumen Monto', bold:true},
+                        '\n',
+                        { text: 'Indemnización Años de Servicios', bold:true},
+                        { text: this.alignNumbers('$ ',24) +this.formatNumber(this.indemnity_year_input), bold:true},
+                        '\n',
+                        { text: 'Indemnización Sustitutivo Aviso Previo', bold:true},
+                        { text: this.alignNumbers('$ ', 14) + this.formatNumber(this.substitute_compensation_input), bold:true},
+                        '\n',
+                        { text: 'Indemnización Voluntaria', bold:true},
+                        { text: this.alignNumbers('$ ', 38) + this.formatNumber(this.voluntary_compensation_input), bold:true},
+                        '\n',
+                        { text: 'Feriado Proporcional ('+ this.fertility_proportional_total_input + ' dias)', bold:true},
+                        { text: this.alignNumbers('$ ', 31) + this.formatNumber(this.fertility_proportional_input), bold:true},
+                        '\n\n',
+                        { text: 'Total', bold:true, fontSize: 12},
+                        { text: this.alignNumbers('$ ', 50) + this.formatNumber(this.total_input), bold:true, fontSize: 12},
+
+
+                            ],
+                            fontSize: 9,
+                            alignment: 'justify',
+                            margin: [0, 0, 0, 10],
+                            lineHeight: 1.5,
+                    },
+                        
+                       
+                    ],
+                    pageMargins: [40, 20, 40, 30],
+                    styles: {
+                        defaultStyle: {
+                            font: 'Helvetica',
+                        },
+                    },
+                }
+
+            pdfMake.createPdf(docDefinition).download('Calculo_Finiquito.pdf')
+        },
+        async getBranchOffices() {
+            const accessToken = localStorage.getItem('accessToken')
+            try {
+                const response = await axios.get(
+                    'http://localhost:8000/branch_offices/edit/' + this.employee_labor_data.branch_office_id,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                        },
+                    }
+                )
+                console.log(response)
+
+                this.branch_offices = response.data.message
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error(
+                        'Error al obtener las sucursales:',
+                        error
+                    )
+                }
+            }
+        },
+        async getJobPositions() {
+            const accessToken = localStorage.getItem('accessToken')
+            try {
+                const response = await axios.get(
+                    'http://localhost:8000/job_positions/edit/' + this.employee_labor_data.job_position_id,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                        },
+                    }
+                )
+                console.log(response)
+
+                this.job_positions = response.data.message
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error(
+                        'Error al obtener los crgos:',
+                        error
+                    )
+                }
+            }
+        },
+        formatDateToCustomFormat(date) {
+        let localDate = new Date(date);
+        let utcDate = new Date(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate());
+
+        console.log(this.fertility_proportional_total_input)
+        const monthNames = [
+                'Enero',
+                'Febrero',
+                'Marzo',
+                'Abril',
+                'Mayo',
+                'Junio',
+                'Julio',
+                'Agosto',
+                'Septiembre',
+                'Octubre',
+                'Noviembre',
+                'Diciembre',
+            ]
+
+            const day = utcDate.getDate()
+            const month = utcDate.getMonth()
+            const year = utcDate.getFullYear()
+
+            const formattedDate = `${day} de ${monthNames[month]} del ${year}`
+            return formattedDate
+        },
+        alignNumbers(number, length) {
+        return number.padStart(length);
+        },
+        formatNumber(number) {
+            return number.toLocaleString('de-DE');
+        },
+        getBase64ImageFromURL(url) {
+            return new Promise((resolve, reject) => {
+                var img = new Image()
+                img.setAttribute('crossOrigin', 'anonymous')
+
+                img.onload = () => {
+                    var canvas = document.createElement('canvas')
+                    canvas.width = img.width
+                    canvas.height = img.height
+
+                    var ctx = canvas.getContext('2d')
+                    ctx.drawImage(img, 0, 0)
+
+                    var dataURL = canvas.toDataURL('image/png')
+
+                    resolve(dataURL)
+                }
+
+                img.onerror = (error) => {
+                    reject(error)
+                }
+
+                img.src = url
+            })
+        },
         async getEmployee() {
             const accessToken = localStorage.getItem('accessToken')
             await axios
@@ -528,7 +737,7 @@ export default {
                 .then((response) => {
                     const decodedData = JSON.parse(response.data.message)
                     this.rut_input = decodedData.employee_data.visual_rut
-                    this.employee_data = decodedData.employee_data
+                    this.employee_personal_data = decodedData.employee_data
                 })
                 .catch((error) => {
                     this.validate_rut_status = 0
@@ -887,7 +1096,8 @@ export default {
                 rut: this.$route.params.rut,
                 document_type_id: 22,
                 causal_id: this.causal_input,
-                fertility_proportional_days:this.fertility_proportional_days_input,
+                fertility_proportional_days:
+                    this.fertility_proportional_days_input,
                 voluntary_indemnity: this.voluntary_compensation_input,
                 indemnity_years_service: this.indemnity_year_input,
                 substitute_compensation: this.substitute_compensation_input,
@@ -1115,9 +1325,8 @@ export default {
                         },
                     }
                 )
-                console.log(response)
                 this.fertility_proportional_input = response.data.message
-                this.fertility_proportional_days_input = response.data.total
+                this.fertility_proportional_total_input = response.data.total
 
                 this.total_input =
                     this.indemnity_year_input +
@@ -1132,11 +1341,13 @@ export default {
         },
     },
     async mounted() {
+        await this.getEmployeeLaborData()
         await this.getCausals()
         await this.getLegalAndTaken()
         await this.getProgressiveLegalAndTaken()
         await this.getEmployee()
-        await this.getEmployeeLaborData()
+        await this.getBranchOffices()
+        await this.getJobPositions()
 
         if (
             this.loading_1 == false &&

@@ -123,6 +123,7 @@
                                         placeholder="Sueldo Base"
                                         v-model="salary_input"
                                         required
+                                        @input="formatSalaryInput"
                                         />
                                 </div>
                                 <div>
@@ -134,6 +135,7 @@
                                         placeholder="Colación"
                                         v-model="collation_input"
                                         required
+                                        @input="formatCollationInput"
                                         />
                                 </div>
                                 <div>
@@ -145,6 +147,7 @@
                                         placeholder="Movilización"
                                         v-model="locomotion_input"
                                         required
+                                        @input="formatLocomotionInput"
                                         />
                                 </div>
                             </div>
@@ -213,6 +216,7 @@
                                         placeholder="Monto de la APV"
                                         v-model="apv_amount_input"
                                         required
+                                        @input="formatApvAmountInput"
                                         />
                                 </div>
                             </div>
@@ -228,12 +232,13 @@
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Monto Salud (Solo si es Isapre, indicar la cotización Pactada)</label>
                                     <input
-                                        type="text"
+                                        type="number"
                                         id="extra_health_amount_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Monto Salud (Solo si es Isapre, indicar la cotización Pactada)"
                                         v-model="extra_health_amount_input"
                                         required
+                                        step="0.01"
                                         />
                                 </div>
                             </div>
@@ -274,7 +279,7 @@
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-gray-700">
                                     <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Id</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha de Emisión</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estatus</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
                                     </tr>
@@ -290,7 +295,7 @@
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ employee_contract.id }}
+                                            {{ formatDate(employee_contract.added_date)}}
                                         </td>
                                         <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
@@ -381,6 +386,14 @@
                         Agregar
                     </router-link>
                 </h2>
+                <hr class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
+
+                <h2 class="text-4xl dark:text-white pb-10">
+                    D  +  I
+                    <router-link href="javascript:;" :to="`/calculate_end_document/${this.$route.params.rut}`" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+                        Calcular
+                    </router-link>
+                </h2>
 
             </div>
         </div>
@@ -457,6 +470,34 @@ export default {
         };
     },
     methods: {
+        formatSalaryInput() {
+            this.salary_input = this.salary_input.replace(/\D/g, '')
+            this.salary_input = this.salary_input.replace(
+                /([0-9])([0-9]{3})$/,
+                '$1.$2',
+            )
+            this.salary_input = this.salary_input.replace(
+                /(?=(\d{3})+(\D))\B/g,
+                '.',
+            )
+        },
+        formatCollationInput() {
+        this.collation_input = this.collation_input.replace(/\D/g, '');
+        this.collation_input = this.collation_input.replace(/([0-9])([0-9]{3})$/, '$1.$2');
+        this.collation_input = this.collation_input.replace(/(?=(\d{3})+(\D))\B/g, '.');
+        },
+
+        formatLocomotionInput() {
+        this.locomotion_input = this.locomotion_input.replace(/\D/g, '');
+        this.locomotion_input = this.locomotion_input.replace(/([0-9])([0-9]{3})$/, '$1.$2');
+        this.locomotion_input = this.locomotion_input.replace(/(?=(\d{3})+(\D))\B/g, '.');
+        },
+
+        formatApvAmountInput() {
+        this.apv_amount_input = this.apv_amount_input.replace(/\D/g, '');
+        this.apv_amount_input = this.apv_amount_input.replace(/([0-9])([0-9]{3})$/, '$1.$2');
+        this.apv_amount_input = this.apv_amount_input.replace(/(?=(\d{3})+(\D))\B/g, '.');
+        },
         async downloadEmployeeContract(id) {
             const accessToken = localStorage.getItem('accessToken')
 
@@ -464,7 +505,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employee_contracts/download/' + id,
+                    'http://localhost:8000/employee_contracts/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -494,10 +535,12 @@ export default {
                 }
             }
         },
-        formatDateToCustomFormat(dateString) {
-            const date = new Date(dateString)
+        formatDateToCustomFormat(date) {
+        let localDate = new Date(date);
+        let utcDate = new Date(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate());
 
-            const monthNames = [
+
+        const monthNames = [
                 'Enero',
                 'Febrero',
                 'Marzo',
@@ -512,12 +555,11 @@ export default {
                 'Diciembre',
             ]
 
-            const day = date.getDate()
-            const month = date.getMonth()
-            const year = date.getFullYear()
+            const day = utcDate.getDate()
+            const month = utcDate.getMonth()
+            const year = utcDate.getFullYear()
 
             const formattedDate = `${day} de ${monthNames[month]} del ${year}`
-
             return formattedDate
         },
         getBase64ImageFromURL(url) {
@@ -577,8 +619,12 @@ export default {
                  this.formatDateToCustomFormat(new Date(this.second_expiration))
 
             if (this.employee_labor_data && this.employee_labor_data.PentionModel) {
+                console.log(this.employee_labor_data.PentionModel.pention, this.employee_labor_data)
                 if (this.employee_labor_data.PentionModel.pention === undefined) {
                     this.pention_name = 'Ninguna';
+                }
+                else {
+                    this.pention_name = this.employee_labor_data.PentionModel.pention;
                 }
             } else {
                 this.pention_name = 'Ninguna';
@@ -668,7 +714,7 @@ export default {
                                 '\n\n',
                                 { text: 'CUARTO:', bold: true },
                                 ' El trabajador recibirá a título de remuneración un sueldo base bruto mensual de $',
-                                { text: ' ' + this.employee_labor_data.EmployeeLaborDatumModel.salary + '.- ', bold: true },
+                                { text: ' ' + this.employee_labor_data.EmployeeLaborDatumModel.salary.toLocaleString('es-CL') + '.- ', bold: true },
                                 'por las labores indicadas en la cláusula segunda del presente contrato. Además, el empleador el empleador opta, en relación con este beneficio, por la alternativa contemplada en el artículo 50 del Código del Trabajo, vale decir, por abonar o pagar el 25% de lo devengado en el respectivo ejercicio comercial por concepto de remuneraciones mensuales, con un tope máximo de 4,75 ingresos mínimos mensuales. A la suma que legalmente pudiere corresponder por concepto de este beneficio, en el evento de existir utilidades líquidas que hicieran exigible el pago de gratificación legal, se imputará lo pagado en razón de la gratificación convencional que se pacta a continuación. Vale decir, ambas gratificaciones no se sumarán en caso alguno y aquello que se hubiere pagado por concepto de gratificación convencional, por estar contractualmente garantizada, eximirá al empleador del pago de lo que pudiere corresponder por gratificación legal.',
                                 '\n\n',
                                 'Por otra parte, se pacta una gratificación garantizada, haya o no utilidades, ascendente al 25% de lo devengado por el trabajador en el respectivo ejercicio comercial por concepto de remuneración, con el tope máximo legal que proceda, el cual en ningún caso podrá exceder del equivalente a 4,75 ingresos mínimos al año. Esta gratificación se pagará mensualmente, en la misma oportunidad establecida para el pago del sueldo.',
@@ -807,6 +853,22 @@ export default {
                                                 margin: [0, -30, 0, 0],
                                             },
                                         ],
+                                        [
+                                            {
+                                                text: 'EMPLEADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                            {
+                                                text: 'TRABAJADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                        ],
                                     ],
                                 },
                             
@@ -879,6 +941,22 @@ export default {
                                                 fontSize: 10,
                                                 bold: true,
                                                 margin: [0, -30, 0, 0],
+                                            },
+                                        ],
+                                        [
+                                            {
+                                                text: 'EMPLEADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                            {
+                                                text: 'TRABAJADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
                                             },
                                         ],
                                     ],
@@ -976,6 +1054,22 @@ export default {
                                                 margin: [0, -30, 0, 0],
                                             },
                                         ],
+                                        [
+                                            {
+                                                text: 'EMPLEADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                            {
+                                                text: 'TRABAJADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                        ],
                                     ],
                                 },
                             
@@ -1049,6 +1143,22 @@ export default {
                                                 fontSize: 10,
                                                 bold: true,
                                                 margin: [0, -30, 0, 0],
+                                            },
+                                        ],
+                                        [
+                                            {
+                                                text: 'EMPLEADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                            {
+                                                text: 'TRABAJADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
                                             },
                                         ],
                                     ],
@@ -1127,6 +1237,22 @@ export default {
                                                 fontSize: 10,
                                                 bold: true,
                                                 margin: [0, -30, 0, 0],
+                                            },
+                                        ],
+                                        [
+                                            {
+                                                text: 'EMPLEADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                            {
+                                                text: 'TRABAJADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
                                             },
                                         ],
                                     ],
@@ -1211,6 +1337,22 @@ export default {
                                                 fontSize: 10,
                                                 bold: true,
                                                 margin: [0, -30, 0, 0],
+                                            },
+                                        ],
+                                        [
+                                            {
+                                                text: 'EMPLEADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                            {
+                                                text: 'TRABAJADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
                                             },
                                         ],
                                     ],
@@ -1326,6 +1468,22 @@ export default {
                                                 fontSize: 10,
                                                 bold: true,
                                                 margin: [0, -30, 0, -20],
+                                            },
+                                        ],
+                                        [
+                                            {
+                                                text: 'EMPLEADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                            {
+                                                text: 'TRABAJADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
                                             },
                                         ],
                                     ],
@@ -1583,6 +1741,22 @@ export default {
                                                 margin: [0, -30, 0, 0],
                                             },
                                         ],
+                                        [
+                                            {
+                                                text: 'EMPLEADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                            {
+                                                text: 'TRABAJADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                        ],
                                     ],
                                 },
                             
@@ -1655,6 +1829,22 @@ export default {
                                                 fontSize: 10,
                                                 bold: true,
                                                 margin: [0, -30, 0, 0],
+                                            },
+                                        ],
+                                        [
+                                            {
+                                                text: 'EMPLEADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                            {
+                                                text: 'TRABAJADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
                                             },
                                         ],
                                     ],
@@ -1752,6 +1942,22 @@ export default {
                                                 margin: [0, -30, 0, 0],
                                             },
                                         ],
+                                        [
+                                            {
+                                                text: 'EMPLEADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                            {
+                                                text: 'TRABAJADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                        ],
                                     ],
                                 },
                             
@@ -1825,6 +2031,22 @@ export default {
                                                 fontSize: 10,
                                                 bold: true,
                                                 margin: [0, -30, 0, 0],
+                                            },
+                                        ],
+                                        [
+                                            {
+                                                text: 'EMPLEADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                            {
+                                                text: 'TRABAJADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
                                             },
                                         ],
                                     ],
@@ -1903,6 +2125,22 @@ export default {
                                                 fontSize: 10,
                                                 bold: true,
                                                 margin: [0, -30, 0, 0],
+                                            },
+                                        ],
+                                        [
+                                            {
+                                                text: 'EMPLEADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                            {
+                                                text: 'TRABAJADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
                                             },
                                         ],
                                     ],
@@ -1987,6 +2225,22 @@ export default {
                                                 fontSize: 10,
                                                 bold: true,
                                                 margin: [0, -30, 0, 0],
+                                            },
+                                        ],
+                                        [
+                                            {
+                                                text: 'EMPLEADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                            {
+                                                text: 'TRABAJADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
                                             },
                                         ],
                                     ],
@@ -2104,6 +2358,22 @@ export default {
                                                 margin: [0, -30, 0, -20],
                                             },
                                         ],
+                                        [
+                                            {
+                                                text: 'EMPLEADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                            {
+                                                text: 'TRABAJADOR',
+                                                alignment: 'center',
+                                                fontSize: 10,
+                                                bold: true,
+                                                margin: [0, -20, 0, 0],
+                                            },
+                                        ],
                                     ],
                                 },
                             
@@ -2151,7 +2421,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `https://apijis.com/employee_contracts/delete/${id}`,
+                    `http://localhost:8000/employee_contracts/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -2168,7 +2438,9 @@ export default {
             }
         },
         formatDate(date) {
-            return format(new Date(date), 'dd-MM-yyyy')
+            let localDate = new Date(date);
+            let utcDate = new Date(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate());
+        return format(utcDate, 'dd-MM-yyyy');
         },
         async replacedotandtransformtoint(text) {
 
@@ -2208,19 +2480,19 @@ export default {
                 entrance_pention: this.entrance_pention_input,
                 entrance_company: this.entrance_company_input,
                 entrance_health: this.entrance_health_input,
-                salary: this.replacedotandtransformtoint(this.salary_input),
-                collation: this.replacedotandtransformtoint(this.collation_input),
-                locomotion: this.replacedotandtransformtoint(this.locomotion_input),
-                extra_health_amount: this.replacedotandtransformtoint(this.extra_health_amount_input),
+                salary:  await this.replacedotandtransformtoint(this.salary_input),
+                collation:  await this.replacedotandtransformtoint(this.collation_input),
+                locomotion:  await this.replacedotandtransformtoint(this.locomotion_input),
+                extra_health_amount:  this.extra_health_amount_input,
                 extra_health_payment_type_id: this.extra_health_payment_type_input,
                 apv_payment_type_id: this.apv_payment_type_input,
-                apv_amount: this.replacedotandtransformtoint(this.apv_amount_input),
+                apv_amount: await this.replacedotandtransformtoint(this.apv_amount_input),
             };  
 
             console.log(dataToSend)
             try {
                 
-                const response = await axios.patch('https://apijis.com/employee_labor_data/update/'+ this.$route.params.rut, dataToSend, {
+                const response = await axios.patch('http://localhost:8000/employee_labor_data/update/'+ this.$route.params.rut, dataToSend, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2237,6 +2509,7 @@ export default {
 
             } catch(error) {
                 console.log(error);
+                this.loading = false
             }
         },
         formatNumber(number) {
@@ -2245,7 +2518,7 @@ export default {
         async getEmployeeLaborData() {
           const accessToken = localStorage.getItem('accessToken');
             try {
-                const response = await axios.get('https://apijis.com/employee_labor_data/edit/'+ this.$route.params.rut, {
+                const response = await axios.get('http://localhost:8000/employee_labor_data/edit/'+ this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2275,7 +2548,7 @@ export default {
                 this.extra_health_amount_input      = this.formatNumber(decodedData.EmployeeLaborDatumModel.extra_health_amount);
                 this.extra_health_payment_type_input    = decodedData.EmployeeLaborDatumModel.extra_health_payment_type_id;
                 this.apv_payment_type_input     = decodedData.EmployeeLaborDatumModel.apv_payment_type_id;
-                this.apv_amount_input   = this.formatNumber(decodedData.EmployeeLaborDatumModel.apv_amount);
+                this.apv_amount_input = Number(decodedData.EmployeeLaborDatumModel.apv_amount).toLocaleString('de-DE');
                 this.getCommunes();
                 this.commune_input = decodedData.EmployeeLaborDatumModel.commune_id;
 
@@ -2294,7 +2567,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/pentions/', {
+                const response = await axios.get('http://localhost:8000/pentions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2321,7 +2594,7 @@ export default {
             };  
 
             try {
-                const response = await axios.post('https://apijis.com/contract_data/expiration', dataToSend, {
+                const response = await axios.post('http://localhost:8000/contract_data/expiration', dataToSend, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2372,7 +2645,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/healths/', {
+                const response = await axios.get('http://localhost:8000/healths/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2395,7 +2668,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/regimes/', {
+                const response = await axios.get('http://localhost:8000/regimes/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2418,7 +2691,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/job_positions/', {
+                const response = await axios.get('http://localhost:8000/job_positions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2441,7 +2714,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/employee_types/', {
+                const response = await axios.get('http://localhost:8000/employee_types/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2464,7 +2737,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/contract_types/', {
+                const response = await axios.get('http://localhost:8000/contract_types/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2487,7 +2760,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/branch_offices/', {
+                const response = await axios.get('http://localhost:8000/branch_offices/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2534,7 +2807,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/regions/', {
+                const response = await axios.get('http://localhost:8000/regions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2558,7 +2831,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/civil_states/', {
+                const response = await axios.get('http://localhost:8000/civil_states/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2582,7 +2855,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/employee_contracts/edit/' + this.$route.params.rut, {
+                const response = await axios.get('http://localhost:8000/employee_contracts/edit/' + this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2609,7 +2882,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employees/edit/' +
+                    'http://localhost:8000/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -2639,7 +2912,7 @@ export default {
         //     const accessToken = localStorage.getItem('accessToken');
 
         //     try {
-        //         const response = await axios.get('https://apijis.com/end_documents/edit/' + this.$route.params.rut, {
+        //         const response = await axios.get('http://localhost:8000/end_documents/edit/' + this.$route.params.rut, {
         //             headers: {
         //             accept: 'application/json',
         //             Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud

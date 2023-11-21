@@ -12,6 +12,7 @@ import CreateProgressiveVacation from './pages/CreateProgressiveVacation.vue'
 import CreateUniform from './pages/CreateUniform.vue'
 import CreateVacation from './pages/CreateVacation.vue'
 import CreateEndDocumennt from './pages/CreateEndDocument.vue' 
+import CalculateEndDocument from './pages/CalculateEndDocument.vue'
 import DocumentManagement from './pages/DocumentManagement.vue'
 import EditFamily from './pages/EditFamily.vue'
 import EditHonorary from './pages/EditHonorary.vue'
@@ -28,23 +29,29 @@ import OldKardexDocument from './pages/OldKardexDocument.vue'
 import LaborData from './pages/LaborData.vue'
 import OldLaborData from './pages/OldLaborData.vue'
 import MedicalLicense from './pages/MedicalLicense.vue'
+import OldMedicalLicense from './pages/OldMedicalLicense.vue'
 import Nationality from './pages/Nationality.vue'
 import Pention from './pages/Pention.vue'
 import PersonalData from './pages/PersonalData.vue'
 import OldPersonalData from './pages/OldPersonalData.vue'
 import RequestedDocumentManagement from './pages/RequestedDocumentManagement.vue'
 import SalarySettlement from './pages/SalarySettlement.vue'
+import OldSalarySettlement from './pages/OldSalarySettlement.vue'
 import SettlementDataEmployee from './components/SettlementDataEmployee.vue'
 import ShowVacation from './pages/ShowVacation.vue'
 import Uniform from './pages/Uniform.vue'
+import OldUniform from './pages/OldUniform.vue'
 import UploadMedicalLicense from './components/UploadMedicalLicense.vue'
 import UploadProgressiveVacation from './components/UploadProgressiveVacation.vue'
 import UploadVacation from './components/UploadVacation.vue'
 import Vacation from './pages/Vacation.vue'
+import OldVacation from './pages/OldVacation.vue'
 import Alert from './pages/Alert.vue'
 import UploadEmployeeContract from './pages/UploadEmployeeContract.vue'
 import GeneralSalarySettlement from './pages/GeneralSalarySettlement.vue'
 import CreateSalarySettlement from './pages/CreateSalarySettlement.vue'
+import PreviredIndicator from './pages/PreviredIndicator.vue'
+import PayrollManagement from './pages/PayrollManagement.vue'
 
 const routes = [
     {
@@ -128,6 +135,10 @@ const routes = [
         component: Uniform
     },
     {
+        path:'/old_uniform/:rut',
+        component: OldUniform
+    },
+    {
         path:'/settlement/:rut',
         component: SettlementDataEmployee
     },
@@ -136,8 +147,16 @@ const routes = [
         component: Vacation
     },
     {
+        path:'/old_vacation/:rut',
+        component: OldVacation
+    },
+    {
         path:'/medical_license/:rut',
         component: MedicalLicense
+    },
+    {
+        path:'/old_medical_license/:rut',
+        component: OldMedicalLicense
     },
     {
         path:'/create_family/:rut',
@@ -201,8 +220,16 @@ const routes = [
         component: CreateEndDocumennt
     },
     {
+        path:'/calculate_end_document/:rut',
+        component: CalculateEndDocument
+    },
+    {
         path:'/salary_settlement/:rut',
         component: SalarySettlement
+    },
+    {
+        path:'/old_salary_settlement/:rut',
+        component: OldSalarySettlement
     },
     {
         path:'/salary_settlement',
@@ -243,6 +270,14 @@ const routes = [
     {
         path:'/create_salary_settlement',
         component: CreateSalarySettlement
+    },
+    {
+        path:'/previred_indicator',
+        component: PreviredIndicator
+    },
+    {
+        path:'/payroll_management',
+        component: PayrollManagement
     },
 ]
 

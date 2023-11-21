@@ -316,7 +316,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/old_employee_extras/edit/' +
+                    'http://localhost:8000/old_employee_extras/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -395,7 +395,7 @@ export default {
                     window.location.reload()
                 } else {
                     console.error(
-                        'Error al obtener los datos del empleado:',
+                        'Error al obtener los datos Extra del empleado:',
                         error,
                     )
                 }

@@ -93,7 +93,7 @@ export default {
         const accessToken = localStorage.getItem('accessToken')
 
         try {
-            const response = await axios.get('https://apijis.com/pentions/', {
+            const response = await axios.get('http://localhost:8000/pentions/', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     accept: 'application/json',

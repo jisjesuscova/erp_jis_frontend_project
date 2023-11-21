@@ -172,7 +172,7 @@ export default {
 
         try {
             const response = await axios.get(
-                'https://apijis.com/uniform_types/',
+                'http://localhost:8000/uniform_types/',
                 {
                     headers: {
                         accept: 'application/json',
@@ -210,12 +210,13 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             const response = await axios
-                .post('https://apijis.com/uniforms/store', dataToSend, {
+                .post('http://localhost:8000/uniforms/store', dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
                     },
-                })
+                }
+                )
                 .then((response) => {
                     console.log(response)
                     this.loading = false
