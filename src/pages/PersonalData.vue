@@ -985,7 +985,7 @@ export default {
                     const accessToken = localStorage.getItem('accessToken')
 
                     const response = await axios.post(
-                        'http://localhost:8000/employees/signature/',
+                        'https://apijis.com/employees/signature/',
                         formData,
                         {
                             headers: {
@@ -1013,7 +1013,7 @@ export default {
 
             try {
                 const response = await axios.delete(
-                    'http://localhost:8000/employees/delete/picture/' +
+                    'https://apijis.com/employees/delete/picture/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -1045,7 +1045,7 @@ export default {
 
             try {
                 const response = await axios.delete(
-                    'http://localhost:8000/employees/delete/signature/' +
+                    'https://apijis.com/employees/delete/signature/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -1082,7 +1082,7 @@ export default {
             console.log(this.picture)
             axios
                 .post(
-                    'http://localhost:8000/employees/upload/picture',
+                    'https://apijis.com/employees/upload/picture',
                     formData,
                     {
                         headers: {
@@ -1114,7 +1114,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .post('http://localhost:8000/employee_bank_accounts/store', dataToSend, {
+                .post('https://apijis.com/employee_bank_accounts/store', dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
@@ -1150,7 +1150,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.patch(
-                    'http://localhost:8000/employee_bank_accounts/update/' +
+                    'https://apijis.com/employee_bank_accounts/update/' +
                         this.$route.params.rut,
                     dataToSend,
                     {
@@ -1189,7 +1189,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.patch(
-                    'http://localhost:8000/employees/update/' +
+                    'https://apijis.com/employees/update/' +
                         this.$route.params.rut,
                     dataToSend,
                     {
@@ -1216,7 +1216,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.patch(
-                    'http://localhost:8000/clock_users/update/' +
+                    'https://apijis.com/clock_users/update/' +
                         this.$route.params.rut,
                     dataToSend,
                     {
@@ -1243,7 +1243,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.patch(
-                    'http://localhost:8000/users/update/' +
+                    'https://apijis.com/users/update/' +
                         this.$route.params.rut,
                     dataToSend,
                     {
@@ -1305,7 +1305,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.get(
-                    'http://localhost:8000/employees/validate_cellphone/' +
+                    'https://apijis.com/employees/validate_cellphone/' +
                         this.cellphone_input,
                     {
                         headers: {
@@ -1346,7 +1346,7 @@ export default {
             var rut = this.rut_input.split('-')
 
             axios
-                .get('http://localhost:8000/employees/validate_rut/' + rut[0], {
+                .get('https://apijis.com/employees/validate_rut/' + rut[0], {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
@@ -1383,7 +1383,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employees/edit/' +
+                    'https://apijis.com/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -1450,7 +1450,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employee_bank_accounts/edit/' +
+                    'https://apijis.com/employee_bank_accounts/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -1492,7 +1492,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/nationalities/',
+                    'https://apijis.com/nationalities/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -1521,7 +1521,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'http://localhost:8000/banks/',
+                    'https://apijis.com/banks/',
                     {
                         headers: {
                             accept: 'application/json',
