@@ -277,7 +277,7 @@ const routes = [
         component: CreateSalarySettlement
     },
     {
-        path:'/previred_indicator',
+        path:'/previred_indicators',
         component: PreviredIndicator
     },
     {
