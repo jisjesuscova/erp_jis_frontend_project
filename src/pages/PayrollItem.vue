@@ -27,7 +27,7 @@
                 Mantenedor Nominas
                 <router-link
                     href="javascript:;"
-                    to="/create_honorary"
+                    to="/create_payroll_item"
                     class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                 >
                     Agregar
@@ -36,9 +36,9 @@
 
             <div class="-m-1.5 overflow-x-auto pt-12">
                 <div
-                    class="bg-green-500 text-sm text-white rounded-md p-4 mb-10"
+                    class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
                     role="alert"
-                    v-if="deleted_honorary == 1"
+                    v-if="delete_payroll_item == 1"
                 >
                     Registro eliminado con <span class="font-bold">éxito</span>.
                 </div>
@@ -89,7 +89,7 @@
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
                                             <span v-if="payroll_item.item_type_id == 1">Manual</span>
-                                            <span v-else-if="payroll_item.item_type_id == 2">Electronica</span>
+                                            <span v-else-if="payroll_item.item_type_id == 2">Calculada</span>
                                             
                                         </td>
                                         <td
@@ -104,11 +104,22 @@
                                             <router-link
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
-                                                :to="`/edit_honorary/${payroll_item.id}`"
+                                                :to="`/edit_payroll_item/${payroll_item.id}`"
                                             >
-                                                <i class="fa-solid fa-eye"></i>
+                                                <i class="fa-solid fa-pen"></i>
                                             </router-link>
-                                         
+                                            <button
+                                                
+                                                type="button"
+                                                @click="
+                                                    confirmPayrollItem(payroll_item.id)
+                                                "
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-trash"
+                                                ></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -132,12 +143,11 @@
 </template>
 <script>
 import axios from 'axios'
-import { format } from 'date-fns'
 
 export default {
     data() {
         return {
-            honoraries: [],
+      
             loading: true,
             searchParams: {},
             searchData: {},
@@ -147,23 +157,30 @@ export default {
             currentPage: 1,
             totalItems: 0,
             payroll_items: [],
+            delete_payroll_item: 0,
         }
     },
     methods: {
         onClickHandler() {
-            console.log(this.currentPage)
-            this.getHonoraries()
+            this.getPayrollsItems()
         },
-        formatDate(date) {
-            return format(new Date(date), 'dd-MM-yyyy')
+        async confirmPayrollItem(id) {
+            const shouldDelete = window.confirm(
+                '¿Estás seguro de que deseas borrar la nomina?',
+            )
+            console.log(id)
+
+            if (shouldDelete) {
+                await this.deletePayrollItem(id)
+            }
         },
-        async deleteHonorary(id) {
+        async deletePayrollItem(id) {
             this.loading = true
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `https://apijis.com/honoraries/delete/${id}`,
+                    `https://apijis.com/payroll_items/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -172,20 +189,23 @@ export default {
                     },
                 )
 
-                this.getHonoraries()
+              this.getPayrollsItems()
 
-                this.deleted_honorary = 1
+                this.delete_payroll_item = 1
             } catch (error) {
-                console.error('Error al borrar el honorario:', error)
+                console.error('Error al borrar la nomina:', error)
             }
         },
         async getPayrollsItems() {
             const accessToken = localStorage.getItem('accessToken')
+            const dataToSend = {
+                page: this.currentPage,
+            }
             this.loading = true
 
             try {
-                const response = await axios.get(
-                    'https://apijis.com/payroll_items/',
+                const response = await axios.post(
+                    'https://apijis.com/payroll_items/',dataToSend,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -193,8 +213,10 @@ export default {
                         },
                     },
                 )
-                this.payroll_items = response.data.message
-                console.log(this.payroll_items)
+                this.totalItems = response.data.message.total_items
+                this.itemsPerPage = response.data.message.items_per_page
+                this.payroll_items = response.data.message.data
+                console.log(response.data.message)
 
                 this.loading = false
             } catch (error) {

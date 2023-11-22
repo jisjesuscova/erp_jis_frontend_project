@@ -23,7 +23,24 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
+            <h2 class="text-4xl dark:text-white pb-10">
+                Mantenedor Nacionalidades
+                <router-link
+                    href="javascript:;"
+                    to="/create_nationality"
+                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                >
+                    Agregar
+                </router-link>
+            </h2>
             <div class="-m-1.5 overflow-x-auto">
+                <div
+                    class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
+                    role="alert"
+                    v-if="delete_nationality == 1"
+                >
+                    Registro eliminado con <span class="font-bold">éxito</span>.
+                </div>
                 <div class="p-1.5 min-w-full inline-block align-middle">
                     <div
                         class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
@@ -65,6 +82,26 @@
                                         >
                                             {{ nationality.nationality }}
                                         </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/edit_bank/${nationality.id}`"
+                                            >
+                                                <i class="fa-solid fa-pen"></i>
+                                            </router-link>
+                                            <button
+                                                type="button"
+                                                @click="confirmNationality(nationality.id)"
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-trash"
+                                                ></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -87,10 +124,12 @@ export default {
         return {
             nationalities: [],
             loading: true,
+            delete_nationality: 0,
         }
     },
-    async created() {
-        const accessToken = localStorage.getItem('accessToken')
+    methods: {
+        async getNationalities() {
+            const accessToken = localStorage.getItem('accessToken')
 
         try {
             const response = await axios.get(
@@ -106,8 +145,41 @@ export default {
             this.nationalities = response.data.message
             this.loading = false
         } catch (error) {
-            console.error('Error al obtener la lista de sucursales:', error)
+            console.error('Error al obtener la lista de nacionalidades:', error)
         }
+        },
+        async confirmNationality(id) {
+            const shouldDelete = window.confirm(
+                '¿Estás seguro de que deseas borrar la nomina?'
+            )
+            console.log(id)
+
+            if (shouldDelete) {
+                await this.deleteNationality(id)
+            }
+        },
+        async deleteNationality(id) {
+            this.loading = true
+
+            try {
+                const accessToken = localStorage.getItem('accessToken')
+                await axios.delete(`https://apijis.com/nationalities/delete/${id}`, {
+                    headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+
+                this.getNationalities()
+
+                this.delete_nationality = 1
+            } catch (error) {
+                console.error('Error al borrar la nacionalidad:', error)
+            }
+        }
+    },
+    async mounted() {
+        this.getNationalities()
     },
 }
 </script>
