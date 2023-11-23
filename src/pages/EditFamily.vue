@@ -262,7 +262,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/family_core_data/edit/' +
+                    'http://localhost:8000/family_core_data/edit/' +
                         this.$route.params.id,
                     {
                         headers: {
@@ -273,7 +273,7 @@ export default {
                 console.log(response)
                 console.log(this.$route.params.id)
 
-                const decodedData = JSON.parse(response.data.message)
+                const decodedData = response.data.message
 
                 this.rut_input = decodedData.rut
                 this.names_input = decodedData.names
@@ -294,6 +294,7 @@ export default {
                     console.error(
                         'Error al obtener los datos del familiar:',
                         error,
+                        this.loading = false
                     )
                 }
             }
@@ -327,7 +328,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.patch(
-                    'https://apijis.com/family_core_data/update/' +
+                    'http://localhost:8000/family_core_data/update/' +
                         this.$route.params.id,
                     formData,
                     {

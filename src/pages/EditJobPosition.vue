@@ -21,12 +21,17 @@
                 </svg>
                 <span class="sr-only">Loading...</span>
             </div>
+
+            <!-- You can use a spinner or any other loading animation here -->
         </div>
 
         <div v-else class="flex flex-col pt-10">
-            <h2 class="text-4xl dark:text-white pb-10">Crear Uniforme</h2>
+            <h2 class="text-4xl dark:text-white pb-10">Actualizar Cargo</h2>
 
             <div class="mt-3">
+                <div v-if="validate_update_job_position == 1" class="bg-green-500 text-sm text-white rounded-md p-4 mb-10 mt-10" role="alert">
+                    Cargo Actualizado con <span class="font-bold">éxito</span> 
+                </div>
                 <div
                     id="bar-with-underline-1"
                     role="tabpanel"
@@ -35,16 +40,11 @@
                     <div
                         class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                     >
-                        <form @submit.prevent="createUniformEmployee">
+                    <form @submit.prevent="updateJobPosition">
                             <div
                                 class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                            >
-                                <p
-                                    class="mt-1 text-sm text-gray-500 dark:text-gray-500"
-                                >
-                                    Datos
-                                </p>
-                            </div>
+                            ></div>
+
                             <div
                                 class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5"
                             >
@@ -52,35 +52,14 @@
                                     <label
                                         for="hs-validation-name-error"
                                         class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Tipos de Uniformes</label
+                                        >Nombre Del cargo</label
                                     >
-                                    <select
-                                        v-model="uniform_type_input"
-                                        required
-                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    >
-                                        <option value="">- Tipos de Uniformes -</option>
-                                        <option
-                                            v-for="uniform_type in uniform_types"
-                                            :key="uniform_type.id"
-                                            :value="uniform_type.id"
-                                        >
-                                            {{ uniform_type.uniform_type }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label
-                                        for="hs-validation-name-error"
-                                        class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Tamaño del Uniforme</label
-                                 >
-                                 <input
+                                    <input
                                         type="text"
-                                        id="size_input"
+                                        id="job_position_name_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="S, M, L, XL, XXL o 39 - 40 - 41 - 42 - 43 - 44, etc"
-                                        v-model="size_input"
+                                        placeholder="Programador, Contador, etc..."
+                                        v-model="job_position_name_input"
                                         required
                                     />
                                 </div>
@@ -88,19 +67,18 @@
                                     <label
                                         for="hs-validation-name-error"
                                         class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Fecha de Despacho</label
+                                        >Funciones </label
                                     >
                                     <input
-                                        type="date"
-                                        id="delivered_date_input"
+                                        type="text"
+                                        id="functions_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="Fecha de Despacho"
-                                        v-model="delivered_date_input"
+                                        placeholder="Encargado de la administración de la empresa, etc..."
+                                        v-model="functions_input"
                                         required
                                     />
                                 </div>
                             </div>
-
                             <div
                                 class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
                             >
@@ -140,7 +118,7 @@
                                 </div>
 
                                 <router-link
-                                    :to="`/uniform/${$route.params.rut}`"
+                                    :to="`/job_positions/`"
                                     class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                                 >
                                     Cancelar
@@ -161,74 +139,86 @@ export default {
     data() {
         return {
             loading: false,
-            delivered_date_input: '',
-            uniform_type_input: '',
-            uniform_types: [],
-            size_input: '',
+            job_position_name_input: '',
+            functions_input: '',
+            validate_update_job_position:0
         }
     },
     async created() {
-        const accessToken = localStorage.getItem('accessToken')
-
-        try {
-            const response = await axios.get(
-                'http://localhost:8000/uniform_types/',
-                {
-                    headers: {
-                        accept: 'application/json',
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                },
-            )
-
-            this.uniform_types = response.data.message
-
-            this.loading = false
-        } catch (error) {
-            if (error.message == 'Request failed with status code 401') {
-                localStorage.removeItem('accessToken')
-                window.location.reload()
-            } else {
-                console.error('Error al obtener la lista de sucursales:', error)
-            }
-        }
+        this.getJobPositions()
     },
     methods: {
-        async createUniformEmployee() {
-            this.loading = true
-
-            const dataToSend = {
-                uniform_type_id: this.uniform_type_input,
-                rut: this.$route.params.rut,
-                size: this.size_input,
-                delivered_date: this.delivered_date_input,
-                added_date: new Date().toISOString(),
-                updated_date: new Date().toISOString(),
-            }
-            console.log(dataToSend);
-
+        async getJobPositions() {
             const accessToken = localStorage.getItem('accessToken')
 
-            const response = await axios
-                .post('http://localhost:8000/uniforms/store', dataToSend, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        accept: 'application/json',
+            this.loading = true
+
+            try {
+                const response = await axios.get(
+                    'http://localhost:8000/job_positions/edit/' +
+                        this.$route.params.id,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
                     },
-                }
                 )
-                .then((response) => {
-                    console.log(response)
-                    this.loading = false
-                    localStorage.setItem('created_uniform', 1)
-                    this.$router.push(
-                        '/uniform/' + this.$route.params.rut,
+                console.log(response)
+                this.job_position_name_input = response.data.message.job_position
+                this.functions_input = response.data.message.functions
+
+
+             
+
+                this.loading = false
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error(
+                        'Error al obtener los valores de la nomina:',
+                        error,
+                        this.loading = false
                     )
-                })
-                .catch((error) => {
-                    console.error(error)
-                    this.loading = false
-                })
+                }
+            }
+        },
+        async updateJobPosition() {
+            this.loading = true
+
+            try {
+               
+
+                const dataToSend = {
+                    job_position: this.job_position_name_input,
+                    functions: this.functions_input,
+                    added_date: new Date(),
+                    updated_date: new Date(),
+                }
+             
+
+                const accessToken = localStorage.getItem('accessToken')
+
+                const response = await axios.patch(
+                    'http://localhost:8000/job_positions/update/' +
+                        this.$route.params.id,
+                        dataToSend,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            'Content-Type': ' application/json',
+                        },
+                    },
+                )
+
+              
+                this.validate_update_job_position = 1
+            } catch (error) {
+                console.error(error)
+            } finally {
+                this.loading = false
+            }
         },
     },
 }
