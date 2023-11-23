@@ -1224,7 +1224,7 @@ export default {
         },
         async getProvisionalIndicator() {
             const response = await axios.get(
-                'http://localhost:8000/provisional_indicators/scrape'
+                'https://apijis.com/provisional_indicators/scrape'
             )
             this.data = response.data
             console.log(this.data)

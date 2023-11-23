@@ -333,7 +333,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employee_extras/edit/' +
+                    'https://apijis.com/employee_extras/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -425,7 +425,7 @@ export default {
 
             try {
                 const response = await axios.patch(
-                    `http://localhost:8000/employee_extras/update/${this.$route.params.rut}`,
+                    `https://apijis.com/employee_extras/update/${this.$route.params.rut}`,
                     {
                         extreme_zone_id: this.extreme_zone_input,
                         employee_type_id: this.employee_type_input,
