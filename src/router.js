@@ -8,6 +8,7 @@ import CreateEmployee from './pages/CreateEmployee.vue'
 import CreateFamily from './pages/CreateFamily.vue'
 import CreatePayrollItem from './pages/CreatePayrollItem.vue'
 import CreateBank from './pages/CreateBank.vue'
+import CreatePention from './pages/CreatePention.vue'
 import CreateNationality from './pages/CreateNationality.vue'
 import CreateHonorary from './pages/CreateHonorary.vue'
 import CreateKardexDocument from './pages/CreateKardexDocument.vue'
@@ -179,6 +180,10 @@ const routes = [
     {
         path:'/create_bank/',
         component: CreateBank
+    },
+    {
+        path:'/create_pention/',
+        component: CreatePention
     },
     {
         path:'/create_nationality/',
