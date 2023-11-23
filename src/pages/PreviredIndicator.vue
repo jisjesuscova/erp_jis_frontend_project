@@ -57,30 +57,16 @@
 
                     
                 </div>
-                <div
-                        class="grid md:grid-cols-6 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                    >
-                        <div class="w-full">
-                            <button
-                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                            >
-                                <i
-                                    class="fa-solid fa-search p-1"
-                                ></i>
-                                Refrescar
-                            </button>
-                        </div>
-                        <div class="w-full">
-                            <button
-                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                            >
-                                <i
-                                    class="fa-solid fa-check p-1"
-                                ></i>
-                                Guardar
-                            </button>
-                        </div>
-                    </div>
+                <div class="grid grid-cols-8 gap-4 p-4 md:p-5">
+                    <button type="button" @click="passEvent" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+                        Buscar
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <button type="button" @click="submit"  class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
+                        Guardar
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                </div>
             </div>
             <div class="grid grid-cols-2 pt-10">
                 <div class="bg-gray-50 p-4">
@@ -1136,6 +1122,106 @@ export default {
         }
     },
     methods: {
+        async submit() {
+            const dataToSend = {
+                period: this.period_input,
+                uf_value_current_montht: this.uf_value_current_month_input,
+                uf_value_last_month: this.uf_value_last_month_input,
+                utm_value_current_month: this.utm_value_current_month_input,
+                uta_value_current_month: this.uta_value_current_month_input,
+                cap_income_tax_afp: this.cap_income_tax_afp_input,
+                cap_income_tax_ips: this.cap_income_tax_ips_input,
+                cap_income_tax_unemployment: this.cap_income_tax_unemployment_input,
+                minimun_income_tax_dependent_independet: this
+                    .minimun_income_tax_dependent_independet_input,
+                minimun_income_tax_under_18_over_65: this
+                    .minimun_income_tax_under_18_over_65_input,
+                minimun_income_tax_domestic_worker: this
+                    .minimun_income_tax_domestic_worker_input,
+                minimun_income_tax_non_remunerational: this
+                    .minimun_income_tax_non_remunerational_input,
+                voluntary_pension_savings_monthly: this
+                    .voluntary_pension_savings_monthly_input,
+                voluntary_pension_savings_annual: this
+                    .voluntary_pension_savings_annual_input,
+                agreed_deposit_annual: this.agreed_deposit_annual_input,
+                indefinite_term_worker: this.indefinite_term_worker_input,
+                fixed_term_worker: this.fixed_term_worker_input,
+                indefinite_term_worker_11_years: this
+                    .indefinite_term_worker_11_years_input,
+                domestic_worker: this.domestic_worker_input,
+                indefinite_term_employeer: this.indefinite_term_employeer_input,
+                fixed_term_employeer: this.fixed_term_employeer_input,
+                indefinite_term_employeer_11_years: this
+                    .indefinite_term_employeer_11_years_input,
+                domestic_employeer: this.domestic_employeer_input,
+                capital_dependent_rate_afp: this.capital_dependent_rate_afp_input,
+                capital_dependent_sis: this.capital_dependent_sis_input,
+                capital_independent_rate_afp: this.capital_independent_rate_afp_input,
+                cuprum_dependent_rate_afp: this.cuprum_dependent_rate_afp_input,
+                cuprum_dependent_sis: this.cuprum_dependent_sis_input,
+                cuprum_independent_rate_afp: this.cuprum_independent_rate_afp_input,
+                habitat_dependent_rate_afp: this.habitat_dependent_rate_afp_input,
+                habitat_dependent_sis: this.habitat_dependent_sis_input,
+                habitat_independent_rate_afp: this.habitat_independent_rate_afp_input,
+                planvital_dependent_rate_afp: this.planvital_dependent_rate_afp_input,
+                planvital_dependent_sis: this.planvital_dependent_sis_input,
+                planvital_independent_rate_afp: this
+                    .planvital_independent_rate_afp_input,
+                provida_dependent_rate_afp: this.provida_dependent_rate_afp_input,
+                provida_dependent_sis: this.provida_dependent_sis_input,
+                provida_independent_rate_afp: this
+                    .provida_independent_rate_afp_input,
+                modelo_dependent_rate_afp: this.modelo_dependent_rate_afp_input,
+                modelo_dependent_sis: this.modelo_dependent_sis_input,
+                modelo_independent_rate_afp: this.modelo_independent_rate_afp_input,
+                uno_dependent_rate_afp: this.uno_dependent_rate_afp_input,
+                uno_dependent_sis_input: this.uno_dependent_sis_input,
+                uno_independent_rate_afp: this.uno_independent_rate_afp_input,
+                a_family_assignment_amount: this.a_family_assignment_amount_input,
+                a_family_assignment_rent_requirement: this
+                    .a_family_assignment_rent_requirement_input,
+                b_family_assignment_amount: this.b_family_assignment_amount_input,
+                b_family_assignment_rent_requirement: this
+                    .b_family_assignment_rent_requirement_input,
+                c_family_assignment_amount: this.c_family_assignment_amount_input,
+                c_family_assignment_rent_requirement: this
+                    .c_family_assignment_rent_requirement_input,
+                d_family_assignment_amount: this.d_family_assignment_amount_input,
+                d_family_assignment_rent_requirement: this
+                    .d_family_assignment_rent_requirement_input,
+                hard_work_porcentage: this.hard_work_porcentage_input,
+                hard_work_employeer: this.hard_work_employeer_input,
+                hard_work_worker: this.hard_work_worker_input,
+                less_hard_work_porcentage: this.less_hard_work_porcentage_input,
+                less_hard_work_employeer: this.less_hard_work_employeer_input,
+                less_hard_work_worker: this.less_hard_work_worker_input,
+                distribution_7_percent_health_employeer_ccaf: this
+                    .distribution_7_percent_health_employeer_ccaf_input,
+                distribution_7_percent_health_employeer_fonasa: this
+                    .distribution_7_percent_health_employeer_fonasa_input,
+            }
+
+            const accessToken = localStorage.getItem('accessToken')
+
+            axios
+                .post('http://localhost:8000/provisional_indicators/store', dataToSend, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        accept: 'application/json',
+                    },
+                })
+                .then((response) => {
+                    console.log(response)
+                    this.loading = false
+
+                    this.$router.push('/previred_indicators')
+                })
+                .catch((error) => {
+                    console.error(error)
+                    this.loading = false
+                })
+        },
         async getProvisionalIndicator() {
             const response = await axios.get(
                 'https://apijis.com/provisional_indicators/scrape'
