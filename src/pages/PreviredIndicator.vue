@@ -1205,7 +1205,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .post('http://localhost:8000/provisional_indicators/store', dataToSend, {
+                .post('https://apijis.com/provisional_indicators/store', dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',

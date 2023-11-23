@@ -273,7 +273,7 @@ export default {
                 console.log(response)
                 console.log(this.$route.params.id)
 
-                const decodedData = JSON.parse(response.data.message)
+                const decodedData = response.data.message
 
                 this.rut_input = decodedData.rut
                 this.names_input = decodedData.names
@@ -294,6 +294,7 @@ export default {
                     console.error(
                         'Error al obtener los datos del familiar:',
                         error,
+                        this.loading = false
                     )
                 }
             }

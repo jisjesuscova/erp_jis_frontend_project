@@ -1,13 +1,17 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Bank from './pages/Bank.vue'
+import Health from './pages/Health.vue'
 import PayrollItem from './pages/PayrollItem.vue'
+import JobPosition from './pages/JobPosition.vue'
 import BranchOffice from './pages/BranchOffice.vue'
 import CreateEmployeeContract from './pages/CreateEmployeeContract.vue'
 import CreateDocumentManagement from './pages/CreateDocumentManagement.vue'
 import CreateEmployee from './pages/CreateEmployee.vue'
 import CreateFamily from './pages/CreateFamily.vue'
 import CreatePayrollItem from './pages/CreatePayrollItem.vue'
+import CreateJobPosition from './pages/CreateJobPosition.vue'
 import CreateBank from './pages/CreateBank.vue'
+import CreateHealth from './pages/CreateHealth.vue'
 import CreatePention from './pages/CreatePention.vue'
 import CreateNationality from './pages/CreateNationality.vue'
 import CreateHonorary from './pages/CreateHonorary.vue'
@@ -22,6 +26,8 @@ import DocumentManagement from './pages/DocumentManagement.vue'
 import EditFamily from './pages/EditFamily.vue'
 import EditPayrollItem from './pages/EditPayrollItem.vue'
 import EditBank from './pages/EditBank.vue'
+import EditJobPosition from './pages/EditJobPosition.vue'
+import EditPention from './pages/EditPention.vue'
 import EditHonorary from './pages/EditHonorary.vue'
 import Employee from './pages/Employee.vue'
 import ExtraDataEmployee from './pages/ExtraDataEmployee.vue'
@@ -86,8 +92,16 @@ const routes = [
         component: Bank
     },
     {
+        path:'/health',
+        component: Health
+    },
+    {
         path:'/payroll_item',
         component: PayrollItem
+    },
+    {
+        path:'/job_positions',
+        component: JobPosition
     },
     {
         path:'/employees',
@@ -178,8 +192,16 @@ const routes = [
         component: CreatePayrollItem
     },
     {
+        path:'/create_job_position/',
+        component: CreateJobPosition
+    },
+    {
         path:'/create_bank/',
         component: CreateBank
+    },
+    {
+        path:'/create_health/',
+        component: CreateHealth
     },
     {
         path:'/create_pention/',
@@ -204,6 +226,14 @@ const routes = [
     {
         path:'/edit_bank/:id',
         component: EditBank
+    },
+    {
+        path:'/edit_job_position/:id',
+        component: EditJobPosition
+    },
+    {
+        path:'/edit_pention/:id',
+        component: EditPention
     },
     {
         path:'/create_kardex_document/:rut',
