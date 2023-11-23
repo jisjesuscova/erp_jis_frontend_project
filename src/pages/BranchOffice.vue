@@ -97,7 +97,7 @@ export default {
 
         try {
             const response = await axios.get(
-                'http://localhost:8000/branch_offices/',
+                'https://apijis.com/branch_offices/',
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
