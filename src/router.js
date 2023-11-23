@@ -6,6 +6,10 @@ import CreateEmployeeContract from './pages/CreateEmployeeContract.vue'
 import CreateDocumentManagement from './pages/CreateDocumentManagement.vue'
 import CreateEmployee from './pages/CreateEmployee.vue'
 import CreateFamily from './pages/CreateFamily.vue'
+import CreatePayrollItem from './pages/CreatePayrollItem.vue'
+import CreateBank from './pages/CreateBank.vue'
+import CreatePention from './pages/CreatePention.vue'
+import CreateNationality from './pages/CreateNationality.vue'
 import CreateHonorary from './pages/CreateHonorary.vue'
 import CreateKardexDocument from './pages/CreateKardexDocument.vue'
 import CreateMedicalLicense from './pages/CreateMedicalLicense.vue'
@@ -16,6 +20,8 @@ import CreateEndDocumennt from './pages/CreateEndDocument.vue'
 import CalculateEndDocument from './pages/CalculateEndDocument.vue'
 import DocumentManagement from './pages/DocumentManagement.vue'
 import EditFamily from './pages/EditFamily.vue'
+import EditPayrollItem from './pages/EditPayrollItem.vue'
+import EditBank from './pages/EditBank.vue'
 import EditHonorary from './pages/EditHonorary.vue'
 import Employee from './pages/Employee.vue'
 import ExtraDataEmployee from './pages/ExtraDataEmployee.vue'
@@ -168,12 +174,36 @@ const routes = [
         component: CreateFamily
     },
     {
+        path:'/create_payroll_item/',
+        component: CreatePayrollItem
+    },
+    {
+        path:'/create_bank/',
+        component: CreateBank
+    },
+    {
+        path:'/create_pention/',
+        component: CreatePention
+    },
+    {
+        path:'/create_nationality/',
+        component: CreateNationality
+    },
+    {
         path:'/create_uniform/:rut',
         component: CreateUniform
     },
     {
         path:'/edit_family/:rut/:id',
         component: EditFamily
+    },
+    {
+        path:'/edit_payroll_item/:id',
+        component: EditPayrollItem
+    },
+    {
+        path:'/edit_bank/:id',
+        component: EditBank
     },
     {
         path:'/create_kardex_document/:rut',

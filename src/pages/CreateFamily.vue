@@ -278,7 +278,7 @@ export default {
                 return false
             }
 
-            const [rut, digv] = completed_rut.split('-')
+            let [rut, digv] = completed_rut.split('-')
 
             if (digv === 'K') {
                 digv = 'k'
@@ -321,7 +321,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .post('https://apijis.com/family_core_data/store', formData, {
+                .post('http://localhost:8000/family_core_data/store', formData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'multipart/form-data',

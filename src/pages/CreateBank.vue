@@ -21,12 +21,17 @@
                 </svg>
                 <span class="sr-only">Loading...</span>
             </div>
+
+            <!-- You can use a spinner or any other loading animation here -->
         </div>
 
         <div v-else class="flex flex-col pt-10">
-            <h2 class="text-4xl dark:text-white pb-10">Crear Uniforme</h2>
+            <h2 class="text-4xl dark:text-white pb-10">Ingresar Banco</h2>
 
             <div class="mt-3">
+                <div v-if="validate_create_bank == 1" class="bg-green-500 text-sm text-white rounded-md p-4 mb-10 mt-10" role="alert">
+                    Banco Ingresado con <span class="font-bold">éxito</span> 
+                </div>
                 <div
                     id="bar-with-underline-1"
                     role="tabpanel"
@@ -35,16 +40,11 @@
                     <div
                         class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                     >
-                        <form @submit.prevent="createUniformEmployee">
+                        <form @submit.prevent="createBank">
                             <div
                                 class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                            >
-                                <p
-                                    class="mt-1 text-sm text-gray-500 dark:text-gray-500"
-                                >
-                                    Datos
-                                </p>
-                            </div>
+                            ></div>
+
                             <div
                                 class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5"
                             >
@@ -52,55 +52,34 @@
                                     <label
                                         for="hs-validation-name-error"
                                         class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Tipos de Uniformes</label
-                                    >
-                                    <select
-                                        v-model="uniform_type_input"
-                                        required
-                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    >
-                                        <option value="">- Tipos de Uniformes -</option>
-                                        <option
-                                            v-for="uniform_type in uniform_types"
-                                            :key="uniform_type.id"
-                                            :value="uniform_type.id"
-                                        >
-                                            {{ uniform_type.uniform_type }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label
-                                        for="hs-validation-name-error"
-                                        class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Tamaño del Uniforme</label
-                                 >
-                                 <input
-                                        type="text"
-                                        id="size_input"
-                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="S, M, L, XL, XXL o 39 - 40 - 41 - 42 - 43 - 44, etc"
-                                        v-model="size_input"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        for="hs-validation-name-error"
-                                        class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Fecha de Despacho</label
+                                        >Nombre del banco</label
                                     >
                                     <input
-                                        type="date"
-                                        id="delivered_date_input"
+                                        type="text"
+                                        id="bank_name"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="Fecha de Despacho"
-                                        v-model="delivered_date_input"
+                                        placeholder="Banco de Chile, Banco Estado, Banco santandar, etc..."
+                                        v-model="bank_name_input"
                                         required
                                     />
                                 </div>
+                                <div>
+                                    <label
+                                        for="hs-validation-name-error"
+                                        class="block text-sm font-medium mb-2 dark:text-white"
+                                        >Estado del banco</label
+                                    >
+                                    <select
+                                        v-model="bank_status_input"
+                                        required
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    >
+                                        <option value="2" selected> - Estado del banco -</option>
+                                        <option value="1">Activo</option>
+                                        <option value="0">Inactivo</option>
+                                    </select>
+                                </div>
                             </div>
-
                             <div
                                 class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
                             >
@@ -140,7 +119,7 @@
                                 </div>
 
                                 <router-link
-                                    :to="`/uniform/${$route.params.rut}`"
+                                    :to="`/banks/`"
                                     class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                                 >
                                     Cancelar
@@ -156,80 +135,62 @@
 </template>
 <script>
 import axios from 'axios'
+import { mask } from 'vue-the-mask'
 
 export default {
+    directives: { mask },
     data() {
         return {
             loading: false,
-            delivered_date_input: '',
-            uniform_type_input: '',
-            uniform_types: [],
-            size_input: '',
-        }
-    },
-    async created() {
-        const accessToken = localStorage.getItem('accessToken')
-
-        try {
-            const response = await axios.get(
-                'http://localhost:8000/uniform_types/',
-                {
-                    headers: {
-                        accept: 'application/json',
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                },
-            )
-
-            this.uniform_types = response.data.message
-
-            this.loading = false
-        } catch (error) {
-            if (error.message == 'Request failed with status code 401') {
-                localStorage.removeItem('accessToken')
-                window.location.reload()
-            } else {
-                console.error('Error al obtener la lista de sucursales:', error)
-            }
+            loading_1: false,
+            item_type_id_input: 0,
+            item_input: '',
+            birth_certificate: null,
+            validate_rut_status: 0,
+            isValidRut: true,
+            validationsPassed: false,
+            validate_create_bank: 0,
+            bank_name_input: '',
+            bank_status_input: 2
         }
     },
     methods: {
-        async createUniformEmployee() {
-            this.loading = true
-
-            const dataToSend = {
-                uniform_type_id: this.uniform_type_input,
-                rut: this.$route.params.rut,
-                size: this.size_input,
-                delivered_date: this.delivered_date_input,
-                added_date: new Date().toISOString(),
-                updated_date: new Date().toISOString(),
-            }
-            console.log(dataToSend);
-
-            const accessToken = localStorage.getItem('accessToken')
-
-            const response = await axios
-                .post('http://localhost:8000/uniforms/store', dataToSend, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        accept: 'application/json',
-                    },
+        async createBank() {
+            try{
+                this.loading = true
+                this.loading_1 = true
+                const dataToSend = {
+                    bank: this.bank_name_input,
+                    visibility_id: this.bank_status_input,
+                    added_date: new Date(),
+                    updated_date: new Date(),
                 }
-                )
-                .then((response) => {
-                    console.log(response)
-                    this.loading = false
-                    localStorage.setItem('created_uniform', 1)
-                    this.$router.push(
-                        '/uniform/' + this.$route.params.rut,
-                    )
-                })
-                .catch((error) => {
-                    console.error(error)
-                    this.loading = false
-                })
-        },
+                console.log(dataToSend)
+                const accessToken = localStorage.getItem('accessToken')
+                await axios.post('http://localhost:8000/banks/store/', dataToSend, 
+                {
+                    headers: {
+                                accept: 'application/json',
+                                Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            },    
+                }
+            )
+            this.loading_1 = false
+            this.loading = false
+            
+            this.validate_create_bank = 1
+            this.bank_name_input = ''
+            this.bank_status_input = 2
+
+            if (this.loading_1 == false ) {
+                this.loading = false
+            }
+        }
+            catch(error){
+                console.log(error)
+                this.loading = false
+            }
+        }
     },
 }
 </script>

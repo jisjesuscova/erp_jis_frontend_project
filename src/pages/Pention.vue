@@ -23,6 +23,16 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
+            <h2 class="text-4xl dark:text-white pb-10">
+                Mantenedor Pensiones
+                <router-link
+                    href="javascript:;"
+                    to="/create_pention"
+                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                >
+                    Agregar
+                </router-link>
+            </h2>
             <div class="-m-1.5 overflow-x-auto">
                 <div class="p-1.5 min-w-full inline-block align-middle">
                     <div
@@ -65,6 +75,26 @@
                                         >
                                             {{ pention.pention }}
                                         </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/edit_pention/${pention.id}`"
+                                            >
+                                                <i class="fa-solid fa-pen"></i>
+                                            </router-link>
+                                            <button
+                                                type="button"
+                                                @click="confirmPention(pention.id)"
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-trash"
+                                                ></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -89,11 +119,12 @@ export default {
             loading: true,
         }
     },
-    async created() {
-        const accessToken = localStorage.getItem('accessToken')
+    methods: {
+        async getPentions() {
+              const accessToken = localStorage.getItem('accessToken')
 
         try {
-            const response = await axios.get('https://apijis.com/pentions/', {
+            const response = await axios.get('http://localhost:8000/pentions/', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     accept: 'application/json',
@@ -105,6 +136,39 @@ export default {
         } catch (error) {
             console.error('Error al obtener la lista de sucursales:', error)
         }
+        },
+        async confirmPention(id) {
+            const shouldDelete = window.confirm(
+                '¿Estás seguro de que deseas borrar la nomina?'
+            )
+            console.log(id)
+
+            if (shouldDelete) {
+                await this.deletePention(id)
+            }
+        },
+        async deletePention(id) {
+            this.loading = true
+
+            try {
+                const accessToken = localStorage.getItem('accessToken')
+                await axios.delete(`http://localhost:8000/pentions/delete/${id}`, {
+                    headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+
+                this.getPentions()
+
+                this.delete_bank = 1
+            } catch (error) {
+                console.error('Error al borrar la nomina:', error)
+            }
+        },
+    },
+    async mounted() {
+      this.getPentions()
     },
 }
 </script>
