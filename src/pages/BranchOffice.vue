@@ -26,7 +26,24 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
+            <h2 class="text-4xl dark:text-white pb-10">
+                Mantenedor Sucursales
+                <router-link
+                    href="javascript:;"
+                    to="/create_branch_office"
+                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                >
+                    Agregar
+                </router-link>
+            </h2>
             <div class="-m-1.5 overflow-x-auto">
+                <div
+                    class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
+                    role="alert"
+                    v-if="delete_branch_office == 1"
+                >
+                    Sucursal eliminada con <span class="font-bold">éxito</span>.
+                </div>
                 <div class="p-1.5 min-w-full inline-block align-middle">
                     <div
                         class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
@@ -68,6 +85,26 @@
                                         >
                                             {{ branch_office.branch_office }}
                                         </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/edit_branch_office/${branch_office.id}`"
+                                            >
+                                                <i class="fa-solid fa-pen"></i>
+                                            </router-link>
+                                            <button
+                                                type="button"
+                                                @click="confirmBranchOffice(branch_office.id)"
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-trash"
+                                                ></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -90,27 +127,64 @@ export default {
         return {
             branch_offices: [],
             loading: true,
+            delete_branch_office: 0,
         }
     },
-    async created() {
-        const accessToken = localStorage.getItem('accessToken')
+    methods: {
+        async getBranchOffices() {
+               const accessToken = localStorage.getItem('accessToken')
 
-        try {
-            const response = await axios.get(
-                'https://apijis.com/branch_offices/',
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        accept: 'application/json',
+            try {
+                const response = await axios.get(
+                    'http://localhost:8000/branch_offices/',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            accept: 'application/json',
+                        },
                     },
-                },
-            )
+                )
 
-            this.branch_offices = response.data.message
-            this.loading = false
-        } catch (error) {
-            console.error('Error al obtener la lista de sucursales:', error)
-        }
+                this.branch_offices = response.data.message
+                this.loading = false
+            } catch (error) {
+                console.error('Error al obtener la lista de sucursales:', error)
+            }
+        },
+        async confirmBranchOffice(id) {
+            const shouldDelete = window.confirm(
+                '¿Estás seguro de que deseas borrar la Sucursal?'
+            )
+            console.log(id)
+
+            if (shouldDelete) {
+                await this.deleteBranchOffice(id)
+            }
+        },
+        async deleteBranchOffice(id) {
+            this.loading = true
+
+            try {
+                const accessToken = localStorage.getItem('accessToken')
+                await axios.delete(`http://localhost:8000/branch_offices/delete/${id}`, {
+                    headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+
+                this.getBranchOffices()
+
+                this.delete_branch_office = 1
+                this.loading = false
+            } catch (error) {
+                console.error('Error al borrar la sucursal:', error)
+                this.loading = false
+            }
+        },
+    },
+    async created() {
+        await this.getBranchOffices()
     },
 }
 </script>

@@ -42,7 +42,7 @@
                     role="alert"
                     v-if="delete_bank == 1"
                 >
-                    Registro eliminado con <span class="font-bold">éxito</span>.
+                    Banco eliminado con <span class="font-bold">éxito</span>.
                 </div>
                 <div class="p-1.5 min-w-full inline-block align-middle">
                     <div
@@ -124,6 +124,7 @@ export default {
         return {
             banks: [],
             loading: true,
+            delete_bank: 0,
         }
     },
     methods: {
@@ -132,7 +133,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'https://apijis.com/banks/',
+                    'http://localhost:8000/banks/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -162,7 +163,7 @@ export default {
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`https://apijis.com/banks/delete/${id}`, {
+                await axios.delete(`http://localhost:8000/banks/delete/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,
