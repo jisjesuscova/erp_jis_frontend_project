@@ -27,10 +27,10 @@
 
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">
-                Mantenedor Segmentos
+                Mantenedor Zonas
                 <router-link
                     href="javascript:;"
-                    to="create_segment"
+                    to="/create_zone"
                     class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                 >
                     Agregar
@@ -40,9 +40,9 @@
                 <div
                     class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
                     role="alert"
-                    v-if="delete_segment == 1"
+                    v-if="delete_zone == 1"
                 >
-                    Segmento eliminado con <span class="font-bold">éxito</span>.
+                    Zona eliminada con <span class="font-bold">éxito</span>.
                 </div>
                 <div class="p-1.5 min-w-full inline-block align-middle">
                     <div
@@ -64,23 +64,23 @@
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            Segmento
+                                            Zonas
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody
                                     class="divide-y divide-gray-200 dark:divide-gray-700"
                                 >
-                                    <tr v-for="segment in segments" :key="segment.id">
+                                    <tr v-for="zone in zones" :key="zone.id">
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ segment.id }}
+                                            {{ zone.id }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ segment.segment }}
+                                            {{ zone.zone }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
@@ -88,13 +88,13 @@
                                             <router-link
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
-                                                :to="`/edit_segment/${segment.id}`"
+                                                :to="`/edit_zone/${zone.id}`"
                                             >
                                                 <i class="fa-solid fa-pen"></i>
                                             </router-link>
                                             <button
                                                 type="button"
-                                                @click="confirmSegment(segment.id)"
+                                                @click="confirmZone(zone.id, zone.zone)"
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                             >
                                                 <i
@@ -122,18 +122,18 @@ export default {
     },
     data() {
         return {
-            segments: [],
+            zones: [],
             loading: true,
-            delete_segment: 0,
+            delete_zone: 0,
         }
     },
     methods: {
-        async getSegments() {
+        async getZones() {
             const accessToken = localStorage.getItem('accessToken')
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/segments/',
+                    'https://apijis.com/zones/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -142,44 +142,44 @@ export default {
                     }
                 )
 
-                this.segments = response.data.message
+                this.zones = response.data.message
                 this.loading = false
             } catch (error) {
-                console.error('Error al obtener la lista de bancos:', error)
+                console.error('Error al obtener la lista de Zonas:', error)
             }
         },
-        async confirmSegment(id) {
+        async confirmZone(id, zone) {
             const shouldDelete = window.confirm(
-                '¿Estás seguro de que deseas borrar el Segmento?'
+                `¿Estás seguro de que deseas borrar ${zone}?`
             )
             console.log(id)
 
             if (shouldDelete) {
-                await this.deleteSegment(id)
+                await this.deleteZone(id)
             }
         },
-        async deleteSegment(id) {
+        async deleteZone(id) {
             this.loading = true
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`https://apijis.com/segments/delete/${id}`, {
+                await axios.delete(`https://apijis.com/zones/delete/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,
                     },
                 })
 
-                this.getSegments()
+                this.getZones()
 
-                this.delete_segment = 1
+                this.delete_zone = 1
             } catch (error) {
                 console.error('Error al borrar la nomina:', error)
             }
         },
     },
     async mounted() {
-        await this.getSegments()
+        await this.getZones()
     },
 }
 </script>

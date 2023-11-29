@@ -26,15 +26,11 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
-            <h2 class="text-4xl dark:text-white pb-10">Actualizar Pensión</h2>
+            <h2 class="text-4xl dark:text-white pb-10">Ingresar Zona</h2>
 
             <div class="mt-3">
-                <div
-                    v-if="validate_update_pention == 1"
-                    class="bg-green-500 text-sm text-white rounded-md p-4 mb-10 mt-10"
-                    role="alert"
-                >
-                    Pensión Actualizado con <span class="font-bold">éxito</span>
+                <div v-if="validate_create_zone == 1" class="bg-green-500 text-sm text-white rounded-md p-4 mb-10 mt-10" role="alert">
+                    Zona Ingresada con <span class="font-bold">éxito</span> 
                 </div>
                 <div
                     id="bar-with-underline-1"
@@ -44,7 +40,7 @@
                     <div
                         class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                     >
-                        <form @submit.prevent="updatePention">
+                        <form @submit.prevent="createZone">
                             <div
                                 class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
                             ></div>
@@ -56,14 +52,14 @@
                                     <label
                                         for="hs-validation-name-error"
                                         class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Nombre de la pensión</label
+                                        >Nombre de la zona</label
                                     >
                                     <input
                                         type="text"
-                                        id="bank_name"
+                                        id="zone_name_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="Banco de Chile, Banco Estado, Banco santandar, etc..."
-                                        v-model="pention_name_input"
+                                        placeholder="Nombre de la zona"
+                                        v-model="zone_name_input"
                                         required
                                     />
                                 </div>
@@ -107,7 +103,7 @@
                                 </div>
 
                                 <router-link
-                                    :to="`/pentions/`"
+                                    :to="`/zones/`"
                                     class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                                 >
                                     Cancelar
@@ -123,82 +119,53 @@
 </template>
 <script>
 import axios from 'axios'
+import { mask } from 'vue-the-mask'
 
 export default {
+    directives: { mask },
     data() {
         return {
             loading: false,
-            pention_name_input: '',
-            bank_status_input: 2,
-            validate_update_payroll: 0,
+            loading_1: false,
+            validate_create_zone: 0,
+            zone_name_input: '',
         }
     },
-    async mounted() {
-        this.getPention()
-    },
     methods: {
-        async getPention() {
-            const accessToken = localStorage.getItem('accessToken')
-
-            this.loading = true
-
-            try {
-                const response = await axios.get(
-                    'https://apijis.com/pentions/edit/' + this.$route.params.id,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    }
-                )
-
-                console.log(response)
-                this.pention_name_input = response.data.message.pention
-
-                this.loading = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error(
-                        'Error al obtener los valores de la nomina:',
-                        error,
-                        (this.loading = false)
-                    )
-                }
-            }
-        },
-        async updatePention() {
-            this.loading = true
-
-            try {
+        async createZone() {
+            try{
+                this.loading = true
+                this.loading_1 = true
                 const dataToSend = {
-                    pention: this.pention_name_input
+                    zone : this.zone_name_input,
+                    added_date : new Date(),
+                    updated_date : new Date(),
                 }
                 console.log(dataToSend)
-
                 const accessToken = localStorage.getItem('accessToken')
+                await axios.post('https://apijis.com/zones/store/', dataToSend, 
+                {
+                    headers: {
+                                accept: 'application/json',
+                                Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            },    
+                }
+            )
+            this.loading_1 = false
+            this.loading = false
+            
+            this.validate_create_zone = 1
+            this.zone_name_input = ''
 
-                const response = await axios.patch(
-                    'https://apijis.com/pentions/update/' +
-                        this.$route.params.id,
-                        dataToSend,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                )
-
-                this.validate_update_pention = 1
-            } catch (error) {
-                console.error(error)
-            } finally {
+            if (this.loading_1 == false ) {
                 this.loading = false
             }
-        },
+        }
+            catch(error){
+                console.log(error)
+                this.loading = false
+            }
+        }
     },
 }
 </script>

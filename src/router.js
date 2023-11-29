@@ -1,5 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Bank from './pages/Bank.vue'
+import Zone from './pages/Zone.vue'
 import Segment from './pages/Segment.vue'
 import Principal from './pages/Principal.vue'
 import Health from './pages/Health.vue'
@@ -15,6 +16,7 @@ import CreateJobPosition from './pages/CreateJobPosition.vue'
 import CreateBank from './pages/CreateBank.vue'
 import CreateSegment from './pages/CreateSegment.vue'
 import CreatePrincipal from './pages/CreatePrincipal.vue'
+import CreateZone from './pages/CreateZone.vue'
 import CreateBranchOffice from './pages/CreateBranchOffice.vue'
 import CreateHealth from './pages/CreateHealth.vue'
 import CreatePention from './pages/CreatePention.vue'
@@ -32,6 +34,7 @@ import EditFamily from './pages/EditFamily.vue'
 import EditPayrollItem from './pages/EditPayrollItem.vue'
 import EditBank from './pages/EditBank.vue'
 import EditPrincipal from './pages/EditPrincipal.vue'
+import EditZone from './pages/EditZone.vue'
 import EditSegment from './pages/EditSegment.vue'
 import EditBranchOffice from './pages/EditBranchOffice.vue'
 import EditHealth from './pages/EditHealth.vue'
@@ -69,6 +72,7 @@ import UploadVacation from './components/UploadVacation.vue'
 import Vacation from './pages/Vacation.vue'
 import OldVacation from './pages/OldVacation.vue'
 import Alert from './pages/Alert.vue'
+import Schedule from './pages/Schedule.vue'
 import UploadEmployeeContract from './pages/UploadEmployeeContract.vue'
 import GeneralSalarySettlement from './pages/GeneralSalarySettlement.vue'
 import CreateSalarySettlement from './pages/CreateSalarySettlement.vue'
@@ -99,6 +103,10 @@ const routes = [
     {
         path:'/banks',
         component: Bank
+    },
+    {
+        path:'/zones',
+        component: Zone
     },
     {
         path:'/segments',
@@ -225,6 +233,10 @@ const routes = [
         component: CreatePrincipal
     },
     {
+        path:'/create_zone/',
+        component: CreateZone
+    },
+    {
         path:'/create_branch_office/',
         component: CreateBranchOffice
     },
@@ -259,6 +271,10 @@ const routes = [
     {
         path:'/edit_principal/:id',
         component: EditPrincipal
+    },
+    {
+        path:'/edit_zone/:id',
+        component: EditZone
     },
     {
         path:'/edit_segment/:id',
@@ -372,6 +388,10 @@ const routes = [
     {
         path:'/alerts/:rut',
         component: Alert
+    },
+    {
+        path:'/schedule',
+        component: Schedule
     },
     {
         path:'/upload_employee_contract/:rut/:id',
