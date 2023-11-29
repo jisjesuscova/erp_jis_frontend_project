@@ -26,11 +26,11 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
-            <h2 class="text-4xl dark:text-white pb-10">Ingresar Banco</h2>
+            <h2 class="text-4xl dark:text-white pb-10">Ingresar Isapre</h2>
 
             <div class="mt-3">
-                <div v-if="validate_create_bank == 1" class="bg-green-500 text-sm text-white rounded-md p-4 mb-10 mt-10" role="alert">
-                    Banco Ingresado con <span class="font-bold">éxito</span> 
+                <div v-if="validate_create_health == 1" class="bg-green-500 text-sm text-white rounded-md p-4 mb-10 mt-10" role="alert">
+                    Isapre Ingresado con <span class="font-bold">éxito</span> 
                 </div>
                 <div
                     id="bar-with-underline-1"
@@ -40,45 +40,30 @@
                     <div
                         class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                     >
-                        <form @submit.prevent="createBank">
+                        <form @submit.prevent="createHealth">
                             <div
                                 class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
                             ></div>
 
                             <div
-                                class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                                class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5"
                             >
                                 <div>
                                     <label
                                         for="hs-validation-name-error"
                                         class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Nombre del banco</label
+                                        >Nombre de la Isapre</label
                                     >
                                     <input
                                         type="text"
                                         id="bank_name"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="Banco de Chile, Banco Estado, Banco santandar, etc..."
-                                        v-model="bank_name_input"
+                                        placeholder="Consalud, Colmena, Cruz Blanca, Fonasa, etc."
+                                        v-model="health_name_input"
                                         required
                                     />
                                 </div>
-                                <div>
-                                    <label
-                                        for="hs-validation-name-error"
-                                        class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Estado del banco</label
-                                    >
-                                    <select
-                                        v-model="bank_status_input"
-                                        required
-                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    >
-                                        <option value="2" selected> - Estado del banco -</option>
-                                        <option value="1">Activo</option>
-                                        <option value="0">Inactivo</option>
-                                    </select>
-                                </div>
+                               
                             </div>
                             <div
                                 class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
@@ -119,7 +104,7 @@
                                 </div>
 
                                 <router-link
-                                    :to="`/banks/`"
+                                    :to="`/health/`"
                                     class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                                 >
                                     Cancelar
@@ -143,31 +128,28 @@ export default {
         return {
             loading: false,
             loading_1: false,
-            item_type_id_input: 0,
-            item_input: '',
-            birth_certificate: null,
-            validate_rut_status: 0,
-            isValidRut: true,
-            validationsPassed: false,
-            validate_create_bank: 0,
-            bank_name_input: '',
-            bank_status_input: 2
+           
+            
+            validate_create_health: 0,
+            health_name_input: '',
         }
     },
     methods: {
-        async createBank() {
+        async createHealth() {
             try{
                 this.loading = true
                 this.loading_1 = true
                 const dataToSend = {
-                    bank: this.bank_name_input,
-                    visibility_id: this.bank_status_input,
+                    health: this.health_name_input,
+                    health_remuneration_code : 1,
+                    rut: '0',
+                    previred_code: 0,
                     added_date: new Date(),
                     updated_date: new Date(),
                 }
                 console.log(dataToSend)
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.post('https://apijis.com/banks/store/', dataToSend, 
+                await axios.post('http://localhost:8000/healths/store/', dataToSend, 
                 {
                     headers: {
                                 accept: 'application/json',
@@ -178,9 +160,8 @@ export default {
             this.loading_1 = false
             this.loading = false
             
-            this.validate_create_bank = 1
-            this.bank_name_input = ''
-            this.bank_status_input = 2
+            this.validate_create_health = 1
+            this.health_name_input = ''
 
             if (this.loading_1 == false ) {
                 this.loading = false

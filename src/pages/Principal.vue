@@ -2,6 +2,7 @@
     <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72">
         <div v-if="loading" class="flex justify-center items-center h-screen">
             <div role="status">
+                <!-- SVG spinner -->
                 <svg
                     aria-hidden="true"
                     class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -20,30 +21,28 @@
                 </svg>
                 <span class="sr-only">Loading...</span>
             </div>
+
+            <!-- You can use a spinner or any other loading animation here -->
         </div>
 
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">
-                Kardex
-            </h2>
-
-            <OldEmployeeMenu />
-
-            <div class="-m-1.5 overflow-x-auto pt-12">
-                <div
-                    class="bg-green-500 text-sm text-white rounded-md p-4 mb-10"
-                    role="alert"
-                    v-if="created_kardex == 1"
+                Mantenedor Principales
+                <router-link
+                    href="javascript:;"
+                    to="/create_principal"
+                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                 >
-                    Registro agregado con <span class="font-bold">éxito</span>.
-                </div>
+                    Agregar
+                </router-link>
+            </h2>
+            <div class="-m-1.5 overflow-x-auto">
                 <div
                     class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
                     role="alert"
-                    v-if="error_kardex == 1"
+                    v-if="delete_principal == 1"
                 >
-                    <span class="font-bold">Error</span> para descargar el
-                    documento.
+                    Principal eliminado con <span class="font-bold">éxito</span>.
                 </div>
                 <div class="p-1.5 min-w-full inline-block align-middle">
                     <div
@@ -59,64 +58,43 @@
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            Documento
+                                            Id
                                         </th>
                                         <th
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            Fecha
+                                            Principal
                                         </th>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-                                        ></th>
                                     </tr>
                                 </thead>
                                 <tbody
                                     class="divide-y divide-gray-200 dark:divide-gray-700"
                                 >
-                                    <tr
-                                        v-for="kardex_document in kardex_documents"
-                                        :key="kardex_document.id"
-                                    >
+                                    <tr v-for="principal in principals" :key="principal.id">
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ kardex_document.document_type }}
+                                            {{ principal.id }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{
-                                                formatDate(
-                                                    kardex_document.added_date,
-                                                )
-                                            }}
+                                            {{ principal.principal }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            <button
-                                                type="button"
-                                                @click="
-                                                    downloadKardex(
-                                                        kardex_document.id,
-                                                    )
-                                                "
+                                            <router-link
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/edit_principal/${principal.id}`"
                                             >
-                                                <i
-                                                    class="fa-solid fa-arrow-down"
-                                                ></i>
-                                            </button>
+                                                <i class="fa-solid fa-pen"></i>
+                                            </router-link>
                                             <button
                                                 type="button"
-                                                @click="
-                                                    confirmKardex(
-                                                        kardex_document.id,
-                                                    )
-                                                "
+                                                @click="confirmPrincipal(principal.id, principal.principal)"
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                             >
                                                 <i
@@ -135,144 +113,73 @@
     </div>
 </template>
 <script>
+import MasterDataSearcher from '../components/MasterDataSearcher.vue'
 import axios from 'axios'
-import { format } from 'date-fns'
-import OldEmployeeMenu from '../components/OldEmployeeMenu.vue'
 
 export default {
     components: {
-    OldEmployeeMenu
-},
+        MasterDataSearcher,
+    },
     data() {
         return {
-            loading: false,
-            kardex_documents: [],
-            created_kardex: 0,
-            kardex_document: '',
-            error_kardex: 0,
-        }
-    },
-    async created() {
-        this.getKardexData()
-
-        this.created_kardex = localStorage.getItem('created_kardex')
-
-        if (this.created_kardex == 1) {
-            localStorage.removeItem('created_kardex')
+            principals: [],
+            loading: true,
+            delete_principal: 0,
         }
     },
     methods: {
-        formatDate(date) {
-            return format(new Date(date), 'dd-MM-yyyy')
-        },
-        async downloadKardex(id) {
+        async getPrincipals() {
             const accessToken = localStorage.getItem('accessToken')
-
-            this.loading = true
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/kardex_data/download/' + id,
+                    'http://localhost:8000/principals/',
                     {
                         headers: {
+                            Authorization: `Bearer ${accessToken}`,
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
 
-                this.kardex_document = response.data.message
-
-                if (this.kardex_document == 0) {
-                    this.error_kardex = 1
-                } else {
-                    window.location.href = this.kardex_document
-                }
-
+                this.principals = response.data.message
                 this.loading = false
             } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error(
-                        'Error al obtener el documento del kardex:',
-                        error,
-                    )
-                }
+                console.error('Error al obtener la lista de principales:', error)
             }
         },
-        async getKardexData() {
-            const accessToken = localStorage.getItem('accessToken')
-
-            this.loading = true
-
-            try {
-                const response = await axios.get(
-                    'http://localhost:8000/kardex_data/edit/' +
-                        this.$route.params.rut,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
-                        },
-                    },
-                )
-
-                if (response.data.message != 0) {
-                    const decodedData = JSON.parse(response.data.message)
-
-                    console.log(decodedData)
-
-                    this.kardex_documents = decodedData
-                }
-
-                this.loading = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error(
-                        'Error al obtener la lista de documentos de kardex:',
-                        error,
-                    )
-                }
-            }
-        },
-        async confirmKardex(id) {
+        async confirmPrincipal(id, principal) {
             const shouldDelete = window.confirm(
-                '¿Estás seguro de que deseas borrar el registro?',
+                `¿Estás seguro de que deseas borrar ${principal}?`
             )
+            console.log(id)
 
             if (shouldDelete) {
-                await this.deleteKardex(id)
+                await this.deletePrincipal(id)
             }
         },
-        async deleteKardex(id) {
+        async deletePrincipal(id) {
             this.loading = true
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(
-                    `http://localhost:8000/kardex_data/delete/${id}`,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
+                await axios.delete(`http://localhost:8000/principals/delete/${id}`, {
+                    headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
                     },
-                )
+                })
 
-                this.getKardexData()
+                this.getPrincipals()
 
-                location.reload();
-
-                this.loading = false
+                this.delete_principal = 1
             } catch (error) {
-                console.error('Error al borrar el documento de kardex:', error)
+                console.error('Error al borrar la nomina:', error)
             }
         },
+    },
+    async mounted() {
+        await this.getPrincipals()
     },
 }
 </script>

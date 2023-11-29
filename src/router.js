@@ -1,5 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Bank from './pages/Bank.vue'
+import Segment from './pages/Segment.vue'
+import Principal from './pages/Principal.vue'
 import Health from './pages/Health.vue'
 import PayrollItem from './pages/PayrollItem.vue'
 import JobPosition from './pages/JobPosition.vue'
@@ -11,6 +13,9 @@ import CreateFamily from './pages/CreateFamily.vue'
 import CreatePayrollItem from './pages/CreatePayrollItem.vue'
 import CreateJobPosition from './pages/CreateJobPosition.vue'
 import CreateBank from './pages/CreateBank.vue'
+import CreateSegment from './pages/CreateSegment.vue'
+import CreatePrincipal from './pages/CreatePrincipal.vue'
+import CreateBranchOffice from './pages/CreateBranchOffice.vue'
 import CreateHealth from './pages/CreateHealth.vue'
 import CreatePention from './pages/CreatePention.vue'
 import CreateNationality from './pages/CreateNationality.vue'
@@ -26,6 +31,10 @@ import DocumentManagement from './pages/DocumentManagement.vue'
 import EditFamily from './pages/EditFamily.vue'
 import EditPayrollItem from './pages/EditPayrollItem.vue'
 import EditBank from './pages/EditBank.vue'
+import EditPrincipal from './pages/EditPrincipal.vue'
+import EditSegment from './pages/EditSegment.vue'
+import EditBranchOffice from './pages/EditBranchOffice.vue'
+import EditHealth from './pages/EditHealth.vue'
 import EditJobPosition from './pages/EditJobPosition.vue'
 import EditPention from './pages/EditPention.vue'
 import EditHonorary from './pages/EditHonorary.vue'
@@ -90,6 +99,14 @@ const routes = [
     {
         path:'/banks',
         component: Bank
+    },
+    {
+        path:'/segments',
+        component: Segment
+    },
+    {
+        path:'/principals',
+       component: Principal
     },
     {
         path:'/health',
@@ -200,6 +217,18 @@ const routes = [
         component: CreateBank
     },
     {
+        path:'/create_segment/',
+        component: CreateSegment
+    },
+    {
+        path:'/create_principal/',
+        component: CreatePrincipal
+    },
+    {
+        path:'/create_branch_office/',
+        component: CreateBranchOffice
+    },
+    {
         path:'/create_health/',
         component: CreateHealth
     },
@@ -226,6 +255,22 @@ const routes = [
     {
         path:'/edit_bank/:id',
         component: EditBank
+    },
+    {
+        path:'/edit_principal/:id',
+        component: EditPrincipal
+    },
+    {
+        path:'/edit_segment/:id',
+        component: EditSegment
+    },
+    {
+        path:'/edit_branch_office/:id',
+        component: EditBranchOffice
+    },
+    {
+        path:'/edit_health/:id',
+        component: EditHealth
     },
     {
         path:'/edit_job_position/:id',
