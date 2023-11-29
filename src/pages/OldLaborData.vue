@@ -234,6 +234,7 @@
                                         placeholder="Monto Extra de Pago de Salud"
                                         v-model="extra_health_amount_input"
                                         required
+                                        step="0.01"
                                         />
                                 </div>
                             </div>

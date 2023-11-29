@@ -1125,7 +1125,7 @@ export default {
         async submit() {
             const dataToSend = {
                 period: this.period_input,
-                uf_value_current_montht: this.uf_value_current_month_input,
+                uf_value_current_month: this.uf_value_current_month_input,
                 uf_value_last_month: this.uf_value_last_month_input,
                 utm_value_current_month: this.utm_value_current_month_input,
                 uta_value_current_month: this.uta_value_current_month_input,
@@ -1205,7 +1205,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .post('https://apijis.com/provisional_indicators/store', dataToSend, {
+                .post('http://localhost:8000/provisional_indicators/store', dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
