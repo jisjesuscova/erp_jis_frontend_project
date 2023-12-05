@@ -434,7 +434,7 @@ export default {
             ) {
                 try {
                     const response = await axios.get(
-                        'https://apijis.com/document_managements/' +
+                        'http://localhost:8000/document_managements/' +
                             this.$route.params.rut +
                             '/' +
                             page,
@@ -478,7 +478,7 @@ export default {
             } else {
                 try {
                     const response = await axios.get(
-                        'https://apijis.com/document_managements/' + page,
+                        'http://localhost:8000/document_managements/' + page,
                         {
                             headers: {
                                 accept: 'application/json',
