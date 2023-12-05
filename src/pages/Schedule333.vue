@@ -89,7 +89,7 @@
             </div>
         </form>
         <div class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5">
-            <div>
+            <div id="external-events">
                 <label
                     for="hs-validation-name-error"
                     class="block text-sm font-medium mb-2 dark:text-white"
@@ -102,170 +102,67 @@
                     type="text"
                     placeholder="Buscar turno"
                 />
-                <ul>
-                    <li
+                <div
+                    class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"
+                >
+                    <div
                         draggable="true"
-                        @click="pickCalendarDatesForTurns(turn.group_day_id, $event)"
-                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        @click="getEventData"
+                        class="cursor-move bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fdivl p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         v-for="turn in turns"
                         :key="turn.id"
                         :value="turn.turn"
                         v-text="turn.turn"
-                    ></li>
-                </ul>
+                        @dragstart="getDataToDragToCalendar(turn.turn)"
+                        @dragend="handleDragEnd(turn.turn)"
+                    ></div>
+                </div>
             </div>
-            <VCalendar
-                expanded
-                show-weeknumbers
-                :attributes="attributes"
-                @click="handleDateEvent"
-                show-adjacent-months
+            <FullCalendar
+                :options="calendarOptions"
+                class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
         </div>
     </div>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-
-
-const attributes = ref([{}])
-const startDate = ref(null)
-const endDate = ref(null)
-let datesLocalStorage = ref(null)
-
-const pickCalendarDatesForTurns = (turnDays, event) => {
-    const turnPicked = event.target.getAttribute('value')
-    if (turnPicked == null) {
-        return
-    }
-
-    const dates = []
-    const firstDayOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
-
-    for (let i = 0; i < turnDays; i++) {
-        const date = new Date(firstDayOfMonth)
-        date.setDate(firstDayOfMonth.getDate() + i)
-
-        // Si el día de la semana es domingo (0) o si ya hemos agregado la cantidad de dias de turndays, detenemos el bucle
-        if (date.getDay() === 0 || dates.length === turnDays) {
-            break
-        }
-
-        dates.push(date)
-    }
-
-    attributes.value = [
-        {
-            dates: dates,
-            highlight: {
-                color: 'red',
-            },
-            key: 3,
-        },
-    ]
-
-    console.log(dates)
-    console.log(turnDays)
-}
-
-const handleDateEvent = (event) => {
-    const datePicked = event.target.getAttribute('aria-label')
-    if (datePicked == null) {
-        return
-    }
-    const day = Number(datePicked.split(' ')[1])
-    const monthstr = datePicked.split(' ')[3]
-    const year = Number(datePicked.split(' ')[5])
-    let month = 0
-
-    let arrayMonths = [
-        'ene',
-        'feb',
-        'mar',
-        'abr',
-        'may',
-        'jun',
-        'jul',
-        'ago',
-        'sep',
-        'oct',
-        'nov',
-        'dic',
-    ]
-    for (let i = 0; i < arrayMonths.length; i++) {
-        if (arrayMonths[i] == monthstr) {
-            month = i
-        }
-    }
-    if (!startDate.value) {
-        startDate.value = new Date(year, month, day)
-    } else if (!endDate.value) {
-        endDate.value = new Date(year, month, day)
-    } else {
-        startDate.value = new Date(year, month, day)
-        endDate.value = null
-    }
-
-    const datesInRange = []
-    if (startDate.value && endDate.value) {
-        const currentDate = new Date(startDate.value)
-        currentDate.setDate(currentDate.getDate()) 
-        while (currentDate <= endDate.value ) { 
-            datesInRange.push(new Date(currentDate))
-            currentDate.setDate(currentDate.getDate() + 1)
-        }
-    }
-    attributes.value = [
-        {
-            dates: [startDate.value],
-            bar: {
-                color: 'blue',
-            },
-            key: 1,
-        },
-        {
-            dates: [endDate.value],
-            bar: {
-                color: 'blue',
-            },
-            key: 2,
-        },
-        {
-            dates: datesInRange,
-            bar: {
-                color: 'green',
-            },
-            key: 3,
-        },
-    ]
-    if(startDate.value && endDate.value) {
-    localStorage.setItem('dates', JSON.stringify(datesInRange))
-    datesLocalStorage = JSON.parse(localStorage.getItem('dates'))
-    console.log('starDate',datesLocalStorage[0])
-    console.log('endDate',datesLocalStorage[datesLocalStorage.length - 1])
-    }
-    console.log(datesInRange)
-}
-</script>
-
 <script>
-import { setupCalendar, Calendar, DatePicker } from 'v-calendar'
-import 'v-calendar/style.css'
+import FullCalendar from '@fullcalendar/vue3'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction'
+
 import axios from 'axios'
 
 export default {
     components: {
-        VCalendar: Calendar,
-        VDatePicker: DatePicker,
+        FullCalendar,
     },
     data() {
         return {
+            calendarOptions: {
+                plugins: [dayGridPlugin, interactionPlugin],
+                initialView: 'dayGridMonth',
+                height: 'auto',
+                locale: 'es',
+                firstDay: 1,
+                editable: true,
+                droppable: true,
+                dateClick: this.handleDateClick,
+                validRange: {
+                    start: '',
+                    end: '',
+                },
+                headerToolbar: {
+                    left: '',
+                    center: 'title',
+                    right: '',
+                },
+            },
             attributes: [{}],
             date: new Date(),
             branch_offices: [],
             sections: [],
             turns: [],
+            turn_input: '',
             employees_labor_data: [],
             branch_office_input: '',
             period_input: '',
@@ -279,60 +176,42 @@ export default {
     },
 
     methods: {
-        // handleDateEvent(event) {
-        //     const datePicked = event.target.getAttribute('aria-label')
-        //     if (datePicked == null) {
-        //         return
-        //     }
-        //     const day = Number(datePicked.split(' ')[1])
-        //     const monthstr = datePicked.split(' ')[3]
-        //     const year = Number(datePicked.split(' ')[5])
-        //     let month = 0
-
-        //     let arrayMonths = [
-        //         'ene',
-        //         'feb',
-        //         'mar',
-        //         'abr',
-        //         'may',
-        //         'jun',
-        //         'jul',
-        //         'ago',
-        //         'sep',
-        //         'oct',
-        //         'nov',
-        //         'dic',
-        //     ]
-        //     for (let i = 0; i < arrayMonths.length; i++) {
-        //         if (arrayMonths[i] == monthstr) {
-        //             month = i
-        //         }
-        //     }
-        //     if (!this.startDate) {
-        //         this.startDate = new Date(year, month, day)
-        //     } else if (!this.endDate) {
-        //         // Si ya hay una fecha de inicio, pero no una fecha de fin, establecer la fecha de fin
-        //         this.endDate = new Date(year, month, day)
-        //     } else {
-        //         // Si ya hay una fecha de inicio y de fin, restablecer ambas fechas
-        //         this.startDate = new Date(year, month, day)
-        //         this.endDate = null
-        //     }
-        //     this.attributes = [
-        //         {
-        //             key: 1,
-        //             content: 'red',
-        //             // highlight: true,
-        //             dot: true,
-        //             bar: true,
-        //             // popover: { ... },
-        //             // customData: { ... },
-        //             dates: [this.startDate, this.endDate].filter(Boolean),
-        //             order: 0,
-        //         },
-        //     ]
-        // },
-        
+        getDataToDragToCalendar(turn) {
+            
+        },
+        handleDateClick(arg) {
+            alert('date click! ' + arg.dateStr)
+        },
+        handleDragStart(turn) {
+            console.log('Comenzando a arrastrar el turno:', turn)
+            event.dataTransfer.setData('text/plain', JSON.stringify(turn))
+        },
+        handleDragEnd(turn) {
+            console.log('Finalizando arrastre del turno:', turn)
+        },
+        getFirstDayOfPreviousMonth() {
+            const date = new Date()
+            const firstDayOfPreviousMonth = new Date(
+                date.getFullYear(),
+                date.getMonth() - 1,
+                1
+            )
+            console.log(firstDayOfPreviousMonth)
+            return firstDayOfPreviousMonth
+        },
+        getLastDayOfNextMonth() {
+            const date = new Date()
+            const lastDayOfNextMonth = new Date(
+                date.getFullYear(),
+                date.getMonth() + 2,
+                0
+            )
+            console.log(lastDayOfNextMonth)
+            return lastDayOfNextMonth
+        },
+        getEventData(event) {
+            console.log(event.target._value)
+        },
         async getTurns() {
             const accessToken = localStorage.getItem('accessToken')
             try {
@@ -429,6 +308,9 @@ export default {
     },
     mounted() {
         this.getBranchOffices()
+        this.calendarOptions.validRange.start =
+            this.getFirstDayOfPreviousMonth()
+        this.calendarOptions.validRange.end = this.getLastDayOfNextMonth()
     },
 }
 </script>

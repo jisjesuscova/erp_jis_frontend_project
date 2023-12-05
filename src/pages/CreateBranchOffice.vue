@@ -157,6 +157,13 @@
                                         required
                                     />
                                 </div>
+                                <div>
+                                    <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Supervisor Principal</label>
+                                    <select v-model="principal_supervisor_input" required class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="">- Supervisor -</option>
+                                        <option v-for="supervisor in supervisors" :key="supervisor.id" :value="supervisor.rut">{{ supervisor.nickname }}</option>
+                                    </select>
+                                </div>
                             </div>
                             <div
                                 class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
@@ -226,18 +233,21 @@ export default {
             loading_4: false,
             loading_5: false,
             validate_create_branch_office: 0,
+            zone_input: 0,
             regions: [],
             communes: [],
             segments: [],
             principals: [],
+            supervisors: [],
             region_input: '',
             commune_input: '',
             segment_input: '',
             principal_input: '',
-            zone_input: 0,
             status_input: '',
             visibility_input: '',
             opening_date_input: '',
+            dte_code_input: '',
+            principal_supervisor_input: '',
         }
     },
     methods: {
@@ -247,7 +257,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/regions/', {
+                const response = await axios.get('http://localhost:8000/regions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -273,7 +283,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/segments/', {
+                const response = await axios.get('http://localhost:8000/segments/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -299,7 +309,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/principals/', {
+                const response = await axios.get('http://localhost:8000/principals/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -314,8 +324,34 @@ export default {
                     localStorage.removeItem('accessToken');
                     window.location.reload();
                 } else {
-                    console.error('Error al obtener la lista de regiones:', error);
+                    console.error('Error al obtener la lista de principales:', error);
                     this.loading_4 = false;
+                   
+                }
+            }
+        },
+        async getSupervisors() {
+            this.loading_5 = true;
+            const accessToken = localStorage.getItem('accessToken');
+
+            try {
+                const response = await axios.get('http://localhost:8000/users/supervisor' , {
+                    headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
+                    },
+                });
+                console.log(response);
+                this.supervisors = response.data.message;
+
+                this.loading_5 = false;
+            } catch (error) {
+                if (error.message == "Request failed with status code 401") {
+                    localStorage.removeItem('accessToken');
+                    window.location.reload();
+                } else {
+                    console.error('Error al obtener la lista de supervisores:', error);
+                    this.loading_5 = false;
                    
                 }
             }
@@ -324,7 +360,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/communes/' + this.region_input, {
+                const response = await axios.get('http://localhost:8000/communes/' + this.region_input, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -360,12 +396,13 @@ export default {
                     visibility_id: this.visibility_input,
                     opening_date: this.opening_date_input,
                     dte_code: this.dte_code_input,
+                    principal_supervisor: this.principal_supervisor_input,
                     added_date: new Date(),
                     updated_date: new Date(),
                 }
                 console.log(dataToSend)
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.post('https://apijis.com/branch_offices/store/', dataToSend, 
+                await axios.post('http://localhost:8000/branch_offices/store/', dataToSend, 
                 {
                     headers: {
                                 accept: 'application/json',
@@ -392,6 +429,7 @@ export default {
         await this.getRegions()
         await this.getSegments()
         await this.getPrincipals()
+        await this.getSupervisors()
 
         if (this.loading_2 == false && this.loading_3 == false && this.loading_4 == false) {
             this.loading = false

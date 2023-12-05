@@ -214,7 +214,7 @@ export default {
 
         try {
             const response = await axios.get(
-                'https://apijis.com/employees/get_birthdays',
+                'http://localhost:8000/employees/get_birthdays',
                 {
                     headers: {
                         accept: 'application/json',
@@ -241,7 +241,7 @@ export default {
 
         try {
             const response = await axios.get(
-                'https://apijis.com/employee_labor_data/active_employee_totals',
+                'http://localhost:8000/employee_labor_data/active_employee_totals',
                 {
                     headers: {
                         accept: 'application/json',
@@ -264,7 +264,7 @@ export default {
 
         try {
             const response = await axios.get(
-                'https://apijis.com/employee_labor_data/distribution_totals',
+                'http://localhost:8000/employee_labor_data/distribution_totals',
                 {
                     headers: {
                         accept: 'application/json',
@@ -288,7 +288,7 @@ export default {
 
         try {
             const response = await axios.get(
-                'https://apijis.com/employees/get_genders_total',
+                'http://localhost:8000/employees/get_genders_total',
                 {
                     headers: {
                         accept: 'application/json',
@@ -312,7 +312,7 @@ export default {
 
         try {
             const response = await axios.get(
-                'https://apijis.com/vacations/total_vacation_days_in_company',
+                'http://localhost:8000/vacations/total_vacation_days_in_company',
                 {
                     headers: {
                         accept: 'application/json',
