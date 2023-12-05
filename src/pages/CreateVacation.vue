@@ -235,7 +235,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             const response = await axios
-                .post('http://localhost:8000/vacations/store', dataToSend, {
+                .post('https://apijis.com/vacations/store', dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',

@@ -838,7 +838,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .get('http://localhost:8000/vacations/sign/' + id, {
+                .get('https://apijis.com/vacations/sign/' + id, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
@@ -1552,7 +1552,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .get('http://localhost:8000/progressive_vacations/sign/' + id, {
+                .get('https://apijis.com/progressive_vacations/sign/' + id, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
@@ -2313,7 +2313,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employee_extras/edit/' +
+                    'https://apijis.com/employee_extras/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -2345,7 +2345,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/vacations/download/' + id,
+                    'https://apijis.com/vacations/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -2382,7 +2382,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/progressive_vacations/download/' + id,
+                    'https://apijis.com/progressive_vacations/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -2431,7 +2431,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/vacations/all/' +
+                    'https://apijis.com/vacations/all/' +
                         this.$route.params.rut +
                         '/' +
                         page,
@@ -2471,7 +2471,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/vacations/pdf_all/' +
+                    'https://apijis.com/vacations/pdf_all/' +
                         this.$route.params.rut +
                         '/' +
                         page,
@@ -2507,7 +2507,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/progressive_vacations/all/' +
+                    'https://apijis.com/progressive_vacations/all/' +
                         this.$route.params.rut +
                         '/' +
                         page,
@@ -2551,7 +2551,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/progressive_vacations/pdf_all/' +
+                    'https://apijis.com/progressive_vacations/pdf_all/' +
                         this.$route.params.rut +
                         '/' +
                         page,
@@ -2589,7 +2589,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/vacations/legal/' +
+                    'https://apijis.com/vacations/legal/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -2619,7 +2619,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/progressive_vacations/legal/' +
+                    'https://apijis.com/progressive_vacations/legal/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -2649,7 +2649,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/vacations/taken/' +
+                    'https://apijis.com/vacations/taken/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -2678,7 +2678,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/progressive_vacations/taken/' +
+                    'https://apijis.com/progressive_vacations/taken/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -2708,7 +2708,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employees/edit/' +
+                    'https://apijis.com/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -2754,7 +2754,7 @@ export default {
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`http://localhost:8000/vacation/delete/${id}`, {
+                await axios.delete(`https://apijis.com/vacation/delete/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,
@@ -2781,7 +2781,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `http://localhost:8000/progressive_vacations/delete/${id}`,
+                    `https://apijis.com/progressive_vacations/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
