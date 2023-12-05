@@ -68,8 +68,17 @@
                     </button>
                 </div>
             </div>
+            <div
+                    class="bg-yellow-500 text-sm text-white rounded-md p-4 mb-2 mt-10"
+                    role="alert"
+                >
+                {{ previred_title }}
+            </div>
+            
             <div class="grid grid-cols-2 pt-10">
+                
                 <div class="bg-gray-50 p-4">
+                    
                     <table
                         class="mx-auto border-collapse w-full border-gray-400"
                     >
@@ -789,10 +798,15 @@
                                     MONTO
                                 </td>
                                 <td
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py- px-4 font-bold"
+                                >
+                                    RENTA INFERIOR
+                                </td>
+                                <td
                                     class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4 font-bold"
                                     colspan="2"
                                 >
-                                    REQUISITO DE RENTA
+                                    RENTA SUPERIOR
                                 </td>
                             </tr>
                         </thead>
@@ -814,7 +828,17 @@
                                         type="text"
                                         class="bg-white-50 border ps-16 border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            a_family_assignment_rent_requirement_input
+                                            a_family_assignment_rent_requirement_input_minimum_value
+                                        "
+                                        required
+                                    />
+                                </td>
+                                <td class="text-right border py-2 px-4">
+                                    <input
+                                        type="text"
+                                        class="bg-white-50 border ps-16 border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        v-model="
+                                            a_family_assignment_rent_requirement_input_top_value
                                         "
                                         required
                                     />
@@ -835,9 +859,19 @@
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
-                                        class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        class="bg-white-50 border ps-16 border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            b_family_assignment_rent_requirement_input
+                                            b_family_assignment_rent_requirement_input_minimum_value
+                                        "
+                                        required
+                                    />
+                                </td>
+                                <td class="text-right border py-2 px-4">
+                                    <input
+                                        type="text"
+                                        class="bg-white-50 border ps-16 border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        v-model="
+                                            b_family_assignment_rent_requirement_input_top_value
                                         "
                                         required
                                     />
@@ -856,13 +890,22 @@
                                         required
                                     />
                                 </td>
-
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
-                                        class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        class="bg-white-50 border ps-16 border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            c_family_assignment_rent_requirement_input
+                                            c_family_assignment_rent_requirement_input_minimum_value
+                                        "
+                                        required
+                                    />
+                                </td>
+                                <td class="text-right border py-2 px-4">
+                                    <input
+                                        type="text"
+                                        class="bg-white-50 border ps-16 border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        v-model="
+                                            c_family_assignment_rent_requirement_input_top_value
                                         "
                                         required
                                     />
@@ -883,9 +926,19 @@
                                 <td class="text-right border py-2 px-4">
                                     <input
                                         type="text"
-                                        class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        class="bg-white-50 border ps-16 border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         v-model="
-                                            d_family_assignment_rent_requirement_input
+                                            d_family_assignment_rent_requirement_input_minimum_value
+                                        "
+                                        required
+                                    />
+                                </td>
+                                <td class="text-right border py-2 px-4">
+                                    <input
+                                        type="text"
+                                        class="bg-white-50 border ps-16 border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        v-model="
+                                            d_family_assignment_rent_requirement_input_top_value
                                         "
                                         required
                                     />
@@ -1119,13 +1172,26 @@ export default {
             less_hard_work_worker_input: '',
             distribution_7_percent_health_employeer_ccaf_input: '',
             distribution_7_percent_health_employeer_fonasa_input: '',
+            previred_title: '',
+            fix_a_family_assignment_rent_requirement_input: '',
+            a_family_assignment_rent_requirement_input_minimum_value: 0,
+            a_family_assignment_rent_requirement_input_top_value: '',
+            fix_b_family_assignment_rent_requirement_input: '',
+            b_family_assignment_rent_requirement_input_minimum_value: 0,
+            b_family_assignment_rent_requirement_input_top_value: '',
+            fix_c_family_assignment_rent_requirement_input: '',
+            c_family_assignment_rent_requirement_input_minimum_value: 0,
+            c_family_assignment_rent_requirement_input_top_value: '',
+            fix_d_family_assignment_rent_requirement_input: '',
+            d_family_assignment_rent_requirement_input_minimum_value: 0,
+            d_family_assignment_rent_requirement_input_top_value: ''
         }
     },
     methods: {
         async submit() {
             const dataToSend = {
                 period: this.period_input,
-                uf_value_current_montht: this.uf_value_current_month_input,
+                uf_value_current_month: this.uf_value_current_month_input,
                 uf_value_last_month: this.uf_value_last_month_input,
                 utm_value_current_month: this.utm_value_current_month_input,
                 uta_value_current_month: this.uta_value_current_month_input,
@@ -1179,17 +1245,19 @@ export default {
                 uno_dependent_sis_input: this.uno_dependent_sis_input,
                 uno_independent_rate_afp: this.uno_independent_rate_afp_input,
                 a_family_assignment_amount: this.a_family_assignment_amount_input,
-                a_family_assignment_rent_requirement: this
-                    .a_family_assignment_rent_requirement_input,
+                a_family_assignment_rent_requirement_input_minimum_value: this.a_family_assignment_rent_requirement_input_minimum_value,
+                a_family_assignment_rent_requirement_input_top_value: this.a_family_assignment_rent_requirement_input_top_value,
                 b_family_assignment_amount: this.b_family_assignment_amount_input,
-                b_family_assignment_rent_requirement: this
-                    .b_family_assignment_rent_requirement_input,
+                b_family_assignment_rent_requirement_input_minimum_value: this.b_family_assignment_rent_requirement_input_minimum_value,
+                b_family_assignment_rent_requirement_input_top_value: this.b_family_assignment_rent_requirement_input_top_value,
                 c_family_assignment_amount: this.c_family_assignment_amount_input,
-                c_family_assignment_rent_requirement: this
-                    .c_family_assignment_rent_requirement_input,
+                c_family_assignment_rent_requirement_input_minimum_value: this.c_family_assignment_rent_requirement_input_minimum_value,
+                c_family_assignment_rent_requirement_input_top_value: this.c_family_assignment_rent_requirement_input_top_value,
                 d_family_assignment_amount: this.d_family_assignment_amount_input,
                 d_family_assignment_rent_requirement: this
                     .d_family_assignment_rent_requirement_input,
+                d_family_assignment_rent_requirement_input_minimum_value: this.d_family_assignment_rent_requirement_input_minimum_value,
+                d_family_assignment_rent_requirement_input_top_value: this.d_family_assignment_rent_requirement_input_top_value,
                 hard_work_porcentage: this.hard_work_porcentage_input,
                 hard_work_employeer: this.hard_work_employeer_input,
                 hard_work_worker: this.hard_work_worker_input,
@@ -1228,6 +1296,7 @@ export default {
             )
             this.data = response.data
             console.log(this.data)
+            this.previred_title = this.data[0]
             this.uf_value_current_month_input = this.data[4]
             this.uf_value_last_month_input = this.data[6]
             this.utm_value_current_month_input = this.data[11]
@@ -1272,12 +1341,24 @@ export default {
             this.uno_dependent_sis_input = this.data[88]
             this.uno_independent_rate_afp_input = this.data[89]
             this.a_family_assignment_amount_input = this.data[95]
+            this.fix_a_family_assignment_rent_requirement_input = this.data[96].split(' ')
+            this.a_family_assignment_rent_requirement_input_minimum_value = 0
+            this.a_family_assignment_rent_requirement_input_top_value = this.fix_a_family_assignment_rent_requirement_input[5]
             this.a_family_assignment_rent_requirement_input = this.data[96]
             this.b_family_assignment_amount_input = this.data[98]
+            this.fix_b_family_assignment_rent_requirement_input = this.data[99].split(' ')
+            this.b_family_assignment_rent_requirement_input_minimum_value = this.fix_b_family_assignment_rent_requirement_input[3]
+            this.b_family_assignment_rent_requirement_input_top_value = this.fix_b_family_assignment_rent_requirement_input[7]
             this.b_family_assignment_rent_requirement_input = this.data[99]
             this.c_family_assignment_amount_input = this.data[101]
+            this.fix_c_family_assignment_rent_requirement_input = this.data[102].split(' ')
+            this.c_family_assignment_rent_requirement_input_minimum_value = this.fix_c_family_assignment_rent_requirement_input[3]
+            this.c_family_assignment_rent_requirement_input_top_value = this.fix_c_family_assignment_rent_requirement_input[7]
             this.c_family_assignment_rent_requirement_input = this.data[102]
             this.d_family_assignment_amount_input = this.data[104]
+            this.fix_d_family_assignment_rent_requirement_input = this.data[105].split(' ')
+            this.d_family_assignment_rent_requirement_input_minimum_value = this.fix_d_family_assignment_rent_requirement_input[3]
+            this.d_family_assignment_rent_requirement_input_top_value = '9.999.999'
             this.d_family_assignment_rent_requirement_input = this.data[105]
             this.hard_work_porcentage_input = this.data[113]
             this.hard_work_employeer_input = this.data[114]
