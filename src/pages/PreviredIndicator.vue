@@ -47,10 +47,11 @@
                         >
                         <input
                             type="month"
-                            id="rut_input"
+                            id="period_input"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Mes del periodo"
                             v-model="period_input"
+                            :max="maxDate"
                             required
                         />
                     </div>
@@ -58,7 +59,7 @@
                     
                 </div>
                 <div class="grid grid-cols-8 gap-4 p-4 md:p-5">
-                    <button type="button" @click="passEvent" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+                    <button type="button" @click="searchIndicators" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
                         Buscar
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
@@ -68,14 +69,14 @@
                     </button>
                 </div>
             </div>
-            <div
+            <div v-if="searched_indicators == 1"
                     class="bg-yellow-500 text-sm text-white rounded-md p-4 mb-2 mt-10"
                     role="alert"
                 >
                 {{ previred_title }}
             </div>
             
-            <div class="grid grid-cols-2 pt-10">
+            <div class="grid grid-cols-2 pt-10" v-if="searched_indicators == 1">
                 
                 <div class="bg-gray-50 p-4">
                     
@@ -1107,9 +1108,11 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            loading: true,
+            loading: false,
             loading_1: true,
+            maxDate: '',
             data: {},
+            searched_indicators: 0,
             last_day_of_month: '',
             last_day_of_past_month: '',
             current_month: '',
@@ -1188,6 +1191,15 @@ export default {
         }
     },
     methods: {
+        async searchIndicators() {
+            this.getProvisionalIndicator()
+            this.lastDayOfActualMonth()
+            this.lastDayOfPastMonth()
+            this.currentMonth()
+            if (this.loading_1 == false) {
+                this.loading = false
+            }
+        },
         async submit() {
             const dataToSend = {
                 period: this.period_input,
@@ -1273,7 +1285,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .post('https://apijis.com/provisional_indicators/store', dataToSend, {
+                .post('http://localhost:8000/provisional_indicators/store', dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
@@ -1291,90 +1303,105 @@ export default {
                 })
         },
         async getProvisionalIndicator() {
-            const response = await axios.get(
-                'https://apijis.com/provisional_indicators/scrape'
-            )
+            const accessToken = localStorage.getItem('accessToken')
+            
+            const response = await axios.get('http://localhost:8000/provisional_indicators/scrape/' + this.period_input, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        accept: 'application/json',
+                    },
+            });
+
             this.data = response.data
-            console.log(this.data)
-            this.previred_title = this.data[0]
-            this.uf_value_current_month_input = this.data[4]
-            this.uf_value_last_month_input = this.data[6]
-            this.utm_value_current_month_input = this.data[11]
-            this.uta_value_current_month_input = this.data[12]
-            this.cap_income_tax_afp_input = this.data[15]
-            this.cap_income_tax_ips_input = this.data[17]
-            this.cap_income_tax_unemployment_input = this.data[19]
-            this.minimun_income_tax_dependent_independet_input = this.data[22]
-            this.minimun_income_tax_under_18_over_65_input = this.data[24]
-            this.minimun_income_tax_domestic_worker_input = this.data[26]
-            this.minimun_income_tax_non_remunerational_input = this.data[28]
-            this.voluntary_pension_savings_monthly_input = this.data[31]
-            this.voluntary_pension_savings_annual_input = this.data[33]
-            this.agreed_deposit_annual_input = this.data[36]
-            this.indefinite_term_worker_input = this.data[43]
-            this.indefinite_term_employeer_input = this.data[44]
-            this.fixed_term_worker_input = this.data[46]
-            this.fixed_term_employeer_input = this.data[47]
-            this.indefinite_term_worker_11_years_input = this.data[49]
-            this.indefinite_term_employeer_11_years_input = this.data[50]
-            this.domestic_worker_input = this.data[52]
-            this.domestic_employeer_input = this.data[53]
-            this.capital_dependent_rate_afp_input = this.data[63]
-            this.capital_dependent_sis_input = this.data[64]
-            this.capital_independent_rate_afp_input = this.data[65]
-            this.cuprum_dependent_rate_afp_input = this.data[67]
-            this.cuprum_dependent_sis_input = this.data[68]
-            this.cuprum_independent_rate_afp_input = this.data[69]
-            this.habitat_dependent_rate_afp_input = this.data[71]
-            this.habitat_dependent_sis_input = this.data[72]
-            this.habitat_independent_rate_afp_input = this.data[73]
-            this.planvital_dependent_rate_afp_input = this.data[75]
-            this.planvital_dependent_sis_input = this.data[76]
-            this.planvital_independent_rate_afp_input = this.data[77]
-            this.provida_dependent_rate_afp_input = this.data[79]
-            this.provida_dependent_sis_input = this.data[80]
-            this.provida_independent_rate_afp_input = this.data[81]
-            this.modelo_dependent_rate_afp_input = this.data[83]
-            this.modelo_dependent_sis_input = this.data[84]
-            this.modelo_independent_rate_afp_input = this.data[85]
-            this.uno_dependent_rate_afp_input = this.data[87]
-            this.uno_dependent_sis_input = this.data[88]
-            this.uno_independent_rate_afp_input = this.data[89]
-            this.a_family_assignment_amount_input = this.data[95]
-            this.fix_a_family_assignment_rent_requirement_input = this.data[96].split(' ')
-            this.a_family_assignment_rent_requirement_input_minimum_value = 0
-            this.a_family_assignment_rent_requirement_input_top_value = this.fix_a_family_assignment_rent_requirement_input[5]
-            this.a_family_assignment_rent_requirement_input = this.data[96]
-            this.b_family_assignment_amount_input = this.data[98]
-            this.fix_b_family_assignment_rent_requirement_input = this.data[99].split(' ')
-            this.b_family_assignment_rent_requirement_input_minimum_value = this.fix_b_family_assignment_rent_requirement_input[3]
-            this.b_family_assignment_rent_requirement_input_top_value = this.fix_b_family_assignment_rent_requirement_input[7]
-            this.b_family_assignment_rent_requirement_input = this.data[99]
-            this.c_family_assignment_amount_input = this.data[101]
-            this.fix_c_family_assignment_rent_requirement_input = this.data[102].split(' ')
-            this.c_family_assignment_rent_requirement_input_minimum_value = this.fix_c_family_assignment_rent_requirement_input[3]
-            this.c_family_assignment_rent_requirement_input_top_value = this.fix_c_family_assignment_rent_requirement_input[7]
-            this.c_family_assignment_rent_requirement_input = this.data[102]
-            this.d_family_assignment_amount_input = this.data[104]
-            this.fix_d_family_assignment_rent_requirement_input = this.data[105].split(' ')
-            this.d_family_assignment_rent_requirement_input_minimum_value = this.fix_d_family_assignment_rent_requirement_input[3]
-            this.d_family_assignment_rent_requirement_input_top_value = '9.999.999'
-            this.d_family_assignment_rent_requirement_input = this.data[105]
-            this.hard_work_porcentage_input = this.data[113]
-            this.hard_work_employeer_input = this.data[114]
-            this.hard_work_worker_input = this.data[115]
-            this.less_hard_work_porcentage_input = this.data[117]
-            this.less_hard_work_employeer_input = this.data[118]
-            this.less_hard_work_worker_input = this.data[119]
-            this.distribution_7_percent_health_employeer_ccaf_input = this.data[122]
-            this.distribution_7_percent_health_employeer_fonasa_input = this.data[124]
+
+            if (this.data[1] == 0) {
+                this.previred_title = this.data[0]
+                this.uf_value_current_month_input = this.data[4]
+                this.uf_value_last_month_input = this.data[6]
+                this.utm_value_current_month_input = this.data[11]
+                this.uta_value_current_month_input = this.data[12]
+                this.cap_income_tax_afp_input = this.data[15]
+                this.cap_income_tax_ips_input = this.data[17]
+                this.cap_income_tax_unemployment_input = this.data[19]
+                this.minimun_income_tax_dependent_independet_input = this.data[22]
+                this.minimun_income_tax_under_18_over_65_input = this.data[24]
+                this.minimun_income_tax_domestic_worker_input = this.data[26]
+                this.minimun_income_tax_non_remunerational_input = this.data[28]
+                this.voluntary_pension_savings_monthly_input = this.data[31]
+                this.voluntary_pension_savings_annual_input = this.data[33]
+                this.agreed_deposit_annual_input = this.data[36]
+                this.indefinite_term_worker_input = this.data[43]
+                this.indefinite_term_employeer_input = this.data[44]
+                this.fixed_term_worker_input = this.data[46]
+                this.fixed_term_employeer_input = this.data[47]
+                this.indefinite_term_worker_11_years_input = this.data[49]
+                this.indefinite_term_employeer_11_years_input = this.data[50]
+                this.domestic_worker_input = this.data[52]
+                this.domestic_employeer_input = this.data[53]
+                this.capital_dependent_rate_afp_input = this.data[63]
+                this.capital_dependent_sis_input = this.data[64]
+                this.capital_independent_rate_afp_input = this.data[65]
+                this.cuprum_dependent_rate_afp_input = this.data[67]
+                this.cuprum_dependent_sis_input = this.data[68]
+                this.cuprum_independent_rate_afp_input = this.data[69]
+                this.habitat_dependent_rate_afp_input = this.data[71]
+                this.habitat_dependent_sis_input = this.data[72]
+                this.habitat_independent_rate_afp_input = this.data[73]
+                this.planvital_dependent_rate_afp_input = this.data[75]
+                this.planvital_dependent_sis_input = this.data[76]
+                this.planvital_independent_rate_afp_input = this.data[77]
+                this.provida_dependent_rate_afp_input = this.data[79]
+                this.provida_dependent_sis_input = this.data[80]
+                this.provida_independent_rate_afp_input = this.data[81]
+                this.modelo_dependent_rate_afp_input = this.data[83]
+                this.modelo_dependent_sis_input = this.data[84]
+                this.modelo_independent_rate_afp_input = this.data[85]
+                this.uno_dependent_rate_afp_input = this.data[87]
+                this.uno_dependent_sis_input = this.data[88]
+                this.uno_independent_rate_afp_input = this.data[89]
+                this.a_family_assignment_amount_input = this.data[95]
+                this.fix_a_family_assignment_rent_requirement_input = this.data[96].split(' ')
+                this.a_family_assignment_rent_requirement_input_minimum_value = 0
+                this.a_family_assignment_rent_requirement_input_top_value = this.fix_a_family_assignment_rent_requirement_input[5]
+                this.a_family_assignment_rent_requirement_input = this.data[96]
+                this.b_family_assignment_amount_input = this.data[98]
+                this.fix_b_family_assignment_rent_requirement_input = this.data[99].split(' ')
+                this.b_family_assignment_rent_requirement_input_minimum_value = this.fix_b_family_assignment_rent_requirement_input[3]
+                this.b_family_assignment_rent_requirement_input_top_value = this.fix_b_family_assignment_rent_requirement_input[7]
+                this.b_family_assignment_rent_requirement_input = this.data[99]
+                this.c_family_assignment_amount_input = this.data[101]
+                this.fix_c_family_assignment_rent_requirement_input = this.data[102].split(' ')
+                this.c_family_assignment_rent_requirement_input_minimum_value = this.fix_c_family_assignment_rent_requirement_input[3]
+                this.c_family_assignment_rent_requirement_input_top_value = this.fix_c_family_assignment_rent_requirement_input[7]
+                this.c_family_assignment_rent_requirement_input = this.data[102]
+                this.d_family_assignment_amount_input = this.data[104]
+                this.fix_d_family_assignment_rent_requirement_input = this.data[105].split(' ')
+                this.d_family_assignment_rent_requirement_input_minimum_value = this.fix_d_family_assignment_rent_requirement_input[3]
+                this.d_family_assignment_rent_requirement_input_top_value = '9.999.999'
+                this.d_family_assignment_rent_requirement_input = this.data[105]
+                this.hard_work_porcentage_input = this.data[113]
+                this.hard_work_employeer_input = this.data[114]
+                this.hard_work_worker_input = this.data[115]
+                this.less_hard_work_porcentage_input = this.data[117]
+                this.less_hard_work_employeer_input = this.data[118]
+                this.less_hard_work_worker_input = this.data[119]
+                this.distribution_7_percent_health_employeer_ccaf_input = this.data[122]
+                this.distribution_7_percent_health_employeer_fonasa_input = this.data[124]
+            } else {
+                console.log(this.data)
+                this.previred_title = this.data[0]
+                this.uf_value_current_month_input = this.data[4]
+                this.uf_value_last_month_input = this.data[6]
+            }
+            
             this.loading = false
+
+            this.searched_indicators = 1
         },
         currentMonth() {
             const date = new Date()
             const year = date.getFullYear()
 
-            // Obtén el nombre del mes en español
             const monthNames = [
                 'enero',
                 'febrero',
@@ -1391,9 +1418,15 @@ export default {
             ]
             const month = monthNames[date.getMonth()]
 
-            // Construye la cadena de texto
             this.current_month = `${month} ${year}`
             console.log(this.current_month)
+        },
+        setMaxDate() {
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear();
+            const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+
+            this.maxDate = `${currentYear}-${currentMonth}`;
         },
         lastDayOfActualMonth() {
             const date = new Date()
@@ -1401,7 +1434,6 @@ export default {
             const day = lastDay.getDate()
             const year = lastDay.getFullYear()
 
-            // Obtén el nombre del mes en español
             const monthNames = [
                 'enero',
                 'febrero',
@@ -1418,7 +1450,6 @@ export default {
             ]
             const month = monthNames[lastDay.getMonth()]
 
-            // Construye la cadena de texto
             this.last_day_of_month = `al ${day} de ${month} del ${year}`
         },
         lastDayOfPastMonth() {
@@ -1427,7 +1458,6 @@ export default {
             const day = lastDay.getDate()
             const year = lastDay.getFullYear()
 
-            // Obtén el nombre del mes en español
             const monthNames = [
                 'enero',
                 'febrero',
@@ -1444,18 +1474,11 @@ export default {
             ]
             const month = monthNames[lastDay.getMonth()]
 
-            // Construye la cadena de texto
             this.last_day_of_past_month = `al ${day} de ${month} del ${year}`
         },
     },
     created() {
-        this.getProvisionalIndicator()
-        this.lastDayOfActualMonth()
-        this.lastDayOfPastMonth()
-        this.currentMonth()
-        if (this.loading_1 == false) {
-            this.loading = false
-        }
+        this.setMaxDate();
     },
 }
 </script>
