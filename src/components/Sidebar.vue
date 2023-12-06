@@ -644,12 +644,13 @@
                                 </a>
                             </li>
                             <li>
-                                <a
+                                <router-link
                                     class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
+                                    to="/schedule"
                                 >
                                     Malla Horaria
-                                </a>
+                                </router-link>
                             </li>
                         </ul>
                     </div>
@@ -716,6 +717,15 @@
                                     to="/previred_indicators"
                                 >
                                     Indicadores Previred
+                                </router-link>
+                            </li>
+                            <li>
+                                <router-link
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    href="javascript:;"
+                                    to="/mesh_data"
+                                >
+                                    Input Manuales
                                 </router-link>
                             </li>
                         </ul>
