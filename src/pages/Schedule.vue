@@ -174,16 +174,21 @@ export default {
     },
     methods: {
         saveDatesInRangeToLocalstorage() {
-            //ojo que esto se guardo en localStorage sin el week 
-            let week = localStorage.getItem('week')
-            if (!week) {
-                week = 1
-            } else {
-                week = Number(week) + 1
-            }
-            localStorage.setItem('week', week)
+            // ojo que esto se guardo en localStorage sin el week
+            // let week = localStorage.getItem('week')
+            // if (!week) {
+            //     week = 1
+            // } else {
+            //     week = Number(week) + 1
+            // }
+            // localStorage.setItem('week', week)
+            // localStorage.setItem(
+            //     'datesInRange' + week,
+            //     JSON.stringify(this.datesInRange)
+            // )
+           
             localStorage.setItem(
-                'datesInRange' + week,
+                'datesInRange',
                 JSON.stringify(this.datesInRange)
             )
         },
@@ -228,9 +233,16 @@ export default {
                 {
                     dates: [this.startDate],
                     highlight: {
-                        color: 'red',
+                        color: 'blue',
                     },
                     key: 1,
+                },
+                {
+                    dates: this.datesInRange,
+                    highlight: {
+                        color: 'red',
+                    },
+                    key: 3,
                 },
             ]
         },
@@ -239,13 +251,7 @@ export default {
             date.setDate(date.getDate() + turnDays - 1)
             this.endDate = date
             console.log(date)
-
-            let week = localStorage.getItem('week')
-            if (!week) {
-                localStorage.setItem('week', 1)
-                week = localStorage.getItem('week')
-            }
-
+            
             const turnPicked = event.target.getAttribute('value')
             if (turnPicked == null) {
                 return
@@ -374,6 +380,34 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener la lista de sucursales:',
+                        error
+                    )
+                }
+            }
+        },
+        async getLastWeekWorkingDays() {
+            const accessToken = localStorage.getItem('accessToken')
+
+            try {
+                const response = await axios.get(
+                    `https://apijis.com/meshes/last_week_working_days/20202020/2023-12-06`,
+                        
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                        },
+                    }
+                    )
+                    const decodedData = JSON.parse(response.data.message)
+                    console.log(decodedData)
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error(
+                        'Error al obtener la lista:',
                         error
                     )
                 }
