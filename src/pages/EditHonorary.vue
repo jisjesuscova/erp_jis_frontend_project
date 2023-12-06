@@ -524,7 +524,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/communes/' + this.region_input,
+                    'https://apijis.com/communes/' + this.region_input,
                     {
                         headers: {
                             accept: 'application/json',
@@ -588,7 +588,7 @@ export default {
 
             axios
                 .patch(
-                    'http://localhost:8000/honoraries/update/' +
+                    'https://apijis.com/honoraries/update/' +
                         this.$route.params.id,
                     dataToSend,
                     {
@@ -615,7 +615,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/regions/',
+                    'https://apijis.com/regions/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -646,7 +646,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/branch_offices/',
+                    'https://apijis.com/branch_offices/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -675,7 +675,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/honorary_reasons/',
+                    'https://apijis.com/honorary_reasons/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -704,7 +704,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/patology_types/',
+                    'https://apijis.com/patology_types/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -733,7 +733,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'http://localhost:8000/banks/',
+                    'https://apijis.com/banks/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -764,7 +764,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/honoraries/edit/' +
+                    'https://apijis.com/honoraries/edit/' +
                         this.$route.params.id,
                     {
                         headers: {
@@ -825,7 +825,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'http://localhost:8000/employees/',
+                    'https://apijis.com/employees/',
                     dataToSend,
                     {
                         headers: {

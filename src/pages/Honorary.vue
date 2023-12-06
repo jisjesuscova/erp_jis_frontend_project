@@ -227,7 +227,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `http://localhost:8000/honoraries/delete/${id}`,
+                    `https://apijis.com/honoraries/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -259,7 +259,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'http://localhost:8000/honoraries/',
+                    'https://apijis.com/honoraries/',
                     dataToSend,
                     {
                         headers: {

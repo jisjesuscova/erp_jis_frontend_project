@@ -79,6 +79,7 @@ import CreateSalarySettlement from './pages/CreateSalarySettlement.vue'
 import PreviredIndicator from './pages/PreviredIndicator.vue'
 import PayrollManagement from './pages/PayrollManagement.vue'
 import OpenPeriod from './pages/OpenPeriod.vue'
+import PeriodDatum from './pages/PeriodDatum.vue'
 
 const routes = [
     {
@@ -413,6 +414,10 @@ const routes = [
     {
         path:'/open_period',
         component: OpenPeriod
+    },
+    {
+        path:'/period_data',
+        component: PeriodDatum
     },
 ]
 

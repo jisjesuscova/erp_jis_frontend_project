@@ -27,23 +27,10 @@
 
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">
-                Mantenedor Segmentos
-                <router-link
-                    href="javascript:;"
-                    to="create_segment"
-                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                >
-                    Agregar
-                </router-link>
+                Periodos
             </h2>
             <div class="-m-1.5 overflow-x-auto">
-                <div
-                    class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
-                    role="alert"
-                    v-if="delete_segment == 1"
-                >
-                    Segmento eliminado con <span class="font-bold">éxito</span>.
-                </div>
+
                 <div class="p-1.5 min-w-full inline-block align-middle">
                     <div
                         class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
@@ -58,49 +45,40 @@
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            Id
+                                            Periodo
                                         </th>
                                         <th
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            Segmento
+                                            Apertura
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Cierre
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody
                                     class="divide-y divide-gray-200 dark:divide-gray-700"
                                 >
-                                    <tr v-for="segment in segments" :key="segment.id">
+                                    <tr v-for="period in periods" :key="period.id">
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ segment.id }}
+                                            {{ fixPeriod(period.period) }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ segment.segment }}
+                                            {{ period.opened }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            <router-link
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                                href="javascript:;"
-                                                :to="`/edit_segment/${segment.id}`"
-                                            >
-                                                <i class="fa-solid fa-pen"></i>
-                                            </router-link>
-                                            <button
-                                                type="button"
-                                                @click="confirmSegment(segment.id)"
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-trash"
-                                                ></i>
-                                            </button>
+                                            {{ period.closed }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -122,18 +100,25 @@ export default {
     },
     data() {
         return {
-            segments: [],
+            periods: [],
             loading: true,
-            delete_segment: 0,
+            delete_bank: 0,
+            totalItems: 0,
+            itemsPerPage: 0,
         }
     },
     methods: {
-        async getSegments() {
+        fixPeriod(period) {
+            period = period.split('-')
+ 
+            return period[1] + '-' + period[0]
+        },
+        async getPosts() {
             const accessToken = localStorage.getItem('accessToken')
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/segments/',
+                    'http://localhost:8000/payroll_periods/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -142,44 +127,17 @@ export default {
                     }
                 )
 
-                this.segments = response.data.message
+                this.periods = response.data.message.data
+                this.totalItems = response.data.message.total_items
+                this.itemsPerPage = response.data.message.items_per_page
                 this.loading = false
             } catch (error) {
-                console.error('Error al obtener la lista de bancos:', error)
-            }
-        },
-        async confirmSegment(id) {
-            const shouldDelete = window.confirm(
-                '¿Estás seguro de que deseas borrar el Segmento?'
-            )
-            console.log(id)
-
-            if (shouldDelete) {
-                await this.deleteSegment(id)
-            }
-        },
-        async deleteSegment(id) {
-            this.loading = true
-
-            try {
-                const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`https://apijis.com/segments/delete/${id}`, {
-                    headers: {
-                        accept: 'application/json',
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
-
-                this.getSegments()
-
-                this.delete_segment = 1
-            } catch (error) {
-                console.error('Error al borrar la nomina:', error)
+                console.error('Error al obtener la lista de periodos:', error)
             }
         },
     },
     async mounted() {
-        await this.getSegments()
+        await this.getPosts()
     },
 }
 </script>
