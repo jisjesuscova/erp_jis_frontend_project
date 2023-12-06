@@ -1303,6 +1303,7 @@ export default {
                 })
         },
         async getProvisionalIndicator() {
+
             const accessToken = localStorage.getItem('accessToken')
             
             const response = await axios.get('http://localhost:8000/provisional_indicators/scrape/' + this.period_input, {

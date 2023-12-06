@@ -89,7 +89,7 @@
             </div>
         </form>
         <div class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5">
-            <div>
+            <div v-if="startDate != null">
                 <label
                     for="hs-validation-name-error"
                     class="block text-sm font-medium mb-2 dark:text-white"
@@ -105,7 +105,9 @@
                 <ul>
                     <li
                         draggable="true"
-                        @click="pickCalendarDatesForTurns(turn.group_day_id, $event)"
+                        @click="
+                            pickCalendarDatesForTurns(turn.group_day_id, $event)
+                        "
                         class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         v-for="turn in turns"
                         :key="turn.id"
@@ -114,225 +116,176 @@
                     ></li>
                 </ul>
             </div>
-            <VCalendar
-                expanded
-                show-weeknumbers
-                :attributes="attributes"
-                @click="handleDateEvent"
-                show-adjacent-months
-            />
+            <div>
+                <VCalendar
+                    expanded
+                    show-weeknumbers
+                    :attributes="attributes"
+                    show-adjacent-months
+                    @click="handleDateEvent"
+                />
+                <div v-if="startDate != null && endDate != null">
+                    <button
+                        @click="saveDatesInRangeToLocalstorage"
+                        type="submit"
+                        class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                    >
+                        Agregar
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-
-
-const attributes = ref([{}])
-const startDate = ref(null)
-const endDate = ref(null)
-let datesLocalStorage = ref(null)
-
-const pickCalendarDatesForTurns = (turnDays, event) => {
-    const turnPicked = event.target.getAttribute('value')
-    if (turnPicked == null) {
-        return
-    }
-
-    const dates = []
-    const firstDayOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
-
-    for (let i = 0; i < turnDays; i++) {
-        const date = new Date(firstDayOfMonth)
-        date.setDate(firstDayOfMonth.getDate() + i)
-
-        // Si el día de la semana es domingo (0) o si ya hemos agregado la cantidad de dias de turndays, detenemos el bucle
-        if (date.getDay() === 0 || dates.length === turnDays) {
-            break
-        }
-
-        dates.push(date)
-    }
-
-    attributes.value = [
-        {
-            dates: dates,
-            highlight: {
-                color: 'red',
-            },
-            key: 3,
-        },
-    ]
-
-    console.log(dates)
-    console.log(turnDays)
-}
-
-const handleDateEvent = (event) => {
-    const datePicked = event.target.getAttribute('aria-label')
-    if (datePicked == null) {
-        return
-    }
-    const day = Number(datePicked.split(' ')[1])
-    const monthstr = datePicked.split(' ')[3]
-    const year = Number(datePicked.split(' ')[5])
-    let month = 0
-
-    let arrayMonths = [
-        'ene',
-        'feb',
-        'mar',
-        'abr',
-        'may',
-        'jun',
-        'jul',
-        'ago',
-        'sep',
-        'oct',
-        'nov',
-        'dic',
-    ]
-    for (let i = 0; i < arrayMonths.length; i++) {
-        if (arrayMonths[i] == monthstr) {
-            month = i
-        }
-    }
-    if (!startDate.value) {
-        startDate.value = new Date(year, month, day)
-    } else if (!endDate.value) {
-        endDate.value = new Date(year, month, day)
-    } else {
-        startDate.value = new Date(year, month, day)
-        endDate.value = null
-    }
-
-    const datesInRange = []
-    if (startDate.value && endDate.value) {
-        const currentDate = new Date(startDate.value)
-        currentDate.setDate(currentDate.getDate()) 
-        while (currentDate <= endDate.value ) { 
-            datesInRange.push(new Date(currentDate))
-            currentDate.setDate(currentDate.getDate() + 1)
-        }
-    }
-    attributes.value = [
-        {
-            dates: [startDate.value],
-            bar: {
-                color: 'blue',
-            },
-            key: 1,
-        },
-        {
-            dates: [endDate.value],
-            bar: {
-                color: 'blue',
-            },
-            key: 2,
-        },
-        {
-            dates: datesInRange,
-            bar: {
-                color: 'green',
-            },
-            key: 3,
-        },
-    ]
-    if(startDate.value && endDate.value) {
-    localStorage.setItem('dates', JSON.stringify(datesInRange))
-    datesLocalStorage = JSON.parse(localStorage.getItem('dates'))
-    console.log('starDate',datesLocalStorage[0])
-    console.log('endDate',datesLocalStorage[datesLocalStorage.length - 1])
-    }
-    console.log(datesInRange)
-}
-</script>
-
-<script>
-import { setupCalendar, Calendar, DatePicker } from 'v-calendar'
-import 'v-calendar/style.css'
+  <script>
+import EmployeeMenu from '../components/EmployeeMenu.vue'
 import axios from 'axios'
 
 export default {
     components: {
-        VCalendar: Calendar,
-        VDatePicker: DatePicker,
+        EmployeeMenu,
     },
     data() {
         return {
-            attributes: [{}],
+            startDate: null,
+            endDate: null,
+            startDate: null,
+            endDate: null,
+            date: new Date(),
             date: new Date(),
             branch_offices: [],
             sections: [],
             turns: [],
+            attributes: [],
             employees_labor_data: [],
+            datesInRange: [],
             branch_office_input: '',
             period_input: '',
             employee_input: '',
             schedule_input: '',
             turn_input: '',
             search_term: 'Buscar Turno',
-            startDate: null,
-            endDate: null,
+            turnDays: 0,
+            year: 0, // Initial values
+            month: 0, // Initial values
         }
     },
-
     methods: {
-        // handleDateEvent(event) {
-        //     const datePicked = event.target.getAttribute('aria-label')
-        //     if (datePicked == null) {
-        //         return
-        //     }
-        //     const day = Number(datePicked.split(' ')[1])
-        //     const monthstr = datePicked.split(' ')[3]
-        //     const year = Number(datePicked.split(' ')[5])
-        //     let month = 0
+        saveDatesInRangeToLocalstorage() {
+            //ojo que esto se guardo en localStorage sin el week 
+            let week = localStorage.getItem('week')
+            if (!week) {
+                week = 1
+            } else {
+                week = Number(week) + 1
+            }
+            localStorage.setItem('week', week)
+            localStorage.setItem(
+                'datesInRange' + week,
+                JSON.stringify(this.datesInRange)
+            )
+        },
+        handleDateEvent(event) {
+            const datePicked = event.target.getAttribute('aria-label')
+            console.log(datePicked)
+            if (datePicked == null) {
+                return
+            }
+            const day = Number(datePicked.split(' ')[1])
+            const monthstr = datePicked.split(' ')[3]
+            const year = Number(datePicked.split(' ')[5])
+            let month = 0
 
-        //     let arrayMonths = [
-        //         'ene',
-        //         'feb',
-        //         'mar',
-        //         'abr',
-        //         'may',
-        //         'jun',
-        //         'jul',
-        //         'ago',
-        //         'sep',
-        //         'oct',
-        //         'nov',
-        //         'dic',
-        //     ]
-        //     for (let i = 0; i < arrayMonths.length; i++) {
-        //         if (arrayMonths[i] == monthstr) {
-        //             month = i
-        //         }
-        //     }
-        //     if (!this.startDate) {
-        //         this.startDate = new Date(year, month, day)
-        //     } else if (!this.endDate) {
-        //         // Si ya hay una fecha de inicio, pero no una fecha de fin, establecer la fecha de fin
-        //         this.endDate = new Date(year, month, day)
-        //     } else {
-        //         // Si ya hay una fecha de inicio y de fin, restablecer ambas fechas
-        //         this.startDate = new Date(year, month, day)
-        //         this.endDate = null
-        //     }
-        //     this.attributes = [
-        //         {
-        //             key: 1,
-        //             content: 'red',
-        //             // highlight: true,
-        //             dot: true,
-        //             bar: true,
-        //             // popover: { ... },
-        //             // customData: { ... },
-        //             dates: [this.startDate, this.endDate].filter(Boolean),
-        //             order: 0,
-        //         },
-        //     ]
-        // },
-        
+            let arrayMonths = [
+                'ene',
+                'feb',
+                'mar',
+                'abr',
+                'may',
+                'jun',
+                'jul',
+                'ago',
+                'sep',
+                'oct',
+                'nov',
+                'dic',
+            ]
+            for (let i = 0; i < arrayMonths.length; i++) {
+                if (arrayMonths[i] == monthstr) {
+                    month = i
+                }
+            }
+            if (!this.startDate) {
+                this.startDate = new Date(year, month, day)
+            } else {
+                this.startDate = new Date(year, month, day)
+                this.endDate = null
+            }
+
+            this.attributes = [
+                {
+                    dates: [this.startDate],
+                    highlight: {
+                        color: 'red',
+                    },
+                    key: 1,
+                },
+            ]
+        },
+        pickCalendarDatesForTurns(turnDays, event) {
+            let date = new Date(this.startDate)
+            date.setDate(date.getDate() + turnDays - 1)
+            this.endDate = date
+            console.log(date)
+
+            let week = localStorage.getItem('week')
+            if (!week) {
+                localStorage.setItem('week', 1)
+                week = localStorage.getItem('week')
+            }
+
+            const turnPicked = event.target.getAttribute('value')
+            if (turnPicked == null) {
+                return
+            }
+
+            if (this.startDate && this.endDate) {
+                const currentDate = new Date(this.startDate)
+                currentDate.setDate(currentDate.getDate())
+                while (currentDate <= this.endDate) {
+                    this.datesInRange.push(new Date(currentDate))
+                    currentDate.setDate(currentDate.getDate() + 1)
+                }
+            }
+
+            this.attributes = [
+                {
+                    dates: [this.startDate],
+                    highlight: {
+                        color: 'red',
+                    },
+                    key: 1,
+                },
+                {
+                    dates: [this.endDate],
+                    highlight: {
+                        color: 'red',
+                    },
+                    key: 2,
+                },
+                {
+                    dates: this.datesInRange,
+                    highlight: {
+                        color: 'red',
+                    },
+                    key: 3,
+                },
+            ]
+
+            console.log(this.datesInRange)
+        },
         async getTurns() {
             const accessToken = localStorage.getItem('accessToken')
             try {
@@ -427,8 +380,31 @@ export default {
             }
         },
     },
-    mounted() {
+    created() {
+        let getLocalDateInRange = localStorage.getItem('datesInRange')
+            ? JSON.parse(localStorage.getItem('datesInRange'))
+            : ''
+        if (
+            getLocalDateInRange != '' &&
+            getLocalDateInRange != null &&
+            getLocalDateInRange != undefined
+        ) {
+            this.datesInRange = getLocalDateInRange
+        }
+        {
+            this.attributes = [
+                {
+                    dates: this.datesInRange,
+                    highlight: {
+                        color: 'red',
+                    },
+                },
+            ]
+        }
+
         this.getBranchOffices()
+        this.year = this.date.getFullYear()
+        this.month = this.date.getMonth()
     },
 }
 </script>
