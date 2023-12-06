@@ -59,6 +59,18 @@
                                         >
                                             Cierre
                                         </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Estado
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody
@@ -73,12 +85,40 @@
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ period.opened }}
+                                            {{ fixDate(period.opened) }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ period.closed }}
+                                            {{ fixDate(period.closed) }}
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            <span
+                                                v-if="period.closed == None"
+                                                class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-500 text-white"
+                                                >Abierto</span
+                                            >
+                                            <span
+                                                v-if="period.closed != None"
+                                                class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-500 text-white"
+                                                >Cerrado</span
+                                            >
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/kardex_document`"
+                                                title="Kardex"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-eye"
+                                                ></i>
+                                            </router-link>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -86,6 +126,15 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="text-center mt-10" v-if="totalItems > 0">
+                <vue-awesome-paginate
+                    :total-items="totalItems"
+                    :items-per-page="itemsPerPage"
+                    :max-pages-shown="maxPagesShown"
+                    v-model="currentPage"
+                    :on-click="onClickHandler"
+                />
             </div>
         </div>
     </div>
@@ -105,20 +154,32 @@ export default {
             delete_bank: 0,
             totalItems: 0,
             itemsPerPage: 0,
+            currentPage: 1,
+            maxPagesShown: 5
         }
     },
     methods: {
+        onClickHandler(page) {
+            this.currentPage = page
+            this.getPosts()
+        },
         fixPeriod(period) {
             period = period.split('-')
  
             return period[1] + '-' + period[0]
+        },
+        fixDate(date) {
+            date = date.split('T')
+            date = date[0].split('-')
+ 
+            return date[2] + '-' + date[1] + '-' + date[0]
         },
         async getPosts() {
             const accessToken = localStorage.getItem('accessToken')
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/payroll_periods/',
+                    'https://apijis.com/payroll_periods/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
