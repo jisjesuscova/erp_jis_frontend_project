@@ -140,14 +140,6 @@
                         Agregar
                         <i class="fa-solid fa-check"></i>
                     </button>
-                    <button
-                        @click="getLastWeekWorkingDays"
-                        type="submit"
-                        class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                    >
-                        prueba
-                        <i class="fa-solid fa-check"></i>
-                    </button>
                 </div>
             </div>
         </div>
@@ -155,6 +147,7 @@
 </template>
 
   <script>
+import { BROKEN_CARET } from 'pdfmake/build/pdfmake'
 import EmployeeMenu from '../components/EmployeeMenu.vue'
 import axios from 'axios'
 
@@ -170,10 +163,11 @@ export default {
             endDate: null,
             date: new Date(),
             initialPage: {
-                month: new Date().getMonth() + 1,
+                month: new Date().getMonth() + 2,
                 year: new Date().getFullYear(),
             },
             branch_offices: [],
+            colors: ['red', 'green', 'yellow', 'purple', 'orange'],
             sections: [],
             turns: [],
             attributes: [],
@@ -207,9 +201,10 @@ export default {
             }
             localStorage.setItem('week', week)
             localStorage.setItem(
-                'datesInRange' + week,
+                'week_value' + week,
                 JSON.stringify(this.datesInRange)
             )
+            this.datesInRange = []
         },
         handleDateEvent(event) {
             const datePicked = event.target.getAttribute('aria-label')
@@ -255,13 +250,7 @@ export default {
                     },
                     key: 1,
                 },
-                {
-                    dates: this.datesInRange,
-                    highlight: {
-                        color: 'red',
-                    },
-                    key: 3,
-                },
+               
             ]
         },
         whileForDatesInRange(turnDays, freeDays) {
@@ -287,7 +276,7 @@ export default {
                     this.datesInRange.push(new Date(currentDate))
                     currentDate.setDate(currentDate.getDate() + 1)
                 }
-                console.log(turnDays - this.turnsDaysInUse)
+
                 this.turnsDaysInUse = 0
             }
         },
@@ -295,9 +284,28 @@ export default {
         async pickCalendarDatesForTurns(turnDays, freeDays, event) {
             await this.getLastWeekWorkingDays()
             let date = new Date(this.startDate)
+            this.workedDays = 0
             turnDays = turnDays - this.workedDays
             date.setDate(date.getDate() + turnDays - 1)
             if (turnDays == 0) {
+                alert(
+                    'Hola, el empleado ya trabajo los turnos que le correspondian en la semana'
+                )
+                this.startDate = 0
+                this.attributes = [
+                    {
+                        dates: [this.startDate],
+                        highlight: {
+                            color: 'red',
+                        },
+                        key: 1,
+                    },
+                ]
+                return
+            } else if (turnDays < 0) {
+                alert(
+                    'Hola, el empleado ya trabajo los turnos que le correspondian en la semana'
+                )
                 this.startDate = 0
                 this.attributes = [
                     {
@@ -311,12 +319,13 @@ export default {
                 return
             } else {
                 this.endDate = date
-                console.log(turnDays)
+
                 const turnPicked = event.target.getAttribute('value')
                 if (turnPicked == null) {
                     return
                 }
                 this.whileForDatesInRange(turnDays, freeDays)
+                let indexColor = Math.floor(Math.random() * 5)
 
                 this.attributes = [
                     {
@@ -330,13 +339,11 @@ export default {
                     {
                         dates: this.datesInRange,
                         highlight: {
-                            color: 'red',
+                            color: this.colors[indexColor],
                         },
                         key: 3,
                     },
                 ]
-
-                console.log(this.datesInRange)
             }
         },
         async getTurns() {
@@ -355,7 +362,7 @@ export default {
                     search_term: this.search_term,
                 }
                 const response = await axios.get(
-                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
+                    `http://localhost:8000/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -381,7 +388,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/branch_offices/',
+                    'http://localhost:8000/branch_offices/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -408,7 +415,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employee_labor_data/edit/branch/' +
+                    'http://localhost:8000/employee_labor_data/edit/branch/' +
                         this.branch_office_input,
                     {
                         headers: {
@@ -436,17 +443,17 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/last_week_working_days/20202020/2023-12-06`,
+                    `http://localhost:8000/meshes/last_week_working_days/20202020/2023-11-06`,
 
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`,
                         },
                     }
                 )
                 const decodedData = JSON.parse(response.data.message)
-                console.log(decodedData)
+
                 this.workedDays = decodedData
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
@@ -458,15 +465,16 @@ export default {
             }
         },
         getDatesInRangeFromLocalStorage() {
-            this.datesInRange = []
+            this.datesInRange = [[], []] // Inicializa un array bidimensional
 
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i)
-                if (key.startsWith('datesInRange')) {
+                if (key.startsWith('week_value')) {
                     const dates = JSON.parse(localStorage.getItem(key))
+
                     const formattedDates = dates.map((date) => {
                         const d = new Date(date)
-                        d.setDate(d.getDate() + 1) // Sumar un día
+                        d.setDate(d.getDate() + 1)
                         const year = d.getFullYear()
                         const month = (d.getMonth() + 1)
                             .toString()
@@ -474,15 +482,33 @@ export default {
                         const day = d.getDate().toString().padStart(2, '0')
                         return `${year}-${month}-${day}`
                     })
-                    this.datesInRange.push(...formattedDates)
+
+                    console.log(formattedDates)
+
+                    // Decide en qué subarray de datesInRange almacenar las fechas
+                    const targetArray =
+                        this.datesInRange[0].length < 5
+                            ? this.datesInRange[0]
+                            : this.datesInRange[1]
+                    targetArray.push(...formattedDates)
                 }
             }
 
+            // Genera dos colores aleatorios
+            const indexColor1 = Math.floor(Math.random() * 5)
+            const indexColor2 = Math.floor(Math.random() * 5)
+
             this.attributes = [
                 {
-                    dates: this.datesInRange,
+                    dates: this.datesInRange[0],
                     highlight: {
-                        color: 'red',
+                        color: this.colors[indexColor1],
+                    },
+                },
+                {
+                    dates: this.datesInRange[1],
+                    highlight: {
+                        color: this.colors[indexColor2],
                     },
                 },
             ]
