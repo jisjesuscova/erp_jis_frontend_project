@@ -232,7 +232,7 @@
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Monto Salud (Solo si es Isapre, indicar la cotización Pactada)</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="extra_health_amount_input"
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Monto Salud (Solo si es Isapre, indicar la cotización Pactada)"
@@ -505,7 +505,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employee_contracts/download/' + id,
+                    'http://localhost:8000/employee_contracts/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -2611,7 +2611,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `https://apijis.com/employee_contracts/delete/${id}`,
+                    `http://localhost:8000/employee_contracts/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -2651,9 +2651,6 @@ export default {
                 this.apv_payment_type_input = 3
             }
 
-           
-
-
             const dataToSend = {
                 rut: this.$route.params.rut,
                 contract_type_id: this.contract_type_input,
@@ -2682,7 +2679,7 @@ export default {
             console.log(dataToSend)
             try {
                 
-                const response = await axios.patch('https://apijis.com/employee_labor_data/update/'+ this.$route.params.rut, dataToSend, {
+                const response = await axios.patch('http://localhost:8000/employee_labor_data/update/'+ this.$route.params.rut, dataToSend, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2708,7 +2705,7 @@ export default {
         async getEmployeeLaborData() {
           const accessToken = localStorage.getItem('accessToken');
             try {
-                const response = await axios.get('https://apijis.com/employee_labor_data/edit/'+ this.$route.params.rut, {
+                const response = await axios.get('http://localhost:8000/employee_labor_data/edit/'+ this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2757,7 +2754,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/pentions/', {
+                const response = await axios.get('http://localhost:8000/pentions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2784,7 +2781,7 @@ export default {
             };  
 
             try {
-                const response = await axios.post('https://apijis.com/contract_data/expiration', dataToSend, {
+                const response = await axios.post('http://localhost:8000/contract_data/expiration', dataToSend, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2835,7 +2832,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/healths/', {
+                const response = await axios.get('http://localhost:8000/healths/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2858,7 +2855,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/regimes/', {
+                const response = await axios.get('http://localhost:8000/regimes/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2881,7 +2878,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/job_positions/', {
+                const response = await axios.get('http://localhost:8000/job_positions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2904,7 +2901,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/employee_types/', {
+                const response = await axios.get('http://localhost:8000/employee_types/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2927,7 +2924,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/contract_types/', {
+                const response = await axios.get('http://localhost:8000/contract_types/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2950,7 +2947,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/branch_offices/', {
+                const response = await axios.get('http://localhost:8000/branch_offices/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2973,7 +2970,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/communes/' + this.region_input, {
+                const response = await axios.get('http://localhost:8000/communes/' + this.region_input, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2997,7 +2994,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/regions/', {
+                const response = await axios.get('http://localhost:8000/regions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -3021,7 +3018,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/civil_states/', {
+                const response = await axios.get('http://localhost:8000/civil_states/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -3045,7 +3042,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https://apijis.com/employee_contracts/edit/' + this.$route.params.rut, {
+                const response = await axios.get('http://localhost:8000/employee_contracts/edit/' + this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -3053,7 +3050,7 @@ export default {
                 });
 
                 const decodedData = JSON.parse(response.data.message)
-                console.log(response.data.message)
+
                 this.employee_contracts = decodedData;
 
                 this.loading_11 = false;
@@ -3072,7 +3069,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employees/edit/' +
+                    'http://localhost:8000/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -3102,7 +3099,7 @@ export default {
         //     const accessToken = localStorage.getItem('accessToken');
 
         //     try {
-        //         const response = await axios.get('https://apijis.com/end_documents/edit/' + this.$route.params.rut, {
+        //         const response = await axios.get('http://localhost:8000/end_documents/edit/' + this.$route.params.rut, {
         //             headers: {
         //             accept: 'application/json',
         //             Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -3145,7 +3142,6 @@ export default {
         await this.getPentions();
         await this.getEmployeeContracts();
         await this.getPersonalDataEmployee();
-        // await this.getEndDocuments();
         await this.getExpirations();
 
         if (this.loading_1 == false 

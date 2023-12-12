@@ -437,7 +437,6 @@
                                             </button>
 
                                             <button
-                                               
                                                 type="button"
                                                 @click="
                                                     generateFalseVacation(
@@ -450,10 +449,10 @@
                                             </button>
 
                                             <button
-                                                
+                                                v-if="vacation.support != null && vacation.support != ''"
                                                 type="button"
                                                 @click="
-                                                    generateVacation(
+                                                    downloadVacation(
                                                         vacation.document_employee_id,
                                                     )
                                                 "
@@ -1209,7 +1208,7 @@ export default {
             )
 
             var company_signature = await this.getBase64ImageFromURL(
-                'https://erpjis.com//assets/signature.png',
+                'http://localhost:5173/assets/signature.png',
             )
 
             var signature = await this.getBase64ImageFromURL(
@@ -2349,7 +2348,7 @@ export default {
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`,
                         },
                     },
                 )
@@ -2598,6 +2597,8 @@ export default {
                         },
                     },
                 )
+
+                console.log(response.data.message);
 
                 this.legal_holiday = response.data.message
 

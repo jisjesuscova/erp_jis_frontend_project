@@ -187,11 +187,11 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://erpjis.com/salary_settlements/download/' + id,
+                    'https://apijis.com/salary_settlements/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`,
                         },
                     },
                 )

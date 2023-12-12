@@ -109,16 +109,13 @@
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            <router-link
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                                href="javascript:;"
-                                                :to="`/kardex_document`"
-                                                title="Kardex"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-eye"
-                                                ></i>
-                                            </router-link>
+                                            <button v-if="period.closed != None"
+                                                type="submit"
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                                @click="openPeriod(period.period)"
+                                                >
+                                                <i class="fa-solid fa-check"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -159,20 +156,60 @@ export default {
         }
     },
     methods: {
+        async openPeriod(period) {
+            const confirmed = confirm("¿Estás seguro de aperturar el período?");
+            if (!confirmed) {
+                return;
+            }
+            this.loading = true
+
+            const accessToken = localStorage.getItem('accessToken')
+            try {
+                const dataToSend = {
+                    period: period,
+                }
+
+                const response = await axios.post(
+                    'https://apijis.com/payrolls/open',
+                    dataToSend,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    },
+                )
+                
+                this.getPosts()
+
+                this.loading = false
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error('Error al abrir el periodo:', error)
+                }
+            }
+        },
         onClickHandler(page) {
             this.currentPage = page
             this.getPosts()
         },
         fixPeriod(period) {
-            period = period.split('-')
+            if (period != null && period != '' && period != undefined) {
+                period = period.split('-')
  
-            return period[1] + '-' + period[0]
+                return period[1] + '-' + period[0]
+            }
         },
         fixDate(date) {
-            date = date.split('T')
-            date = date[0].split('-')
- 
-            return date[2] + '-' + date[1] + '-' + date[0]
+            if (date != null && date != '' && date != undefined) {
+                date = date.split('T')
+                date = date[0].split('-')
+    
+                return date[2] + '-' + date[1] + '-' + date[0]
+            }
         },
         async getPosts() {
             const accessToken = localStorage.getItem('accessToken')

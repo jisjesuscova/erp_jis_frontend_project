@@ -80,6 +80,7 @@ import PreviredIndicator from './pages/PreviredIndicator.vue'
 import PayrollManagement from './pages/PayrollManagement.vue'
 import OpenPeriod from './pages/OpenPeriod.vue'
 import PeriodDatum from './pages/PeriodDatum.vue'
+import ManualInput from './pages/ManualInput.vue'
 
 const routes = [
     {
@@ -418,6 +419,10 @@ const routes = [
     {
         path:'/period_data',
         component: PeriodDatum
+    },
+    {
+        path:'/manual_inputs',
+        component: ManualInput
     },
 ]
 

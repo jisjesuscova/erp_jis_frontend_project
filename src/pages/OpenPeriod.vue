@@ -168,7 +168,7 @@ export default {
             }
         },
         async openPeriod() {
-            const confirmed = confirm("¿Estás seguro de aperturar el período?. Borra toda la información de nómina del período anterior.");
+            const confirmed = confirm("¿Estás seguro de aperturar el período?");
             if (!confirmed) {
                 return;
             }
