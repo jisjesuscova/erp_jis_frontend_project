@@ -105,15 +105,16 @@
                 />
                 <ul>
                     <li
-                        draggable="true"
                         @click="
                             pickCalendarDatesForTurns(
+                                turn.turn,
                                 turn.group_day_id,
                                 turn.free_day_group_id,
                                 $event
                             )
                         "
-                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        draggable="true"
+                        class="mt-1 mb-2 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         v-for="turn in turns"
                         :key="turn.id"
                         :value="turn.turn"
@@ -131,6 +132,7 @@
                     @click="handleDateEvent"
                     :initial-page="initialPage"
                 />
+
                 <div v-if="startDate != null && endDate != null">
                     <button
                         @click="saveDatesInRangeToLocalstorage"
@@ -138,6 +140,16 @@
                         class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                     >
                         Agregar
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                </div>
+                <div v-if="startDate != null && endDate != null">
+                    <button
+                        @click="deleteAllWeeksFromLocalStorage"
+                        type="submit"
+                        class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                    >
+                        Borrar
                         <i class="fa-solid fa-check"></i>
                     </button>
                 </div>
@@ -159,8 +171,6 @@ export default {
         return {
             startDate: null,
             endDate: null,
-            startDate: null,
-            endDate: null,
             date: new Date(),
             initialPage: {
                 month: new Date().getMonth() + 2,
@@ -178,19 +188,52 @@ export default {
             employee_input: '',
             schedule_input: '',
             turn_input: '',
+            dataToShow: [],
             search_term: 'Buscar Turno',
             turnDays: 0,
-            year: 0, // Initial values
-            month: 0, // Initial values
+            year: 0,
+            month: 0,
             turnsDaysInUse: 0,
             workedDays: 0,
         }
     },
     methods: {
+        getSundays(year, month) {
+            let date = new Date(year, month, 1)
+            let sundays = []
+
+            while (date.getMonth() === month) {
+                if (date.getDay() === 0) {
+                    // 0 significa domingo
+                    sundays.push(new Date(date))
+                }
+                date.setDate(date.getDate() + 1)
+            }
+            console.log(sundays)
+            return sundays
+        },
+        deleteAllWeeksFromLocalStorage() {
+            const shouldDelete = confirm(
+                'una vez borrada la malla tendra que volver a crearla, ¿desea continuar?'
+            )
+            console.log(shouldDelete)
+            if (!shouldDelete) {
+                return
+            }
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i)
+                if (key.startsWith('week_value')) {
+                    localStorage.removeItem(key)
+                }
+            }
+            localStorage.setItem('week', 0)
+            this.getDatesInRangeFromLocalStorage()
+        },
         periodToInitialPage(period) {
             const month = Number(period.split('-')[1])
             const year = Number(period.split('-')[0])
             this.initialPage = { month, year }
+            this.getSundays(year, month -1 )
         },
         saveDatesInRangeToLocalstorage() {
             let week = localStorage.getItem('week')
@@ -200,11 +243,18 @@ export default {
                 week = Number(week) + 1
             }
             localStorage.setItem('week', week)
-            localStorage.setItem(
-                'week_value' + week,
-                JSON.stringify(this.datesInRange)
-            )
+
+            const weekData = {
+                turn: this.turn_input,
+                workedDays: this.turnDays,
+                freeDays: this.freeDays,
+                datesInRange: this.datesInRange,
+            }
+
+            localStorage.setItem('week_value' + week, JSON.stringify(weekData))
+
             this.datesInRange = []
+            this.getDatesInRangeFromLocalStorage()
         },
         handleDateEvent(event) {
             const datePicked = event.target.getAttribute('aria-label')
@@ -250,7 +300,6 @@ export default {
                     },
                     key: 1,
                 },
-               
             ]
         },
         whileForDatesInRange(turnDays, freeDays) {
@@ -281,7 +330,9 @@ export default {
             }
         },
 
-        async pickCalendarDatesForTurns(turnDays, freeDays, event) {
+        async pickCalendarDatesForTurns(turn, turnDays, freeDays, event) {
+            this.turn_input = turn
+            this.turnDays = turnDays
             await this.getLastWeekWorkingDays()
             let date = new Date(this.startDate)
             this.workedDays = 0
@@ -464,13 +515,38 @@ export default {
                 }
             }
         },
+
+        getRandomColorForWeeks() {
+            const commonColorIndex = Math.floor(Math.random() * 5)
+            let lastWeekColorIndex
+            do {
+                lastWeekColorIndex = Math.floor(Math.random() * 5)
+            } while (lastWeekColorIndex === commonColorIndex)
+
+            this.attributes = this.datesInRange.map((dates, index) => {
+                const colorIndex =
+                    index === this.datesInRange.length - 1
+                        ? lastWeekColorIndex
+                        : commonColorIndex
+
+                return {
+                    dates,
+                    highlight: {
+                        color: this.colors[colorIndex],
+                    },
+                }
+            })
+        },
         getDatesInRangeFromLocalStorage() {
-            this.datesInRange = [[], []] // Inicializa un array bidimensional
+            this.datesInRange = [[], [], [], [], [], []]
 
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i)
                 if (key.startsWith('week_value')) {
-                    const dates = JSON.parse(localStorage.getItem(key))
+                    const weekData = JSON.parse(localStorage.getItem(key))
+
+                    // Ahora 'dates' es una propiedad del objeto 'weekData'
+                    const dates = weekData.datesInRange
 
                     const formattedDates = dates.map((date) => {
                         const d = new Date(date)
@@ -483,35 +559,21 @@ export default {
                         return `${year}-${month}-${day}`
                     })
 
-                    console.log(formattedDates)
-
                     // Decide en qué subarray de datesInRange almacenar las fechas
-                    const targetArray =
-                        this.datesInRange[0].length < 5
-                            ? this.datesInRange[0]
-                            : this.datesInRange[1]
-                    targetArray.push(...formattedDates)
+                    const targetArray = this.datesInRange.find(
+                        (week) => week.length < 7
+                    )
+
+                    if (targetArray) {
+                        targetArray.push(...formattedDates)
+                    } else {
+                        console.log(
+                            'No puedes agregar más datos a las semanas existentes.'
+                        )
+                    }
                 }
             }
-
-            // Genera dos colores aleatorios
-            const indexColor1 = Math.floor(Math.random() * 5)
-            const indexColor2 = Math.floor(Math.random() * 5)
-
-            this.attributes = [
-                {
-                    dates: this.datesInRange[0],
-                    highlight: {
-                        color: this.colors[indexColor1],
-                    },
-                },
-                {
-                    dates: this.datesInRange[1],
-                    highlight: {
-                        color: this.colors[indexColor2],
-                    },
-                },
-            ]
+            this.getRandomColorForWeeks()
         },
     },
     created() {
