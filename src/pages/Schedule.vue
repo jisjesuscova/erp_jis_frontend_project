@@ -19,6 +19,7 @@
                         id="period_input"
                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         v-model="period_input"
+                        @change="periodToInitialPage(period_input)"
                         required
                     />
                 </div>
@@ -104,11 +105,16 @@
                 />
                 <ul>
                     <li
-                        draggable="true"
                         @click="
-                            pickCalendarDatesForTurns(turn.group_day_id, $event)
+                            pickCalendarDatesForTurns(
+                                turn.turn,
+                                turn.group_day_id,
+                                turn.free_day_group_id,
+                                $event
+                            )
                         "
-                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        draggable="true"
+                        class="mt-1 mb-2 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         v-for="turn in turns"
                         :key="turn.id"
                         :value="turn.turn"
@@ -118,12 +124,15 @@
             </div>
             <div>
                 <VCalendar
+                    :key="`${initialPage.month}-${initialPage.year}`"
                     expanded
                     show-weeknumbers
                     :attributes="attributes"
                     show-adjacent-months
                     @click="handleDateEvent"
+                    :initial-page="initialPage"
                 />
+
                 <div v-if="startDate != null && endDate != null">
                     <button
                         @click="saveDatesInRangeToLocalstorage"
@@ -134,12 +143,22 @@
                         <i class="fa-solid fa-check"></i>
                     </button>
                 </div>
+                <div v-if="startDate != null && endDate != null">
+                    <button
+                        @click="deleteAllWeeksFromLocalStorage"
+                        type="submit"
+                        class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                    >
+                        Borrar
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </template>
-
   <script>
+import { BROKEN_CARET } from 'pdfmake/build/pdfmake'
 import EmployeeMenu from '../components/EmployeeMenu.vue'
 import axios from 'axios'
 
@@ -151,11 +170,13 @@ export default {
         return {
             startDate: null,
             endDate: null,
-            startDate: null,
-            endDate: null,
             date: new Date(),
-            date: new Date(),
+            initialPage: {
+                month: new Date().getMonth() + 2,
+                year: new Date().getFullYear(),
+            },
             branch_offices: [],
+            colors: ['red', 'green', 'yellow', 'purple', 'orange'],
             sections: [],
             turns: [],
             attributes: [],
@@ -166,35 +187,76 @@ export default {
             employee_input: '',
             schedule_input: '',
             turn_input: '',
+            dataToShow: [],
             search_term: 'Buscar Turno',
             turnDays: 0,
-            year: 0, // Initial values
-            month: 0, // Initial values
+            year: 0,
+            month: 0,
+            turnsDaysInUse: 0,
+            workedDays: 0,
         }
     },
     methods: {
-        saveDatesInRangeToLocalstorage() {
-            // ojo que esto se guardo en localStorage sin el week
-            // let week = localStorage.getItem('week')
-            // if (!week) {
-            //     week = 1
-            // } else {
-            //     week = Number(week) + 1
-            // }
-            // localStorage.setItem('week', week)
-            // localStorage.setItem(
-            //     'datesInRange' + week,
-            //     JSON.stringify(this.datesInRange)
-            // )
-           
-            localStorage.setItem(
-                'datesInRange',
-                JSON.stringify(this.datesInRange)
+        getSundays(year, month) {
+            let date = new Date(year, month, 1)
+            let sundays = []
+
+            while (date.getMonth() === month) {
+                if (date.getDay() === 0) {
+                    // 0 significa domingo
+                    sundays.push(new Date(date))
+                }
+                date.setDate(date.getDate() + 1)
+            }
+            console.log(sundays)
+            return sundays
+        },
+        deleteAllWeeksFromLocalStorage() {
+            const shouldDelete = confirm(
+                'una vez borrada la malla tendra que volver a crearla, ¿desea continuar?'
             )
+            console.log(shouldDelete)
+            if (!shouldDelete) {
+                return
+            }
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i)
+                if (key.startsWith('week_value')) {
+                    localStorage.removeItem(key)
+                }
+            }
+            localStorage.setItem('week', 0)
+            this.getDatesInRangeFromLocalStorage()
+        },
+        periodToInitialPage(period) {
+            const month = Number(period.split('-')[1])
+            const year = Number(period.split('-')[0])
+            this.initialPage = { month, year }
+            this.getSundays(year, month -1 )
+        },
+        saveDatesInRangeToLocalstorage() {
+            let week = localStorage.getItem('week')
+            if (!week) {
+                week = 1
+            } else {
+                week = Number(week) + 1
+            }
+            localStorage.setItem('week', week)
+
+            const weekData = {
+                turn: this.turn_input,
+                workedDays: this.turnDays,
+                freeDays: this.freeDays,
+                datesInRange: this.datesInRange,
+            }
+
+            localStorage.setItem('week_value' + week, JSON.stringify(weekData))
+
+            this.datesInRange = []
+            this.getDatesInRangeFromLocalStorage()
         },
         handleDateEvent(event) {
             const datePicked = event.target.getAttribute('aria-label')
-            console.log(datePicked)
             if (datePicked == null) {
                 return
             }
@@ -237,60 +299,102 @@ export default {
                     },
                     key: 1,
                 },
-                {
-                    dates: this.datesInRange,
-                    highlight: {
-                        color: 'red',
-                    },
-                    key: 3,
-                },
             ]
         },
-        pickCalendarDatesForTurns(turnDays, event) {
-            let date = new Date(this.startDate)
-            date.setDate(date.getDate() + turnDays - 1)
-            this.endDate = date
-            console.log(date)
-            
-            const turnPicked = event.target.getAttribute('value')
-            if (turnPicked == null) {
-                return
-            }
-
+        whileForDatesInRange(turnDays, freeDays) {
             if (this.startDate && this.endDate) {
+                this.datesInRange = [] // Limpiar datesInRange
+
                 const currentDate = new Date(this.startDate)
                 currentDate.setDate(currentDate.getDate())
-                while (currentDate <= this.endDate) {
+
+                const startMonth = this.startDate.getMonth()
+
+                while (
+                    currentDate <= this.endDate &&
+                    currentDate.getMonth() === startMonth
+                ) {
+                    if (currentDate.getDay() === 0) {
+                        this.turnsDaysInUse = this.turnsDaysInUse + 1
+                        this.datesInRange.push(new Date(currentDate))
+                        currentDate.setDate(currentDate.getDate() + 1)
+                        break // Detener el bucle
+                    }
+                    this.turnsDaysInUse = this.turnsDaysInUse + 1
                     this.datesInRange.push(new Date(currentDate))
                     currentDate.setDate(currentDate.getDate() + 1)
                 }
+
+                this.turnsDaysInUse = 0
             }
+        },
 
-            this.attributes = [
-                {
-                    dates: [this.startDate],
-                    highlight: {
-                        color: 'red',
+        async pickCalendarDatesForTurns(turn, turnDays, freeDays, event) {
+            this.turn_input = turn
+            this.turnDays = turnDays
+            await this.getLastWeekWorkingDays()
+            let date = new Date(this.startDate)
+            this.workedDays = 0
+            turnDays = turnDays - this.workedDays
+            date.setDate(date.getDate() + turnDays - 1)
+            if (turnDays == 0) {
+                alert(
+                    'Hola, el empleado ya trabajo los turnos que le correspondian en la semana'
+                )
+                this.startDate = 0
+                this.attributes = [
+                    {
+                        dates: [this.startDate],
+                        highlight: {
+                            color: 'red',
+                        },
+                        key: 1,
                     },
-                    key: 1,
-                },
-                {
-                    dates: [this.endDate],
-                    highlight: {
-                        color: 'red',
+                ]
+                return
+            } else if (turnDays < 0) {
+                alert(
+                    'Hola, el empleado ya trabajo los turnos que le correspondian en la semana'
+                )
+                this.startDate = 0
+                this.attributes = [
+                    {
+                        dates: [this.startDate],
+                        highlight: {
+                            color: 'red',
+                        },
+                        key: 1,
                     },
-                    key: 2,
-                },
-                {
-                    dates: this.datesInRange,
-                    highlight: {
-                        color: 'red',
-                    },
-                    key: 3,
-                },
-            ]
+                ]
+                return
+            } else {
+                this.endDate = date
 
-            console.log(this.datesInRange)
+                const turnPicked = event.target.getAttribute('value')
+                if (turnPicked == null) {
+                    return
+                }
+                this.whileForDatesInRange(turnDays, freeDays)
+                let indexColor = Math.floor(Math.random() * 5)
+
+                this.attributes = [
+                    {
+                        dates: [this.startDate],
+                        highlight: {
+                            color: 'red',
+                        },
+                        key: 1,
+                    },
+
+                    {
+                        dates: this.datesInRange,
+                        highlight: {
+                            color: this.colors[indexColor],
+                        },
+                        key: 3,
+                    },
+                ]
+            }
         },
         async getTurns() {
             const accessToken = localStorage.getItem('accessToken')
@@ -308,7 +412,7 @@ export default {
                     search_term: this.search_term,
                 }
                 const response = await axios.get(
-                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
+                    `http://localhost:8000/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -334,7 +438,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/branch_offices/',
+                    'http://localhost:8000/branch_offices/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -361,7 +465,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employee_labor_data/edit/branch/' +
+                    'http://localhost:8000/employee_labor_data/edit/branch/' +
                         this.branch_office_input,
                     {
                         headers: {
@@ -372,7 +476,6 @@ export default {
                 )
 
                 this.employees_labor_data = response.data.message
-                console.log(response)
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
@@ -390,52 +493,90 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/last_week_working_days/20202020/2023-12-06`,
-                        
+                    `http://localhost:8000/meshes/last_week_working_days/20202020/2023-11-06`,
+
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`,
                         },
                     }
-                    )
-                    const decodedData = JSON.parse(response.data.message)
-                    console.log(decodedData)
+                )
+                const decodedData = JSON.parse(response.data.message)
+
+                this.workedDays = decodedData
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
                     window.location.reload()
                 } else {
-                    console.error(
-                        'Error al obtener la lista:',
-                        error
-                    )
+                    console.error('Error al obtener la lista:', error)
                 }
             }
         },
+
+        getRandomColorForWeeks() {
+            const commonColorIndex = Math.floor(Math.random() * 5)
+            let lastWeekColorIndex
+            do {
+                lastWeekColorIndex = Math.floor(Math.random() * 5)
+            } while (lastWeekColorIndex === commonColorIndex)
+
+            this.attributes = this.datesInRange.map((dates, index) => {
+                const colorIndex =
+                    index === this.datesInRange.length - 1
+                        ? lastWeekColorIndex
+                        : commonColorIndex
+
+                return {
+                    dates,
+                    highlight: {
+                        color: this.colors[colorIndex],
+                    },
+                }
+            })
+        },
+        getDatesInRangeFromLocalStorage() {
+            this.datesInRange = [[], [], [], [], [], []]
+
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i)
+                if (key.startsWith('week_value')) {
+                    const weekData = JSON.parse(localStorage.getItem(key))
+
+                    // Ahora 'dates' es una propiedad del objeto 'weekData'
+                    const dates = weekData.datesInRange
+
+                    const formattedDates = dates.map((date) => {
+                        const d = new Date(date)
+                        d.setDate(d.getDate() + 1)
+                        const year = d.getFullYear()
+                        const month = (d.getMonth() + 1)
+                            .toString()
+                            .padStart(2, '0')
+                        const day = d.getDate().toString().padStart(2, '0')
+                        return `${year}-${month}-${day}`
+                    })
+
+                    // Decide en qué subarray de datesInRange almacenar las fechas
+                    const targetArray = this.datesInRange.find(
+                        (week) => week.length < 7
+                    )
+
+                    if (targetArray) {
+                        targetArray.push(...formattedDates)
+                    } else {
+                        console.log(
+                            'No puedes agregar más datos a las semanas existentes.'
+                        )
+                    }
+                }
+            }
+            this.getRandomColorForWeeks()
+        },
     },
     created() {
-        let getLocalDateInRange = localStorage.getItem('datesInRange')
-            ? JSON.parse(localStorage.getItem('datesInRange'))
-            : ''
-        if (
-            getLocalDateInRange != '' &&
-            getLocalDateInRange != null &&
-            getLocalDateInRange != undefined
-        ) {
-            this.datesInRange = getLocalDateInRange
-        }
-        {
-            this.attributes = [
-                {
-                    dates: this.datesInRange,
-                    highlight: {
-                        color: 'red',
-                    },
-                },
-            ]
-        }
-
+        this.getDatesInRangeFromLocalStorage()
         this.getBranchOffices()
         this.year = this.date.getFullYear()
         this.month = this.date.getMonth()
