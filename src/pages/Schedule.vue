@@ -57,7 +57,7 @@
                         @change="consoleLog"
                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
-                        <option value="" >- Trabajadores -</option>
+                        <option value="">- Trabajadores -</option>
                         <option
                             v-for="employee in employees_labor_data"
                             :key="employee.id"
@@ -111,6 +111,7 @@
                                 turn.group_day_id,
                                 turn.free_day_group_id,
                                 turn.id,
+                                turn.total_week_hours,
                                 $event
                             )
                         "
@@ -185,14 +186,19 @@ export default {
             datesInRange: [],
             branch_office_input: '',
             period_input: '',
-            employee_input: [] ,
+            employee_input: [],
             schedule_input: '',
             turn_input: '',
             dataToShow: [],
             sundays: [],
             search_term: 'Buscar Turno',
+            alertShow: false,
             sundaysInUse: 0,
             turnDays: 0,
+            sundaysAvailable: 0,
+            turnId: 0,
+            weekCounter: 0,
+            total_week_hours: 0,
             year: 0,
             month: 0,
             turnsDaysInUse: 0,
@@ -250,13 +256,17 @@ export default {
                 week = 1
             } else {
                 week = Number(week) + 1
+                this.weekCounter = week
             }
             localStorage.setItem('week', week)
 
             const weekData = {
+                week: week,
+                turnId: this.turnId,
+                rutEmployee: this.employee_input[1],
                 turn: this.turn_input,
                 workedDays: this.turnDays,
-                freeDays: this.freeDays,
+                total_week_hours: this.total_week_hours,
                 datesInRange: this.datesInRange,
             }
 
@@ -340,9 +350,19 @@ export default {
             }
         },
 
-        async pickCalendarDatesForTurns(turn, turnDays, freeDays, event) {
+        async pickCalendarDatesForTurns(
+            turn,
+            turnDays,
+            freeDays,
+            turnId,
+            hoursWeek,
+            event
+        ) {
             this.turn_input = turn
             this.turnDays = turnDays
+            this.turnId = turnId
+            this.total_week_hours = hoursWeek
+
             await this.getLastWeekWorkingDays()
             let date = new Date(this.startDate)
             this.workedDays = 0
@@ -549,15 +569,28 @@ export default {
             })
         },
         verifyQuantityOfSundays(weekArray) {
+            this.sundaysAvailable = this.sundays.length - 2
             let sundays = this.sundays
             for (let i = 0; i < sundays.length; i++) {
                 for (let j = 0; j < weekArray.length; j++) {
                     let date = new Date(weekArray[j])
                     if (sundays[i].getTime() == date.getTime()) {
                         this.sundaysInUse = this.sundaysInUse + 1
+                        if (this.sundaysInUse > this.sundaysAvailable) {
+                            if (!this.alertShown) {
+                                // Añade esta línea
+                                alert(
+                                    'Tiene que tener Minimo 2 domingos libres al mes'
+                                )
+                                this.alertShown = true // Añade esta línea
+                            }
+                            this.sundaysInUse--
+                            return
+                        }
                     }
                 }
             }
+            console.log(this.sundaysInUse)
 
             return this.sundaysInUse
         },
@@ -566,19 +599,19 @@ export default {
             const ArrayDates = []
 
             // Obtener y ordenar los elementos de localStorage
-            let items = [];
+            let items = []
             for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
+                const key = localStorage.key(i)
                 if (key.startsWith('week_value')) {
-                    const value = JSON.parse(localStorage.getItem(key));
-                    items.push({key, value});
+                    const value = JSON.parse(localStorage.getItem(key))
+                    items.push({ key, value })
                 }
             }
-            items.sort((a, b) => a.key.localeCompare(b.key));
+            items.sort((a, b) => a.key.localeCompare(b.key))
 
             // Iterar sobre los elementos ordenados
             for (let item of items) {
-                const weekData = item.value;
+                const weekData = item.value
 
                 this.verifyQuantityOfSundays(weekData.datesInRange)
                 const dates = weekData.datesInRange
@@ -588,14 +621,11 @@ export default {
                     const d = new Date(date)
                     d.setDate(d.getDate() + 1)
                     const year = d.getFullYear()
-                    const month = (d.getMonth() + 1)
-                        .toString()
-                        .padStart(2, '0')
+                    const month = (d.getMonth() + 1).toString().padStart(2, '0')
                     const day = d.getDate().toString().padStart(2, '0')
                     return `${year}-${month}-${day}`
                 })
 
-            
                 const targetArray = this.datesInRange.find(
                     (week) => week.length < 7
                 )
@@ -608,7 +638,7 @@ export default {
                     )
                 }
             }
-            console.log(this.sundaysInUse)
+
             this.getRandomColorForWeeks()
         },
         getMonthAndYear() {
@@ -623,7 +653,6 @@ export default {
         },
     },
     created() {
-       
         this.getMonthAndYear()
         this.getDatesInRangeFromLocalStorage()
         this.getBranchOffices()
