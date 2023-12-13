@@ -216,7 +216,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/payroll_periods/',
+                    'https://apijis.com/payroll_periods/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
