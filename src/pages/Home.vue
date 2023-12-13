@@ -36,7 +36,7 @@
                     class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                 >
                     <div
-                        class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                        class="bg-orange-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
                     >
                         <p
                             class="mt-1 text-sm text-gray-500 dark:text-gray-500"
@@ -56,7 +56,7 @@
                     class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                 >
                     <div
-                        class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                        class="bg-orange-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
                     >
                         <p
                             class="mt-1 text-sm text-gray-500 dark:text-gray-500"
@@ -83,7 +83,7 @@
                     class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                 >
                     <div
-                        class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                        class="bg-orange-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
                     >
                         <p
                             class="mt-1 text-sm text-gray-500 dark:text-gray-500"
@@ -110,7 +110,7 @@
                     class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                 >
                     <div
-                        class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                        class="bg-orange-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
                     >
                         <p
                             class="mt-1 text-sm text-gray-500 dark:text-gray-500"
@@ -129,7 +129,7 @@
             </div>
 
             <h1
-                class="block text-3xl font-bold text-gray-800 sm:text-4xl md:text-5xl dark:text-white pt-10 text-center"
+                class="block text-3xl font-bold text-red-600 sm:text-4xl md:text-5xl dark:text-white pt-10 text-center"
             >
                 Cumpleaños del mes
             </h1>

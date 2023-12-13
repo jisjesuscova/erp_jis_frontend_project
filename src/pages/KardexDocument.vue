@@ -170,9 +170,11 @@ export default {
     },
     methods: {
         formatDate(date) {
-            date = date.split(' ')
-            const [year, month, day] = date[0].split('-')
-            return `${day}-${month}-${year}`
+            if (date != null && date != undefined && date != '') {
+                date = date.split(' ')
+                const [year, month, day] = date[0].split('-')
+                return `${day}-${month}-${year}`
+            }
         },
         async downloadKardex(id) {
             const accessToken = localStorage.getItem('accessToken')

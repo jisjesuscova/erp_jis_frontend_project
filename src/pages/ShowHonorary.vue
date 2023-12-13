@@ -23,7 +23,7 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
-            <h2 class="text-4xl dark:text-white pb-10">Generar Honorario</h2>
+            <h2 class="text-4xl dark:text-white pb-10">Ver Honorario</h2>
 
             <div class="mt-3">
                 <div
@@ -442,15 +442,6 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                 </div>
-                                <div v-else class="w-full">
-                                    <button
-                                        type="submit"
-                                        class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                    >
-                                        Generar
-                                        <i class="fa-solid fa-check"></i>
-                                    </button>
-                                </div>
 
                                 <router-link
                                     :to="`/honoraries`"
@@ -794,6 +785,7 @@ export default {
                 this.address_input = this.honorary.address
                 this.account_number_input = this.honorary.account_number
                 this.observation_input = this.honorary.observation
+                this.amount_input = this.honorary.amount
                 this.employee_to_replace_input =
                     this.honorary.employee_to_replace
 

@@ -273,7 +273,7 @@
                     </router-link>
                 </h2>
 
-                <div class="p-1.5 min-w-full inline-block align-middle">
+                <div class="p-1.5 min-w-full inline-block align-middle" v-if="1==2">
                     <div class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
                         <div class="overflow-hidden">
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -410,7 +410,7 @@ export default {
     },
     data() {
         return {
-            loading: true,
+            loading: false,
             loading_1: true,
             loading_2: true,
             loading_3: true,
@@ -505,7 +505,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employee_contracts/download/' + id,
+                    'https://apijis.com/employee_contracts/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -536,31 +536,33 @@ export default {
             }
         },
         formatDateToCustomFormat(date) {
-        let localDate = new Date(date);
-        let utcDate = new Date(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate());
+            if(date != '' && date != null && date != undefined) {
+                let localDate = new Date(date);
+                let utcDate = new Date(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate());
 
 
-        const monthNames = [
-                'Enero',
-                'Febrero',
-                'Marzo',
-                'Abril',
-                'Mayo',
-                'Junio',
-                'Julio',
-                'Agosto',
-                'Septiembre',
-                'Octubre',
-                'Noviembre',
-                'Diciembre',
-            ]
+                const monthNames = [
+                    'Enero',
+                    'Febrero',
+                    'Marzo',
+                    'Abril',
+                    'Mayo',
+                    'Junio',
+                    'Julio',
+                    'Agosto',
+                    'Septiembre',
+                    'Octubre',
+                    'Noviembre',
+                    'Diciembre',
+                ]
 
-            const day = utcDate.getDate()
-            const month = utcDate.getMonth()
-            const year = utcDate.getFullYear()
+                const day = utcDate.getDate()
+                const month = utcDate.getMonth()
+                const year = utcDate.getFullYear()
 
-            const formattedDate = `${day} de ${monthNames[month]} del ${year}`
-            return formattedDate
+                const formattedDate = `${day} de ${monthNames[month]} del ${year}`
+                return formattedDate
+            }
         },
         getBase64ImageFromURL(url) {
             return new Promise((resolve, reject) => {
@@ -2611,7 +2613,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `http://localhost:8000/employee_contracts/delete/${id}`,
+                    `https://apijis.com/employee_contracts/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -2628,9 +2630,11 @@ export default {
             }
         },
         formatDate(date) {
-            let localDate = new Date(date);
-            let utcDate = new Date(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate());
-        return format(utcDate, 'dd-MM-yyyy');
+            if (date != '' && date != null && date != undefined) {
+                let localDate = new Date(date);
+                let utcDate = new Date(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate());
+                return format(utcDate, 'dd-MM-yyyy');
+            }
         },
         async replacedotandtransformtoint(text) {
 
@@ -2679,7 +2683,7 @@ export default {
             console.log(dataToSend)
             try {
                 
-                const response = await axios.patch('http://localhost:8000/employee_labor_data/update/'+ this.$route.params.rut, dataToSend, {
+                const response = await axios.patch('https://apijis.com/employee_labor_data/update/'+ this.$route.params.rut, dataToSend, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2705,7 +2709,7 @@ export default {
         async getEmployeeLaborData() {
           const accessToken = localStorage.getItem('accessToken');
             try {
-                const response = await axios.get('http://localhost:8000/employee_labor_data/edit/'+ this.$route.params.rut, {
+                const response = await axios.get('https://apijis.com/employee_labor_data/edit/'+ this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2754,7 +2758,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/pentions/', {
+                const response = await axios.get('https://apijis.com/pentions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2781,7 +2785,7 @@ export default {
             };  
 
             try {
-                const response = await axios.post('http://localhost:8000/contract_data/expiration', dataToSend, {
+                const response = await axios.post('https://apijis.com/contract_data/expiration', dataToSend, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2832,7 +2836,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/healths/', {
+                const response = await axios.get('https://apijis.com/healths/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2855,7 +2859,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/regimes/', {
+                const response = await axios.get('https://apijis.com/regimes/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2878,7 +2882,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/job_positions/', {
+                const response = await axios.get('https://apijis.com/job_positions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2901,7 +2905,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/employee_types/', {
+                const response = await axios.get('https://apijis.com/employee_types/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2924,7 +2928,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/contract_types/', {
+                const response = await axios.get('https://apijis.com/contract_types/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2947,7 +2951,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/branch_offices/', {
+                const response = await axios.get('https://apijis.com/branch_offices/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2970,7 +2974,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/communes/' + this.region_input, {
+                const response = await axios.get('https://apijis.com/communes/' + this.region_input, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2994,7 +2998,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/regions/', {
+                const response = await axios.get('https://apijis.com/regions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -3018,7 +3022,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/civil_states/', {
+                const response = await axios.get('https://apijis.com/civil_states/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -3042,7 +3046,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/employee_contracts/edit/' + this.$route.params.rut, {
+                const response = await axios.get('https://apijis.com/employee_contracts/edit/' + this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -3069,7 +3073,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employees/edit/' +
+                    'https://apijis.com/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -3099,7 +3103,7 @@ export default {
         //     const accessToken = localStorage.getItem('accessToken');
 
         //     try {
-        //         const response = await axios.get('http://localhost:8000/end_documents/edit/' + this.$route.params.rut, {
+        //         const response = await axios.get('https://apijis.com/end_documents/edit/' + this.$route.params.rut, {
         //             headers: {
         //             accept: 'application/json',
         //             Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -3143,23 +3147,6 @@ export default {
         await this.getEmployeeContracts();
         await this.getPersonalDataEmployee();
         await this.getExpirations();
-
-        if (this.loading_1 == false 
-        && this.loading_2 == false 
-        && this.loading_3 == false 
-        && this.loading_4 == false 
-        && this.loading_5 == false 
-        && this.loading_6 == false 
-        && this.loading_7 == false 
-        && this.loading_8 == false 
-        && this.loading_9 == false 
-        && this.loading_10 == false 
-        && this.loading_11 == false 
-        && this.loading_12 == false
-        && this.loading_13 == false
-        ) {
-            this.loading = false;
-        }
     },
 }
 </script>
