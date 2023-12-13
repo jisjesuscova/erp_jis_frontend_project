@@ -57,11 +57,11 @@
                         @change="consoleLog"
                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
-                        <option value="">- Trabajadores -</option>
+                        <option value="" >- Trabajadores -</option>
                         <option
                             v-for="employee in employees_labor_data"
                             :key="employee.id"
-                            :value="employee.employee_type_id"
+                            :value="[employee.employee_type_id, employee.rut]"
                         >
                             {{
                                 `${employee.names}  ${employee.father_lastname}  ${employee.mother_lastname}`
@@ -110,6 +110,7 @@
                                 turn.turn,
                                 turn.group_day_id,
                                 turn.free_day_group_id,
+                                turn.id,
                                 $event
                             )
                         "
@@ -143,14 +144,14 @@
                         <i class="fa-solid fa-check"></i>
                     </button>
                 </div>
-                <div v-if="startDate != null && endDate != null">
+                <div>
                     <button
-                        @click="deleteAllWeeksFromLocalStorage"
+                        @click="confirmDeleteDatesInLocalStorage"
                         type="submit"
-                        class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                        class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                     >
                         Borrar
-                        <i class="fa-solid fa-check"></i>
+                        <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
             </div>
@@ -184,11 +185,13 @@ export default {
             datesInRange: [],
             branch_office_input: '',
             period_input: '',
-            employee_input: '',
+            employee_input: [] ,
             schedule_input: '',
             turn_input: '',
             dataToShow: [],
+            sundays: [],
             search_term: 'Buscar Turno',
+            sundaysInUse: 0,
             turnDays: 0,
             year: 0,
             month: 0,
@@ -199,19 +202,27 @@ export default {
     methods: {
         getSundays(year, month) {
             let date = new Date(year, month, 1)
-            let sundays = []
+            this.sundays = []
 
             while (date.getMonth() === month) {
                 if (date.getDay() === 0) {
                     // 0 significa domingo
-                    sundays.push(new Date(date))
+                    this.sundays.push(new Date(date))
                 }
                 date.setDate(date.getDate() + 1)
             }
-            console.log(sundays)
-            return sundays
+            console.log(this.sundays)
+            return this.sundays
         },
-        deleteAllWeeksFromLocalStorage() {
+        deleteLocalStorageDates() {
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i)
+                if (key.startsWith('week_value')) {
+                    localStorage.removeItem(key)
+                }
+            }
+        },
+        confirmDeleteDatesInLocalStorage() {
             const shouldDelete = confirm(
                 'una vez borrada la malla tendra que volver a crearla, ¿desea continuar?'
             )
@@ -219,20 +230,19 @@ export default {
             if (!shouldDelete) {
                 return
             }
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i)
-                if (key.startsWith('week_value')) {
-                    localStorage.removeItem(key)
-                }
-            }
+
+            this.deleteLocalStorageDates()
+            this.deleteLocalStorageDates()
+
             localStorage.setItem('week', 0)
             this.getDatesInRangeFromLocalStorage()
         },
         periodToInitialPage(period) {
+            console.log(period)
             const month = Number(period.split('-')[1])
             const year = Number(period.split('-')[0])
             this.initialPage = { month, year }
-            this.getSundays(year, month -1 )
+            this.getSundays(year, month)
         },
         saveDatesInRangeToLocalstorage() {
             let week = localStorage.getItem('week')
@@ -254,6 +264,7 @@ export default {
 
             this.datesInRange = []
             this.getDatesInRangeFromLocalStorage()
+            this.sundaysInUse = 0
         },
         handleDateEvent(event) {
             const datePicked = event.target.getAttribute('aria-label')
@@ -398,6 +409,7 @@ export default {
         },
         async getTurns() {
             const accessToken = localStorage.getItem('accessToken')
+            console.log(this.employee_input[1])
             try {
                 if (
                     this.search_term == '' ||
@@ -408,11 +420,11 @@ export default {
                 }
                 const dataToSend = {
                     group_id: Number(this.schedule_input),
-                    employee_type_id: this.employee_input,
+                    employee_type_id: this.employee_input[0],
                     search_term: this.search_term,
                 }
                 const response = await axios.get(
-                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
+                    `http://localhost:8000/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -438,7 +450,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/branch_offices/',
+                    'http://localhost:8000/branch_offices/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -465,7 +477,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employee_labor_data/edit/branch/' +
+                    'http://localhost:8000/employee_labor_data/edit/branch/' +
                         this.branch_office_input,
                     {
                         headers: {
@@ -493,7 +505,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/last_week_working_days/20202020/2023-11-06`,
+                    `http://localhost:8000/meshes/last_week_working_days/20202020/2023-11-06`,
 
                     {
                         headers: {
@@ -536,46 +548,83 @@ export default {
                 }
             })
         },
-        getDatesInRangeFromLocalStorage() {
-            this.datesInRange = [[], [], [], [], [], []]
-
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i)
-                if (key.startsWith('week_value')) {
-                    const weekData = JSON.parse(localStorage.getItem(key))
-
-                    // Ahora 'dates' es una propiedad del objeto 'weekData'
-                    const dates = weekData.datesInRange
-
-                    const formattedDates = dates.map((date) => {
-                        const d = new Date(date)
-                        d.setDate(d.getDate() + 1)
-                        const year = d.getFullYear()
-                        const month = (d.getMonth() + 1)
-                            .toString()
-                            .padStart(2, '0')
-                        const day = d.getDate().toString().padStart(2, '0')
-                        return `${year}-${month}-${day}`
-                    })
-
-                    // Decide en qué subarray de datesInRange almacenar las fechas
-                    const targetArray = this.datesInRange.find(
-                        (week) => week.length < 7
-                    )
-
-                    if (targetArray) {
-                        targetArray.push(...formattedDates)
-                    } else {
-                        console.log(
-                            'No puedes agregar más datos a las semanas existentes.'
-                        )
+        verifyQuantityOfSundays(weekArray) {
+            let sundays = this.sundays
+            for (let i = 0; i < sundays.length; i++) {
+                for (let j = 0; j < weekArray.length; j++) {
+                    let date = new Date(weekArray[j])
+                    if (sundays[i].getTime() == date.getTime()) {
+                        this.sundaysInUse = this.sundaysInUse + 1
                     }
                 }
             }
+
+            return this.sundaysInUse
+        },
+        getDatesInRangeFromLocalStorage() {
+            this.datesInRange = [[], [], [], [], [], []]
+            const ArrayDates = []
+
+            // Obtener y ordenar los elementos de localStorage
+            let items = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('week_value')) {
+                    const value = JSON.parse(localStorage.getItem(key));
+                    items.push({key, value});
+                }
+            }
+            items.sort((a, b) => a.key.localeCompare(b.key));
+
+            // Iterar sobre los elementos ordenados
+            for (let item of items) {
+                const weekData = item.value;
+
+                this.verifyQuantityOfSundays(weekData.datesInRange)
+                const dates = weekData.datesInRange
+                ArrayDates.push(weekData.datesInRange)
+
+                const formattedDates = dates.map((date) => {
+                    const d = new Date(date)
+                    d.setDate(d.getDate() + 1)
+                    const year = d.getFullYear()
+                    const month = (d.getMonth() + 1)
+                        .toString()
+                        .padStart(2, '0')
+                    const day = d.getDate().toString().padStart(2, '0')
+                    return `${year}-${month}-${day}`
+                })
+
+            
+                const targetArray = this.datesInRange.find(
+                    (week) => week.length < 7
+                )
+
+                if (targetArray) {
+                    targetArray.push(...formattedDates)
+                } else {
+                    console.log(
+                        'No puedes agregar más datos a las semanas existentes.'
+                    )
+                }
+            }
+            console.log(this.sundaysInUse)
             this.getRandomColorForWeeks()
+        },
+        getMonthAndYear() {
+            let month = this.date.getMonth() + 1
+            let year = this.date.getFullYear()
+
+            if (month > 11) {
+                month = 0
+                year++
+            }
+            this.getSundays(year, month)
         },
     },
     created() {
+       
+        this.getMonthAndYear()
         this.getDatesInRangeFromLocalStorage()
         this.getBranchOffices()
         this.year = this.date.getFullYear()

@@ -187,7 +187,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/salary_settlements/download/' + id,
+                    'http://localhost:8000/salary_settlements/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -226,7 +226,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/salary_settlements/edit/' +
+                    'http://localhost:8000/salary_settlements/edit/' +
                         this.$route.params.rut +
                         '/' +
                         page,
