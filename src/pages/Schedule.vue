@@ -157,7 +157,6 @@
         </div>
     </div>
 </template>
-
   <script>
 import { BROKEN_CARET } from 'pdfmake/build/pdfmake'
 import EmployeeMenu from '../components/EmployeeMenu.vue'
