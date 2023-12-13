@@ -56,7 +56,7 @@
                     <div class="relative bell-container">
                         <router-link
                             to="/alerts/15538007"
-                            class="p-2 w-12 h-12 bg-blue-500 hover:bg-gray-300 focus:outline-none rounded-full flex items-center justify-center"
+                            class="p-2 w-12 h-12 bg-orange-500 hover:bg-gray-300 focus:outline-none rounded-full flex items-center justify-center"
                         >
                             <i class="fas fa-bell text-white"></i>
                             <!-- Usar el icono de campana que prefieras -->

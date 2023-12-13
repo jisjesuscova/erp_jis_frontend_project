@@ -273,7 +273,7 @@
                     </router-link>
                 </h2>
 
-                <div class="p-1.5 min-w-full inline-block align-middle">
+                <div class="p-1.5 min-w-full inline-block align-middle" v-if="1==2">
                     <div class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
                         <div class="overflow-hidden">
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -410,7 +410,7 @@ export default {
     },
     data() {
         return {
-            loading: true,
+            loading: false,
             loading_1: true,
             loading_2: true,
             loading_3: true,
@@ -536,31 +536,33 @@ export default {
             }
         },
         formatDateToCustomFormat(date) {
-        let localDate = new Date(date);
-        let utcDate = new Date(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate());
+            if(date != '' && date != null && date != undefined) {
+                let localDate = new Date(date);
+                let utcDate = new Date(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate());
 
 
-        const monthNames = [
-                'Enero',
-                'Febrero',
-                'Marzo',
-                'Abril',
-                'Mayo',
-                'Junio',
-                'Julio',
-                'Agosto',
-                'Septiembre',
-                'Octubre',
-                'Noviembre',
-                'Diciembre',
-            ]
+                const monthNames = [
+                    'Enero',
+                    'Febrero',
+                    'Marzo',
+                    'Abril',
+                    'Mayo',
+                    'Junio',
+                    'Julio',
+                    'Agosto',
+                    'Septiembre',
+                    'Octubre',
+                    'Noviembre',
+                    'Diciembre',
+                ]
 
-            const day = utcDate.getDate()
-            const month = utcDate.getMonth()
-            const year = utcDate.getFullYear()
+                const day = utcDate.getDate()
+                const month = utcDate.getMonth()
+                const year = utcDate.getFullYear()
 
-            const formattedDate = `${day} de ${monthNames[month]} del ${year}`
-            return formattedDate
+                const formattedDate = `${day} de ${monthNames[month]} del ${year}`
+                return formattedDate
+            }
         },
         getBase64ImageFromURL(url) {
             return new Promise((resolve, reject) => {
@@ -2628,9 +2630,11 @@ export default {
             }
         },
         formatDate(date) {
-            let localDate = new Date(date);
-            let utcDate = new Date(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate());
-        return format(utcDate, 'dd-MM-yyyy');
+            if (date != '' && date != null && date != undefined) {
+                let localDate = new Date(date);
+                let utcDate = new Date(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate());
+                return format(utcDate, 'dd-MM-yyyy');
+            }
         },
         async replacedotandtransformtoint(text) {
 
@@ -3143,23 +3147,6 @@ export default {
         await this.getEmployeeContracts();
         await this.getPersonalDataEmployee();
         await this.getExpirations();
-
-        if (this.loading_1 == false 
-        && this.loading_2 == false 
-        && this.loading_3 == false 
-        && this.loading_4 == false 
-        && this.loading_5 == false 
-        && this.loading_6 == false 
-        && this.loading_7 == false 
-        && this.loading_8 == false 
-        && this.loading_9 == false 
-        && this.loading_10 == false 
-        && this.loading_11 == false 
-        && this.loading_12 == false
-        && this.loading_13 == false
-        ) {
-            this.loading = false;
-        }
     },
 }
 </script>

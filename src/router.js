@@ -41,6 +41,7 @@ import EditHealth from './pages/EditHealth.vue'
 import EditJobPosition from './pages/EditJobPosition.vue'
 import EditPention from './pages/EditPention.vue'
 import EditHonorary from './pages/EditHonorary.vue'
+import ShowHonorary from './pages/ShowHonorary.vue'
 import Employee from './pages/Employee.vue'
 import ExtraDataEmployee from './pages/ExtraDataEmployee.vue'
 import OldExtraDataEmployee from './pages/OldExtraDataEmployee.vue'
@@ -318,6 +319,10 @@ const routes = [
     {
         path:'/edit_honorary/:id',
         component: EditHonorary
+    },
+    {
+        path:'/show_honorary/:id',
+        component: ShowHonorary
     },
     {
         path:'/create_vacation/:rut',

@@ -24,7 +24,7 @@
             <ul class="space-y-1.5" v-if="rol_id == 1">
                 <li>
                     <router-link
-                        class="flex items-center gap-x-3.5 py-2 px-2.5 bg-gray-100 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white"
+                        class="flex items-center gap-x-3.5 py-2 px-2.5 bg-orange-100 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-900 dark:text-white"
                         href="javascript:;"
                         to="/"
                     >
@@ -51,7 +51,7 @@
 
                 <li>
                     <router-link
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                         :to="`/employee/${rut}`"
                     >
@@ -62,7 +62,7 @@
 
                 <li>
                     <router-link
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                         :to="`/family/${rut}`"
                     >
@@ -73,7 +73,7 @@
 
                 <li>
                     <router-link
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                         :to="`/salary_settlement/${rut}`"
                     >
@@ -84,7 +84,7 @@
 
                 <li>
                     <router-link
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                         :to="`/vacation/${rut}`"
                     >
@@ -95,7 +95,7 @@
 
                 <li>
                     <router-link
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                         :to="`/medical_license/${rut}`"
                     >
@@ -106,7 +106,7 @@
 
                 <li>
                     <router-link
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                         :to="`/document_management/${rut}`"
                     >
@@ -117,7 +117,7 @@
 
                 <li>
                     <a
-                        class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
+                        class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
                         @click="logout"
                         href="javascript:;"
                     >
@@ -142,7 +142,7 @@
             <ul class="space-y-1.5" v-if="rol_id == 3">
                 <li>
                     <router-link
-                        class="flex items-center gap-x-3.5 py-2 px-2.5 bg-gray-100 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white"
+                        class="flex items-center gap-x-3.5 py-2 px-2.5 bg-orange-100 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-900 dark:text-white"
                         href="javascript:;"
                         to="/"
                     >
@@ -169,7 +169,7 @@
 
                 <li>
                     <router-link
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                         :to="`/employee/${rut}`"
                     >
@@ -180,7 +180,7 @@
 
                 <li>
                     <router-link
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                         :to="`/family/${rut}`"
                     >
@@ -191,7 +191,7 @@
 
                 <li>
                     <router-link
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                         :to="`/salary_settlement/${rut}`"
                     >
@@ -202,7 +202,7 @@
 
                 <li>
                     <router-link
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                         :to="`/vacation/${rut}`"
                     >
@@ -213,7 +213,7 @@
 
                 <li>
                     <router-link
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                         :to="`/medical_license/${rut}`"
                     >
@@ -224,7 +224,7 @@
 
                 <li class="hs-accordion" id="account-accordion">
                     <a
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                     >
                         <i class="fa-solid fa-file-circle-plus"></i>
@@ -270,7 +270,7 @@
                         <ul class="pt-2 pl-2">
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     :to="`/document_management/${rut}`"
                                 >
                                     Personal
@@ -278,7 +278,7 @@
                             </li>
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     :to="`/requested_document_management/${rut}`"
                                 >
                                     Empleados
@@ -290,7 +290,7 @@
 
                 <li>
                     <a
-                        class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
+                        class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
                         @click="logout"
                         href="javascript:;"
                     >
@@ -315,7 +315,7 @@
             <ul class="space-y-1.5" v-if="rol_id == 4">
                 <li>
                     <router-link
-                        class="flex items-center gap-x-3.5 py-2 px-2.5 bg-gray-100 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white"
+                        class="flex items-center gap-x-3.5 py-2 px-2.5 bg-orange-100 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-900 dark:text-white"
                         href="javascript:;"
                         to="/"
                     >
@@ -341,7 +341,7 @@
                 </li>
                 <li class="hs-accordion" id="users-accordion">
                     <a
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                     >
                         <svg
@@ -401,7 +401,7 @@
                         >
                             <li class="hs-accordion" id="users-accordion-sub-1">
                                 <router-link
-                                    class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                                    class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                                     href="javascript:;"
                                     to="/employees"
                                 >
@@ -411,7 +411,7 @@
                             <li class="hs-accordion" id="users-accordion-sub-2">
                                 <router-link
                                     to="/honoraries"
-                                    class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                                    class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                                     href="javascript:;"
                                 >
                                     Honorarios
@@ -423,7 +423,7 @@
 
                 <li class="hs-accordion" id="account-accordion">
                     <a
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                     >
                         <svg
@@ -482,7 +482,7 @@
                         <ul class="pt-2 pl-2">
                             <li>
                                 <a
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                 >
                                     Honorarios
@@ -494,7 +494,7 @@
 
                 <li class="hs-accordion" id="projects-accordion">
                     <a
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                     >
                         <svg
@@ -554,7 +554,7 @@
                         <ul class="pt-2 pl-2">
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                     to="/document_managements"
                                 >
@@ -563,7 +563,7 @@
                             </li>
                             <li>
                                 <router-link
-                                    class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                                    class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                                     href="javascript:;"
                                     :to="`/salary_settlement`"
                                 >
@@ -577,7 +577,7 @@
 
                 <li class="hs-accordion" id="projects-accordion">
                     <a
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                     >
                         <svg
@@ -637,7 +637,7 @@
                         <ul class="pt-2 pl-2">
                             <li>
                                 <a
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                 >
                                     Reloj Control
@@ -645,7 +645,7 @@
                             </li>
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                     to="/schedule"
                                 >
@@ -657,7 +657,7 @@
                 </li>
                 <li class="hs-accordion" id="projects-accordion">
                     <a
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                     >
                         <i class="fa-solid fa-book"></i>
@@ -703,7 +703,7 @@
                         <ul class="pt-2 pl-2">
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                     to="/open_period"
                                 >
@@ -712,7 +712,7 @@
                             </li>
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                     to="/previred_indicators"
                                 >
@@ -721,7 +721,7 @@
                             </li>
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                     to="/manual_inputs"
                                 >
@@ -730,7 +730,7 @@
                             </li>
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                     to="/period_data"
                                 >
@@ -742,7 +742,7 @@
                 </li>
                 <li class="hs-accordion" id="projects-accordion">
                     <a
-                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
+                        class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;"
                     >
                         <svg
@@ -806,7 +806,7 @@
                         <ul class="pt-2 pl-2">
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                     to="/branch_offices"
                                 >
@@ -815,7 +815,7 @@
                             </li>
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                     to="/nationalities"
                                 >
@@ -824,7 +824,7 @@
                             </li>
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                     to="/pentions"
                                 >
@@ -833,7 +833,7 @@
                             </li>
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                     to="/banks"
                                 >
@@ -842,7 +842,7 @@
                             </li>
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                     to="/payroll_item"
                                 >
@@ -851,7 +851,7 @@
                             </li>
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                     to="/job_positions"
                                 >
@@ -860,7 +860,7 @@
                             </li>
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                     to="/health"
                                 >
@@ -869,7 +869,7 @@
                             </li>
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                     to="/segments"
                                 >
@@ -878,7 +878,7 @@
                             </li>
                             <li>
                                 <router-link
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
                                     to="/principals"
                                 >
@@ -890,7 +890,7 @@
                 </li>
                 <li>
                     <a
-                        class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
+                        class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
                         @click="logout"
                         href="javascript:;"
                     >
