@@ -160,7 +160,7 @@
     </div>
 </template>
   <script>
-import { BROKEN_CARET } from 'pdfmake/build/pdfmake'
+import { BROKEN_CARET, s } from 'pdfmake/build/pdfmake'
 import EmployeeMenu from '../components/EmployeeMenu.vue'
 import axios from 'axios'
 
@@ -181,6 +181,7 @@ export default {
             colors: ['red', 'green', 'yellow', 'purple', 'orange'],
             sections: [],
             turns: [],
+            ArrayDates: [],
             attributes: [],
             employees_labor_data: [],
             datesInRange: [],
@@ -273,8 +274,8 @@ export default {
             localStorage.setItem('week_value' + week, JSON.stringify(weekData))
 
             this.datesInRange = []
-            this.getDatesInRangeFromLocalStorage()
             this.sundaysInUse = 0
+            this.getDatesInRangeFromLocalStorage()
         },
         handleDateEvent(event) {
             const datePicked = event.target.getAttribute('aria-label')
@@ -444,7 +445,7 @@ export default {
                     search_term: this.search_term,
                 }
                 const response = await axios.get(
-                    `http://localhost:8000/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
+                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -470,7 +471,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/branch_offices/',
+                    'https://apijis.com/branch_offices/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -497,7 +498,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employee_labor_data/edit/branch/' +
+                    'https://apijis.com/employee_labor_data/edit/branch/' +
                         this.branch_office_input,
                     {
                         headers: {
@@ -525,7 +526,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `http://localhost:8000/meshes/last_week_working_days/20202020/2023-11-06`,
+                    `https://apijis.com/meshes/last_week_working_days/20202020/2023-11-06`,
 
                     {
                         headers: {
@@ -577,26 +578,65 @@ export default {
                     if (sundays[i].getTime() == date.getTime()) {
                         this.sundaysInUse = this.sundaysInUse + 1
                         if (this.sundaysInUse > this.sundaysAvailable) {
+                            console.log(this.sundaysInUse)
                             if (!this.alertShown) {
-                                // Añade esta línea
                                 alert(
                                     'Tiene que tener Minimo 2 domingos libres al mes'
                                 )
-                                this.alertShown = true // Añade esta línea
+                                localStorage.removeItem(
+                                    'week_value' + this.weekCounter
+                                )
+                                localStorage.setItem(
+                                    'week',
+                                    this.weekCounter - 1
+                                )
+                                this.alertShown = true
+                                setTimeout(() => {
+                                    this.getDatesInRangeFromLocalStorage() // Añade esta línea
+                                }, 100)
+                                this.sundaysInUse--
                             }
-                            this.sundaysInUse--
                             return
                         }
                     }
                 }
             }
+            this.alertShown = false
             console.log(this.sundaysInUse)
 
             return this.sundaysInUse
         },
+        checkConsecutiveDays(dates) {
+            let consecutiveDays = 1;
+            let hasSevenConsecutive = false;
+
+            for (let i = 1; i < dates.length; i++) {
+                const prevDate = new Date(dates[i - 1]);
+                const currentDate = new Date(dates[i]);
+                const diffInDays = Math.round((currentDate - prevDate) / (1000 * 60 * 60 * 24));
+
+                if (diffInDays === 1) {
+                    consecutiveDays++;
+                    if (consecutiveDays >= 7) {
+                        hasSevenConsecutive = true;
+                        localStorage.removeItem('week_value' + this.weekCounter)
+                        break;
+                    }
+                } else {
+                    consecutiveDays = 1;
+                }
+            }
+
+            if (hasSevenConsecutive) {
+                alert('Un trabajador no puede trabajar 7 días seguidos.');
+                consecutiveDays = 1;
+                hasSevenConsecutive = false;
+            }
+
+            return hasSevenConsecutive;
+        },
         getDatesInRangeFromLocalStorage() {
             this.datesInRange = [[], [], [], [], [], []]
-            const ArrayDates = []
 
             // Obtener y ordenar los elementos de localStorage
             let items = []
@@ -615,7 +655,7 @@ export default {
 
                 this.verifyQuantityOfSundays(weekData.datesInRange)
                 const dates = weekData.datesInRange
-                ArrayDates.push(weekData.datesInRange)
+                this.ArrayDates.push(...weekData.datesInRange)
 
                 const formattedDates = dates.map((date) => {
                     const d = new Date(date)
@@ -638,7 +678,7 @@ export default {
                     )
                 }
             }
-
+            this.checkConsecutiveDays(this.ArrayDates)
             this.getRandomColorForWeeks()
         },
         getMonthAndYear() {
