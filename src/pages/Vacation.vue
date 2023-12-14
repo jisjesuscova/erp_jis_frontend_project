@@ -408,6 +408,21 @@
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
+                                            <button
+                                                v-if="vacation.status_id == 3"
+                                                type="button"
+                                                @click="
+                                                    confirmSignVacation(
+                                                        vacation.document_employee_id,
+                                                    )
+                                                "
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-purple-500 text-white hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-pencil"
+                                                ></i>
+                                            </button>
+
                                             <router-link
                                                 v-if="
                                                     vacation.status_id == 3
@@ -421,20 +436,7 @@
                                                 ></i>
                                             </router-link>
 
-                                            <button
-                                                v-if="vacation.status_id == 3 && signature != ''"
-                                                type="button"
-                                                @click="
-                                                    confirmSignVacation(
-                                                        vacation.document_employee_id,
-                                                    )
-                                                "
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-pencil"
-                                                ></i>
-                                            </button>
+                                            
 
                                             <button
                                                 type="button"
@@ -653,12 +655,25 @@
                                                         progressive_vacation.document_employee_id,
                                                     )
                                                 "
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-purple-500 text-white hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                             >
                                                 <i
                                                     class="fa-solid fa-pencil"
                                                 ></i>
                                             </button>
+                                            
+                                            <router-link
+                                                v-if="
+                                                    progressive_vacation.status_id == 3
+                                                "
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/upload_progressive_vacation_data_employee/${progressive_vacation.rut}/${progressive_vacation.id}`"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-arrow-up"
+                                                ></i>
+                                            </router-link>
 
                                             <button
                                                 v-if="
@@ -691,6 +706,22 @@
                                             >
                                                 <i
                                                     class="fa-solid fa-arrow-down"
+                                                ></i>
+                                            </button>
+                                            <button
+                                                v-if="
+                                                    rol_id == 4
+                                                "
+                                                type="button"
+                                                @click="
+                                                    confirmProgressiveVacation(
+                                                        progressive_vacation.document_employee_id,
+                                                    )
+                                                "
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-trash"
                                                 ></i>
                                             </button>
                                         </td>
@@ -1198,8 +1229,7 @@ export default {
             )
 
             if (shouldDelete) {
-                await this.generateVacation(id)
-                this.updateSignVacation(id)
+                await this.generateVacation()
             }
         },
         async generateVacation() {
@@ -1208,11 +1238,7 @@ export default {
             )
 
             var company_signature = await this.getBase64ImageFromURL(
-                'http://localhost:5173/assets/signature.png',
-            )
-
-            var signature = await this.getBase64ImageFromURL(
-                localStorage.getItem('signature'),
+                'https://erpjis.com/assets/signature.png',
             )
 
             var visual_rut = localStorage.getItem('visual_rut')
@@ -1343,7 +1369,7 @@ export default {
                                             margin: [0, 20, 0, 0],
                                         },
                                         {
-                                            image: signature,
+                                            text: '',
                                             width: 100,
                                             alignment: 'center',
                                             margin: [0, -10, 0, 0],
@@ -1501,7 +1527,7 @@ export default {
                                             margin: [0, 70, 0, 0],
                                         },
                                         {
-                                            image: signature,
+                                            text: '',
                                             width: 200,
                                             alignment: 'center',
                                             margin: [0, 70, 0, 0],
@@ -1569,7 +1595,7 @@ export default {
         },
         async generateFalseProgressiveVacation() {
             var logo = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/assets/images/logo.png',
+                'https://erpjis.com/assets/logo.png',
             )
 
             var signature_type_id = localStorage.getItem('signature_type_id')
@@ -1804,7 +1830,7 @@ export default {
                                                 },
                                                 {
                                                     text:
-                                                        thisprogressive_taken_days +
+                                                        this.progressive_taken_days +
                                                         ' Días',
                                                 },
                                             ],
@@ -1921,23 +1947,19 @@ export default {
             )
 
             if (shouldDelete) {
-                await this.generateProgressiveVacation(id)
-                this.updateSignProgressiveVacation(id)
+                this.generateProgressiveVacation()
             }
         },
         async generateProgressiveVacation() {
             var logo = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/assets/images/logo.png',
+                'https://erpjis.com/assets/logo.png',
             )
 
             var company_signature = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/assets/images/signature.png',
+                'https://erpjis.com/assets/signature.png',
             )
-
-            var signature = await this.getBase64ImageFromURL(
-                localStorage.getItem('signature'),
-            )
-
+            
+            
             var visual_rut = localStorage.getItem('visual_rut')
 
             var signature_type_id = localStorage.getItem('signature_type_id')
@@ -2072,11 +2094,11 @@ export default {
                                             margin: [0, 20, 0, 0],
                                         },
                                         {
-                                            image: signature,
-                                            width: 100,
+                                            text:'',
+                                            width: 120,
                                             alignment: 'center',
-                                            margin: [0, -10, 0, 0],
-                                        },
+                                            margin: [0, 20, 0, 0],
+                                        }
                                     ],
                                     [
                                         {
@@ -2105,12 +2127,11 @@ export default {
                             font: 'Helvetica',
                         },
                         tableNoBorder: {
-                            // Definir el estilo de la tabla sin borde
                             table: {
                                 widths: ['*', '*'],
                                 body: [],
                             },
-                            border: 'hidden', // Ocultar el borde de la tabla
+                            border: 'hidden',
                         },
                     },
                 }
@@ -2234,11 +2255,11 @@ export default {
                                             margin: [0, 70, 0, 0],
                                         },
                                         {
-                                            image: signature,
-                                            width: 200,
+                                            text:'',
+                                            width: 120,
                                             alignment: 'center',
-                                            margin: [0, 70, 0, 0],
-                                        },
+                                            margin: [0, 20, 0, 0],
+                                        }
                                     ],
                                     [
                                         {
@@ -2755,7 +2776,7 @@ export default {
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`https://apijis.com/vacation/delete/${id}`, {
+                await axios.delete(`https://apijis.com/vacations/delete/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,

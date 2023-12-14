@@ -16,7 +16,7 @@
 
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">
-                Subir Vacación
+                Subir Vacación Progresiva
             </h2>
 
             <EmployeeMenu />
@@ -24,7 +24,7 @@
             <div class="mt-10">
                 <div id="bar-with-underline-1" role="tabpanel" aria-labelledby="bar-with-underline-item-1">
                     <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
-                        <form @submit.prevent="createKardex">
+                        <form @submit.prevent="uploadProgressiveVacation">
                             <div class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700">
                                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
                                     Datos Personales
@@ -100,18 +100,18 @@ export default {
 
             this.support = selectedFile;
         },
-        createKardex() {
+        uploadProgressiveVacation() {
             this.loading = true;
 
             const formData = new FormData();
-            formData.append('vacation_id', this.$route.params.id);
+            formData.append('progressive_vacation_id', this.$route.params.id);
             formData.append('rut', this.$route.params.rut);
             formData.append('support', this.support);
 
             const accessToken = localStorage.getItem('accessToken');
 
             // Make the POST request using axios
-            axios.post('https://apijis.com/vacations/upload', formData, {
+            axios.post('https://apijis.com/progressive_vacations/upload', formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     'Content-Type': 'multipart/form-data',
@@ -120,7 +120,7 @@ export default {
                 console.log(response);
                 this.loading = false;
 
-                localStorage.setItem('created_kardex', 1);
+                localStorage.setItem('uploaded_progressive_vacation', 1);
 
                 this.$router.push('/vacation/' + this.$route.params.rut);
             }).catch(error => {
