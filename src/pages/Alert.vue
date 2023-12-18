@@ -176,7 +176,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'https://apijis.com/alerts/',
+                    'http://localhost:8000/alerts/',
                     dataToSend,
                     {
                         headers: {
@@ -213,7 +213,7 @@ export default {
 
             axios
                 .patch(
-                    'https://apijis.com/alerts/update/' + rut,
+                    'http://localhost:8000/alerts/update/' + rut,
                     dataToSend,
                     {
                         headers: {
