@@ -1,6 +1,31 @@
 <template>
     <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72">
-        <form @submit.prevent="updateLaborData">
+        <div v-if="loading" class="flex justify-center items-center h-screen">
+            <div role="status">
+                <!-- SVG spinner -->
+                <svg
+                    aria-hidden="true"
+                    class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                    viewBox="0 0 100 101"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        fill="currentColor"
+                    />
+                    <path
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        fill="currentFill"
+                    />
+                </svg>
+                <span class="sr-only">Loading...</span>
+            </div>
+
+            <!-- You can use a spinner or any other loading animation here -->
+        </div>
+        <div v-else>
+        <form >
             <div
                 class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
             >
@@ -94,13 +119,14 @@
             class="bg-green-500 text-sm text-white rounded-md p-4 mb-10"
             role="alert"
         >
-           Semana Ingresada Con  <span class="font-bold">Exito</span>.
+            Semana Ingresada Con <span class="font-bold">Exito</span>.
         </div>
-        <div v-if="startDate != null"
+        <div
+            v-if="startDate != null"
             class="bg-blue-500 text-sm text-white rounded-md p-4 mb-10"
             role="alert"
         >
-            Ingrese Semana: <span class="font-bold">{{ weekCounter +1 }}</span>
+            Ingrese Semana: <span class="font-bold">{{ weekCounter + 1 }}</span>
         </div>
         <div class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5">
             <div v-if="startDate != null">
@@ -146,42 +172,43 @@
                     @click="handleDateEvent"
                     :initial-page="initialPage"
                 />
-                <div class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5">
-                <div v-if="startDate != null && endDate != null">
-                    <button
-                        @click="saveDatesInRangeToLocalstorage"
-                        type="submit"
-                        class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                    >
-                        Agregar
-                        <i class="fa-solid fa-save"></i>
-                    </button>
-                </div>
-                <div>
-                    <button
-                        @click="confirmDeleteDatesInLocalStorage"
-                        type="submit"
-                        class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                    >
-                        Borrar
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                  
-                </div>
-                <div>
-                    <button
-                        to="/preprocess"
-                        class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                    >
-                        PreProcesar
-                        <i class="fa-solid fa-eye"></i>
-                    </button>
-                  
-                </div>
+                <div
+                    class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                >
+                    <div v-if="startDate != null && endDate != null">
+                        <button
+                            @click="saveDatesInRangeToLocalstorage"
+                            type="submit"
+                            class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                        >
+                            Agregar
+                            <i class="fa-solid fa-save"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <button
+                            @click="confirmDeleteDatesInLocalStorage"
+                            type="submit"
+                            class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                        >
+                            Borrar
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <button
+                            to="/preprocess"
+                            class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                        >
+                            PreProcesar
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </template>
   <script>
 import { BROKEN_CARET, s } from 'pdfmake/build/pdfmake'
@@ -196,6 +223,11 @@ export default {
     },
     data() {
         return {
+            loading :true,
+            loading_1 :false,
+            shouldCall: false,
+            alertShow: false,
+            savedWeek: false,
             startDate: null,
             endDate: null,
             date: new Date(),
@@ -203,8 +235,9 @@ export default {
                 month: new Date().getMonth() + 2,
                 year: new Date().getFullYear(),
             },
+            sundaysAndHolidays: '',
             branch_offices: [],
-            colors: [ 'blue'],
+            colors: ['blue'],
             sections: [],
             turns: [],
             ArrayDates: [],
@@ -219,9 +252,7 @@ export default {
             dataToShow: [],
             sundays: [],
             search_term: 'Buscar Turno',
-            shouldCall: false,
-            alertShow: false,
-            savedWeek: false,
+            
             sundaysInUse: 0,
             turnDays: 0,
             sundaysAvailable: 0,
@@ -246,10 +277,11 @@ export default {
                 }
                 date.setDate(date.getDate() + 1)
             }
-            this.attributes = [...this.attributes, 
+            this.attributes = [
+                ...this.attributes,
                 {
                     dates: this.sundays,
-                    content:  'red',
+                    content: 'red',
                 },
             ]
             console.log(this.sundays)
@@ -267,7 +299,7 @@ export default {
             const shouldDelete = confirm(
                 'una vez borrada la malla tendra que volver a crearla, ¿desea continuar?'
             )
-         
+
             if (!shouldDelete) {
                 return
             }
@@ -278,6 +310,25 @@ export default {
             localStorage.setItem('week', 0)
             this.weekCounter = Number(localStorage.getItem('week'))
             this.getDatesInRangeFromLocalStorage()
+            this.attributes = [
+                ...this.attributes,
+                {
+                    dates: this.sundays,
+                    content: 'red',
+                },
+            ]
+            this.sundaysAndHolidays.forEach((item) => {
+                const year = item.date.split('-')[0]
+                const month = item.date.split('-')[1]
+                const day = item.date.split('-')[2]
+                this.attributes = [
+                    ...this.attributes,
+                    {
+                        dates: new Date(year, month, day),
+                        content: 'red',
+                    },
+                ]
+            })
         },
         periodToInitialPage(period) {
             const month = Number(period.split('-')[1])
@@ -286,7 +337,8 @@ export default {
             this.getSundays(year, month)
         },
         saveDatesInRangeToLocalstorage() {
-            this.savedWeek  = true
+            this.loading = true
+            this.savedWeek = true
             let week = localStorage.getItem('week')
             if (!week) {
                 week = 1
@@ -307,15 +359,38 @@ export default {
             }
 
             localStorage.setItem('week_value' + week, JSON.stringify(weekData))
-            
+
             this.datesInRange = []
             this.sundaysInUse = 0
             this.getDatesInRangeFromLocalStorage()
-            
+            this.attributes = [
+                ...this.attributes,
+                {
+                    dates: this.sundays,
+                    content: 'red',
+                },
+            ]
+            this.sundaysAndHolidays.forEach((item) => {
+                const year = item.date.split('-')[0]
+                const month = item.date.split('-')[1]
+                const day = item.date.split('-')[2]
+                this.attributes = [
+                    ...this.attributes,
+                    {
+                        dates: new Date(year, month, day),
+                        content: 'red',
+                    },
+                ]
+            })
             setTimeout(() => {
-                this.savedWeek  = false
+                this.loading = false
+            }, 500);
+            setTimeout(() => {
+                this.savedWeek = false
+                
             }, 2000)
-            
+
+
         },
         handleDateEvent(event) {
             const datePicked = event.target.getAttribute('aria-label')
@@ -506,6 +581,7 @@ export default {
             }
         },
         async getBranchOffices() {
+            this.loading_1 = true
             const accessToken = localStorage.getItem('accessToken')
 
             try {
@@ -530,6 +606,9 @@ export default {
                         error
                     )
                 }
+            }
+            if (this.loading_1) {
+                this.loading = false
             }
         },
         async getEmployeeByBranchOffice() {
@@ -663,8 +742,7 @@ export default {
                         localStorage.removeItem('week_value' + this.weekCounter)
                         localStorage.setItem('week', this.weekCounter - 1)
                         if (this.shouldCall) {
-                            this.getDatesInRangeFromLocalStorage() 
-                            
+                            this.getDatesInRangeFromLocalStorage()
                         }
                         break
                     }
@@ -677,7 +755,6 @@ export default {
                 consecutiveDays = 1
                 hasSevenConsecutive = false
                 alert('Un trabajador no puede trabajar 7 días seguidos.')
-                
             }
 
             return hasSevenConsecutive
@@ -685,7 +762,6 @@ export default {
         getDatesInRangeFromLocalStorage() {
             this.datesInRange = [[], [], [], [], [], []]
 
-           
             let items = []
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i)
@@ -696,7 +772,6 @@ export default {
             }
             items.sort((a, b) => a.key.localeCompare(b.key))
 
-        
             for (let item of items) {
                 const weekData = item.value
 
@@ -725,7 +800,7 @@ export default {
                     )
                 }
             }
-            
+
             this.checkConsecutiveDays(this.ArrayDates)
             this.getRandomColorForWeeks()
         },
@@ -740,37 +815,41 @@ export default {
             this.getSundays(year, month)
         },
 
-        async getHolidays () {
+        async getHolidays() {
             const accessToken = localStorage.getItem('accessToken')
 
             try {
-               const response = await axios.get('http://localhost:8000/holidays', {
+                const response = await axios.get(
+                    'http://localhost:8000/holidays',
+                    {
                         headers: {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    })
-                    
-                    console.log(response)
-                    response.data.message.forEach((item) => {
-                        const year = item.date.split('-')[0]
-                        const month = item.date.split('-')[1]
-                        const day = item.date.split('-')[2]
-                        this.attributes = [
-                            ...this.attributes,
-                            {
-                                dates: new Date(year, month , day),
-                                content: 'red',
-                            },
-                        ]
-                    })
+                    }
+                )
+
+                console.log(response)
+                this.sundaysAndHolidays = response.data.message
+                this.sundaysAndHolidays.forEach((item) => {
+                    const year = item.date.split('-')[0]
+                    const month = item.date.split('-')[1]
+                    const day = item.date.split('-')[2]
+                    this.attributes = [
+                        ...this.attributes,
+                        {
+                            dates: new Date(year, month, day),
+                            content: 'red',
+                        },
+                    ]
+                })
             } catch (error) {
                 console.error('Error al obtener la lista de sucursales:', error)
             }
         },
         consoleLog() {
             console.log(this.employee_input[1])
-        }
+        },
     },
     created() {
         this.getDatesInRangeFromLocalStorage()
@@ -783,7 +862,7 @@ export default {
 }
 </script>
 <style>
-.vc-base-icon{
+.vc-base-icon {
     display: none !important;
 }
 </style>

@@ -58,49 +58,47 @@
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            Id
+                                            Rut
                                         </th>
                                         <th
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            Banco
+                                            Trabajador
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Periodo
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody
                                     class="divide-y divide-gray-200 dark:divide-gray-700"
                                 >
-                                    <tr v-for="bank in banks" :key="bank.id">
+                                    <tr v-for="meshes in meshes" :key="meshes.id">
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ bank.id }}
+                                            {{ meshes.EmployeeModel.visual_rut }}
                                         </td>
+                                        <div>
+                                        <td   v-if="meshes && meshes.EmployeeModel && meshes.EmployeeModel.names"
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            {{ meshes.EmployeeModel.names +  ' ' +  meshes.EmployeeModel.father_lastname + ' ' + meshes.EmployeeModel.mother_lastname}}
+                                        </td>
+                                        <td  v-else
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            No se encontro el nombre del trabajador
+                                        </td>
+                                    </div>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ bank.bank }}
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
-                                        >
-                                            <router-link
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                                href="javascript:;"
-                                                :to="`/edit_bank/${bank.id}`"
-                                            >
-                                                <i class="fa-solid fa-pen"></i>
-                                            </router-link>
-                                            <button
-                                                type="button"
-                                                @click="confirmBank(bank.id)"
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-trash"
-                                                ></i>
-                                            </button>
+                                        {{ meshes.MeshModel.period  }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -122,18 +120,18 @@ export default {
     },
     data() {
         return {
-            banks: [],
+            meshes: [],
             loading: true,
             delete_bank: 0,
         }
     },
     methods: {
-        async getBanks() {
+        async getMeshes() {
             const accessToken = localStorage.getItem('accessToken')
 
             try {
-                const response = await axios.post(
-                    'http://localhost:8000/banks/',
+                const response = await axios.get(
+                    'http://localhost:8000/meshes/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -142,7 +140,8 @@ export default {
                     }
                 )
 
-                this.banks = response.data.message
+                this.meshes = response.data.message
+                console.log(this.meshes)
                 this.loading = false
             } catch (error) {
                 console.error('Error al obtener la lista de bancos:', error)
@@ -179,7 +178,7 @@ export default {
         },
     },
     async mounted() {
-        await this.getBanks()
+        await this.getMeshes()
     },
 }
 </script>
