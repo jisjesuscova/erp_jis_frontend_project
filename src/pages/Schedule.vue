@@ -1,703 +1,184 @@
 <template>
     <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72">
-        <form @submit.prevent="updateLaborData">
-            <div
-                class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-            >
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-500"></p>
-            </div>
-
-            <div class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5">
-                <div>
-                    <label
-                        for="hs-validation-name-error"
-                        class="block text-sm font-medium mb-2 dark:text-white"
-                        >Periodo</label
-                    >
-                    <input
-                        type="month"
-                        id="period_input"
-                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        v-model="period_input"
-                        @change="periodToInitialPage(period_input)"
-                        required
-                    />
-                </div>
-                <div>
-                    <label
-                        for="hs-validation-name-error"
-                        class="block text-sm font-medium mb-2 dark:text-white"
-                        >Sucursal</label
-                    >
-                    <select
-                        v-model="branch_office_input"
-                        @change="getEmployeeByBranchOffice"
-                        required
-                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                        <option value="">- Sucursal -</option>
-                        <option
-                            v-for="branch_office in branch_offices"
-                            :key="branch_office.id"
-                            :value="branch_office.id"
-                        >
-                            {{ branch_office.branch_office }}
-                        </option>
-                    </select>
-                </div>
-                <div>
-                    <label
-                        for="hs-validation-name-error"
-                        class="block text-sm font-medium mb-2 dark:text-white"
-                        >Trabajador</label
-                    >
-                    <select
-                        v-model="employee_input"
-                        required
-                        @change="consoleLog"
-                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                        <option value="">- Trabajadores -</option>
-                        <option
-                            v-for="employee in employees_labor_data"
-                            :key="employee.id"
-                            :value="[employee.employee_type_id, employee.rut]"
-                        >
-                            {{
-                                `${employee.names}  ${employee.father_lastname}  ${employee.mother_lastname}`
-                            }}
-                        </option>
-                    </select>
-                </div>
-                <div>
-                    <label
-                        for="hs-validation-name-error"
-                        class="block text-sm font-medium mb-2 dark:text-white"
-                        >Horario</label
-                    >
-                    <select
-                        v-model="schedule_input"
-                        required
-                        @change="getTurns"
-                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                        <option value="">- Horario -</option>
-                        <option value="1">Mañana</option>
-                        <option value="2">Tarde</option>
-                        <option value="3">Intermedio</option>
-                    </select>
-                </div>
-            </div>
-        </form>
-        <div class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5">
-            <div v-if="startDate != null">
-                <label
-                    for="hs-validation-name-error"
-                    class="block text-sm font-medium mb-2 dark:text-white"
-                    >Turnos</label
+        <div v-if="loading" class="flex justify-center items-center h-screen">
+            <div role="status">
+                <!-- SVG spinner -->
+                <svg
+                    aria-hidden="true"
+                    class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                    viewBox="0 0 100 101"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                 >
-                <input
-                    v-model="search_term"
-                    @input="getTurns"
-                    class="bg-white-50 border border-gray-950 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    type="text"
-                    placeholder="Buscar turno"
-                />
-                <ul>
-                    <li
-                        @click="
-                            pickCalendarDatesForTurns(
-                                turn.turn,
-                                turn.group_day_id,
-                                turn.free_day_group_id,
-                                turn.id,
-                                turn.total_week_hours,
-                                $event
-                            )
-                        "
-                        draggable="true"
-                        class="mt-1 mb-2 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        v-for="turn in turns"
-                        :key="turn.id"
-                        :value="turn.turn"
-                        v-text="turn.turn"
-                    ></li>
-                </ul>
+                    <path
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        fill="currentColor"
+                    />
+                    <path
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        fill="currentFill"
+                    />
+                </svg>
+                <span class="sr-only">Loading...</span>
             </div>
-            <div>
-                <VCalendar
-                    :key="`${initialPage.month}-${initialPage.year}`"
-                    expanded
-                    show-weeknumbers
-                    :attributes="attributes"
-                    show-adjacent-months
-                    @click="handleDateEvent"
-                    :initial-page="initialPage"
-                />
 
-                <div v-if="startDate != null && endDate != null">
-                    <button
-                        @click="saveDatesInRangeToLocalstorage"
-                        type="submit"
-                        class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                    >
-                        Agregar
-                        <i class="fa-solid fa-check"></i>
-                    </button>
+            <!-- You can use a spinner or any other loading animation here -->
+        </div>
+
+        <div v-else class="flex flex-col pt-10">
+            <h2 class="text-4xl dark:text-white pb-10">
+                Mallas Horarias
+                <router-link
+                    href="javascript:;"
+                    to="/create_schedule"
+                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                >
+                    Agregar
+                </router-link>
+            </h2>
+            <div class="-m-1.5 overflow-x-auto">
+                <div
+                    class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
+                    role="alert"
+                    v-if="delete_bank == 1"
+                >
+                    Banco eliminado con <span class="font-bold">éxito</span>.
                 </div>
-                <div>
-                    <button
-                        @click="confirmDeleteDatesInLocalStorage"
-                        type="submit"
-                        class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                <div class="p-1.5 min-w-full inline-block align-middle">
+                    <div
+                        class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
                     >
-                        Borrar
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
+                        <div class="overflow-hidden">
+                            <table
+                                class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+                            >
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Rut
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Trabajador
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Periodo
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="divide-y divide-gray-200 dark:divide-gray-700"
+                                >
+                                    <tr v-for="meshes in meshes" :key="meshes.id">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                                        >
+                                            {{ meshes.EmployeeModel.visual_rut }}
+                                        </td>
+                                        <div>
+                                        <td   v-if="meshes && meshes.EmployeeModel && meshes.EmployeeModel.names"
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            {{ meshes.EmployeeModel.names +  ' ' +  meshes.EmployeeModel.father_lastname + ' ' + meshes.EmployeeModel.mother_lastname}}
+                                        </td>
+                                        <td  v-else
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            No se encontro el nombre del trabajador
+                                        </td>
+                                    </div>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                        {{ meshes.MeshModel.period  }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
-  <script>
-import { BROKEN_CARET, s } from 'pdfmake/build/pdfmake'
-import EmployeeMenu from '../components/EmployeeMenu.vue'
+<script>
+import MasterDataSearcher from '../components/MasterDataSearcher.vue'
 import axios from 'axios'
 
 export default {
     components: {
-        EmployeeMenu,
+        MasterDataSearcher,
     },
     data() {
         return {
-            startDate: null,
-            endDate: null,
-            date: new Date(),
-            initialPage: {
-                month: new Date().getMonth() + 2,
-                year: new Date().getFullYear(),
-            },
-            branch_offices: [],
-            colors: ['red', 'green', 'yellow', 'purple', 'orange'],
-            sections: [],
-            turns: [],
-            ArrayDates: [],
-            attributes: [],
-            employees_labor_data: [],
-            datesInRange: [],
-            branch_office_input: '',
-            period_input: '',
-            employee_input: [],
-            schedule_input: '',
-            turn_input: '',
-            dataToShow: [],
-            sundays: [],
-            search_term: 'Buscar Turno',
-            alertShow: false,
-            sundaysInUse: 0,
-            turnDays: 0,
-            sundaysAvailable: 0,
-            turnId: 0,
-            weekCounter: 0,
-            total_week_hours: 0,
-            year: 0,
-            month: 0,
-            turnsDaysInUse: 0,
-            workedDays: 0,
+            meshes: [],
+            loading: true,
+            delete_bank: 0,
         }
     },
     methods: {
-        getSundays(year, month) {
-            let date = new Date(year, month, 1)
-            this.sundays = []
-
-            while (date.getMonth() === month) {
-                if (date.getDay() === 0) {
-                    // 0 significa domingo
-                    this.sundays.push(new Date(date))
-                }
-                date.setDate(date.getDate() + 1)
-            }
-            console.log(this.sundays)
-            return this.sundays
-        },
-        deleteLocalStorageDates() {
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i)
-                if (key.startsWith('week_value')) {
-                    localStorage.removeItem(key)
-                }
-            }
-        },
-        confirmDeleteDatesInLocalStorage() {
-            const shouldDelete = confirm(
-                'una vez borrada la malla tendra que volver a crearla, ¿desea continuar?'
-            )
-            console.log(shouldDelete)
-            if (!shouldDelete) {
-                return
-            }
-
-            this.deleteLocalStorageDates()
-            this.deleteLocalStorageDates()
-
-            localStorage.setItem('week', 0)
-            this.getDatesInRangeFromLocalStorage()
-        },
-        periodToInitialPage(period) {
-            console.log(period)
-            const month = Number(period.split('-')[1])
-            const year = Number(period.split('-')[0])
-            this.initialPage = { month, year }
-            this.getSundays(year, month)
-        },
-        saveDatesInRangeToLocalstorage() {
-            let week = localStorage.getItem('week')
-            if (!week) {
-                week = 1
-            } else {
-                week = Number(week) + 1
-                this.weekCounter = week
-            }
-            localStorage.setItem('week', week)
-
-            const weekData = {
-                week: week,
-                turnId: this.turnId,
-                rutEmployee: this.employee_input[1],
-                turn: this.turn_input,
-                workedDays: this.turnDays,
-                total_week_hours: this.total_week_hours,
-                datesInRange: this.datesInRange,
-            }
-
-            localStorage.setItem('week_value' + week, JSON.stringify(weekData))
-
-            this.datesInRange = []
-            this.sundaysInUse = 0
-            this.getDatesInRangeFromLocalStorage()
-        },
-        handleDateEvent(event) {
-            const datePicked = event.target.getAttribute('aria-label')
-            if (datePicked == null) {
-                return
-            }
-            const day = Number(datePicked.split(' ')[1])
-            const monthstr = datePicked.split(' ')[3]
-            const year = Number(datePicked.split(' ')[5])
-            let month = 0
-
-            let arrayMonths = [
-                'ene',
-                'feb',
-                'mar',
-                'abr',
-                'may',
-                'jun',
-                'jul',
-                'ago',
-                'sep',
-                'oct',
-                'nov',
-                'dic',
-            ]
-            for (let i = 0; i < arrayMonths.length; i++) {
-                if (arrayMonths[i] == monthstr) {
-                    month = i
-                }
-            }
-            if (!this.startDate) {
-                this.startDate = new Date(year, month, day)
-            } else {
-                this.startDate = new Date(year, month, day)
-                this.endDate = null
-            }
-
-            this.attributes = [
-                {
-                    dates: [this.startDate],
-                    highlight: {
-                        color: 'blue',
-                    },
-                    key: 1,
-                },
-            ]
-        },
-        whileForDatesInRange(turnDays, freeDays) {
-            if (this.startDate && this.endDate) {
-                this.datesInRange = [] // Limpiar datesInRange
-
-                const currentDate = new Date(this.startDate)
-                currentDate.setDate(currentDate.getDate())
-
-                const startMonth = this.startDate.getMonth()
-
-                while (
-                    currentDate <= this.endDate &&
-                    currentDate.getMonth() === startMonth
-                ) {
-                    if (currentDate.getDay() === 0) {
-                        this.turnsDaysInUse = this.turnsDaysInUse + 1
-                        this.datesInRange.push(new Date(currentDate))
-                        currentDate.setDate(currentDate.getDate() + 1)
-                        break // Detener el bucle
-                    }
-                    this.turnsDaysInUse = this.turnsDaysInUse + 1
-                    this.datesInRange.push(new Date(currentDate))
-                    currentDate.setDate(currentDate.getDate() + 1)
-                }
-
-                this.turnsDaysInUse = 0
-            }
-        },
-
-        async pickCalendarDatesForTurns(
-            turn,
-            turnDays,
-            freeDays,
-            turnId,
-            hoursWeek,
-            event
-        ) {
-            this.turn_input = turn
-            this.turnDays = turnDays
-            this.turnId = turnId
-            this.total_week_hours = hoursWeek
-
-            await this.getLastWeekWorkingDays()
-            let date = new Date(this.startDate)
-            this.workedDays = 0
-            turnDays = turnDays - this.workedDays
-            date.setDate(date.getDate() + turnDays - 1)
-            if (turnDays == 0) {
-                alert(
-                    'Hola, el empleado ya trabajo los turnos que le correspondian en la semana'
-                )
-                this.startDate = 0
-                this.attributes = [
-                    {
-                        dates: [this.startDate],
-                        highlight: {
-                            color: 'red',
-                        },
-                        key: 1,
-                    },
-                ]
-                return
-            } else if (turnDays < 0) {
-                alert(
-                    'Hola, el empleado ya trabajo los turnos que le correspondian en la semana'
-                )
-                this.startDate = 0
-                this.attributes = [
-                    {
-                        dates: [this.startDate],
-                        highlight: {
-                            color: 'red',
-                        },
-                        key: 1,
-                    },
-                ]
-                return
-            } else {
-                this.endDate = date
-
-                const turnPicked = event.target.getAttribute('value')
-                if (turnPicked == null) {
-                    return
-                }
-                this.whileForDatesInRange(turnDays, freeDays)
-                let indexColor = Math.floor(Math.random() * 5)
-
-                this.attributes = [
-                    {
-                        dates: [this.startDate],
-                        highlight: {
-                            color: 'red',
-                        },
-                        key: 1,
-                    },
-
-                    {
-                        dates: this.datesInRange,
-                        highlight: {
-                            color: this.colors[indexColor],
-                        },
-                        key: 3,
-                    },
-                ]
-            }
-        },
-        async getTurns() {
-            const accessToken = localStorage.getItem('accessToken')
-            console.log(this.employee_input[1])
-            try {
-                if (
-                    this.search_term == '' ||
-                    this.search_term == null ||
-                    this.search_term == undefined
-                ) {
-                    this.search_term = 'Buscar Turno'
-                }
-                const dataToSend = {
-                    group_id: Number(this.schedule_input),
-                    employee_type_id: this.employee_input[0],
-                    search_term: this.search_term,
-                }
-                const response = await axios.get(
-                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
-                        },
-                    }
-                )
-                this.turns = response.data.message
-                if (this.search_term == 'Buscar Turno') {
-                    this.search_term = ''
-                }
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error('Error al obtener la lista de turnos:', error)
-                }
-            }
-        },
-        async getBranchOffices() {
+        async getMeshes() {
             const accessToken = localStorage.getItem('accessToken')
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/branch_offices/',
+                    'http://localhost:8000/meshes/',
                     {
                         headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
-                        },
-                    }
-                )
-
-                this.branch_offices = response.data.message
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error(
-                        'Error al obtener la lista de sucursales:',
-                        error
-                    )
-                }
-            }
-        },
-        async getEmployeeByBranchOffice() {
-            const accessToken = localStorage.getItem('accessToken')
-
-            try {
-                const response = await axios.get(
-                    'https://apijis.com/employee_labor_data/edit/branch/' +
-                        this.branch_office_input,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
-                        },
-                    }
-                )
-
-                this.employees_labor_data = response.data.message
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error(
-                        'Error al obtener la lista de sucursales:',
-                        error
-                    )
-                }
-            }
-        },
-        async getLastWeekWorkingDays() {
-            const accessToken = localStorage.getItem('accessToken')
-
-            try {
-                const response = await axios.get(
-                    `https://apijis.com/meshes/last_week_working_days/20202020/2023-11-06`,
-
-                    {
-                        headers: {
-                            accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`,
+                            accept: 'application/json',
                         },
                     }
                 )
-                const decodedData = JSON.parse(response.data.message)
 
-                this.workedDays = decodedData
+                this.meshes = response.data.message
+                console.log(this.meshes)
+                this.loading = false
             } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error('Error al obtener la lista:', error)
-                }
+                console.error('Error al obtener la lista de bancos:', error)
             }
         },
+        async confirmBank(id) {
+            const shouldDelete = window.confirm(
+                '¿Estás seguro de que deseas borrar la nomina?'
+            )
+            console.log(id)
 
-        getRandomColorForWeeks() {
-            const commonColorIndex = Math.floor(Math.random() * 5)
-            let lastWeekColorIndex
-            do {
-                lastWeekColorIndex = Math.floor(Math.random() * 5)
-            } while (lastWeekColorIndex === commonColorIndex)
+            if (shouldDelete) {
+                await this.deleteBank(id)
+            }
+        },
+        async deleteBank(id) {
+            this.loading = true
 
-            this.attributes = this.datesInRange.map((dates, index) => {
-                const colorIndex =
-                    index === this.datesInRange.length - 1
-                        ? lastWeekColorIndex
-                        : commonColorIndex
-
-                return {
-                    dates,
-                    highlight: {
-                        color: this.colors[colorIndex],
+            try {
+                const accessToken = localStorage.getItem('accessToken')
+                await axios.delete(`http://localhost:8000/banks/delete/${id}`, {
+                    headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
                     },
-                }
-            })
-        },
-        verifyQuantityOfSundays(weekArray) {
-            this.sundaysAvailable = this.sundays.length - 2
-            let sundays = this.sundays
-            for (let i = 0; i < sundays.length; i++) {
-                for (let j = 0; j < weekArray.length; j++) {
-                    let date = new Date(weekArray[j])
-                    if (sundays[i].getTime() == date.getTime()) {
-                        this.sundaysInUse = this.sundaysInUse + 1
-                        if (this.sundaysInUse > this.sundaysAvailable) {
-                            console.log(this.sundaysInUse)
-                            if (!this.alertShown) {
-                                alert(
-                                    'Tiene que tener Minimo 2 domingos libres al mes'
-                                )
-                                localStorage.removeItem(
-                                    'week_value' + this.weekCounter
-                                )
-                                localStorage.setItem(
-                                    'week',
-                                    this.weekCounter - 1
-                                )
-                                this.alertShown = true
-                                setTimeout(() => {
-                                    this.getDatesInRangeFromLocalStorage() // Añade esta línea
-                                }, 100)
-                                this.sundaysInUse--
-                            }
-                            return
-                        }
-                    }
-                }
-            }
-            this.alertShown = false
-            console.log(this.sundaysInUse)
-
-            return this.sundaysInUse
-        },
-        checkConsecutiveDays(dates) {
-            let consecutiveDays = 1;
-            let hasSevenConsecutive = false;
-
-            for (let i = 1; i < dates.length; i++) {
-                const prevDate = new Date(dates[i - 1]);
-                const currentDate = new Date(dates[i]);
-                const diffInDays = Math.round((currentDate - prevDate) / (1000 * 60 * 60 * 24));
-
-                if (diffInDays === 1) {
-                    consecutiveDays++;
-                    if (consecutiveDays >= 7) {
-                        hasSevenConsecutive = true;
-                        localStorage.removeItem('week_value' + this.weekCounter)
-                        break;
-                    }
-                } else {
-                    consecutiveDays = 1;
-                }
-            }
-
-            if (hasSevenConsecutive) {
-                alert('Un trabajador no puede trabajar 7 días seguidos.');
-                consecutiveDays = 1;
-                hasSevenConsecutive = false;
-            }
-
-            return hasSevenConsecutive;
-        },
-        getDatesInRangeFromLocalStorage() {
-            this.datesInRange = [[], [], [], [], [], []]
-
-            // Obtener y ordenar los elementos de localStorage
-            let items = []
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i)
-                if (key.startsWith('week_value')) {
-                    const value = JSON.parse(localStorage.getItem(key))
-                    items.push({ key, value })
-                }
-            }
-            items.sort((a, b) => a.key.localeCompare(b.key))
-
-            // Iterar sobre los elementos ordenados
-            for (let item of items) {
-                const weekData = item.value
-
-                this.verifyQuantityOfSundays(weekData.datesInRange)
-                const dates = weekData.datesInRange
-                this.ArrayDates.push(...weekData.datesInRange)
-
-                const formattedDates = dates.map((date) => {
-                    const d = new Date(date)
-                    d.setDate(d.getDate() + 1)
-                    const year = d.getFullYear()
-                    const month = (d.getMonth() + 1).toString().padStart(2, '0')
-                    const day = d.getDate().toString().padStart(2, '0')
-                    return `${year}-${month}-${day}`
                 })
 
-                const targetArray = this.datesInRange.find(
-                    (week) => week.length < 7
-                )
+                this.getBanks()
 
-                if (targetArray) {
-                    targetArray.push(...formattedDates)
-                } else {
-                    console.log(
-                        'No puedes agregar más datos a las semanas existentes.'
-                    )
-                }
+                this.delete_bank = 1
+            } catch (error) {
+                console.error('Error al borrar la nomina:', error)
             }
-            this.checkConsecutiveDays(this.ArrayDates)
-            this.getRandomColorForWeeks()
-        },
-        getMonthAndYear() {
-            let month = this.date.getMonth() + 1
-            let year = this.date.getFullYear()
-
-            if (month > 11) {
-                month = 0
-                year++
-            }
-            this.getSundays(year, month)
         },
     },
-    created() {
-        this.getMonthAndYear()
-        this.getDatesInRangeFromLocalStorage()
-        this.getBranchOffices()
-        this.year = this.date.getFullYear()
-        this.month = this.date.getMonth()
+    async mounted() {
+        await this.getMeshes()
     },
 }
 </script>
