@@ -153,6 +153,8 @@ export default {
                     },
                 )
 
+                localStorage.removeItem('opened_period')
+
                 this.verify()
 
                 this.period_input = ''
@@ -190,6 +192,11 @@ export default {
                         },
                     },
                 )
+
+                localStorage.setItem(
+                        'opened_period',
+                        this.period_input,
+                    )
 
                 this.verify()
 

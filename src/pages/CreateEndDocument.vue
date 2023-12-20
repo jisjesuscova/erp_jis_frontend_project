@@ -178,7 +178,7 @@
                             >Cantidad de Vacaciones</label
                         >
                         <input
-                            type="number"
+                            type="text"
                             v-model="vacations_input"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required
@@ -196,6 +196,25 @@
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required
                         />
+                    </div>
+                </div>
+                <div
+                    class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                >
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >¿Es un finiquito real?</label
+                        >
+                        <select
+                            v-model="end_document_real_input"
+                            required
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                            <option value="1">Si</option>
+                            <option value="2">No</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -509,6 +528,7 @@ export default {
             employee_family_data_status: 0,
             employee_vacations_status: 0,
             employee_medical_status: 0,
+            end_document_real_input: 1,
         }
     },
     methods: {
@@ -752,8 +772,8 @@ export default {
                     salary: this.employee_labor_data.salary,
                     collation: this.employee_labor_data.collation,
                     locomotion: this.employee_labor_data.locomotion,
-                    extra_health_amount: this.extra_health_amount,
-                    apv_amount: this.apv_amount,
+                    extra_health_amount: String(this.extra_health_amount),
+                    apv_amount: String(this.apv_amount),
                 }
 
                 this.loading_2 = false
@@ -1103,6 +1123,7 @@ export default {
                     balance: this.vacations_input,
                     number_holidays: this.number_holidays_input,
                 }
+          
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.post(
