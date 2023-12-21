@@ -576,7 +576,7 @@ export default {
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`, 
                         },
                     }
                 )
@@ -834,7 +834,7 @@ export default {
                 const response = await axios.get('https://apijis.com/vacations/edit/' + this.$route.params.rut, {
                     headers: {
                         accept: 'application/json',
-                        Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                        Authorization: `Bearer ${accessToken}`, 
                     },
                 })
                 console.log('vacationsResponse',response)
@@ -944,7 +944,7 @@ export default {
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`, 
                         },
                     }
                 )
@@ -972,7 +972,7 @@ export default {
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`, 
                         },
                     }
                 )
@@ -982,7 +982,7 @@ export default {
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`, 
                         },
                     }
                 )
@@ -1018,7 +1018,7 @@ export default {
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`,
                         },
                     }
                 )
@@ -1028,7 +1028,7 @@ export default {
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`,
                         },
                     }
                 )
@@ -1064,12 +1064,12 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.post(
-                    'http://localhost:8000/end_documents/indemnity_years',
+                    'https://apijis.com/end_documents/indemnity_years',
                     dataToSend,
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`,
                         },
                     }
                 )
@@ -1101,7 +1101,7 @@ export default {
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`,
                         },
                     }
                 )
@@ -1135,7 +1135,7 @@ export default {
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`, 
                         },
                     }
                 )

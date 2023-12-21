@@ -282,7 +282,7 @@ export default {
                         names: searchData.names_input,
                         father_lastname: searchData.father_lastname_input,
                         mother_lastname: searchData.mother_lastname_input,
-                        branch_office_id: searchData.branch_office_input,
+                        branch_office_id: String(searchData.branch_office_input),
                         status_id: searchData.status_input,
                         user_rut: rut,
                         rol_id: rol_id,
