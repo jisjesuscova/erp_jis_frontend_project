@@ -74,6 +74,7 @@ import Vacation from './pages/Vacation.vue'
 import OldVacation from './pages/OldVacation.vue'
 import Alert from './pages/Alert.vue'
 import Schedule from './pages/Schedule.vue'
+import Process from './pages/Process.vue'
 import CreateSchedule from './pages/CreateSchedule.vue'
 import UploadEmployeeContract from './pages/UploadEmployeeContract.vue'
 import GeneralSalarySettlement from './pages/GeneralSalarySettlement.vue'
@@ -401,6 +402,10 @@ const routes = [
     {
         path:'/schedule',
         component: Schedule
+    },
+    {
+        path:'/process',
+        component: Process
     },
     {
         path:'/create_schedule',
