@@ -178,7 +178,7 @@
                             >Cantidad de Vacaciones</label
                         >
                         <input
-                            type="number"
+                            type="text"
                             v-model="vacations_input"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required
@@ -196,6 +196,25 @@
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required
                         />
+                    </div>
+                </div>
+                <div
+                    class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                >
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >¿Es un finiquito real?</label
+                        >
+                        <select
+                            v-model="end_document_type_id"
+                            required
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                            <option value="1">Si</option>
+                            <option value="2">No</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -509,6 +528,7 @@ export default {
             employee_family_data_status: 0,
             employee_vacations_status: 0,
             employee_medical_status: 0,
+            end_document_type_id: 1,
         }
     },
     methods: {
@@ -516,7 +536,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             await axios
                 .get(
-                    'http://localhost:8000/employees/edit/' +
+                    'https://apijis.com/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -536,7 +556,7 @@ export default {
                     this.validationsPassed = false
                 })
             const responseExtras = await axios.get(
-                'http://localhost:8000/employee_extras/edit/' +
+                'https://apijis.com/employee_extras/edit/' +
                     this.$route.params.rut,
                 {
                     headers: {
@@ -551,7 +571,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employee_labor_data/edit/' +
+                    'https://apijis.com/employee_labor_data/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -584,7 +604,7 @@ export default {
                 this.personal_data_status = 1
 
                 await axios.post(
-                    'http://localhost:8000/old_employees/transfer',
+                    'https://apijis.com/old_employees/transfer',
                     this.employee_data,
                     {
                         headers: {
@@ -629,7 +649,7 @@ export default {
                 this.employee_extras_status = 1
 
                 await axios.post(
-                    'http://localhost:8000/old_employee_extras/transfer',
+                    'https://apijis.com/old_employee_extras/transfer',
                     employeeExtraDataToSend,
                     {
                         headers: {
@@ -752,8 +772,8 @@ export default {
                     salary: this.employee_labor_data.salary,
                     collation: this.employee_labor_data.collation,
                     locomotion: this.employee_labor_data.locomotion,
-                    extra_health_amount: this.extra_health_amount,
-                    apv_amount: this.apv_amount,
+                    extra_health_amount: String(this.extra_health_amount),
+                    apv_amount: String(this.apv_amount),
                 }
 
                 this.loading_2 = false
@@ -762,7 +782,7 @@ export default {
                 this.employee_labor_data_status = 1
 
                 await axios.post(
-                    'http://localhost:8000/old_employee_labor_data/transfer',
+                    'https://apijis.com/old_employee_labor_data/transfer',
                     employeeLaborDataToSend,
                     {
                         headers: {
@@ -778,7 +798,7 @@ export default {
                 this.employee_documents_status = 1
 
                 await axios.post(
-                    'http://localhost:8000/old_documents_employees/transfer/' +
+                    'https://apijis.com/old_documents_employees/transfer/' +
                         this.$route.params.rut,
                     {},
                     {
@@ -795,7 +815,7 @@ export default {
                 this.employee_family_data_status = 1
 
                 await axios.post(
-                    'http://localhost:8000/old_family_core_data/transfer/' +
+                    'https://apijis.com/old_family_core_data/transfer/' +
                         this.$route.params.rut,
                     {},
                     {
@@ -811,7 +831,7 @@ export default {
                 this.loading_6 = true
                 this.employee_vacations_status = 1
 
-                const response = await axios.get('http://localhost:8000/vacations/edit/' + this.$route.params.rut, {
+                const response = await axios.get('https://apijis.com/vacations/edit/' + this.$route.params.rut, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
@@ -820,7 +840,7 @@ export default {
                 console.log('vacationsResponse',response)
                 if(response.data.message != 'null' && response.data.message != undefined && response.data.message != ''  && response.data.message != null){
                     await axios.post(
-                    'http://localhost:8000/old_vacations/transfer/' +
+                    'https://apijis.com/old_vacations/transfer/' +
                         this.$route.params.rut,
                     {},
                     {
@@ -839,7 +859,7 @@ export default {
                 this.employee_medical_status = 1
 
                 await axios.post(
-                    'http://localhost:8000/old_medical_licenses/transfer/' +
+                    'https://apijis.com/old_medical_licenses/transfer/' +
                         this.$route.params.rut,
                     {},
                     {
@@ -887,7 +907,7 @@ export default {
                 rut: this.$route.params.rut,
                 document_type_id: 22,
                 causal_id: this.causal_input,
-                fertility_proportional_days:this.fertility_proportional_total_input,
+                fertility_proportional_days: String(this.fertility_proportional_total_input),
                 voluntary_indemnity: this.voluntary_compensation_input,
                 indemnity_years_service: this.indemnity_year_input,
                 substitute_compensation: this.substitute_compensation_input,
@@ -899,7 +919,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             
             axios
-                .post('http://localhost:8000/end_documents/store', dataToSend, {
+                .post('https://apijis.com/end_documents/store', dataToSend, {
                     headers: {
                         'Content-Type': 'application/json',
                         Accept: 'application/json',
@@ -920,7 +940,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/causals/' + this.status_input,
+                    'https://apijis.com/causals/' + this.status_input,
                     {
                         headers: {
                             accept: 'application/json',
@@ -947,7 +967,7 @@ export default {
 
             try {
                 const responseLegal = await axios.get(
-                    'http://localhost:8000/vacations/legal/' +
+                    'https://apijis.com/vacations/legal/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -957,7 +977,7 @@ export default {
                     }
                 )
                 const responseTakenDays = await axios.get(
-                    'http://localhost:8000/vacations/taken/' +
+                    'https://apijis.com/vacations/taken/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -970,8 +990,12 @@ export default {
                 this.taken_days = responseTakenDays.data.message
 
                 this.loading_2 = false
-
-                this.balance = this.legal_vacations - this.taken_days
+                
+                let legalHoliday = parseFloat(this.legal_vacations);
+                let takenDays = parseFloat(this.taken_days);
+                let difference = legalHoliday - takenDays;
+                let roundedDifference = difference.toFixed(2);
+                this.balance = parseFloat(roundedDifference);
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
@@ -989,7 +1013,7 @@ export default {
 
             try {
                 const responseProgressiveLegal = await axios.get(
-                    'http://localhost:8000/progressive_vacations/legal/' +
+                    'https://apijis.com/progressive_vacations/legal/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -999,7 +1023,7 @@ export default {
                     }
                 )
                 const responseProgresssiveTaken = await axios.get(
-                    'http://localhost:8000/progressive_vacations/taken/' +
+                    'https://apijis.com/progressive_vacations/taken/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -1072,7 +1096,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.post(
-                    'http://localhost:8000/end_documents/substitute_compensation',
+                    'https://apijis.com/end_documents/substitute_compensation',
                     dataToSend,
                     {
                         headers: {
@@ -1106,7 +1130,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.post(
-                    'http://localhost:8000/end_documents/human_resources/end_document/fertility_proportional',
+                    'https://apijis.com/end_documents/human_resources/end_document/fertility_proportional',
                     dataToSend,
                     {
                         headers: {
@@ -1115,9 +1139,14 @@ export default {
                         },
                     }
                 )
-                console.log(response)
+
                 this.fertility_proportional_input = response.data.message
-                this.fertility_proportional_total_input = response.data.total
+
+                let fertilityTotal = parseFloat(response.data.total);
+
+                let result = fertilityTotal.toFixed(2);
+
+                this.fertility_proportional_total_input = result
 
                 this.total_input =
                     this.indemnity_year_input +

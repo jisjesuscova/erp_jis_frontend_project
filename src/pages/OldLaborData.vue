@@ -260,7 +260,7 @@
                     Contratos
                 </h2>
 
-                <div class="p-1.5 min-w-full inline-block align-middle">
+                <div class="p-1.5 min-w-full inline-block align-middle" v-if="1 == 2">
                     <div class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
                         <div class="overflow-hidden">
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -489,7 +489,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employee_contracts/download/' + id,
+                    'https://apijis.com/employee_contracts/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -2201,7 +2201,7 @@ export default {
                             text: 'FINIQUITO',
                             bold: true,
                             alignment: 'center',
-                            fontSize: 10,
+                            fontSize: 12,
                             margin: [0, 5, 0, 10],
                         },
                         {
@@ -2211,7 +2211,8 @@ export default {
                             fontSize: 9,
                             margin: [0, 5, 0, 5],
                         },
-                           {text: ['En Santiago',
+                        '\n',
+                        {text: ['En Santiago',
                         { text: ' '+ current_date + ' ', bold: true},
                         'entre',
                         { text: ' '+'JIS PARKING SPA RUT: 76063822-6' + ' ', bold:true},
@@ -2241,7 +2242,7 @@ export default {
                         { text: ' '+'JIS PARKING SPA ' + ' ', bold:true},
                         ', las sumas que a continuación se indica, por los siguientes conceptos:',
                         '\n\n',
-                        { text: 'Resumen Monto', bold:true},
+                        { text: 'Resumen Monto:', bold:true, fontSize: 12},
                         '\n',
                         { text: 'Indemnización Años de Servicios', bold:true},
                         { text: this.alignNumbers('$ ',24) +this.formatNumber(this.end_documents[0].indemnity_years_service), bold:true},
@@ -2253,7 +2254,7 @@ export default {
                         { text: this.alignNumbers('$ ', 38) + this.formatNumber(this.end_documents[0].voluntary_indemnity), bold:true},
                         '\n',
                         { text: 'Feriado Proporcional ('+ this.end_documents[0].fertility_proportional_days + ' dias)', bold:true},
-                        { text: this.alignNumbers('$ ', 32) + this.formatNumber(this.end_documents[0].fertility_proportional), bold:true},
+                        { text: this.alignNumbers('$ ', 24) + this.formatNumber(this.end_documents[0].fertility_proportional), bold:true},
                         '\n',
                         { text: 'Total', bold:true},
                         { text: this.alignNumbers('$ ', 75) + this.formatNumber(this.end_documents[0].total), bold:true},
@@ -2264,13 +2265,13 @@ export default {
                         ', deja constancia que durante todo el tiempo que prestó servicios a la firma',
                         { text: ' '+'JIS PARKING SPA ' + ' ', bold:true},
                         ', recibió oportunamente el total de las remuneraciones, beneficios y demás prestaciones convenidas de acuerdo asu contrato de trabajo, clase de trabajo ejecutado y disposiciones legales pertinentes, y que en tal virtud el empleador nada le adeuda por tales conceptos, ni por horas extraordinarias, asignación familiar, feriado, indemnización por años de servicios,imposiciones previsionales, así como por ningún otro concepto, ya sea legal o contra ctual, derivado de la prestación de sus servicios, de su contrato de trabajo o de la terminación del mismo. En consecuencia \"EL TRABAJADOR\" declara que no tiene reclamo alguno que formular en contra de',
-                        { text: ' '+'JIS PARKING SPA ' + ' ', bold:true},
-                        ', renunciando a todas las acciones que pudieran emanar del contrato que los vinculó, y deja expresa constacia que',
-                        { text: ' '+'JIS PARKING SPA ' + ' ', bold:true},
-                        'A nada le adeuda. en relación con los servicios prestados, con el contrato de trabajo o con motivo de la terminación del mismo, por lo que libre y espontáneamente, y con el pleno y cabal conocimiento de sus derechos, otorga a su empleador, el mas amplio, completo, total y definitivo finiquito por los servicios prestados o la terminación de ellos, ya diga relación con remuneraciones, cotizaciones previsionales, de seguridad social o de salud, subsidios, beneficios contractuales adicionales a las remuneraciones, indemnizaciones, compensaciones, o con cualquiera causa o concepto.',
+                        { text: ' '+'JIS PARKING SPA, ' + ' ', bold:true},
+                        'renunciando a todas las acciones que pudieran emanar del contrato que los vinculó, y deja expresa constacia que',
+                        { text: ' '+'JIS PARKING SPA. ' + ' ', bold:true},
+                        'A nada le adeuda en relación con los servicios prestados, con el contrato de trabajo o con motivo de la terminación del mismo, por lo que libre y espontáneamente, y con el pleno y cabal conocimiento de sus derechos, otorga a su empleador, el mas amplio, completo, total y definitivo finiquito por los servicios prestados o la terminación de ellos, ya diga relación con remuneraciones, cotizaciones previsionales, de seguridad social o de salud, subsidios, beneficios contractuales adicionales a las remuneraciones, indemnizaciones, compensaciones, o con cualquiera causa o concepto.',
                         '\n',
                         { text: ' '+ 'CUARTO:' + ' ', bold:true},
-                        ': En conformidad a lo establecido en la Ley 21.389, sobre abandono de familia y pago de pensiones alimenticias, elempleador declara que a la fecha de este finiquito no ha sido notificado por los tribunales de familia, respecto a alguna resoluciónque establezca que el trabajador compareciente mantenga deuda por pensión de alimentos y en consecuencia se ordene a suempleador practicar retención por concepto de deuda por pensión alimenticia, decretadas en conformidad a lo prescrito en losartículos 8,11 de la Ley 14.908 ya referida, motivo por el cuál no se aplican descuentos y retenciones en el presente acto a losconceptos que se pagan por este finiquito al trabajador.',
+                        'En conformidad a lo establecido en la Ley 21.389, sobre abandono de familia y pago de pensiones alimenticias, el empleador declara que a la fecha de este finiquito no ha sido notificado por los tribunales de familia, respecto a alguna resolución que establezca que el trabajador compareciente mantenga deuda por pensión de alimentos y en consecuencia se ordene a su empleador practicar retención por concepto de deuda por pensión alimenticia, decretadas en conformidad a lo prescrito en los artículos 8,11 de la Ley 14.908 ya referida, motivo por el cuál no se aplican descuentos y retenciones en el presente acto a los conceptos que se pagan por este finiquito al trabajador.',
 
 
                             ],
@@ -2331,7 +2332,7 @@ export default {
             pdfMake.createPdf(docDefinition).download('contrato.pdf')
         },
         alignNumbers(number, length) {
-        return number.padStart(length);
+            return number.padStart(length);
         },
         formatNumber(number) {
             return number.toLocaleString('de-DE');
@@ -2351,7 +2352,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `http://localhost:8000/employee_contracts/delete/${id}`,
+                    `https://apijis.com/employee_contracts/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -2368,9 +2369,11 @@ export default {
             }
         },
         formatDate(date) {
-        let localDate = new Date(date);
-        let utcDate = new Date(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate());
-        return format(utcDate, 'dd-MM-yyyy');
+            if (date != '' && date != null && date != undefined) {
+                let localDate = new Date(date);
+                let utcDate = new Date(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate());
+                return format(utcDate, 'dd-MM-yyyy');
+            }
         },
         async updateLaborData() {
             const accessToken = localStorage.getItem('accessToken');
@@ -2413,7 +2416,7 @@ export default {
             console.log(dataToSend)
             try {
                 
-                const response = await axios.patch('http://localhost:8000/employee_labor_data/update/'+ this.$route.params.rut, dataToSend, {
+                const response = await axios.patch('https://apijis.com/employee_labor_data/update/'+ this.$route.params.rut, dataToSend, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2435,7 +2438,7 @@ export default {
         async getEmployeeLaborData() {
           const accessToken = localStorage.getItem('accessToken');
             try {
-                const response = await axios.get('http://localhost:8000/old_employee_labor_data/edit/'+ this.$route.params.rut, {
+                const response = await axios.get('https://apijis.com/old_employee_labor_data/edit/'+ this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2485,7 +2488,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/pentions/', {
+                const response = await axios.get('https://apijis.com/pentions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2512,7 +2515,7 @@ export default {
             };  
 
             try {
-                const response = await axios.post('http://localhost:8000/contract_data/expiration', dataToSend, {
+                const response = await axios.post('https://apijis.com/contract_data/expiration', dataToSend, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2536,7 +2539,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/healths/', {
+                const response = await axios.get('https://apijis.com/healths/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2559,7 +2562,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/regimes/', {
+                const response = await axios.get('https://apijis.com/regimes/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2582,7 +2585,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/job_positions/', {
+                const response = await axios.get('https://apijis.com/job_positions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2605,7 +2608,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/employee_types/', {
+                const response = await axios.get('https://apijis.com/employee_types/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2628,7 +2631,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/contract_types/', {
+                const response = await axios.get('https://apijis.com/contract_types/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2651,7 +2654,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/branch_offices/', {
+                const response = await axios.get('https://apijis.com/branch_offices/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2674,7 +2677,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/communes/' + this.region_input, {
+                const response = await axios.get('https://apijis.com/communes/' + this.region_input, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2696,7 +2699,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/regions/', {
+                const response = await axios.get('https://apijis.com/regions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2719,7 +2722,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/civil_states/', {
+                const response = await axios.get('https://apijis.com/civil_states/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2742,7 +2745,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/employee_contracts/edit/' + this.$route.params.rut, {
+                const response = await axios.get('https://apijis.com/employee_contracts/edit/' + this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2768,7 +2771,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employees/edit/' +
+                    'https://apijis.com/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -2797,7 +2800,7 @@ export default {
         async getEndDocuments() {
             const accessToken = localStorage.getItem('accessToken');
             try {
-                const response = await axios.get('http://localhost:8000/end_documents/edit/' + this.$route.params.rut, {
+                const response = await axios.get('https://apijis.com/end_documents/edit/' + this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -2814,7 +2817,7 @@ export default {
                     this.loading = false
                 }
 
-                const responseCausals = await axios.get('http://localhost:8000/causals/', {
+                const responseCausals = await axios.get('https://apijis.com/causals/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
