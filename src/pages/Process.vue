@@ -26,20 +26,19 @@
         </div>
         <div v-else>
             <div class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5">
-            
-                    <VCalendar
-                        :key="`${initialPage.month}-${initialPage.year}`"
-                        expanded
-                        :attributes="attributes"
-                        show-adjacent-months
-                        @click="handleDateEvent"
-                        :initial-page="initialPage"
-                    />
-                    <div class="p-1.5 min-w-full inline-block align-middle">
+                <VCalendar
+                    :key="`${initialPage.month}-${initialPage.year}`"
+                    expanded
+                    :attributes="attributes"
+                    show-adjacent-months
+                    @click="handleDateEvent"
+                    :initial-page="initialPage"
+                />
+                <div class="p-1.5 min-w-full inline-block align-middle">
                     <div
                         class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
                     >
-                        <div class="overflow-hidden">
+                        <div class="overflow-x-auto">
                             <table
                                 class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
                             >
@@ -49,84 +48,82 @@
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            Rut
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-                                        >
                                             Semana
                                         </th>
                                         <th
+                                            v-for="day in [
+                                                'l',
+                                                'm',
+                                                'm',
+                                                'j',
+                                                'v',
+                                                's',
+                                                'd',
+                                            ]"
+                                            :key="day"
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            TurnID
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-                                        >
-                                            Fechas a trabajar
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-                                        >
-                                            Turno
+                                            {{ day }}
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody
                                     class="divide-y divide-gray-200 dark:divide-gray-700"
                                 >
-                                    <tr v-for="weekData in this.dataToSend" :key="weekData.week">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                            {{ weekData.rutEmployee }}
+                                    <tr
+                                        v-for="(week, index) in dataToShow"
+                                        :key="index"
+                                    >
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                                        >
+                                            {{ week.week_id }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                            {{ weekData.week }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                            {{ weekData.turnId }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                            {{ new Date(weekData.datesInRange[0]).toLocaleDateString('es-CL') + ' - ' + new Date(weekData.datesInRange[weekData.datesInRange.length - 1]).toLocaleDateString('es-CL') }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                            {{ weekData.turn }}
+                                        <td
+                                            v-for="date in week.datesInRange"
+                                            :key="date"
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            {{
+                                                new Date(
+                                                    date
+                                                ).toLocaleDateString('es-CL')
+                                            }}
+                                            <br />
+                                            Inicio: {{ week.start_turn }}<br />
+                                            Termino: {{ week.end_turn }}<br />
+                                            Colacion: {{ week.collation }}<br />
+                                            Jornada: {{ week.working }}
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                </div>
+                <div
+                    class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5 justify-items-"
+                >
+                    <div>
+                        <button
+                            type="submit"
+                            @click="saveWeeksJsonToSend"
+                            class="py-3 px-4 me-10 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                        >
+                            Finalizar
+                            <i class="fa-solid fa-save"></i>
+                        </button>
+                        <button
+                            @click="$router.push('/create_schedule')"
+                            type="submit"
+                            class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                        >
+                            Volver
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
                     </div>
-                    <div
-                        class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                    >
-                        <div v-if="1== 2">
-                            <button
-                                type="submit"
-                                @click="saveWeeksJsonToSend"
-                                class="py-3 px-4  inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                            >
-                                Finalizar
-                                <i class="fa-solid fa-save"></i>
-                            </button>
-                        </div>
-                        <div>
-                            <button
-                                @click="$router.push('/create_schedule')"
-                                type="submit"
-                                class="py-3 px-4   inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                            >
-                                Volver
-                                <i class="fa-solid fa-arrow-left"></i>
-                            </button>
-                        </div>
-                    </div>
-              
+                </div>
             </div>
         </div>
     </div>
@@ -190,11 +187,21 @@ export default {
     },
     methods: {
         async saveWeeksJsonToSend() {
+            const weekdatatosend = this.dataToShow.map((item) => ({
+                week_id: item.week_id,
+                turn_id: item.turn_id,
+                rut: item.rut,
+                dates_in_range: item.datesInRange,
+                added_date: new Date().toISOString(), // Agregar la fecha actual como 'added_date'
+            }))
+            const meshes = { meshes: weekdatatosend }
+
+            console.log(meshes)
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
-                    'http://localhost:8000/meshes/store',
-                    this.dataToSend,
+                    'http://localhost:8000/meshes/store/',
+                    meshes,
                     {
                         headers: {
                             accept: 'application/json',
@@ -206,8 +213,6 @@ export default {
             } catch (error) {
                 console.error('Error al obtener la lista de sucursales:', error)
             }
-
-            console.log(this.dataToSend)
         },
         getSundays(year, month) {
             let date = new Date(year, month, 1)
@@ -742,8 +747,8 @@ export default {
                 this.verifyQuantityOfSundays(weekData.datesInRange)
                 const dates = weekData.datesInRange
                 this.ArrayDates.push(...weekData.datesInRange)
-                this.dataToSend.push(weekData)
-                console.log('this.datatosend', this.dataToSend)
+                this.dataToShow.push(weekData)
+                console.log('this.datatoshow', this.dataToShow)
 
                 const formattedDates = dates.map((date) => {
                     const d = new Date(date)
