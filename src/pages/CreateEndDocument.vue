@@ -603,9 +603,24 @@ export default {
                 this.loading_1 = true
                 this.personal_data_status = 1
 
+                const employeeDataToSend = {
+                    end_document_type_id: this.end_document_type_id,
+                    rut: this.employee_data.rut,
+                    visual_rut: this.employee_data.visual_rut,
+                    names: this.employee_data.names,
+                    father_lastname: this.employee_data.father_lastname,
+                    mother_lastname: this.employee_data.mother_lastname,
+                    gender_id: this.employee_data.gender_id,
+                    nationality_id: this.employee_data.nationality_id,
+                    personal_email: this.employee_data.personal_email,
+                    cellphone: this.employee_data.cellphone,
+                    born_date: this.employee_data.born_date,
+                    privilege: this.employee_data.privilege
+                }
+
                 await axios.post(
                     'https://apijis.com/old_employees/transfer',
-                    this.employee_data,
+                    employeeDataToSend,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -625,6 +640,7 @@ export default {
                 }
 
                 const employeeExtraDataToSend = {
+                    end_document_type_id: this.end_document_type_id,
                     rut: this.$route.params.rut,
                     extreme_zone_id: this.employee_extra_data.extreme_zone_id,
                     employee_type_id: this.employee_extra_data.employee_type_id,
@@ -748,6 +764,7 @@ export default {
                 }
 
                 const employeeLaborDataToSend = {
+                    end_document_type_id: this.end_document_type_id,
                     rut: this.$route.params.rut,
                     contract_type_id: this.employee_labor_data.contract_type_id,
                     branch_office_id: this.employee_labor_data.branch_office_id,
@@ -799,7 +816,7 @@ export default {
 
                 await axios.post(
                     'https://apijis.com/old_documents_employees/transfer/' +
-                        this.$route.params.rut,
+                        this.$route.params.rut + '/' + this.end_document_type_id,
                     {},
                     {
                         headers: {
@@ -816,7 +833,7 @@ export default {
 
                 await axios.post(
                     'https://apijis.com/old_family_core_data/transfer/' +
-                        this.$route.params.rut,
+                        this.$route.params.rut + '/' + this.end_document_type_id,
                     {},
                     {
                         headers: {
@@ -841,7 +858,7 @@ export default {
                 if(response.data.message != 'null' && response.data.message != undefined && response.data.message != ''  && response.data.message != null){
                     await axios.post(
                     'https://apijis.com/old_vacations/transfer/' +
-                        this.$route.params.rut,
+                        this.$route.params.rut + '/' + this.end_document_type_id,
                     {},
                     {
                         headers: {
@@ -860,7 +877,7 @@ export default {
 
                 await axios.post(
                     'https://apijis.com/old_medical_licenses/transfer/' +
-                        this.$route.params.rut,
+                        this.$route.params.rut + '/' + this.end_document_type_id,
                     {},
                     {
                         headers: {
