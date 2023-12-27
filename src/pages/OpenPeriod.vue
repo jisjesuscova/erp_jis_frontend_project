@@ -155,6 +155,10 @@ export default {
 
                 this.verify()
 
+                if (this.status_opened_period == 0) {
+                    localStorage.removeItem('opened_period')
+                }
+
                 this.period_input = ''
 
                 this.loading = false
@@ -192,6 +196,10 @@ export default {
                 )
 
                 this.verify()
+
+                if (this.status_opened_period == 0) {
+                    localStorage.setItem('opened_period', this.period_input)
+                }
 
                 this.loading = false
             } catch (error) {
