@@ -78,10 +78,14 @@
                                     class="divide-y divide-gray-200 dark:divide-gray-700"
                                 >
                                     <tr v-for="meshes in meshes" :key="meshes.id">
-                                        <td
+                                        <td v-if="meshes && meshes.EmployeeModel && meshes.EmployeeModel.visual_rut "
+                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                            {{ meshes.EmployeeModel.visual_rut }}
+                                        </td>
+                                        <td v-else
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ meshes.EmployeeModel.visual_rut }}
+                                            No rut
                                         </td>
                                         <div>
                                         <td   v-if="meshes && meshes.EmployeeModel && meshes.EmployeeModel.names"
@@ -131,7 +135,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/meshes/',
+                    'http://localhost:8000/meshes/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -162,7 +166,7 @@ export default {
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`https://apijis.com/banks/delete/${id}`, {
+                await axios.delete(`http://localhost:8000/banks/delete/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,

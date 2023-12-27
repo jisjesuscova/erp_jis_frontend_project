@@ -25,190 +25,201 @@
             <!-- You can use a spinner or any other loading animation here -->
         </div>
         <div v-else>
-        <form >
-            <div
-                class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-            >
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-500"></p>
-            </div>
-
-            <div class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5">
-                <div>
-                    <label
-                        for="hs-validation-name-error"
-                        class="block text-sm font-medium mb-2 dark:text-white"
-                        >Periodo</label
-                    >
-                    <input
-                        type="month"
-                        id="period_input"
-                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        v-model="period_input"
-                        @change="periodToInitialPage(period_input)"
-                        required
-                    />
-                </div>
-                <div>
-                    <label
-                        for="hs-validation-name-error"
-                        class="block text-sm font-medium mb-2 dark:text-white"
-                        >Sucursal</label
-                    >
-                    <select
-                        v-model="branch_office_input"
-                        @change="getEmployeeByBranchOffice"
-                        required
-                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                        <option value="">- Sucursal -</option>
-                        <option
-                            v-for="branch_office in branch_offices"
-                            :key="branch_office.id"
-                            :value="branch_office.id"
-                        >
-                            {{ branch_office.branch_office }}
-                        </option>
-                    </select>
-                </div>
-                <div>
-                    <label
-                        for="hs-validation-name-error"
-                        class="block text-sm font-medium mb-2 dark:text-white"
-                        >Trabajador</label
-                    >
-                    <select
-                        v-model="employee_input"
-                        required
-                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                        <option value="">- Trabajadores -</option>
-                        <option
-                            v-for="employee in employees_labor_data"
-                            :key="employee.id"
-                            :value="[employee.employee_type_id, employee.rut]"
-                        >
-                            {{
-                                `${employee.names}  ${employee.father_lastname}  ${employee.mother_lastname}`
-                            }}
-                        </option>
-                    </select>
-                </div>
-                <div>
-                    <label
-                        for="hs-validation-name-error"
-                        class="block text-sm font-medium mb-2 dark:text-white"
-                        >Horario</label
-                    >
-                    <select
-                        v-model="schedule_input"
-                        required
-                        @change="getTurns"
-                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                        <option value="">- Horario -</option>
-                        <option value="1">Mañana</option>
-                        <option value="2">Tarde</option>
-                        <option value="3">Intermedio</option>
-                    </select>
-                </div>
-            </div>
-        </form>
-        <div
-            v-if="savedWeek == true"
-            class="bg-green-500 text-sm text-white rounded-md p-4 mb-10"
-            role="alert"
-        >
-            Semana Ingresada Con <span class="font-bold">Exito</span>.
-        </div>
-        <div
-            v-if="startDate != null"
-            class="bg-blue-500 text-sm text-white rounded-md p-4 mb-10"
-            role="alert"
-        >
-            Ingrese Semana: <span class="font-bold">{{ weekCounter + 1 }}</span>
-        </div>
-        <div class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5">
-            <div v-if="startDate != null">
-                <label
-                    for="hs-validation-name-error"
-                    class="block text-sm font-medium mb-2 dark:text-white"
-                    >Turnos</label
+            <form>
+                <div
+                    class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
                 >
-                <input
-                    v-model="search_term"
-                    @input="getTurns"
-                    class="bg-white-50 border border-gray-950 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    type="text"
-                    placeholder="Buscar turno"
-                />
-                <ul>
-                    <li
-                        @click="
-                            pickCalendarDatesForTurns(
-                                turn.turn,
-                                turn.group_day_id,
-                                turn.free_day_group_id,
-                                turn.id,
-                                turn.total_week_hours,
-                                $event
-                            )
-                        "
-                        draggable="true"
-                        class="mt-1 mb-2 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        v-for="turn in turns"
-                        :key="turn.id"
-                        :value="turn.turn"
-                        v-text="turn.turn"
-                    ></li>
-                </ul>
-            </div>
-            <div>
-                <VCalendar
-                    :key="`${initialPage.month}-${initialPage.year}`"
-                    expanded
-                    :attributes="attributes"
-                    show-adjacent-months
-                    @click="handleDateEvent"
-                    :initial-page="initialPage"
-                />
+                    <p
+                        class="mt-1 text-sm text-gray-500 dark:text-gray-500"
+                    ></p>
+                </div>
+
                 <div
                     class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
                 >
-                    <div v-if="startDate != null && endDate != null">
-                        <button
-                            @click="saveDatesInRangeToLocalstorage"
-                            type="submit"
-                            class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >Periodo</label
                         >
-                            Agregar
-                            <i class="fa-solid fa-save"></i>
-                        </button>
-                    </div>
-                    <div v-if="showButtonProcess">
-                        <button
-                            @click="$router.push('/process')"
-                            class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                        >
-                            Procesar
-                            <i class="fa-solid fa-refresh"></i>
-                        </button>
+                        <input
+                            type="month"
+                            id="period_input"
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            v-model="period_input"
+                            @change="periodToInitialPage(period_input)"
+                            required
+                        />
                     </div>
                     <div>
-                        <button
-                            @click="confirmDeleteDatesInLocalStorage"
-                            type="submit"
-                            class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >Sucursal</label
                         >
-                            Borrar
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
+                        <select
+                            v-model="branch_office_input"
+                            @change="getEmployeeByBranchOffice"
+                            required
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                            <option value="">- Sucursal -</option>
+                            <option
+                                v-for="branch_office in branch_offices"
+                                :key="branch_office.id"
+                                :value="branch_office.id"
+                            >
+                                {{ branch_office.branch_office }}
+                            </option>
+                        </select>
                     </div>
-                   
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >Trabajador</label
+                        >
+                        <select
+                            v-model="employee_input"
+                            required
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                            <option value="">- Trabajadores -</option>
+                            <option
+                                v-for="employee in employees_labor_data"
+                                :key="employee.id"
+                                :value="[
+                                    employee.employee_type_id,
+                                    employee.rut,
+                                ]"
+                            >
+                                {{
+                                    `${employee.names}  ${employee.father_lastname}  ${employee.mother_lastname}`
+                                }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >Horario</label
+                        >
+                        <select
+                            v-model="schedule_input"
+                            required
+                            @change="getTurns"
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                            <option value="">- Horario -</option>
+                            <option value="1">Mañana</option>
+                            <option value="2">Tarde</option>
+                            <option value="3">Intermedio</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <div
+                v-if="savedWeek == true"
+                class="bg-green-500 text-sm text-white rounded-md p-4 mb-10"
+                role="alert"
+            >
+                Semana Ingresada Con <span class="font-bold">Exito</span>.
+            </div>
+            <div
+                v-if="startDate != null"
+                class="bg-blue-500 text-sm text-white rounded-md p-4 mb-10"
+                role="alert"
+            >
+                Ingrese Semana:
+                <span class="font-bold">{{ weekCounter + 1 }}</span>
+            </div>
+            <div class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5">
+                <div v-if="startDate != null">
+                    <label
+                        for="hs-validation-name-error"
+                        class="block text-sm font-medium mb-2 dark:text-white"
+                        >Turnos</label
+                    >
+                    <input
+                        v-model="search_term"
+                        @input="getTurns"
+                        class="bg-white-50 border border-gray-950 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        type="text"
+                        placeholder="Buscar turno"
+                    />
+                    <ul>
+                        <li
+                            @click="
+                                pickCalendarDatesForTurns(
+                                    turn.working,
+                                    turn.breaking,
+                                    turn.start,
+                                    turn.end,
+                                    turn.turn,
+                                    turn.group_day_id,
+                                    turn.free_day_group_id,
+                                    turn.id,
+                                    turn.total_week_hours,
+                                    $event
+                                )
+                            "
+                            draggable="true"
+                            class="mt-1 mb-2 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            v-for="turn in turns"
+                            :key="turn.id"
+                            :value="turn.turn"
+                            v-text="turn.turn"
+                        ></li>
+                    </ul>
+                </div>
+                <div>
+                    <VCalendar
+                        :key="`${initialPage.month}-${initialPage.year}`"
+                        expanded
+                        :attributes="attributes"
+                        show-adjacent-months
+                        @click="handleDateEvent"
+                        :initial-page="initialPage"
+                    />
+                    <div
+                        class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                    >
+                        <div v-if="startDate != null && endDate != null">
+                            <button
+                                @click="saveDatesInRangeToLocalstorage"
+                                type="submit"
+                                class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                            >
+                                Agregar
+                                <i class="fa-solid fa-save"></i>
+                            </button>
+                        </div>
+                        <div v-if="showButtonProcess">
+                            <button
+                                @click="$router.push('/process')"
+                                class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                            >
+                                Procesar
+                                <i class="fa-solid fa-refresh"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                @click="confirmDeleteDatesInLocalStorage"
+                                type="submit"
+                                class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                            >
+                                Borrar
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </template>
   <script>
 import { BROKEN_CARET, s } from 'pdfmake/build/pdfmake'
@@ -223,8 +234,8 @@ export default {
     },
     data() {
         return {
-            loading :true,
-            loading_1 :false,
+            loading: true,
+            loading_1: false,
             shouldCall: false,
             showButtonProcess: false,
             alertShow: false,
@@ -250,6 +261,10 @@ export default {
             employee_input: [],
             schedule_input: '',
             turn_input: '',
+            working: '',
+            breaking: '',
+            start: '',
+            end: '',
             dataToShow: [],
             sundays: [],
             search_term: 'Buscar Turno',
@@ -264,7 +279,7 @@ export default {
             month: 0,
             turnsDaysInUse: 0,
             workedDays: 0,
-            weekPerMonth : 0,
+            weekPerMonth: 0,
         }
     },
     methods: {
@@ -285,7 +300,7 @@ export default {
             } catch (error) {
                 console.error('Error al obtener la lista de sucursales:', error)
             }
-            
+
             console.log(this.dataToSend)
         },
         getSundays(year, month) {
@@ -356,21 +371,23 @@ export default {
         periodToInitialPage(period) {
             // localStorage.setItem('week', 0)
             // this.weekCounter = Number(localStorage.getItem('week'))
-            
+
             const month = Number(period.split('-')[1])
             const year = Number(period.split('-')[0])
             this.initialPage = { month, year }
             this.getSundays(year, month)
 
             // Calculate the number of weeks in the month
-            const firstDayOfMonth = new Date(year, month - 1, 1).getDay();
-            const adjustedFirstDayOfMonth = (firstDayOfMonth === 0) ? 0 : firstDayOfMonth;
+            const firstDayOfMonth = new Date(year, month - 1, 1).getDay()
+            const adjustedFirstDayOfMonth =
+                firstDayOfMonth === 0 ? 0 : firstDayOfMonth
 
-            
-            const daysInMonth = new Date(year, month, 0).getDate();
+            const daysInMonth = new Date(year, month, 0).getDate()
 
             // Add the first week's days, subtract 1 because we start counting from 0
-            let weekCount = Math.ceil((adjustedFirstDayOfMonth + daysInMonth - 1) / 7);
+            let weekCount = Math.ceil(
+                (adjustedFirstDayOfMonth + daysInMonth - 1) / 7
+            )
 
             this.weekPerMonth = weekCount
         },
@@ -385,19 +402,21 @@ export default {
                 this.weekCounter = week
             }
             localStorage.setItem('week', week)
-          
-            if( this.weekPerMonth === week ){
+
+            if (this.weekPerMonth === week) {
                 this.showButtonProcess = true
                 console.log(this.weekPerMonth)
                 console.log(week)
             }
             const weekData = {
-                week: week,
-                turnId: this.turnId,
-                rutEmployee: this.employee_input[1],
+                week_id: week,
+                turn_id: this.turnId,
+                rut: this.employee_input[1],
                 turn: this.turn_input,
-                workedDays: this.turnDays,
-                total_week_hours: this.total_week_hours,
+                start_turn: this.start,
+                end_turn: this.end,
+                collation: this.breaking,
+                working:this.working,
                 datesInRange: this.datesInRange,
             }
 
@@ -427,13 +446,10 @@ export default {
             })
             setTimeout(() => {
                 this.loading = false
-            }, 500);
+            }, 500)
             setTimeout(() => {
                 this.savedWeek = false
-                
             }, 1500)
-
-
         },
         handleDateEvent(event) {
             const datePicked = event.target.getAttribute('aria-label')
@@ -510,6 +526,10 @@ export default {
         },
 
         async pickCalendarDatesForTurns(
+            working,
+            breaking,
+            start,
+            end,
             turn,
             turnDays,
             freeDays,
@@ -517,10 +537,15 @@ export default {
             hoursWeek,
             event
         ) {
+            this.working = working
+            this.breaking = breaking
+            this.start = start
+            this.end = end
             this.turn_input = turn
             this.turnDays = turnDays
             this.turnId = turnId
             this.total_week_hours = hoursWeek
+    
 
             // await this.getLastWeekWorkingDays()
             let date = new Date(this.startDate)
@@ -602,7 +627,7 @@ export default {
                     search_term: this.search_term,
                 }
                 const response = await axios.get(
-                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
+                    `http://localhost:8000/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -629,7 +654,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/branch_offices/',
+                    'http://localhost:8000/branch_offices/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -659,7 +684,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employee_labor_data/edit/branch/' +
+                    'http://localhost:8000/employee_labor_data/edit/branch/' +
                         this.branch_office_input,
                     {
                         headers: {
@@ -687,7 +712,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/last_week_working_days/20202020/2023-11-06`,
+                    `http://localhost:8000/meshes/last_week_working_days/20202020/2023-11-06`,
 
                     {
                         headers: {
@@ -813,7 +838,7 @@ export default {
                     items.push({ key, value })
                 }
             }
-            
+
             items.sort((a, b) => a.key.localeCompare(b.key))
 
             for (let item of items) {
@@ -823,7 +848,7 @@ export default {
                 const dates = weekData.datesInRange
                 this.ArrayDates.push(...weekData.datesInRange)
                 this.dataToSend.push(weekData)
-                
+
                 const formattedDates = dates.map((date) => {
                     const d = new Date(date)
                     d.setDate(d.getDate() + 1)
@@ -845,7 +870,6 @@ export default {
                     )
                 }
             }
-         
 
             this.checkConsecutiveDays(this.ArrayDates)
             this.getRandomColorForWeeks()
@@ -866,7 +890,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/holidays',
+                    'http://localhost:8000/holidays',
                     {
                         headers: {
                             accept: 'application/json',
@@ -895,14 +919,16 @@ export default {
         },
     },
     created() {
-        this.periodToInitialPage(this.initialPage.year + '-' + this.initialPage.month)
+        this.periodToInitialPage(
+            this.initialPage.year + '-' + this.initialPage.month
+        )
         this.getDatesInRangeFromLocalStorage()
         this.getBranchOffices()
         this.year = this.date.getFullYear()
         this.month = this.date.getMonth()
         this.getMonthAndYear()
         this.getHolidays()
-        if(this.weekPerMonth === Number(localStorage.getItem('week'))){
+        if (this.weekPerMonth === Number(localStorage.getItem('week'))) {
             this.showButtonProcess = true
         }
     },
