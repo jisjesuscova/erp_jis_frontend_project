@@ -763,7 +763,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/old_employee_extras/edit/' +
+                    'http://localhost:8000/old_employee_extras/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -807,7 +807,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/old_vacations/all/' +
+                    'http://localhost:8000/old_vacations/all/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -845,7 +845,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/vacations/pdf_all/' +
+                    'http://localhost:8000/vacations/pdf_all/' +
                         this.$route.params.rut +
                         '/' +
                         page,
@@ -881,7 +881,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/progressive_vacations/all/' +
+                    'http://localhost:8000/progressive_vacations/all/' +
                         this.$route.params.rut +
                         '/' +
                         page,
@@ -925,7 +925,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/progressive_vacations/pdf_all/' +
+                    'http://localhost:8000/progressive_vacations/pdf_all/' +
                         this.$route.params.rut +
                         '/' +
                         page,
@@ -963,7 +963,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/vacations/legal/' +
+                    'http://localhost:8000/vacations/legal/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -993,7 +993,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/progressive_vacations/legal/' +
+                    'http://localhost:8000/progressive_vacations/legal/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -1023,7 +1023,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/vacations/taken/' +
+                    'http://localhost:8000/vacations/taken/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -1052,7 +1052,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/progressive_vacations/taken/' +
+                    'http://localhost:8000/progressive_vacations/taken/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -1082,7 +1082,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employees/edit/' +
+                    'http://localhost:8000/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -1128,7 +1128,7 @@ export default {
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`https://apijis.com/vacation/delete/${id}`, {
+                await axios.delete(`http://localhost:8000/vacation/delete/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,
@@ -1155,7 +1155,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `https://apijis.com/progressive_vacations/delete/${id}`,
+                    `http://localhost:8000/progressive_vacations/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',

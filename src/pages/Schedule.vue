@@ -77,33 +77,66 @@
                                 <tbody
                                     class="divide-y divide-gray-200 dark:divide-gray-700"
                                 >
-                                    <tr v-for="meshes in meshes" :key="meshes.id">
-                                        <td v-if="meshes && meshes.EmployeeModel && meshes.EmployeeModel.visual_rut "
-                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                            {{ meshes.EmployeeModel.visual_rut }}
+                                    <tr
+                                        v-for="meshes in meshes"
+                                        :key="meshes.id"
+                                        @click="showData(meshes,meshes.EmployeeModel.rut)"
+                                    >
+                                        <td
+                                            v-if="
+                                                meshes &&
+                                                meshes.EmployeeModel &&
+                                                meshes.EmployeeModel.visual_rut
+                                            "
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                                        >
+                                            {{
+                                                meshes.EmployeeModel.visual_rut
+                                            }}
                                         </td>
-                                        <td v-else
+                                        <td
+                                            v-else
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                                         >
                                             No rut
                                         </td>
                                         <div>
-                                        <td   v-if="meshes && meshes.EmployeeModel && meshes.EmployeeModel.names"
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
-                                        >
-                                            {{ meshes.EmployeeModel.names +  ' ' +  meshes.EmployeeModel.father_lastname + ' ' + meshes.EmployeeModel.mother_lastname}}
-                                        </td>
-                                        <td  v-else
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
-                                        >
-                                            No se encontro el nombre del trabajador
-                                        </td>
-                                    </div>
+                                            <td
+                                                v-if="
+                                                    meshes &&
+                                                    meshes.EmployeeModel &&
+                                                    meshes.EmployeeModel.names
+                                                "
+                                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                            >
+                                                {{
+                                                    meshes.EmployeeModel.names +
+                                                    ' ' +
+                                                    meshes.EmployeeModel
+                                                        .father_lastname +
+                                                    ' ' +
+                                                    meshes.EmployeeModel
+                                                        .mother_lastname
+                                                }}
+                                            </td>
+                                            <td
+                                                v-else
+                                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                            >
+                                                No se encontro el nombre del
+                                                trabajador
+                                            </td>
+                                        </div>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                        {{ meshes.MeshModel.period  }}
+                                            {{ meshes.MeshModel.period }}
                                         </td>
+                                        <button @click="printPDF"
+                                            class="px-6 py-4 whitespace-nowrap text-sm bg-green-500 text-gray-800 dark:text-gray-200"
+                                        >
+                                            PDF
+                                    </button>
                                     </tr>
                                 </tbody>
                             </table>
@@ -127,15 +160,90 @@ export default {
             meshes: [],
             loading: true,
             delete_bank: 0,
+            dataToShow: [],
         }
     },
     methods: {
+        printPDF(names) {
+            const data = this.dataToShow.map(week => {
+                const weekData = [
+                    { text: week.week_id || '', bold: true },
+                ];
+
+                for (let i = 0; i < 7; i++) {
+                    if (week.date && week.date[i]) {
+                        const date = week.date[i];
+                        weekData.push({
+                            text: new Date(date).toLocaleDateString('es-CL') +
+                                "\nInicio: " + (week.turn_data.start || '') +
+                                "\nTermino: " + (week.turn_data.end || '') +
+                                "\nColacion: " + (week.turn_data.breaking || '') +
+                                "\nJornada: " + (week.turn_data.working || ''),
+                            fontSize: 10
+                        });
+                    } else {
+                        weekData.push({ text: '', fontSize: 10 });
+                    }
+                }
+
+                return weekData;
+            });
+
+            const docDefinition = {
+                content: [
+                    { text: 'Nombre: ' + names, fontSize: 14, bold: true, margin: [0, 0, 0, 10] },
+                    { text: 'RUT: ' + this.dataToShow[0].rut, fontSize: 14, bold: true, margin: [0, 0, 0, 20] },
+                    {
+                        table: {
+                            headerRows: 1,
+                            widths: ['*', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+                            body: [
+                                ['Semana', 'L', 'M', 'M', 'J', 'V', 'S', 'D'],
+                                ...data
+                            ]
+                        }
+                    }
+                ]
+            };
+
+            pdfMake.createPdf(docDefinition).download(`malla_horaria_${this.dataToShow[0].rut}.pdf`);
+        },
+        showData(meshes,rut) {
+        
+            if (meshes && meshes.EmployeeModel) {
+                const visual_rut = meshes.EmployeeModel.visual_rut || 'No rut'
+                const names =meshes.EmployeeModel.names ||'No se encontro el nombre del trabajador'
+                const period = meshes.MeshModel.period || 'No period'
+                alert(`Rut: ${visual_rut}\nTrabajador: ${names}\nPeriodo: ${period}`)
+                this.getMeshesByEmployeeRutAndPeriod(rut,period, names)
+            }
+        },
+        async getMeshesByEmployeeRutAndPeriod(rut,period,names) {
+            const accessToken = localStorage.getItem('accessToken')
+
+            try {
+                const response = await axios.get(
+                    `http://localhost:8000/meshes/get_mesh_by_rut_week_period/${rut}/${period}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            accept: 'application/json',
+                        },
+                    }
+                )
+               this.dataToShow = response.data.message
+               this.printPDF(names)
+                this.loading = false
+            } catch (error) {
+                console.error('Error al obtener la lista de bancos:', error)
+            }
+        },
         async getMeshes() {
             const accessToken = localStorage.getItem('accessToken')
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/meshes/',
+                    'http://localhost:8000/meshes/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -149,35 +257,6 @@ export default {
                 this.loading = false
             } catch (error) {
                 console.error('Error al obtener la lista de bancos:', error)
-            }
-        },
-        async confirmBank(id) {
-            const shouldDelete = window.confirm(
-                '¿Estás seguro de que deseas borrar la nomina?'
-            )
-            console.log(id)
-
-            if (shouldDelete) {
-                await this.deleteBank(id)
-            }
-        },
-        async deleteBank(id) {
-            this.loading = true
-
-            try {
-                const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`https://apijis.com/banks/delete/${id}`, {
-                    headers: {
-                        accept: 'application/json',
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
-
-                this.getBanks()
-
-                this.delete_bank = 1
-            } catch (error) {
-                console.error('Error al borrar la nomina:', error)
             }
         },
     },
