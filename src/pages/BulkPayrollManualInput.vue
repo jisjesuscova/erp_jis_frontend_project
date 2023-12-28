@@ -178,21 +178,31 @@ export default {
             this.file_input = selectedFile
         },
         createBulkPayrollManualInput() {
+            this.loading = true
+            
             const accessToken = localStorage.getItem('accessToken')
 
             const formData = new FormData()
+            formData.append('rut', 0)
             formData.append('payroll_item_id', this.payroll_item_input)
             formData.append('period', this.period_input)
+            formData.append('amount', 0)
             formData.append('file', this.file_input)
 
             axios
-                .post('https://apijis.com/payroll_manual_inputs/upload', formData, {
+                .post('http://localhost:8000/payroll_manual_inputs/upload', formData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'multipart/form-data',
                     },
                 })
                 .then((response) => {
+                    this.$router.push(
+                        '/manual_inputs'
+                    )
+
+                    this.loading = false
+
                     console.log(response)
                 })
                 .catch((error) => {
