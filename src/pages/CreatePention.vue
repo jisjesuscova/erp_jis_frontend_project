@@ -148,7 +148,7 @@ export default {
                 }
                 console.log(dataToSend)
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.post('http://localhost:8000/pentions/store/', dataToSend, 
+                await axios.post('https://apijis.com/pentions/store/', dataToSend, 
                 {
                     headers: {
                                 accept: 'application/json',
