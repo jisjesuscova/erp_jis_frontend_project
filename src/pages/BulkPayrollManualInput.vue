@@ -186,7 +186,7 @@ export default {
             formData.append('file', this.file_input)
 
             axios
-                .post('http://localhost:8000/payroll_manual_inputs/upload', formData, {
+                .post('https://apijis.com/payroll_manual_inputs/upload', formData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'multipart/form-data',
@@ -204,7 +204,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/payroll_items/',
+                    'https://apijis.com/payroll_items/',
                     {
                         headers: {
                             accept: 'application/json',
