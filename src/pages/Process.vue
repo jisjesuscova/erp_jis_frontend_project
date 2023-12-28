@@ -254,7 +254,6 @@ export default {
             }))
             const meshes = { meshes: weekdatatosend }
 
-            console.log(meshes)
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(

@@ -80,7 +80,7 @@
                                     <tr
                                         v-for="meshes in meshes"
                                         :key="meshes.id"
-                                        @click="showData(meshes,meshes.EmployeeModel.rut)"
+                                      
                                     >
                                         <td
                                             v-if="
@@ -132,10 +132,11 @@
                                         >
                                             {{ meshes.MeshModel.period }}
                                         </td>
-                                        <button @click="printPDF"
-                                            class="px-6 py-4 whitespace-nowrap text-sm bg-green-500 text-gray-800 dark:text-gray-200"
+                                        <button 
+                                        @click="showData(meshes,meshes.EmployeeModel.rut)"
+                                        class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                         >
-                                            PDF
+                                        <i class="fa-solid fa-file"></i>
                                     </button>
                                     </tr>
                                 </tbody>
@@ -174,11 +175,12 @@ export default {
                     if (week.date && week.date[i]) {
                         const date = week.date[i];
                         weekData.push({
-                            text: new Date(date).toLocaleDateString('es-CL') +
+                            text: new Date(new Date(date).getTime() + 86400000).toLocaleDateString('es-CL') +
                                 "\nInicio: " + (week.turn_data.start || '') +
                                 "\nTermino: " + (week.turn_data.end || '') +
                                 "\nColacion: " + (week.turn_data.breaking || '') +
-                                "\nJornada: " + (week.turn_data.working || ''),
+                                "\nJornada: " + (week.turn_data.working || '') +
+                                "\nTurno: " + (week.turn_data.turn || ''),
                             fontSize: 10
                         });
                     } else {
