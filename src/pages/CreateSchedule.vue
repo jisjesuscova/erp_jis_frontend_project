@@ -290,7 +290,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
-                    'https://apijis.com/meshes/store',
+                    'http://localhost:8000/meshes/store',
                     this.dataToSend,
                     {
                         headers: {
@@ -421,6 +421,10 @@ export default {
                 end_turn: this.end,
                 collation: this.breaking,
                 working:this.working,
+                group_day_id: this.turnDays,
+                free_day_group_id: this.freeDays,
+                total_week_hours: this.total_week_hours,
+                branch_office: this.branch_office_input,
                 datesInRange: this.datesInRange,
             }
 
@@ -547,6 +551,7 @@ export default {
             this.end = end
             this.turn_input = turn
             this.turnDays = turnDays
+            this.freeDays = freeDays
             this.turnId = turnId
             this.total_week_hours = hoursWeek
     
@@ -631,7 +636,7 @@ export default {
                     search_term: this.search_term,
                 }
                 const response = await axios.get(
-                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
+                    `http://localhost:8000/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -658,7 +663,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/branch_offices/',
+                    'http://localhost:8000/branch_offices/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -689,7 +694,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employee_labor_data/edit/branch/' +
+                    'http://localhost:8000/employee_labor_data/edit/branch/' +
                         this.branch_office_input,
                     {
                         headers: {
@@ -717,7 +722,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/last_week_working_days/20202020/2023-11-06`,
+                    `http://localhost:8000/meshes/last_week_working_days/20202020/2023-11-06`,
 
                     {
                         headers: {
@@ -895,7 +900,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/holidays',
+                    'http://localhost:8000/holidays',
                     {
                         headers: {
                             accept: 'application/json',
