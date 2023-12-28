@@ -895,7 +895,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/holidays',
+                    'https://apijis.com/holidays/',
                     {
                         headers: {
                             accept: 'application/json',
