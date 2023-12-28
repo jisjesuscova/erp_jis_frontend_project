@@ -23,7 +23,17 @@
             </div>
         </div>
         <div v-else class="flex flex-col pt-10">
-            <h2 class="text-4xl dark:text-white pb-10">Inputs Manuales</h2>
+            <h2 class="text-4xl dark:text-white pb-10">
+                Inputs Manuales
+
+                <router-link
+                    href="javascript:;"
+                    to="/create_bulk_payroll_manual_inputs"
+                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                >
+                    Carga Masiva
+                </router-link>
+            </h2>
             <div
                 class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
             >
@@ -323,7 +333,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'http://localhost:8000/payroll_manual_inputs/store',
+                    'https://apijis.com/payroll_manual_inputs/store',
                     dataToSend,
                     {
                         headers: {
@@ -360,7 +370,7 @@ export default {
                 }
 
                 const response = await axios.post(
-                    'http://localhost:8000/payroll_employees/search',
+                    'https://apijis.com/payroll_employees/search',
                     dataToSend,
                     {
                         headers: {
@@ -390,7 +400,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/payroll_items/',
+                    'https://apijis.com/payroll_items/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -415,7 +425,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/payroll_employees/',
+                    'https://apijis.com/payroll_employees/' + this.period_input,
                     {
                         headers: {
                             accept: 'application/json',
@@ -439,21 +449,21 @@ export default {
     },
     async mounted() {
         await this.getPayrollItems()
-        await this.getPayrollEmployees()
-
-        this.payroll_employees.forEach((employee) => {
-            employee.amount_input = 0
-        })
 
         const opened_period = localStorage.getItem('opened_period')
-
         if (opened_period != null && opened_period != 'null' && opened_period != '' && opened_period != 'undefined' && opened_period != undefined) {
-            this.period_input = localStorage.getItem('opened_period')
+            this.period_input = opened_period
         } else {
             this.$router.push(
                 '/open_period'
                 )
         }
+
+        await this.getPayrollEmployees()
+
+        this.payroll_employees.forEach((employee) => {
+            employee.amount_input = 0
+        })
         
         if (this.loading_1 === false && this.loading_2 === false) {
             this.loading = false

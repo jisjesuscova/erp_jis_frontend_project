@@ -84,6 +84,8 @@ import PayrollManagement from './pages/PayrollManagement.vue'
 import OpenPeriod from './pages/OpenPeriod.vue'
 import PeriodDatum from './pages/PeriodDatum.vue'
 import ManualInput from './pages/ManualInput.vue'
+import BulkPayrollManualInput from './pages/BulkPayrollManualInput.vue'
+
 
 const routes = [
     {
@@ -438,6 +440,10 @@ const routes = [
     {
         path:'/manual_inputs',
         component: ManualInput
+    },
+    {
+        path:'/create_bulk_payroll_manual_inputs',
+        component: BulkPayrollManualInput
     },
 ]
 

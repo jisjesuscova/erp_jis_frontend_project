@@ -91,7 +91,7 @@
                             </div>
 
                             <div
-                                class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                                class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
                             >
                                 <div>
                                     <label
@@ -112,7 +112,23 @@
                                     </select>
                                 </div>
                                 <div>
+                                    <label
+                                        for="hs-validation-name-error"
+                                        class="block text-sm font-medium mb-2 dark:text-white"
+                                        >Periodo</label
+                                    >
+                                    <input
+                                        type="month"
+                                        id="rut_input"
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Periodo"
+                                        v-model="period_input"
+                                        required
+                                    />
+                                </div>
+                                <div>
                                     <div>
+                                        
                                         <label
                                             for="hs-validation-name-error"
                                             class="block text-sm font-medium mb-2 dark:text-white"
@@ -202,9 +218,26 @@
                             </div>
 
                             <div
-                                class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                                class="grid md:grid-cols-4 sm:grid-cols-12 gap-4 p-4 md:p-5"
                             >
-
+                                <div>
+                                    <label
+                                        for="hs-validation-name-error"
+                                        class="block text-sm font-medium mb-2 dark:text-white"
+                                        >¿Usted va a realizar una carga
+                                        masiva?</label
+                                    >
+                                    <select
+                                        v-model="upload_type_input"
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    >
+                                        <option value="">
+                                            - Tipo de Carga -
+                                        </option>
+                                        <option value="1">Si</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                </div>
                                 <div>
                                     <label
                                         for="hs-validation-name-error"
@@ -228,6 +261,21 @@
                                             {{ employee.mother_lastname }}
                                         </option>
                                     </select>
+                                </div>
+                                <div>
+                                    <label
+                                        for="hs-validation-name-error"
+                                        class="block text-sm font-medium mb-2 dark:text-white"
+                                        >Periodo</label
+                                    >
+                                    <input
+                                        type="month"
+                                        id="rut_input"
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Periodo"
+                                        v-model="period_input"
+                                        required
+                                    />
                                 </div>
                                 <div>
                                     <label
@@ -354,7 +402,6 @@ export default {
 
             const formData = new FormData();
 
-            // Append each file to the formData
             for (let i = 0; i < this.support.length; i++) {
                 formData.append('files', this.support[i]);
             }
