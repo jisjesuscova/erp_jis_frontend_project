@@ -27,6 +27,7 @@
         <div v-else>
             <div class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5">
                 <VCalendar
+                    v-if="1 == 2"
                     :key="`${initialPage.month}-${initialPage.year}`"
                     expanded
                     :attributes="attributes"
@@ -38,8 +39,12 @@
                     <div
                         class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
                     >
-                        <div class="overflow-x-auto">
-                            <table
+                    <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <p class="p-5 font-medium">
+                                Nombre: {{ dataToShow[0].names }}, Rut:
+                                {{ dataToShow[0].rut }}
+                            </p>
+                            <table 
                                 class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
                             >
                                 <thead class="bg-gray-50 dark:bg-gray-700">
@@ -115,6 +120,14 @@
                             <i class="fa-solid fa-save"></i>
                         </button>
                         <button
+                            type="submit"
+                            @click="printPDF"
+                            class="py-3 px-4 me-10 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                        >
+                            pdf
+                            <i class="fa-solid fa-save"></i>
+                        </button>
+                        <button
                             @click="$router.push('/create_schedule')"
                             type="submit"
                             class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
@@ -132,8 +145,8 @@
 import { BROKEN_CARET, s } from 'pdfmake/build/pdfmake'
 import EmployeeMenu from '../components/EmployeeMenu.vue'
 import axios from 'axios'
-import { set } from 'date-fns'
-import { start } from '@popperjs/core'
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
 
 export default {
     components: {
@@ -186,7 +199,52 @@ export default {
         }
     },
     methods: {
+        printPDF() {
+            const data = this.dataToShow.map(week => {
+                const weekData = [
+                    { text: week.week_id || '', bold: true },
+                ];
+
+                for (let i = 0; i < 7; i++) {
+                    if (week.datesInRange && week.datesInRange[i]) {
+                        const date = week.datesInRange[i];
+                        weekData.push({
+                            text: new Date(date).toLocaleDateString('es-CL') +
+                                "\nInicio: " + (week.start_turn || '') +
+                                "\nTermino: " + (week.end_turn || '') +
+                                "\nColacion: " + (week.collation || '') +
+                                "\nJornada: " + (week.working || ''),
+                            fontSize: 10
+                        });
+                    } else {
+                        weekData.push({ text: '', fontSize: 10 });
+                    }
+                }
+
+                return weekData;
+            });
+
+            const docDefinition = {
+                content: [
+                    { text: 'Nombre: ' + this.dataToShow[0].names, fontSize: 14, bold: true, margin: [0, 0, 0, 10] },
+                    { text: 'RUT: ' + this.dataToShow[0].rut, fontSize: 14, bold: true, margin: [0, 0, 0, 20] },
+                    {
+                        table: {
+                            headerRows: 1,
+                            widths: ['*', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+                            body: [
+                                ['Semana', 'L', 'M', 'M', 'J', 'V', 'S', 'D'],
+                                ...data
+                            ]
+                        }
+                    }
+                ]
+            };
+
+            pdfMake.createPdf(docDefinition).download(`malla_horaria_${this.dataToShow[0].rut}.pdf`);
+        },
         async saveWeeksJsonToSend() {
+            this.loading = true
             const weekdatatosend = this.dataToShow.map((item) => ({
                 week_id: item.week_id,
                 turn_id: item.turn_id,
@@ -196,7 +254,6 @@ export default {
             }))
             const meshes = { meshes: weekdatatosend }
 
-            console.log(meshes)
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
@@ -209,6 +266,9 @@ export default {
                         },
                     }
                 )
+                this.loading = false
+                alert('Malla creada con exito')
+                this.confirmDeleteDatesInLocalStorage()
                 console.log(response)
             } catch (error) {
                 console.error('Error al obtener la lista de sucursales:', error)
@@ -244,9 +304,7 @@ export default {
             }
         },
         confirmDeleteDatesInLocalStorage() {
-            const shouldDelete = confirm(
-                'una vez borrada la malla tendra que volver a crearla, ¿desea continuar?'
-            )
+            const shouldDelete = true
 
             if (!shouldDelete) {
                 return
@@ -254,8 +312,7 @@ export default {
 
             this.deleteLocalStorageDates()
             this.deleteLocalStorageDates()
-            //refresh the page
-            window.location.reload()
+
             localStorage.setItem('week', 0)
             this.weekCounter = Number(localStorage.getItem('week'))
             this.getDatesInRangeFromLocalStorage()
@@ -278,6 +335,11 @@ export default {
                     },
                 ]
             })
+
+            // Redirige al usuario después de limpiar los datos
+            setTimeout(() => {
+                this.$router.push('/schedule')
+            }, 300)
         },
         periodToInitialPage(period) {
             // localStorage.setItem('week', 0)

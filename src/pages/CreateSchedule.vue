@@ -92,6 +92,9 @@
                                 :value="[
                                     employee.employee_type_id,
                                     employee.rut,
+                                    employee.names,
+                                    employee.father_lastname,
+                                    employee.mother_lastname,
                                 ]"
                             >
                                 {{
@@ -412,6 +415,7 @@ export default {
                 week_id: week,
                 turn_id: this.turnId,
                 rut: this.employee_input[1],
+                names: this.employee_input[2] + ' ' + this.employee_input[3] + ' ' + this.employee_input[4],
                 turn: this.turn_input,
                 start_turn: this.start,
                 end_turn: this.end,

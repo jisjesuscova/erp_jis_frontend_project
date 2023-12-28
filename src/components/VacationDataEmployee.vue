@@ -204,7 +204,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700" >
-                                    <tr v-for="vacation in vacations" :key="vacations.id">
+                                    <tr v-for="vacation in vacations" :key="vacation.id">
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{{ vacation.document_employee_id }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ formatDate(vacation.since) }} </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ formatDate(vacation.until) }} </td>
