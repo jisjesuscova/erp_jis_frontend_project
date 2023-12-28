@@ -226,7 +226,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/salary_settlements/edit/' +
+                    'http://localhost:8000/salary_settlements/edit/' +
                         this.$route.params.rut +
                         '/' +
                         page,

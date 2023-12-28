@@ -40,71 +40,85 @@
                         class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
                     >
                     <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                            <p class="p-5 font-medium">
-                                Nombre: {{ dataToShow[0].names }}, Rut:
-                                {{ dataToShow[0].rut }}
-                            </p>
-                            <table 
-                                class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
-                            >
-                                <thead class="bg-gray-50 dark:bg-gray-700">
-                                    <tr>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-                                        >
-                                            Semana
-                                        </th>
-                                        <th
-                                            v-for="day in [
-                                                'l',
-                                                'm',
-                                                'm',
-                                                'j',
-                                                'v',
-                                                's',
-                                                'd',
-                                            ]"
-                                            :key="day"
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-                                        >
-                                            {{ day }}
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody
-                                    class="divide-y divide-gray-200 dark:divide-gray-700"
-                                >
-                                    <tr
-                                        v-for="(week, index) in dataToShow"
-                                        :key="index"
-                                    >
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
-                                        >
-                                            {{ week.week_id }}
-                                        </td>
-                                        <td
-                                            v-for="date in week.datesInRange"
-                                            :key="date"
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
-                                        >
-                                            {{
-                                                new Date(
-                                                    date
-                                                ).toLocaleDateString('es-CL')
-                                            }}
-                                            <br />
-                                            Inicio: {{ week.start_turn }}<br />
-                                            Termino: {{ week.end_turn }}<br />
-                                            Colacion: {{ week.collation }}<br />
-                                            Jornada: {{ week.working }}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="flex justify-between items-center bg-blue-500 text-white p-5 mb-5">
+                            <div>
+                                <p class="font-medium">Mes : <span class="font-bold">{{ new Date(dataToShow[0].datesInRange[0]).getMonth() + 1 }}</span></p>
+                                <p class="font-medium">Año : <span class="font-bold">{{ new Date(dataToShow[0].datesInRange[0]).getFullYear()  }}</span></p>
+                            </div>
+                            <div>
+                                <p class="font-medium">Nombre: <span class="font-bold">{{ dataToShow[0].names }}</span></p>
+                                <p class="font-medium">Rut: <span class="font-bold">{{ dataToShow[0].rut }}</span></p>
+                                <p class="font-medium">Sucursal: <span class="font-bold">{{ dataToShow[0].branch }}</span></p>
+                            </div>
                         </div>
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead class="bg-blue-500 text-white">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase">
+                                        Dias
+                                    </th>
+                                    <th 
+                                        v-for="day in ['lun', 'mar', 'mie', 'jue', 'vie', 'sab', 'dom']" 
+                                        :key="day"
+                                        class="px-6 py-3 text-left text-xs font-mediu uppercase">
+                                        {{ day }}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                <tr v-for="(week, index) in dataToShow" :key="index">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                        Semana# {{ week.week_id }} <br />
+                                        Inicio: <br />
+                                        Termino:<br />
+                                        Colacion:<br />
+                                        Jornada: <br />
+                                    </td>
+                                    <td v-for="date in week.datesInRange" :key="date" class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        <span class="font-bold text-base">{{ new Date(date).getDate().toString() }}</span>
+                                        <br />
+                                        {{ week.start_turn }}<br />
+                                        {{ week.end_turn }}<br />
+                                        {{ week.collation }}<br />
+                                        {{ week.working }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+                <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-5 grid grid-cols-2 gap-5">
+                    <div v-for="(week, index) in dataToShow" :key="index" class="mb-5">
+                        <p class="p-5 font-medium text-orange-600">
+                            Semana {{ week.week_id }}
+                        </p>
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead class="bg-blue-500 text-white">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Libre</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Programados</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total turno</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Horas sem.</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                        {{ week.free_days }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                        {{ week.programmer_days }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                        {{ week.total_turn }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                        {{ week.week_hours }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div
@@ -117,14 +131,6 @@
                             class="py-3 px-4 me-10 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                         >
                             Finalizar
-                            <i class="fa-solid fa-save"></i>
-                        </button>
-                        <button
-                            type="submit"
-                            @click="printPDF"
-                            class="py-3 px-4 me-10 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                        >
-                            pdf
                             <i class="fa-solid fa-save"></i>
                         </button>
                         <button
@@ -145,8 +151,6 @@
 import { BROKEN_CARET, s } from 'pdfmake/build/pdfmake'
 import EmployeeMenu from '../components/EmployeeMenu.vue'
 import axios from 'axios'
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
 
 export default {
     components: {
@@ -199,50 +203,6 @@ export default {
         }
     },
     methods: {
-        printPDF() {
-            const data = this.dataToShow.map(week => {
-                const weekData = [
-                    { text: week.week_id || '', bold: true },
-                ];
-
-                for (let i = 0; i < 7; i++) {
-                    if (week.datesInRange && week.datesInRange[i]) {
-                        const date = week.datesInRange[i];
-                        weekData.push({
-                            text: new Date(date).toLocaleDateString('es-CL') +
-                                "\nInicio: " + (week.start_turn || '') +
-                                "\nTermino: " + (week.end_turn || '') +
-                                "\nColacion: " + (week.collation || '') +
-                                "\nJornada: " + (week.working || ''),
-                            fontSize: 10
-                        });
-                    } else {
-                        weekData.push({ text: '', fontSize: 10 });
-                    }
-                }
-
-                return weekData;
-            });
-
-            const docDefinition = {
-                content: [
-                    { text: 'Nombre: ' + this.dataToShow[0].names, fontSize: 14, bold: true, margin: [0, 0, 0, 10] },
-                    { text: 'RUT: ' + this.dataToShow[0].rut, fontSize: 14, bold: true, margin: [0, 0, 0, 20] },
-                    {
-                        table: {
-                            headerRows: 1,
-                            widths: ['*', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
-                            body: [
-                                ['Semana', 'L', 'M', 'M', 'J', 'V', 'S', 'D'],
-                                ...data
-                            ]
-                        }
-                    }
-                ]
-            };
-
-            pdfMake.createPdf(docDefinition).download(`malla_horaria_${this.dataToShow[0].rut}.pdf`);
-        },
         async saveWeeksJsonToSend() {
             this.loading = true
             const weekdatatosend = this.dataToShow.map((item) => ({
@@ -257,7 +217,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
-                    'https://apijis.com/meshes/store/',
+                    'http://localhost:8000/meshes/store/',
                     meshes,
                     {
                         headers: {
@@ -589,7 +549,7 @@ export default {
                     search_term: this.search_term,
                 }
                 const response = await axios.get(
-                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
+                    `http://localhost:8000/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -616,7 +576,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/branch_offices/',
+                    'http://localhost:8000/branch_offices/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -646,7 +606,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employee_labor_data/edit/branch/' +
+                    'http://localhost:8000/employee_labor_data/edit/branch/' +
                         this.branch_office_input,
                     {
                         headers: {
@@ -674,7 +634,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/last_week_working_days/20202020/2023-11-06`,
+                    `http://localhost:8000/meshes/last_week_working_days/20202020/2023-11-06`,
 
                     {
                         headers: {
@@ -853,7 +813,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/holidays',
+                    'http://localhost:8000/holidays',
                     {
                         headers: {
                             accept: 'application/json',

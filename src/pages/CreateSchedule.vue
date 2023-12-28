@@ -201,7 +201,7 @@
                         </div>
                         <div v-if="showButtonProcess">
                             <button
-                                @click="$router.push('/process')"
+                                @click="$router.push('/schedule_process')"
                                 class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                             >
                                 Procesar
@@ -290,7 +290,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
-                    'https://apijis.com/meshes/store',
+                    'http://localhost:8000/meshes/store',
                     this.dataToSend,
                     {
                         headers: {
@@ -631,7 +631,7 @@ export default {
                     search_term: this.search_term,
                 }
                 const response = await axios.get(
-                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
+                    `http://localhost:8000/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -658,7 +658,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/branch_offices/',
+                    'http://localhost:8000/branch_offices/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -668,6 +668,7 @@ export default {
                 )
 
                 this.branch_offices = response.data.message
+                console.log(response)
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
@@ -688,7 +689,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employee_labor_data/edit/branch/' +
+                    'http://localhost:8000/employee_labor_data/edit/branch/' +
                         this.branch_office_input,
                     {
                         headers: {
@@ -716,7 +717,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/last_week_working_days/20202020/2023-11-06`,
+                    `http://localhost:8000/meshes/last_week_working_days/20202020/2023-11-06`,
 
                     {
                         headers: {
@@ -894,7 +895,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/holidays',
+                    'http://localhost:8000/holidays',
                     {
                         headers: {
                             accept: 'application/json',
