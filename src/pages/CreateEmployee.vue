@@ -338,7 +338,6 @@ export default {
             this.isValidRut = this.validateRut(this.rut_input)
         },
         onCellphoneInput() {
-            // Filtrar el valor del campo para permitir solo dígitos numéricos
             this.cellphone_input = this.cellphone_input.replace(/\D/g, '')
         },
         async createEmployee() {

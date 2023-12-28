@@ -272,7 +272,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
-                    'http://localhost:8000/meshes/store',
+                    'https://apijis.com/meshes/store',
                     this.dataToSend,
                     {
                         headers: {

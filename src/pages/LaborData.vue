@@ -2653,9 +2653,11 @@ export default {
 
             if(this.apv_payment_type_input == '') {
                 this.apv_payment_type_input = 3
+
+                this.apv_amount = 0
             }
 
-            if (this.extra_health_amount_input == '' || this.extra_health_amount_input == null || this.extra_health_amount_input == undefined) {
+            if (this.extra_health_amount_input == '' || this.extra_health_amount_input == null || this.extra_health_amount_input == undefined || this.extra_health_amount_input == 'None') {
                 this.extra_health_amount_input = 0
             }
 
