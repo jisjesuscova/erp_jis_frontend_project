@@ -394,7 +394,7 @@
                                             <span
                                                 v-if="
                                                     vacation.status_id == 3 &&
-                                                    vacation.support == null
+                                                    (vacation.support == null || vacation.support == '')
                                                 "
                                                 class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-500 text-white"
                                                 >Aceptada</span
@@ -804,7 +804,7 @@ export default {
         await this.getProgressiveTakenDays()
         await this.getPdfVacations()
         await this.getPdfProgressiveVacations()
-        await this.getPersonalDataEmployee
+        await this.getPersonalDataEmployee()
 
         const rol_id = localStorage.getItem('rol_id')
 

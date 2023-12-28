@@ -312,16 +312,18 @@ export default {
         async submit() {
             const accessToken = localStorage.getItem('accessToken')
 
-            const usuariosConDatos = this.usuarios.filter(usuario => usuario.rut.trim() !== '');
-
-
-            const dataToSend = 1
-            
-            console.log(dataToSend);  
+            const dataToSend = {
+                payroll_employees: this.payroll_employees.map(employee => ({
+                    rut: employee.rut,
+                    payroll_item_id: this.payroll_item_input,
+                    amount: employee.amount_input,
+                    period: this.period_input
+                }))
+            };
 
             try {
                 const response = await axios.post(
-                    'https://apijis.com/payroll_manual_inputs/store',
+                    'http://localhost:8000/payroll_manual_inputs/store',
                     dataToSend,
                     {
                         headers: {
@@ -358,7 +360,7 @@ export default {
                 }
 
                 const response = await axios.post(
-                    'https://apijis.com/payroll_employees/search',
+                    'http://localhost:8000/payroll_employees/search',
                     dataToSend,
                     {
                         headers: {
@@ -388,7 +390,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'https://apijis.com/payroll_items',
+                    'http://localhost:8000/payroll_items/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -413,7 +415,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'https://apijis.com/payroll_employees',
+                    'http://localhost:8000/payroll_employees/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -439,13 +441,20 @@ export default {
         await this.getPayrollItems()
         await this.getPayrollEmployees()
 
-        // Initialize amount_input to 0 for each employee
         this.payroll_employees.forEach((employee) => {
             employee.amount_input = 0
         })
 
-        this.period_input = localStorage.getItem('opened_period')
+        const opened_period = localStorage.getItem('opened_period')
 
+        if (opened_period != null && opened_period != 'null' && opened_period != '' && opened_period != 'undefined' && opened_period != undefined) {
+            this.period_input = localStorage.getItem('opened_period')
+        } else {
+            this.$router.push(
+                '/open_period'
+                )
+        }
+        
         if (this.loading_1 === false && this.loading_2 === false) {
             this.loading = false
         }

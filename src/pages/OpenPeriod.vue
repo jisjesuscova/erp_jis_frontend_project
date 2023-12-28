@@ -126,8 +126,8 @@ export default {
                 this.loading = false
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
-                    // localStorage.removeItem('accessToken')
-                    // window.location.reload()
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
                 } else {
                     console.error('Error al obtener el periodo:', error)
                 }
