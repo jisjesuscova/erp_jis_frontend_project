@@ -48,7 +48,7 @@
                             <div>
                                 <p class="font-medium">Nombre: <span class="font-bold">{{ dataToShow[0].names }}</span></p>
                                 <p class="font-medium">Rut: <span class="font-bold">{{ dataToShow[0].rut }}</span></p>
-                                <p class="font-medium">Sucursal: <span class="font-bold">{{ dataToShow[0].branch }}</span></p>
+                                <p class="font-medium">Sucursal: <span class="font-bold">{{ branch_offices}}</span></p>
                             </div>
                         </div>
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -60,9 +60,10 @@
                                     <th 
                                         v-for="day in ['lun', 'mar', 'mie', 'jue', 'vie', 'sab', 'dom']" 
                                         :key="day"
-                                        class="px-6 py-3 text-left text-xs font-mediu uppercase">
+                                        class="px-6 py-3 text-left text-xs font-medium uppercase">
                                         {{ day }}
                                     </th>
+                                    <th> Horas Sem.</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -82,13 +83,17 @@
                                         {{ week.collation }}<br />
                                         {{ week.working }}
                                     </td>
+                                    <td v-for="i in (7 - week.datesInRange.length)" :key="i" class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        {{week.total_week_hours}}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     </div>
                 </div>
-                <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-5 grid grid-cols-2 gap-5">
+                <!-- <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-5 grid grid-cols-2 gap-5">
                     <div v-for="(week, index) in dataToShow" :key="index" class="mb-5">
                         <p class="p-5 font-medium text-orange-600">
                             Semana {{ week.week_id }}
@@ -105,22 +110,22 @@
                             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        {{ week.free_days }}
+                                        {{ week.free_day_group_id }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        {{ week.programmer_days }}
+                                        {{ week.group_day_id }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        {{ week.total_turn }}
+                                        {{week.group_day_id }} x  {{ week.free_day_group_id }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        {{ week.week_hours }}
+                                        {{ week.total_week_hours }}
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div> -->
                 <div
                     class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5 justify-items-"
                 >
@@ -203,6 +208,7 @@ export default {
         }
     },
     methods: {
+        
         async saveWeeksJsonToSend() {
             this.loading = true
             const weekdatatosend = this.dataToShow.map((item) => ({
@@ -570,13 +576,13 @@ export default {
                 }
             }
         },
-        async getBranchOffices() {
+        async getBranchOffice() {
             this.loading_1 = true
             const accessToken = localStorage.getItem('accessToken')
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/branch_offices/',
+                    'https://apijis.com/branch_offices/edit/' +this.dataToShow[0].branch_office,
                     {
                         headers: {
                             accept: 'application/json',
@@ -585,7 +591,8 @@ export default {
                     }
                 )
 
-                this.branch_offices = response.data.message
+                this.branch_offices = response.data.message.branch_office
+                console.log(response)
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
@@ -844,16 +851,16 @@ export default {
             console.log(this.employee_input[1])
         },
     },
-    created() {
+    async created() {
         this.periodToInitialPage(
             this.initialPage.year + '-' + this.initialPage.month
         )
         this.getDatesInRangeFromLocalStorage()
-        this.getBranchOffices()
         this.year = this.date.getFullYear()
         this.month = this.date.getMonth()
         this.getMonthAndYear()
         this.getHolidays()
+        await this.getBranchOffice()
     },
 }
 </script>

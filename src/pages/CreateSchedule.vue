@@ -421,6 +421,10 @@ export default {
                 end_turn: this.end,
                 collation: this.breaking,
                 working:this.working,
+                group_day_id: this.turnDays,
+                free_day_group_id: this.freeDays,
+                total_week_hours: this.total_week_hours,
+                branch_office: this.branch_office_input,
                 datesInRange: this.datesInRange,
             }
 
@@ -547,6 +551,7 @@ export default {
             this.end = end
             this.turn_input = turn
             this.turnDays = turnDays
+            this.freeDays = freeDays
             this.turnId = turnId
             this.total_week_hours = hoursWeek
     
