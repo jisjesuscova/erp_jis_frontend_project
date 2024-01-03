@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72">
+    <div class="w-full  sm:px-6 md:px-8 lg:pl-64 lg:pr-px">
         <div v-if="loading" class="flex justify-center items-center h-screen">
             <div role="status">
                 <!-- SVG spinner -->
@@ -40,7 +40,7 @@
                         class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
                     >
                     <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <div class="flex justify-between items-center bg-blue-500 text-white p-5 mb-5">
+                        <!-- <div class="flex justify-between items-center bg-blue-500 text-white p-5 mb-5">
                             <div>
                                 <p class="font-medium">Mes : <span class="font-bold">{{ new Date(dataToShow[0].datesInRange[0]).getMonth() + 1 }}</span></p>
                                 <p class="font-medium">Año : <span class="font-bold">{{ new Date(dataToShow[0].datesInRange[0]).getFullYear()  }}</span></p>
@@ -50,50 +50,14 @@
                                 <p class="font-medium">Rut: <span class="font-bold">{{ dataToShow[0].rut }}</span></p>
                                 <p class="font-medium">Sucursal: <span class="font-bold">{{ branch_offices}}</span></p>
                             </div>
-                        </div>
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                            <thead class="bg-blue-500 text-white">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase">
-                                        Dias
-                                    </th>
-                                    <th 
-                                        v-for="day in ['lun', 'mar', 'mie', 'jue', 'vie', 'sab', 'dom']" 
-                                        :key="day"
-                                        class="px-6 py-3 text-left text-xs font-medium uppercase">
-                                        {{ day }}
-                                    </th>
-                                    <th> Horas Sem.</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                                <tr v-for="(week, index) in dataToShow" :key="index">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        Semana# {{ week.week_id }} <br />
-                                        Inicio: <br />
-                                        Termino:<br />
-                                        Colacion:<br />
-                                        Jornada: <br />
-                                    </td>
-                                    <td v-for="date in week.datesInRange" :key="date" class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                        <span class="font-bold text-base">{{ new Date(date).getDate().toString() }}</span>
-                                        <br />
-                                        {{ week.start_turn }}<br />
-                                        {{ week.end_turn }}<br />
-                                        {{ week.collation }}<br />
-                                        {{ week.working }}
-                                    </td>
-                                    <td v-for="i in (7 - week.datesInRange.length)" :key="i" class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"></td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                        {{week.total_week_hours}}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        </div> -->
+
+                        <ScheduleCalendar  :data-to-show="dataToShow" />
+                        <!--TABLESSS-->
                     </div>
                     </div>
                 </div>
-                <!-- <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-5 grid grid-cols-2 gap-5">
+                <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-5 grid grid-cols-2 gap-5">
                     <div v-for="(week, index) in dataToShow" :key="index" class="mb-5">
                         <p class="p-5 font-medium text-orange-600">
                             Semana {{ week.week_id }}
@@ -101,8 +65,8 @@
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead class="bg-blue-500 text-white">
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Libre</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase">Programados</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Libre</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total turno</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase">Horas sem.</th>
                                 </tr>
@@ -110,10 +74,10 @@
                             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        {{ week.free_day_group_id }}
+                                        {{ week.group_day_id }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        {{ week.group_day_id }}
+                                        {{ week.free_day_group_id }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                         {{week.group_day_id }} x  {{ week.free_day_group_id }}
@@ -125,7 +89,38 @@
                             </tbody>
                         </table>
                     </div>
-                </div> -->
+                </div>
+                <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-5 grid grid-cols-1 gap-5">
+                    <!-- El resto de tu código -->
+
+                    <!-- Aquí es donde puedes agregar la tabla de sumas totales -->
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-blue-500 text-white">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total programados</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total libre</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total turno</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total horas sem.</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                    {{ totalProgrammedDays }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                    {{ totalFreeDays }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                    {{ totalTurns }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                    {{ totalWeekHours }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div
                     class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5 justify-items-"
                 >
@@ -155,11 +150,13 @@
   <script>
 import { BROKEN_CARET, s } from 'pdfmake/build/pdfmake'
 import EmployeeMenu from '../components/EmployeeMenu.vue'
+import ScheduleCalendar from '../components/ScheduleCalendar.vue'
 import axios from 'axios'
 
 export default {
     components: {
         EmployeeMenu,
+        ScheduleCalendar,
     },
     data() {
         return {
@@ -176,29 +173,29 @@ export default {
                 month: new Date().getMonth() + 2,
                 year: new Date().getFullYear(),
             },
-            sundaysAndHolidays: '',
-            branch_offices: [],
             colors: ['blue'],
+            branch_offices: [],
             sections: [],
             turns: [],
             ArrayDates: [],
             attributes: [],
             employees_labor_data: [],
+            dataToShow: [],
             datesInRange: [],
+            employee_input: [],
+            sundays: [],
+            dataToSend: [],
+            search_term: 'Buscar Turno',
+            sundaysAndHolidays: '',
             branch_office_input: '',
             period_input: '',
-            employee_input: [],
             schedule_input: '',
             turn_input: '',
-            dataToShow: [],
-            sundays: [],
-            search_term: 'Buscar Turno',
-            dataToSend: [],
+            weekCounter: Number(localStorage.getItem('week')) || 0,
             sundaysInUse: 0,
             turnDays: 0,
             sundaysAvailable: 0,
             turnId: 0,
-            weekCounter: Number(localStorage.getItem('week')) || 0,
             total_week_hours: 0,
             year: 0,
             month: 0,
@@ -207,6 +204,22 @@ export default {
             weekPerMonth: 0,
         }
     },
+    computed: {
+    totalFreeDays() {
+      return this.dataToShow.reduce((total, week) => total + week.free_day_group_id, 0);
+    },
+    totalProgrammedDays() {
+        console.log(this.totalFreeDays)
+        return this.dataToShow.reduce((total, week) => total + week.group_day_id, 0);
+    },
+    totalTurns() {
+        //devuelve un string con el siguiente format "week.group_day_id x free_g day_group_id "
+        return this.totalProgrammedDays + ' X ' + this.totalFreeDays
+    },
+    totalWeekHours() {
+      return this.dataToShow.reduce((total, week) => total + week.total_week_hours, 0);
+    },
+  },
     methods: {
         
         async saveWeeksJsonToSend() {
@@ -216,7 +229,7 @@ export default {
                 turn_id: item.turn_id,
                 rut: item.rut,
                 dates_in_range: item.datesInRange,
-                added_date: new Date().toISOString(), // Agregar la fecha actual como 'added_date'
+                added_date: new Date().toISOString(), 
             }))
             const meshes = { meshes: weekdatatosend }
 
@@ -228,7 +241,7 @@ export default {
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`,
                         },
                     }
                 )
@@ -323,7 +336,6 @@ export default {
 
             const daysInMonth = new Date(year, month, 0).getDate()
 
-            // Add the first week's days, subtract 1 because we start counting from 0
             let weekCount = Math.ceil(
                 (adjustedFirstDayOfMonth + daysInMonth - 1) / 7
             )
