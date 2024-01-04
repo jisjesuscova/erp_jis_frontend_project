@@ -190,7 +190,7 @@ export default {
 
                 return weekData;
             });
-
+                                      
             const docDefinition = {
                 content: [
                     { text: 'Nombre: ' + names, fontSize: 14, bold: true, margin: [0, 0, 0, 10] },
@@ -237,7 +237,7 @@ export default {
                this.printPDF(names)
                 this.loading = false
             } catch (error) {
-                console.error('Error al obtener la lista de bancos:', error)
+                console.error('Error al obtener la lista de mallas :', error)
             }
         },
         async getMeshes() {

@@ -57,7 +57,7 @@
                     </div>
                     </div>
                 </div>
-                <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-5 grid grid-cols-2 gap-5">
+                <!-- <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-5 grid grid-cols-2 gap-5">
                     <div v-for="(week, index) in dataToShow" :key="index" class="mb-5">
                         <p class="p-5 font-medium text-orange-600">
                             Semana {{ week.week_id }}
@@ -89,38 +89,8 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-5 grid grid-cols-1 gap-5">
-                    <!-- El resto de tu código -->
-
-                    <!-- Aquí es donde puedes agregar la tabla de sumas totales -->
-                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead class="bg-blue-500 text-white">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total programados</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total libre</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total turno</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total horas sem.</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                    {{ totalProgrammedDays }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                    {{ totalFreeDays }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                    {{ totalTurns }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                    {{ totalWeekHours }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                </div> -->
+               
                 <div
                     class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5 justify-items-"
                 >
@@ -204,22 +174,7 @@ export default {
             weekPerMonth: 0,
         }
     },
-    computed: {
-    totalFreeDays() {
-      return this.dataToShow.reduce((total, week) => total + week.free_day_group_id, 0);
-    },
-    totalProgrammedDays() {
-        console.log(this.totalFreeDays)
-        return this.dataToShow.reduce((total, week) => total + week.group_day_id, 0);
-    },
-    totalTurns() {
-        //devuelve un string con el siguiente format "week.group_day_id x free_g day_group_id "
-        return this.totalProgrammedDays + ' X ' + this.totalFreeDays
-    },
-    totalWeekHours() {
-      return this.dataToShow.reduce((total, week) => total + week.total_week_hours, 0);
-    },
-  },
+   
     methods: {
         
         async saveWeeksJsonToSend() {

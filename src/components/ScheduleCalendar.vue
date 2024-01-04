@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="PDF">
        
     <table class="w-full">
         <thead>
@@ -77,14 +77,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(week, weekIndex) in weeks" :key="'week-' + week[0]">
+            <tr v-for="(week, weekIndex) in weeks" :key="'week-' + week[0]" >
                 <td
                     v-for="(day, dayIndex) in week"
                     :key="day.day"
-                    class="border p-1 h-40 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 overflow-auto transition cursor-pointer duration-500 ease hover:bg-gray-300"
+                    class="border border-gray-900 p-1 h-40 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 overflow-auto transition cursor-pointer duration-500 ease hover:bg-gray-300"
                     :class="{
                         'bg-white-100': !day.isNextMonth && !day.isPrevMonth,
-                        'bg-gray-200': day.isNextMonth || day.isPrevMonth,
+                        'bg-gray-300': day.isNextMonth || day.isPrevMonth,
                     }"
                 >
                     <div
@@ -128,31 +128,79 @@
 
         </tbody>
     </table>
-     <div class="legend mt-10">
-    <div class="legend-item">
-      <div class="color-box bg-red-500"></div>
-      <span>Inicio</span>
+    <div class="legend mt-10 grid md:grid-cols-5 sm:grid-cols-12 gap-10 p-4 md:p-5">
+        <div class="legend-item flex flex-row items-center">
+            <div class="color-box bg-red-500"></div>
+            <span class="ml-2">Inicio</span>
+        </div>
+        <div class="legend-item flex flex-row items-center">
+            <div class="color-box bg-green-500"></div>
+            <span class="ml-2">Termino</span>
+        </div>
+        <div class="legend-item flex flex-row items-center">
+            <div class="color-box bg-orange-500"></div>
+            <span class="ml-2">Colacion</span>
+        </div>
+        <div class="legend-item flex flex-row items-center">
+            <div class="color-box bg-blue-700"></div>
+            <span class="ml-2">Jornada</span>
+        </div>
+        <div class="legend-item flex flex-row items-center">
+
+            <button   @click="printPDF"   class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"> <i class="fa-solid fa-file"></i></button>
+        </div>
     </div>
-    <div class="legend-item">
-      <div class="color-box bg-green-500"></div>
-      <span>Termino</span>
-    </div>
-    <div class="legend-item">
-      <div class="color-box bg-orange-500"></div>
-      <span>Colacion</span>
-    </div>
-    <div class="legend-item">
-      <div class="color-box bg-blue-700"></div>
-      <span>Jornada</span>
-    </div>
-  </div>
-   
+    <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-5 grid grid-cols-1 gap-5">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-blue-500 text-white">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total programados</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total libre</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total turno</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total horas sem.</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                    {{ totalProgrammedDays }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                    {{ totalFreeDays }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                    {{ totalTurns }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                    {{ totalWeekHours }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+        </div>
 </div>
 </template>
 
 <script>
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 export default {
+
     computed: {
+    totalFreeDays() {
+      return this.dataToShow.reduce((total, week) => total + week.free_day_group_id, 0);
+    },
+    totalProgrammedDays() {
+        console.log(this.totalFreeDays)
+        return this.dataToShow.reduce((total, week) => total + week.group_day_id, 0);
+    },
+    totalTurns() {
+        //devuelve un string con el siguiente format "week.group_day_id x free_g day_group_id "
+        return this.totalProgrammedDays + ' X ' + this.totalFreeDays
+    },
+    totalWeekHours() {
+      return this.dataToShow.reduce((total, week) => total + week.total_week_hours, 0);
+    },
         filteredDataToShow() {
             return this.weeks.map((week, weekIndex) => {
                 return this.dataToShow.filter((weekInfo, infoIndex) => {
@@ -162,7 +210,7 @@ export default {
         }
     },
     props: {
-        dataToShow:{type:Array, required:true}
+        dataToShow:{type:Array, required:false}
     },
     data() {
         return {
@@ -172,6 +220,52 @@ export default {
         }
     },
     methods: {
+        async printPDF() {
+        // Selecciona el elemento que quieres convertir en PDF
+        const element = document.getElementById('PDF')
+
+        // Crea una captura de pantalla del elemento
+        const canvas = await html2canvas(element)
+
+        // Crea un nuevo documento PDF
+        const pdf = new jsPDF('p', 'mm', 'a4')
+
+        // Calcula la proporción de la imagen para que se ajuste al tamaño del PDF
+        const imgWidth = 210  // Cambiado de 210 a 150
+        const pageHeight = 400
+        const imgHeight = (canvas.height * imgWidth) / canvas.width
+        let heightLeft = imgHeight
+
+        const contentDataURL = canvas.toDataURL('image/png')
+        let position = 0
+
+        pdf.addImage(
+            contentDataURL,
+            'PNG',
+            0,
+            position,
+            imgWidth,
+            imgHeight
+        )
+        heightLeft -= pageHeight
+
+        while (heightLeft >= 0) {
+            position = heightLeft - imgHeight
+            pdf.addPage()
+            pdf.addImage(
+            contentDataURL,
+            'PNG',
+            0,
+            position,
+            imgWidth,
+            imgHeight
+            )
+            heightLeft -= pageHeight
+        }
+
+        // Descarga el PDF
+        pdf.save('output.pdf')
+        },
         calculateWeeksPerMonth() {
             console.log(this.dataToShow)
             const year = new Date().getFullYear();
@@ -201,6 +295,7 @@ export default {
 
     mounted() {
         this.calculateWeeksPerMonth()
+        console.log(this.dataToShow)
     },
 }
 </script>
@@ -208,7 +303,6 @@ export default {
 .color-box {
   width: 20px;
   height: 20px;
-  display: inline-block;
   margin-right: 5px;
 }
 

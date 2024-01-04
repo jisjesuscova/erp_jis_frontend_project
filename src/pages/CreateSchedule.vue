@@ -379,15 +379,13 @@ export default {
             const year = Number(period.split('-')[0])
             this.initialPage = { month, year }
             this.getSundays(year, month)
-
-            // Calculate the number of weeks in the month
+ 
             const firstDayOfMonth = new Date(year, month - 1, 1).getDay()
             const adjustedFirstDayOfMonth =
                 firstDayOfMonth === 0 ? 0 : firstDayOfMonth
 
             const daysInMonth = new Date(year, month, 0).getDate()
 
-            // Add the first week's days, subtract 1 because we start counting from 0
             let weekCount = Math.ceil(
                 (adjustedFirstDayOfMonth + daysInMonth - 1) / 7
             )
@@ -544,7 +542,8 @@ export default {
             turnId,
             hoursWeek,
             event
-        ) {
+            )
+            {
             this.working = working
             this.breaking = breaking
             this.start = start
@@ -554,16 +553,24 @@ export default {
             this.freeDays = freeDays
             this.turnId = turnId
             this.total_week_hours = hoursWeek
-    
 
-            // await this.getLastWeekWorkingDays()
+            const verifyWeek = Number(localStorage.getItem('week'))
+            console.log(verifyWeek)
+            if (verifyWeek === 0 ) {
+                await this.getLastWeekWorkingDays()
+                console.log(this.workedDays)
+            }
+            else {
+                this.workedDays = 0
+            }
+            
+           
             let date = new Date(this.startDate)
-            this.workedDays = 0
             turnDays = turnDays - this.workedDays
             date.setDate(date.getDate() + turnDays - 1)
             if (turnDays == 0) {
                 alert(
-                    'Hola, el empleado ya trabajo los turnos que le correspondian en la semana'
+                   ' El empleado ya trabajo los turnos que le correspondian en la semana'
                 )
                 this.startDate = 0
                 this.attributes = [
@@ -578,7 +585,7 @@ export default {
                 return
             } else if (turnDays < 0) {
                 alert(
-                    'Hola, el empleado ya trabajo los turnos que le correspondian en la semana'
+                    'El empleado ya trabajo los turnos que le correspondian en la semana'
                 )
                 this.startDate = 0
                 this.attributes = [
@@ -719,10 +726,12 @@ export default {
         },
         async getLastWeekWorkingDays() {
             const accessToken = localStorage.getItem('accessToken')
-
+            const year = this.startDate.getFullYear()
+            const month = this.startDate.getMonth()  
+            const yearAndPreviuosMonth = `${year}-${month}`
             try {
                 const response = await axios.get(
-                    `http://localhost:8000/meshes/last_week_working_days/20202020/2023-11-06`,
+                    `http://localhost:8000/meshes/last_week_working_days/${this.employee_input[1]}/${yearAndPreviuosMonth}`,
 
                     {
                         headers: {
@@ -732,6 +741,7 @@ export default {
                     }
                 )
                 const decodedData = JSON.parse(response.data.message)
+                console.log(response)
 
                 this.workedDays = decodedData
             } catch (error) {
@@ -941,6 +951,7 @@ export default {
         if (this.weekPerMonth === Number(localStorage.getItem('week'))) {
             this.showButtonProcess = true
         }
+
     },
 }
 </script>
