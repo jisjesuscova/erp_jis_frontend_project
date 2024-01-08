@@ -125,28 +125,28 @@
                                             class="event bg-red-500 text-white rounded p-1 text-sm mb-1"
                                         >
                                             <span class="time">
-                                                {{ weekInfo.start_turn }}
+                                                {{ weekInfo.turn_data.start }}
                                             </span>
                                         </div>
                                         <div
                                             class="event bg-green-500 text-white rounded p-1 text-sm mb-1"
                                         >
                                             <span class="time">
-                                                {{ weekInfo.end_turn }}
+                                                {{ weekInfo.turn_data.end }}
                                             </span>
                                         </div>
                                         <div
                                             class="event bg-orange-500 text-white rounded p-1 text-sm mb-1"
                                         >
                                             <span class="time">
-                                                {{ weekInfo.collation }}
+                                                {{ weekInfo.turn_data.breaking }}
                                             </span>
                                         </div>
                                         <div
                                             class="event bg-blue-700 text-white rounded p-1 text-sm mb-1"
                                         >
                                             <span class="time">
-                                                {{ weekInfo.working }}
+                                                {{ weekInfo.turn_data.working }}
                                             </span>
                                         </div>
                                     </div>
@@ -251,49 +251,73 @@
   export default {
     computed: {
         totalFreeDays() {
+            if (!Array.isArray(this.dataToShow)) {
+                return 0;
+            }
             return this.dataToShow.reduce(
                 (total, week) => total + week.free_day_group_id,
                 0
-            )
+            );
         },
         totalProgrammedDays() {
-            console.log(this.totalFreeDays)
+            if (!Array.isArray(this.dataToShow)) {
+                return 0;
+            }
             return this.dataToShow.reduce(
                 (total, week) => total + week.group_day_id,
                 0
-            )
+            );
         },
         totalTurns() {
-            //devuelve un string con el siguiente format "week.group_day_id x free_g day_group_id "
-            return this.totalProgrammedDays + ' X ' + this.totalFreeDays
+            return this.totalProgrammedDays + ' X ' + this.totalFreeDays;
         },
         totalWeekHours() {
+            if (!Array.isArray(this.dataToShow)) {
+                return 0;
+            }
             return this.dataToShow.reduce(
                 (total, week) => total + week.total_week_hours,
                 0
-            )
+            );
         },
         filteredDataToShow() {
+            if (!Array.isArray(this.dataToShow)) {
+                return [];
+            }
             return this.weeks.map((week, weekIndex) => {
                 return this.dataToShow.filter((weekInfo, infoIndex) => {
                     return (
                         weekInfo.week_id === weekIndex + 1 &&
-                        infoIndex < weekInfo.group_day_id
-                    )
-                })
-            })
+                        infoIndex < weekInfo.turn_data.group_day_id
+                    );
+                });
+            });
         },
     },
   
+    // inject: ['localDataToShow'], // Inyectar localDataToShow desde el componente padre
+    // watch: {
+    //     localDataToShow: {
+    //         immediate: true,
+    //         handler(newValue) {
+    //             this.dataToPdf = newValue
+    //             console.log(newValue)
+    //             this.calculateWeeksPerMonth()
+    //             this.$nextTick(() => {
+    //                 this.printPDF()
+    //             })
+    //         },
+    //     },
+    // },
     props: {
         dataToShow: {
             type: Array,
             required: false,
         },
     },
-
     data() {
         return {
+           
             days: [],
             weeks: [],
             firstDayOfWeek: 0,
