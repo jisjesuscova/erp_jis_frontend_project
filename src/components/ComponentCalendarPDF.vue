@@ -295,6 +295,7 @@
             if (!Array.isArray(this.dataToShow)) {
                 return 0;
             }
+            // arreglar el caluclo deberia dar 94,5 y da 81 
             return this.dataToShow.reduce(
                 (total, week) => total + (week.date.length * (week.turn_data.total_week_hours /7 )),
                 0
