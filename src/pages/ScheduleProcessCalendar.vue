@@ -205,7 +205,7 @@ export default {
                 this.confirmDeleteDatesInLocalStorage()
                 console.log(response)
             } catch (error) {
-                console.error('Error al obtener la lista de sucursales:', error)
+                console.error('Error al Guardar la malla :', error)
             }
         },
         getSundays(year, month) {
@@ -284,7 +284,6 @@ export default {
             this.initialPage = { month, year }
             this.getSundays(year, month)
 
-            // Calculate the number of weeks in the month
             const firstDayOfMonth = new Date(year, month - 1, 1).getDay()
             const adjustedFirstDayOfMonth =
                 firstDayOfMonth === 0 ? 0 : firstDayOfMonth

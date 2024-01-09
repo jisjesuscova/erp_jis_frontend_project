@@ -91,28 +91,7 @@
                     </div>
                 </div> -->
                
-                <div
-                    class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5 justify-items-"
-                >
-                    <div>
-                        <button
-                            type="submit"
-                            @click="saveWeeksJsonToSend"
-                            class="py-3 px-4 me-10 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                        >
-                            Finalizar
-                            <i class="fa-solid fa-save"></i>
-                        </button>
-                        <button
-                            @click="$router.push('/create_schedule')"
-                            type="submit"
-                            class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                        >
-                            Volver
-                            <i class="fa-solid fa-arrow-left"></i>
-                        </button>
-                    </div>
-                </div>
+               
             </div>
         </div>
     </div>

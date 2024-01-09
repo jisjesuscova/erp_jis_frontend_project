@@ -131,7 +131,15 @@
                 Semana Ingresada Con <span class="font-bold">Exito</span>.
             </div>
             <div
-                v-if="startDate != null"
+                v-if="showButtonProcess "
+                class="bg-blue-500 text-sm text-white rounded-md p-4 mb-10"
+                role="alert"
+            >
+                Ya Ingreso Todas Las Semanas correspondientes al mes 
+               
+            </div>
+            <div
+                v-else
                 class="bg-blue-500 text-sm text-white rounded-md p-4 mb-10"
                 role="alert"
             >
@@ -189,7 +197,7 @@
                     <div
                         class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
                     >
-                        <div v-if="startDate != null && endDate != null">
+                        <div v-if="startDate != null && endDate != null && !showButtonProcess">
                             <button
                                 @click="saveDatesInRangeToLocalstorage"
                                 type="submit"
@@ -201,7 +209,7 @@
                         </div>
                         <div v-if="showButtonProcess">
                             <button
-                                @click="$router.push('/schedule_process')"
+                                @click="$router.push('/schedule_process_calendar')"
                                 class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                             >
                                 Procesar

@@ -176,7 +176,6 @@ export default {
     data() {
         return {
             meshes: [],
-            dataLoaded: false,
             loading: true,
             delete_bank: 0,
             dataToShow: [],
@@ -270,6 +269,11 @@ export default {
             }
         },
         async getMeshesByEmployeeRutAndPeriod(rut, period, names) {
+            const employeeRutPeriodNames = {
+                rut,
+                period,
+                names,
+            }
             const accessToken = localStorage.getItem('accessToken')
 
             try {
@@ -283,8 +287,8 @@ export default {
                     }
                 )
                 this.dataToShow = response.data.message
-                this.dataLoaded = true
                 localStorage.setItem('pdfData',JSON.stringify(this.dataToShow))
+                localStorage.setItem('employeeRutPeriodNames',JSON.stringify(employeeRutPeriodNames))
                 this.$router.push('/schedule_pdf_calendar')
                 this.loading = false
             } catch (error) {

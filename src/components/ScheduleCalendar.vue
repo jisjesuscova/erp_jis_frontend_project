@@ -176,14 +176,6 @@
                 <div class="color-box bg-blue-700"></div>
                 <span class="ml-2">Jornada</span>
             </div>
-            <div class="legend-item flex flex-row items-center">
-                <button
-                    @click="printPDF"
-                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                >
-                    <i class="fa-solid fa-file"></i>
-                </button>
-            </div>
         </div>
         <div
             id="table"
