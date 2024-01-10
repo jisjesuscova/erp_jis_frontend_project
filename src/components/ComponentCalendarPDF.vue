@@ -298,11 +298,7 @@
             return this.dataToShow.reduce(
                 (total, week) => {
                     const [hours, minutes] = week.turn_data.working.split(':').map(Number);
-                    const decimalHours = Math.ceil(hours + minutes / 60);
-                    console.log(Math.ceil(hours + minutes / 60))
-                    console.log(hours, minutes)
-                    console.log(decimalHours)
-                    console.log(total + (week.date.length * decimalHours));
+                    const decimalHours = hours + (minutes / 60);
                     return total + (week.date.length * decimalHours);
                 },
                 0
@@ -385,7 +381,7 @@
   
             // Descarga el PDF
             pdf.save(`Malla_horaria_${this.rutAndPeriodPDf.rut}_${this.rutAndPeriodPDf.period}.pdf`)
-            // window.location.href = '/schedule'
+            window.location.href = '/schedule'
         },
         async calculateWeeksPerMonth() {
             const employeeRutPeriodNames = JSON.parse(localStorage.getItem('employeeRutPeriodNames'))
