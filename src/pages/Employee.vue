@@ -64,6 +64,12 @@
                                         <th
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Estado
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         ></th>
                                     </tr>
                                 </thead>
@@ -87,6 +93,26 @@
                                             {{ employee.mother_lastname }}
                                         </td>
                                         <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            <span
+                                                v-if="employee.status_id == 1"
+                                                class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-500 text-white"
+                                                >Activo</span
+                                            >
+                                            <span
+                                                v-if="employee.status_id == 2"
+                                                class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-yellow-500 text-white"
+                                                >Desvinculado</span
+                                            >
+                                            <span
+                                                v-if="employee.status_id == 3"
+                                                class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-500 text-white"
+                                                >Voluntario</span
+                                            >
+                                        </td>
+                                        <td
+                                            v-if="employee.status_id == 1"
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
                                             <router-link
@@ -171,6 +197,132 @@
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-pink-500 text-white hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
                                                 :to="`/medical_license/${employee.rut}`"
+                                                title="Licencias Médicas"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-truck-medical"
+                                                ></i>
+                                            </router-link>
+                                        </td>
+                                        <td
+                                            v-if="employee.status_id == 2"
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-800 text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2 transition-all text-sm dark:focus:ring-gray-900 dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/old_employee/${employee.rut}`"
+                                                title="Datos Personales"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-address-card"
+                                                ></i>
+                                            </router-link>
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-500 text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all text-sm dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/old_labor_data/${employee.rut}`"
+                                                title="Datos Laborales"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-file-contract"
+                                                ></i>
+                                            </router-link>
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/old_extra_data/${employee.rut}`"
+                                                title="Datos Extras"
+                                            >
+                                                <i class="fa-solid fa-plus"></i>
+                                            </router-link>
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-indigo-500 text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/old_settlement/${employee.rut}`"
+                                                title="Liquidaciones"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-file-contract"
+                                                ></i>
+                                            </router-link>
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-purple-500 text-white hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/old_vacation/${employee.rut}`"
+                                                title="Vacaciones"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-plane"
+                                                ></i>
+                                            </router-link>
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-pink-500 text-white hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/old_medical_license/${employee.rut}`"
+                                                title="Licencias Médicas"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-truck-medical"
+                                                ></i>
+                                            </router-link>
+                                        </td>
+                                        <td
+                                            v-if="employee.status_id == 3"
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-800 text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2 transition-all text-sm dark:focus:ring-gray-900 dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/old_employee/${employee.rut}`"
+                                                title="Datos Personales"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-address-card"
+                                                ></i>
+                                            </router-link>
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-500 text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all text-sm dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/old_labor_data/${employee.rut}`"
+                                                title="Datos Laborales"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-file-contract"
+                                                ></i>
+                                            </router-link>
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/old_extra_data/${employee.rut}`"
+                                                title="Datos Extras"
+                                            >
+                                                <i class="fa-solid fa-plus"></i>
+                                            </router-link>
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-indigo-500 text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/old_settlement/${employee.rut}`"
+                                                title="Liquidaciones"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-file-contract"
+                                                ></i>
+                                            </router-link>
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-purple-500 text-white hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/old_vacation/${employee.rut}`"
+                                                title="Vacaciones"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-plane"
+                                                ></i>
+                                            </router-link>
+                                            <router-link
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-pink-500 text-white hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                href="javascript:;"
+                                                :to="`/old_medical_license/${employee.rut}`"
                                                 title="Licencias Médicas"
                                             >
                                                 <i
@@ -313,10 +465,15 @@ export default {
                         this.loading = false
                     }
                 } catch (error) {
-                    console.error(
-                        'Error al obtener la lista de empleados:',
-                        error,
-                    )
+                    if (error.message == 'Request failed with status code 401') {
+                        localStorage.removeItem('accessToken')
+                        window.location.reload()
+                    } else {
+                        console.error(
+                            'Error al obtener la lista de empleados:',
+                            error,
+                        )
+                    }
                 }
             } else {
                 this.getPosts()

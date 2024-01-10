@@ -52,7 +52,7 @@
                     <div
                         class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
                     >
-                        <div class="overflow-hidden">
+                        <div class="overflow-hidden" v-if="totalItems > 0">
                             <table
                                 class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
                             >
@@ -88,16 +88,6 @@
                                         >
                                             Dias
                                         </th>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-                                        >
-                                            Estatus
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-                                        ></th>
                                     </tr>
                                 </thead>
                                 <tbody
@@ -140,23 +130,16 @@
                                         >
                                             {{ medical_license.days }}
                                         </td>
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
-                                        >
-                                            <span
-                                                v-if="
-                                                    medical_license.status_id ==
-                                                        4 &&
-                                                    medical_license.support !=
-                                                        null
-                                                "
-                                                class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-indigo-500 text-white"
-                                                >Firmada</span
-                                            >
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
-                                        >
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="overflow-hidden" v-else>
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                    <tr>
+                                        <td class="px-6 py-4 flex items-center text-center text-sm font-medium text-gray-800 dark:text-gray-200">
+                                            No hay registros en el sistema
                                         </td>
                                     </tr>
                                 </tbody>

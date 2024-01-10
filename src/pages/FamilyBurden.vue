@@ -24,15 +24,7 @@
         </div>
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">
-                Inputs Manuales
-
-                <router-link
-                    href="javascript:;"
-                    to="/create_bulk_payroll_manual_inputs"
-                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                >
-                    Carga Masiva
-                </router-link>
+                Carga Familiares
             </h2>
             <div
                 class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
@@ -45,30 +37,8 @@
                     </p>
                 </div>
                 <div
-                    class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                    class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5"
                 >
-                    <div>
-                        <label
-                            for="hs-validation-name-error"
-                            class="block text-sm font-medium mb-2 dark:text-white"
-                            >Item</label
-                        >
-                        <select
-                            required
-                            v-model="payroll_item_input"
-                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            @change="cleanForm()"
-                        >
-                            <option value="">- Seleccionar -</option>
-                            <option
-                                v-for="payroll_item in payroll_managements_inputs"
-                                :key="payroll_item.id"
-                                :value="payroll_item.id"
-                            >
-                                {{ payroll_item.item }}
-                            </option>
-                        </select>
-                    </div>
                     <div>
                         <label
                             for="hs-validation-name-error"
@@ -90,121 +60,12 @@
             <hr
                 class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
             />
-            <div
-                class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-            >
-                <div
-                    class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                >
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
-                        Buscar
-                    </p>
-                </div>
-                <div
-                    class="grid md:grid-cols-2 sm:grid-cols-1 gap-4 p-4 md:p-5"
-                >
-                    <div>
-                        <label
-                            for="hs-validation-name-error"
-                            class="block text-sm font-medium mb-2 dark:text-white"
-                            >RUT</label
-                        >
-                        <input
-                            type="text"
-                            id="rut_input"
-                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="RUT"
-                            v-model="rut_input"
-                            v-mask="['########-X']"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label
-                            for="hs-validation-name-error"
-                            class="block text-sm font-medium mb-2 dark:text-white"
-                            >Apellido Paterno</label
-                        >
-                        <input
-                            type="text"
-                            id="father_lastname_input"
-                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Apellido Paterno"
-                            v-model="father_lastname_input"
-                            required
-                        />
-                    </div>
-                </div>
-                <div
-                    class="grid md:grid-cols-6 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                >
-                    <div class="w-full">
-                        <button
-                            @click="searchPayrollEmployees"
-                            class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                        >
-                            
-                            Buscar
-                            <i class="fa-solid fa-search p-1"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <hr
-                class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
-            />
-            <div
-                class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-            >
-                <div
-                    class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                >
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
-                        Monto Masivo
-                    </p>
-                </div>
-                <div
-                    class="grid md:grid-cols-1 sm:grid-cols-1 gap-4 p-4 md:p-5"
-                >
-                    <div>
-                        <label
-                            for="hs-validation-name-error"
-                            class="block text-sm font-medium mb-2 dark:text-white"
-                            >Monto Masivo</label
-                        >
-                        <input
-                            type="text"
-                            id="massive_amount_input"
-                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Monto Maivo"
-                            v-model="massive_amount_input"
-                            required
-                        />
-                    </div>
-                </div>
-                <div
-                    class="grid md:grid-cols-6 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                >
-                    <div class="w-full">
-                        <button
-                            @click="applyBulkAmount"
-                            class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                        >
-                            
-                            Agregar
-                            <i class="fa-solid fa-plus p-1"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+
             <div
                 id="bar-with-underline-1"
                 role="tabpanel"
                 aria-labelledby="bar-with-underline-item-1"
             >
-                <hr
-                    class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
-                />
                 <div
                     class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                 >
@@ -222,10 +83,9 @@
                     >
                         <div>
                             <div class="grid grid-cols-2 md:grid-cols-2 gap-4 p-4 md:p-5">
-                                
                                 <div>
                                     <h1 class="text-4xl font-bold">
-                                        Monto Total ($): {{ amount_input }}
+                                        Total: {{ amount_input }}
                                     </h1>
                                     
                                 </div>
@@ -241,7 +101,6 @@
                                     </button>
                                 </div>
                             </div>
-                            
                             <hr
                                 class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
                             />
@@ -253,7 +112,16 @@
                                             Trabajador
                                         </th>
                                         <th class="px-4 py-2 text-left">
-                                            Monto ($)
+                                            N° Cargas
+                                        </th>
+                                        <th class="px-4 py-2 text-left">
+                                            Letra
+                                        </th>
+                                        <th class="px-4 py-2 text-left">
+                                            Total ($)
+                                        </th>
+                                        <th class="px-4 py-2 text-left">
+                                            Retroactivo ($)
                                         </th>
                                     </tr>
                                 </thead>
@@ -279,9 +147,46 @@
                                                 type="number"
                                                 id="'amount_input"
                                                 class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                placeholder="Monto"
+                                                placeholder="N° de Cargas"
                                                 v-model="
-                                                    payroll_employee.amount_input
+                                                    payroll_employee.family_burden_number_input
+                                                "
+                                                required
+                                            />
+                                        </td>
+                                        <td class="border px-4 py-2">
+                                            <input
+                                                type="text"
+                                                id="'amount_input"
+                                                class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                placeholder="Letra"
+                                                @blur="calculateFamilyTotalBurden(payroll_employee)"
+                                                v-model="
+                                                    payroll_employee.family_burden_letter_input
+                                                "
+                                                required
+                                            />
+                                        </td>
+                                        <td class="border px-4 py-2">
+                                            <input
+                                                type="number"
+                                                id="'amount_input"
+                                                class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                placeholder="Total"
+                                                v-model="
+                                                    payroll_employee.family_burden_total_input
+                                                "
+                                                required
+                                            />
+                                        </td>
+                                        <td class="border px-4 py-2">
+                                            <input
+                                                type="number"
+                                                id="'amount_input"
+                                                class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                placeholder="Retroactivo"
+                                                v-model="
+                                                    payroll_employee.family_burden_retroactive_input
                                                 "
                                                 required
                                             />
@@ -316,10 +221,55 @@ export default {
             amount_input: 0,
             massive_amount_input: 0,
             total_amount: 0,
-            payroll_item_input: ''
+            payroll_item_input: '',
+            letter_value: 0
         }
     },
     methods: {
+        async calculateFamilyTotalBurden(employee) {
+            const numberInput = parseInt(employee.family_burden_number_input) || 0;
+            const letterValue = employee.family_burden_letter_input.toUpperCase();
+            await this.getLetterValue(letterValue)
+            const totalBurden = parseInt(numberInput) * parseInt(this.letter_value);
+            employee.family_burden_total_input = totalBurden;
+        },
+        async getLetterValue(letter) {
+            const accessToken = localStorage.getItem('accessToken')
+
+            const section_id = this.letterSection(letter)
+
+            try {
+                const response = await axios.get(
+                    'https://apijis.com/payroll_family_burdens/' + section_id + '/' + this.period_input,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    },
+                )
+
+                this.letter_value = response.data.message
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error('Error al obtener el valor de la letra:', error)
+                }
+            }
+        },
+        letterSection(letter) {
+            if (letter == 'A' || letter == 'a') {
+                return 1;
+            } else if(letter == 'B' || letter == 'b') {
+                return 2;
+            } else if(letter == 'C' || letter == 'c') {
+                return 3;
+            } else {
+                return 0;
+            }
+        },
         async cleanForm() {
             this.payroll_employees.forEach((employee) => {
                 employee.amount_input = 0
@@ -334,11 +284,11 @@ export default {
 
             this.loading = true
 
-            const dataToSend = {
+            const dataToSendFamilyBurdenNumber = {
                 payroll_employees: this.payroll_employees.map(employee => ({
                     rut: employee.rut,
-                    payroll_item_id: this.payroll_item_input,
-                    amount: employee.amount_input,
+                    payroll_item_id: 56,
+                    amount: employee.family_burden_number_input,
                     period: this.period_input
                 }))
             };
@@ -346,7 +296,97 @@ export default {
             try {
                 const response = await axios.post(
                     'https://apijis.com/payroll_manual_inputs/store',
-                    dataToSend,
+                    dataToSendFamilyBurdenNumber,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    },
+                )
+
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error('Error al guardar los inputs manuales:', error)
+                }
+            }
+
+            const dataToSendFamilyBurdenLetter = {
+                payroll_employees: this.payroll_employees.map(employee => ({
+                    rut: employee.rut,
+                    payroll_item_id: 33,
+                    amount: this.letterSection(employee.family_burden_letter_input),
+                    period: this.period_input
+                }))
+            };
+
+            try {
+                const response = await axios.post(
+                    'https://apijis.com/payroll_manual_inputs/store',
+                    dataToSendFamilyBurdenLetter,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    },
+                )
+
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error('Error al guardar los inputs manuales:', error)
+                }
+            }
+
+            const dataToSendFamilyBurdenTotal = {
+                payroll_employees: this.payroll_employees.map(employee => ({
+                    rut: employee.rut,
+                    payroll_item_id: 10,
+                    amount: employee.family_burden_total_input,
+                    period: this.period_input
+                }))
+            };
+
+            try {
+                const response = await axios.post(
+                    'https://apijis.com/payroll_manual_inputs/store',
+                    dataToSendFamilyBurdenTotal,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    },
+                )
+
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error('Error al guardar los inputs manuales:', error)
+                }
+            }
+
+            const dataToSendFamilyBurdenRetroactive = {
+                payroll_employees: this.payroll_employees.map(employee => ({
+                    rut: employee.rut,
+                    payroll_item_id: 11,
+                    amount: employee.family_burden_retroactive_input,
+                    period: this.period_input
+                }))
+            };
+
+            try {
+                const response = await axios.post(
+                    'https://apijis.com/payroll_manual_inputs/store',
+                    dataToSendFamilyBurdenRetroactive,
                     {
                         headers: {
                             accept: 'application/json',
@@ -368,50 +408,6 @@ export default {
                 }
             }
         },
-        applyBulkAmount() {
-            this.amount_input = 0
-
-            this.payroll_employees.forEach((employee) => {
-                employee.amount_input = this.massive_amount_input
-
-                this.amount_input += parseInt(employee.amount_input)
-            })
-        },
-        async searchPayrollEmployees() {
-            const accessToken = localStorage.getItem('accessToken')
-            try {
-                const dataToSend = {
-                    rut: this.rut_input,
-                    father_lastname: this.father_lastname_input,
-                }
-
-                const response = await axios.post(
-                    'https://apijis.com/payroll_employees/search',
-                    dataToSend,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    },
-                )
-
-                this.payroll_employees = response.data.message
-
-                this.payroll_employees.forEach((employee) => {
-                    employee.amount_input = 0
-                })
-
-                this.loading_2 = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error('Error al obtener los empleados:', error)
-                }
-            }
-        },
         async getPayrollItems() {
             const accessToken = localStorage.getItem('accessToken')
             try {
@@ -424,7 +420,7 @@ export default {
                         },
                     },
                 )
-                console.log(response)
+     
                 this.payroll_managements_inputs = response.data.message
 
                 this.loading_1 = false
@@ -478,7 +474,15 @@ export default {
         await this.getPayrollEmployees()
 
         this.payroll_employees.forEach((employee) => {
-            employee.amount_input = 0
+            employee.family_burden_number_input = 0
+        })
+
+        this.payroll_employees.forEach((employee) => {
+            employee.family_burden_total_input = 0
+        })
+
+        this.payroll_employees.forEach((employee) => {
+            employee.family_burden_retroactive_input = 0
         })
         
         if (this.loading_1 === false && this.loading_2 === false) {

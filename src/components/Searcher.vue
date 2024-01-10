@@ -48,8 +48,8 @@
       <select v-model="status_input" class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         <option value="">- Estatus -</option>
         <option value="1">Activo</option>
-        <option value="2">Voluntario</option>
-        <option value="3">Desvinculado</option>
+        <option value="2">Desvinculado</option>
+        <option value="3">Voluntario</option>
       </select>
     </div>
     <div class="grid grid-cols-8 gap-4 p-4 md:p-5">
@@ -82,7 +82,7 @@ export default {
       names_input: '',
       father_lastname_input: '',
       mother_lastname_input: '',
-      status_input: '',
+      status_input: 1,
       branch_office_input: ''
     };
   },

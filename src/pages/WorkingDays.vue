@@ -24,15 +24,7 @@
         </div>
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">
-                Inputs Manuales
-
-                <router-link
-                    href="javascript:;"
-                    to="/create_bulk_payroll_manual_inputs"
-                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                >
-                    Carga Masiva
-                </router-link>
+                Días Trabajados
             </h2>
             <div
                 class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
@@ -45,30 +37,8 @@
                     </p>
                 </div>
                 <div
-                    class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                    class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5"
                 >
-                    <div>
-                        <label
-                            for="hs-validation-name-error"
-                            class="block text-sm font-medium mb-2 dark:text-white"
-                            >Item</label
-                        >
-                        <select
-                            required
-                            v-model="payroll_item_input"
-                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            @change="cleanForm()"
-                        >
-                            <option value="">- Seleccionar -</option>
-                            <option
-                                v-for="payroll_item in payroll_managements_inputs"
-                                :key="payroll_item.id"
-                                :value="payroll_item.id"
-                            >
-                                {{ payroll_item.item }}
-                            </option>
-                        </select>
-                    </div>
                     <div>
                         <label
                             for="hs-validation-name-error"
@@ -90,121 +60,12 @@
             <hr
                 class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
             />
-            <div
-                class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-            >
-                <div
-                    class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                >
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
-                        Buscar
-                    </p>
-                </div>
-                <div
-                    class="grid md:grid-cols-2 sm:grid-cols-1 gap-4 p-4 md:p-5"
-                >
-                    <div>
-                        <label
-                            for="hs-validation-name-error"
-                            class="block text-sm font-medium mb-2 dark:text-white"
-                            >RUT</label
-                        >
-                        <input
-                            type="text"
-                            id="rut_input"
-                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="RUT"
-                            v-model="rut_input"
-                            v-mask="['########-X']"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label
-                            for="hs-validation-name-error"
-                            class="block text-sm font-medium mb-2 dark:text-white"
-                            >Apellido Paterno</label
-                        >
-                        <input
-                            type="text"
-                            id="father_lastname_input"
-                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Apellido Paterno"
-                            v-model="father_lastname_input"
-                            required
-                        />
-                    </div>
-                </div>
-                <div
-                    class="grid md:grid-cols-6 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                >
-                    <div class="w-full">
-                        <button
-                            @click="searchPayrollEmployees"
-                            class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                        >
-                            
-                            Buscar
-                            <i class="fa-solid fa-search p-1"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <hr
-                class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
-            />
-            <div
-                class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-            >
-                <div
-                    class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                >
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
-                        Monto Masivo
-                    </p>
-                </div>
-                <div
-                    class="grid md:grid-cols-1 sm:grid-cols-1 gap-4 p-4 md:p-5"
-                >
-                    <div>
-                        <label
-                            for="hs-validation-name-error"
-                            class="block text-sm font-medium mb-2 dark:text-white"
-                            >Monto Masivo</label
-                        >
-                        <input
-                            type="text"
-                            id="massive_amount_input"
-                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Monto Maivo"
-                            v-model="massive_amount_input"
-                            required
-                        />
-                    </div>
-                </div>
-                <div
-                    class="grid md:grid-cols-6 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                >
-                    <div class="w-full">
-                        <button
-                            @click="applyBulkAmount"
-                            class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                        >
-                            
-                            Agregar
-                            <i class="fa-solid fa-plus p-1"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+
             <div
                 id="bar-with-underline-1"
                 role="tabpanel"
                 aria-labelledby="bar-with-underline-item-1"
             >
-                <hr
-                    class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
-                />
                 <div
                     class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                 >
@@ -222,10 +83,9 @@
                     >
                         <div>
                             <div class="grid grid-cols-2 md:grid-cols-2 gap-4 p-4 md:p-5">
-                                
                                 <div>
                                     <h1 class="text-4xl font-bold">
-                                        Monto Total ($): {{ amount_input }}
+                                        Dias Totales: {{ amount_input }}
                                     </h1>
                                     
                                 </div>
@@ -253,7 +113,7 @@
                                             Trabajador
                                         </th>
                                         <th class="px-4 py-2 text-left">
-                                            Monto ($)
+                                            Días
                                         </th>
                                     </tr>
                                 </thead>
@@ -279,7 +139,7 @@
                                                 type="number"
                                                 id="'amount_input"
                                                 class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                placeholder="Monto"
+                                                placeholder="Días"
                                                 v-model="
                                                     payroll_employee.amount_input
                                                 "
@@ -304,9 +164,7 @@ export default {
     directives: { mask },
     data() {
         return {
-            loading: true,
-            loading_1: true,
-            loading_2: true,
+            loading: false,
             rut_input: '',
             father_lastname_input: '',
             period_input: '',
@@ -337,7 +195,7 @@ export default {
             const dataToSend = {
                 payroll_employees: this.payroll_employees.map(employee => ({
                     rut: employee.rut,
-                    payroll_item_id: this.payroll_item_input,
+                    payroll_item_id: 55,
                     amount: employee.amount_input,
                     period: this.period_input
                 }))
@@ -368,75 +226,6 @@ export default {
                 }
             }
         },
-        applyBulkAmount() {
-            this.amount_input = 0
-
-            this.payroll_employees.forEach((employee) => {
-                employee.amount_input = this.massive_amount_input
-
-                this.amount_input += parseInt(employee.amount_input)
-            })
-        },
-        async searchPayrollEmployees() {
-            const accessToken = localStorage.getItem('accessToken')
-            try {
-                const dataToSend = {
-                    rut: this.rut_input,
-                    father_lastname: this.father_lastname_input,
-                }
-
-                const response = await axios.post(
-                    'https://apijis.com/payroll_employees/search',
-                    dataToSend,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    },
-                )
-
-                this.payroll_employees = response.data.message
-
-                this.payroll_employees.forEach((employee) => {
-                    employee.amount_input = 0
-                })
-
-                this.loading_2 = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error('Error al obtener los empleados:', error)
-                }
-            }
-        },
-        async getPayrollItems() {
-            const accessToken = localStorage.getItem('accessToken')
-            try {
-                const response = await axios.get(
-                    'https://apijis.com/payroll_items/',
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    },
-                )
-                console.log(response)
-                this.payroll_managements_inputs = response.data.message
-
-                this.loading_1 = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error('Error al obtener los items:', error)
-                }
-            }
-        },
         async getPayrollEmployees() {
             const accessToken = localStorage.getItem('accessToken')
             try {
@@ -451,8 +240,42 @@ export default {
                 )
 
                 this.payroll_employees = response.data.message
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error('Error al obtener los empleados:', error)
+                }
+            }
+        },
+        async getPayrollEmployeeValues() {
+            const accessToken = localStorage.getItem('accessToken');
+            try {
+                const response = await axios.get(
+                    'https://apijis.com/payroll_item_values/' + 55 +'/'+ this.period_input,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    },
+                );
 
-                this.loading_2 = false
+                const employeeValues = response.data.message;
+
+                this.payroll_employees.forEach((employee) => {
+                 
+                    const matchingEmployeeValue = employeeValues.find(
+                        (value) => value.rut === employee.rut
+                    );
+            
+                    if (matchingEmployeeValue) {
+                        employee.amount_input = matchingEmployeeValue.amount;
+                    } else {
+                        employee.amount_input = 0;
+                    }
+                });
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
@@ -464,8 +287,6 @@ export default {
         },
     },
     async mounted() {
-        await this.getPayrollItems()
-
         const opened_period = localStorage.getItem('opened_period')
         if (opened_period != null && opened_period != 'null' && opened_period != '' && opened_period != 'undefined' && opened_period != undefined) {
             this.period_input = opened_period
@@ -480,10 +301,8 @@ export default {
         this.payroll_employees.forEach((employee) => {
             employee.amount_input = 0
         })
-        
-        if (this.loading_1 === false && this.loading_2 === false) {
-            this.loading = false
-        }
+
+        await this.getPayrollEmployeeValues()
     },
 }
 </script>

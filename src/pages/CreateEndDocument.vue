@@ -112,7 +112,6 @@
                             v-model="rut_input"
                             v-mask="['########-X']"
                             required
-                            disabled
                         />
                     </div>
                     <div>
@@ -213,7 +212,6 @@
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         >
                             <option value="1">Si</option>
-                            <option value="2">No</option>
                         </select>
                     </div>
                 </div>
@@ -251,6 +249,7 @@
                                 <input
                                     type="number"
                                     v-model="indemnity_year_input"
+                                    @blur="sum"
                                     class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 />
                             </div>
@@ -297,6 +296,7 @@
                                 >
                                 <input
                                     v-model="substitute_compensation_input"
+                                    @blur="sum"
                                     type="number"
                                     class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required
@@ -346,6 +346,7 @@
                                 <input
                                     v-model="fertility_proportional_input"
                                     type="number"
+                                    @blur="sum"
                                     class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required
                                 />
@@ -606,7 +607,7 @@ export default {
                 const employeeDataToSend = {
                     end_document_type_id: this.end_document_type_id,
                     rut: this.employee_data.rut,
-                    visual_rut: this.employee_data.visual_rut,
+                    visual_rut: this.rut_input,
                     names: this.employee_data.names,
                     father_lastname: this.employee_data.father_lastname,
                     mother_lastname: this.employee_data.mother_lastname,
@@ -620,7 +621,7 @@ export default {
 
                 await axios.post(
                     'https://apijis.com/old_employees/transfer',
-                    this.employee_data,
+                    employeeDataToSend,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -766,6 +767,7 @@ export default {
                 const employeeLaborDataToSend = {
                     end_document_type_id: this.end_document_type_id,
                     rut: this.$route.params.rut,
+                    visual_rut: this.rut_input,
                     contract_type_id: this.employee_labor_data.contract_type_id,
                     branch_office_id: this.employee_labor_data.branch_office_id,
                     address: this.employee_labor_data.address,
@@ -816,7 +818,7 @@ export default {
 
                 await axios.post(
                     'https://apijis.com/old_documents_employees/transfer/' +
-                        this.$route.params.rut,
+                        this.$route.params.rut + '/' + this.end_document_type_id,
                     {},
                     {
                         headers: {
@@ -833,7 +835,7 @@ export default {
 
                 await axios.post(
                     'https://apijis.com/old_family_core_data/transfer/' +
-                        this.$route.params.rut,
+                        this.$route.params.rut + '/' + this.end_document_type_id,
                     {},
                     {
                         headers: {
@@ -858,7 +860,7 @@ export default {
                 if(response.data.message != 'null' && response.data.message != undefined && response.data.message != ''  && response.data.message != null){
                     await axios.post(
                     'https://apijis.com/old_vacations/transfer/' +
-                        this.$route.params.rut,
+                        this.$route.params.rut + '/' + this.end_document_type_id,
                     {},
                     {
                         headers: {
@@ -868,7 +870,6 @@ export default {
                     }
                     )
                 }
-               
 
                 this.loading_6 = false
                 this.employee_vacations_status = 0
@@ -877,7 +878,7 @@ export default {
 
                 await axios.post(
                     'https://apijis.com/old_medical_licenses/transfer/' +
-                        this.$route.params.rut,
+                        this.$route.params.rut + '/' + this.end_document_type_id,
                     {},
                     {
                         headers: {
@@ -890,23 +891,6 @@ export default {
                 this.loading_7 = false
                 this.employee_medical_status = 0
 
-                if (
-                    this.loading_1 == false &&
-                    this.loading_2 == false &&
-                    this.loading_3 == false &&
-                    this.loading_4 == false &&
-                    this.loading_5 == false &&
-                    this.loading_6 == false &&
-                    this.loading_7 == false
-                ) {
-                    this.storeEndDocument()
-
-                    localStorage.setItem('created_end_document', 1)
-                    this.$router.push(
-                        '/old_labor_data/' + this.$route.params.rut
-                    )
-                    this.loading = false
-                }
             } catch (error) {
                 this.loading_1 = false
                 this.loading_2 = false
@@ -917,6 +901,28 @@ export default {
                 this.loading_7 = false
                 this.loading = false
                 console.log(error)
+            } finally {
+                this.loading_2 = false;
+                this.loading_3 = false;
+                this.loading_4 = false;
+                this.loading_5 = false;
+                this.loading_6 = false;
+                this.loading_7 = false;
+
+                if (
+                    !this.loading_1 &&
+                    !this.loading_2 &&
+                    !this.loading_3 &&
+                    !this.loading_4 &&
+                    !this.loading_5 &&
+                    !this.loading_6 &&
+                    !this.loading_7
+                ) {
+                    this.storeEndDocument();
+                    localStorage.setItem('created_end_document', 1);
+                    this.$router.push('/old_labor_data/' + this.$route.params.rut);
+                    this.loading = false;
+                }
             }
         },
         storeEndDocument() {
@@ -1069,6 +1075,14 @@ export default {
                     console.error('Error al obtener los datos:', error)
                 }
             }
+        },
+        async sum() {
+            this.total_input =
+                    this.indemnity_year_input +
+                    this.substitute_compensation_input +
+                    this.fertility_proportional_input +
+                    this.voluntary_compensation_input
+
         },
         async calculateIndemnityYears() {
             try {

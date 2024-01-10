@@ -121,7 +121,7 @@
                     </div>
                     <div class="p-4 md:p-5 text-center">
                         <h3 class="text-sm font-bold text-white">
-                            {{ legal_holiday + progressive_legal_holiday }} Días
+                            {{ total_holidays }} Días
                         </h3>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
                     </div>
                     <div class="p-4 md:p-5 text-center">
                         <h3 class="text-sm font-bold text-white">
-                            {{ taken_days + progressive_taken_days }} Días
+                            {{ total_taken_days }} Días
                         </h3>
                     </div>
                 </div>
@@ -154,7 +154,7 @@
                     </div>
                     <div class="p-4 md:p-5 text-center">
                         <h3 class="text-sm font-bold text-white">
-                            {{ balance + progressive_balance }} Días
+                            {{ total_balance }} Días
                         </h3>
                     </div>
                 </div>

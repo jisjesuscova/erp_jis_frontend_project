@@ -1208,23 +1208,11 @@ export default {
                     this.privilege_input = decodedData.employee_data.privilege
                 }
 
-                if (decodedData.signature == null) {
-                    this.signature = ''
-                } else {
-                    this.signature = decodedData.signature
-                }
-
                 if (decodedData.picture == '' || decodedData.picture == null) {
                     this.uploaded_picture = ''
                 } else {
                     this.uploaded_picture = decodedData.picture
                 }
-
-                localStorage.setItem('signature', decodedData.signature)
-                localStorage.setItem(
-                    'signature_type_id',
-                    decodedData.employee_data.signature_type_id
-                )
 
                 this.loading = false
             } catch (error) {

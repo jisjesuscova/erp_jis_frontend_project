@@ -32,277 +32,13 @@
 
             <OldEmployeeMenu />
 
-            <div
-                v-if="progressive_vacation_input != 1"
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-10"
-            >
-                <div
-                    class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-                >
-                    <div
-                        class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                    >
-                        <p
-                            class="mt-1 text-sm text-gray-500 dark:text-gray-500"
-                        >
-                            Feriado Legal
-                        </p>
-                    </div>
-                    <div class="p-4 md:p-5 text-center">
-                        <h3
-                            class="text-sm font-bold text-gray-800 dark:text-white"
-                        >
-                            {{ legal_holiday }} Días
-                        </h3>
-                    </div>
-                </div>
-                <div
-                    class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-                >
-                    <div
-                        class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                    >
-                        <p
-                            class="mt-1 text-sm text-gray-500 dark:text-gray-500"
-                        >
-                            Días Tomados
-                        </p>
-                    </div>
-                    <div class="p-4 md:p-5 text-center">
-                        <h3
-                            class="text-sm font-bold text-gray-800 dark:text-white"
-                        >
-                            {{ taken_days }} Días
-                        </h3>
-                    </div>
-                </div>
-                <div
-                    class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-                >
-                    <div
-                        class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                    >
-                        <p
-                            class="mt-1 text-sm text-gray-500 dark:text-gray-500"
-                        >
-                            Saldo
-                        </p>
-                    </div>
-                    <div class="p-4 md:p-5 text-center">
-                        <h3
-                            class="text-sm font-bold text-gray-800 dark:text-white"
-                        >
-                            {{ balance }} Días
-                        </h3>
-                    </div>
-                </div>
-            </div>
-
-            <div
-                v-if="progressive_vacation_input == 1"
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-10"
-            >
-                <div
-                    class="flex flex-col bg-red-500 border-dark shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-                >
-                    <div
-                        class="bg-red-700 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                    >
-                        <p class="mt-1 text-sm text-white dark:text-gray-500">
-                            Feriado Legal Total
-                        </p>
-                    </div>
-                    <div class="p-4 md:p-5 text-center">
-                        <h3 class="text-sm font-bold text-white">
-                            {{ legal_holiday + progressive_legal_holiday }} Días
-                        </h3>
-                    </div>
-                </div>
-                <div
-                    class="flex flex-col bg-red-500 border-dark shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-                >
-                    <div
-                        class="bg-red-700 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                    >
-                        <p class="mt-1 text-sm text-white dark:text-gray-500">
-                            Días Tomados Totales
-                        </p>
-                    </div>
-                    <div class="p-4 md:p-5 text-center">
-                        <h3 class="text-sm font-bold text-white">
-                            {{ taken_days + progressive_taken_days }} Días
-                        </h3>
-                    </div>
-                </div>
-
-                <div
-                    class="flex flex-col bg-red-500 border-dark shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-                >
-                    <div
-                        class="bg-red-700 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                    >
-                        <p class="mt-1 text-sm text-white dark:text-gray-500">
-                            Saldo Total
-                        </p>
-                    </div>
-                    <div class="p-4 md:p-5 text-center">
-                        <h3 class="text-sm font-bold text-white">
-                            {{ balance + progressive_balance }} Días
-                        </h3>
-                    </div>
-                </div>
-
-                <div
-                    class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-                >
-                    <div
-                        class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                    >
-                        <p
-                            class="mt-1 text-sm text-gray-500 dark:text-gray-500"
-                        >
-                            Feriado Legal Normal
-                        </p>
-                    </div>
-                    <div class="p-4 md:p-5 text-center">
-                        <h3
-                            class="text-sm font-bold text-gray-800 dark:text-white"
-                        >
-                            {{ legal_holiday }} Días
-                        </h3>
-                    </div>
-                </div>
-                <div
-                    class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-                >
-                    <div
-                        class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                    >
-                        <p
-                            class="mt-1 text-sm text-gray-500 dark:text-gray-500"
-                        >
-                            Días Tomados Normales
-                        </p>
-                    </div>
-                    <div class="p-4 md:p-5 text-center">
-                        <h3
-                            class="text-sm font-bold text-gray-800 dark:text-white"
-                        >
-                            {{ taken_days }} Días
-                        </h3>
-                    </div>
-                </div>
-                <div
-                    class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-                >
-                    <div
-                        class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                    >
-                        <p
-                            class="mt-1 text-sm text-gray-500 dark:text-gray-500"
-                        >
-                            Saldo Normal
-                        </p>
-                    </div>
-                    <div class="p-4 md:p-5 text-center">
-                        <h3
-                            class="text-sm font-bold text-gray-800 dark:text-white"
-                        >
-                            {{ balance }} Días
-                        </h3>
-                    </div>
-                </div>
-
-                <div
-                    class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-                >
-                    <div
-                        class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                    >
-                        <p
-                            class="mt-1 text-sm text-gray-500 dark:text-gray-500"
-                        >
-                            Feriado Legal Progresivo
-                        </p>
-                    </div>
-                    <div class="p-4 md:p-5 text-center">
-                        <h3
-                            class="text-sm font-bold text-gray-800 dark:text-white"
-                        >
-                            {{ progressive_legal_holiday }} Días
-                        </h3>
-                    </div>
-                </div>
-                <div
-                    class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-                >
-                    <div
-                        class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                    >
-                        <p
-                            class="mt-1 text-sm text-gray-500 dark:text-gray-500"
-                        >
-                            Días Tomados Progresivos
-                        </p>
-                    </div>
-                    <div class="p-4 md:p-5 text-center">
-                        <h3
-                            class="text-sm font-bold text-gray-800 dark:text-white"
-                        >
-                            {{ progressive_taken_days }} Días
-                        </h3>
-                    </div>
-                </div>
-                <div
-                    class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-                >
-                    <div
-                        class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                    >
-                        <p
-                            class="mt-1 text-sm text-gray-500 dark:text-gray-500"
-                        >
-                            Saldo Progresivo
-                        </p>
-                    </div>
-                    <div class="p-4 md:p-5 text-center">
-                        <h3
-                            class="text-sm font-bold text-gray-800 dark:text-white"
-                        >
-                            {{ progressive_balance }} Días
-                        </h3>
-                    </div>
-                </div>
-            </div>
 
             <div class="-m-1.5 overflow-x-auto pt-12">
-                <div
-                    class="bg-green-500 text-sm text-white rounded-md p-4 mb-10"
-                    role="alert"
-                    v-if="created_vacation == 1"
-                >
-                    Registro agregado con <span class="font-bold">éxito</span>.
-                </div>
-                <div
-                    class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
-                    role="alert"
-                    v-if="error_kardex == 1"
-                >
-                    <span class="font-bold">Error</span> para descargar el
-                    documento.
-                </div>
-                <div
-                    class="bg-green-500 text-sm text-white rounded-md p-4 mb-10"
-                    role="alert"
-                    v-if="uploaded_progressive_vacation == 1"
-                >
-                    Registro cargado con <span class="font-bold">éxito</span>.
-                </div>
                 <div class="p-1.5 min-w-full inline-block align-middle">
                     <div
                         class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
                     >
-                        <div class="overflow-hidden">
+                        <div class="overflow-hidden" v-if="totalItems > 0">
                             <table
                                 class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
                             >
@@ -407,215 +143,12 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center mt-10">
-                <vue-awesome-paginate
-                    :total-items="totalItems"
-                    :items-per-page="itemsPerPage"
-                    :max-pages-shown="maxPagesShown"
-                    v-model="currentPage"
-                    :on-click="onClickHandler"
-                />
-            </div>
-
-            <hr
-                v-if="progressive_vacation_input == 1"
-                class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"
-            />
-
-            <h2
-                v-if="progressive_vacation_input == 1"
-                class="text-4xl dark:text-white pb-10"
-            >
-                Vacaciones Progresivas
-                <router-link
-                    v-if="rol_id == 4"
-                    href="javascript:;"
-                    :to="`/create_progressive_vacation_data_employee/${this.$route.params.rut}`"
-                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                >
-                    Agregar
-                </router-link>
-            </h2>
-
-            <div
-                v-if="progressive_vacation_input == 1"
-                class="-m-1.5 overflow-x-auto pt-12"
-            >
-                <div
-                    class="bg-green-500 text-sm text-white rounded-md p-4 mb-10"
-                    role="alert"
-                    v-if="created_vacation == 1"
-                >
-                    Registro agregado con <span class="font-bold">éxito</span>.
-                </div>
-                <div
-                    class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
-                    role="alert"
-                    v-if="error_kardex == 1"
-                >
-                    <span class="font-bold">Error</span> para descargar el
-                    documento.
-                </div>
-                <div class="p-1.5 min-w-full inline-block align-middle">
-                    <div
-                        class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
-                    >
-                        <div class="overflow-hidden">
-                            <table
-                                class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
-                            >
-                                <thead class="bg-gray-50 dark:bg-gray-700">
+                        <div class="overflow-hidden" v-else>
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                                     <tr>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-                                        >
-                                            Id
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-                                        >
-                                            Desde
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-                                        >
-                                            Hasta
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-                                        >
-                                            Días Hábiles
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-                                        >
-                                            Estatus
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-                                        ></th>
-                                    </tr>
-                                </thead>
-                                <tbody
-                                    class="divide-y divide-gray-200 dark:divide-gray-700"
-                                >
-                                    <tr
-                                        v-for="progressive_vacation in progressive_vacations"
-                                        :key="progressive_vacation.id"
-                                    >
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
-                                        >
-                                            {{
-                                                progressive_vacation.document_employee_id
-                                            }}
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
-                                        >
-                                            {{
-                                                formatDate(
-                                                    progressive_vacation.since,
-                                                )
-                                            }}
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
-                                        >
-                                            {{
-                                                formatDate(
-                                                    progressive_vacation.until,
-                                                )
-                                            }}
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
-                                        >
-                                            {{ progressive_vacation.days }}
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
-                                        >
-                                            <span
-                                                v-if="
-                                                    progressive_vacation.status_id ==
-                                                    3
-                                                "
-                                                class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-500 text-white"
-                                                >Aceptada</span
-                                            >
-                                            <span
-                                                v-if="
-                                                    progressive_vacation.status_id ==
-                                                    4
-                                                "
-                                                class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-indigo-500 text-white"
-                                                >Firmada</span
-                                            >
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
-                                        >
-                                            <button
-                                                v-if="
-                                                    progressive_vacation.status_id ==
-                                                    3
-                                                "
-                                                type="button"
-                                                @click="
-                                                    confirmSignProgressiveVacation(
-                                                        progressive_vacation.document_employee_id,
-                                                    )
-                                                "
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-pencil"
-                                                ></i>
-                                            </button>
-
-                                            <button
-                                                v-if="
-                                                    progressive_vacation.status_id ==
-                                                    3
-                                                "
-                                                type="button"
-                                                @click="
-                                                    generateFalseProgressiveVacation(
-                                                        progressive_vacation.document_employee_id,
-                                                    )
-                                                "
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                            >
-                                                <i class="fa-solid fa-file"></i>
-                                            </button>
-
-                                            <button
-                                                v-if="
-                                                    progressive_vacation.status_id ==
-                                                    4
-                                                "
-                                                type="button"
-                                                @click="
-                                                    generateProgressiveVacation(
-                                                        progressive_vacation.document_employee_id,
-                                                    )
-                                                "
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-arrow-down"
-                                                ></i>
-                                            </button>
+                                        <td class="px-6 py-4 flex items-center text-center text-sm font-medium text-gray-800 dark:text-gray-200">
+                                            No hay registros en el sistema
                                         </td>
                                     </tr>
                                 </tbody>
@@ -623,18 +156,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div
-                v-if="progressive_vacation_input == 1"
-                class="text-center mt-10"
-            >
-                <vue-awesome-paginate
-                    :total-items="progressive_totalItems"
-                    :items-per-page="progressive_itemsPerPage"
-                    :max-pages-shown="progressive_maxPagesShown"
-                    v-model="progressive_currentPage"
-                    :on-click="progressive_onClickHandler"
-                />
             </div>
         </div>
     </div>
@@ -687,16 +208,7 @@ export default {
         }
     },
     async mounted() {
-        await this.getExtraDataEmployee()
         await this.getVacations()
-        await this.getProgressiveVacations()
-        await this.getLegal()
-        await this.getTakenDays()
-        await this.getProgressiveLegal()
-        await this.getProgressiveTakenDays()
-        await this.getPdfVacations()
-        await this.getPdfProgressiveVacations()
-        await this.getPersonalDataEmployee
 
         const rol_id = localStorage.getItem('rol_id')
 
@@ -712,25 +224,13 @@ export default {
             localStorage.removeItem('uploaded_progressive_vacation')
         }
 
-        if (
-            this.loading_1 == false &&
-            this.loading_2 == false &&
-            this.loading_3 == false &&
-            this.loading_4 == false &&
-            this.loading_5 == false &&
-            this.loading_6 == false &&
-            this.loading_7 == false &&
-            this.loading_8 == false
-        ) {
-            this.loading = false
-        }
+        this.loading = false
+
     },
     methods: {
         formatDateToCustomFormat(dateString) {
-            // Parsea la cadena de fecha en un objeto Date
             const date = new Date(dateString)
 
-            // Define los nombres de los meses en español
             const monthNames = [
                 'Enero',
                 'Febrero',
@@ -746,12 +246,9 @@ export default {
                 'Diciembre',
             ]
 
-            // Obtiene el día, mes y año
             const day = date.getDate()
             const month = date.getMonth()
             const year = date.getFullYear()
-
-            // Formatea la fecha en el formato deseado
             const formattedDate = `${day} de ${monthNames[month]} del ${year}`
 
             return formattedDate
@@ -817,12 +314,16 @@ export default {
                     },
                 )
                 
-                if (response.data.message != '' && response.data.message != null && response.data.message != undefined) {
+                if (response.data.message != '' && response.data.message != null && response.data.message != undefined && response.data.message != 'Invalid page number' && response.data.message != 'No data found') {
                     const decodedData = JSON.parse(response.data.message)
 
                     this.vacations = decodedData.data
                     this.totalItems = decodedData.total_items
                     this.itemsPerPage = decodedData.items_per_page
+                } else {
+                    this.vacations = []
+                    this.totalItems = 0
+                    this.itemsPerPage = 0
                 }
 
                 this.loading_2 = false
@@ -881,7 +382,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/progressive_vacations/all/' +
+                    'https://apijis.com/old_progressive_vacations/all/' +
                         this.$route.params.rut +
                         '/' +
                         page,

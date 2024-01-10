@@ -85,7 +85,9 @@ import OpenPeriod from './pages/OpenPeriod.vue'
 import PeriodDatum from './pages/PeriodDatum.vue'
 import ManualInput from './pages/ManualInput.vue'
 import BulkPayrollManualInput from './pages/BulkPayrollManualInput.vue'
-
+import PayrollCalculation from './pages/PayrollCalculation.vue'
+import FamilyBurden from './pages/FamilyBurden.vue'
+import WorkingDays from './pages/WorkingDays.vue'
 
 const routes = [
     {
@@ -444,6 +446,18 @@ const routes = [
     {
         path:'/create_bulk_payroll_manual_inputs',
         component: BulkPayrollManualInput
+    },
+    {
+        path:'/payroll_calculation',
+        component: PayrollCalculation
+    },
+    {
+        path:'/family_burdens',
+        component: FamilyBurden
+    },
+    {
+        path:'/working_days',
+        component: WorkingDays
     },
 ]
 

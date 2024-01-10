@@ -190,7 +190,7 @@ export default {
             formData.append('file', this.file_input)
 
             axios
-                .post('http://localhost:8000/payroll_manual_inputs/upload', formData, {
+                .post('https://apijis.com/payroll_manual_inputs/upload', formData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'multipart/form-data',

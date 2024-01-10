@@ -3939,7 +3939,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employees/edit/' +
+                    'https://apijis.com/old_employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -3975,7 +3975,7 @@ export default {
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`,
                         },
                     },
                 )
@@ -3995,14 +3995,14 @@ export default {
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`,
                         },
                     },
                 )
                 this.causals = responseCausals.data.message.filter(
                     (causal) => causal.id == this.end_documents[0].causal_id,
                 )
-                console.log(this.causals[0].causal)
+                console.log(this.causal)
 
                 this.loading_13 = false
             } catch (error) {
