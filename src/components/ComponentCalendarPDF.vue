@@ -24,7 +24,7 @@
 
             <!-- You can use a spinner or any other loading animation here -->
         </div>
-    <div id="PDF" v-show="1==1">
+    <div id="PDF" v-show="1==1" class="mt-96">
         <table class="w-full">
             <thead>
                 <tr>
@@ -109,70 +109,37 @@
             </thead>
             <tbody>
                 <tr v-for="(week, weekIndex) in weeks" :key="'week-' + week[0]">
-                    <td
+                    <td 
                         v-for="(day, dayIndex) in week"
                         :key="day.day"
                         class="border border-gray-900 p-1 h-40 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 overflow-auto transition cursor-pointer duration-500 ease hover:bg-gray-300"
                         :class="{
-                            'bg-white-100':
-                                !day.isNextMonth && !day.isPrevMonth,
+                            'bg-white-100': !day.isNextMonth && !day.isPrevMonth,
                             'bg-gray-300': day.isNextMonth || day.isPrevMonth,
                         }"
-                    >
-                        <div
-                            class="flex flex-col h-40 mx-auto xl:w-40 lg:w-30 md:w-30 sm:w-full w-10 mx-auto overflow-hidden"
-                        >
+                        
+                     >
+                        <div class="flex flex-col h-40 mx-auto xl:w-40 lg:w-30 md:w-30 sm:w-full w-10 mx-auto overflow-hidden">
                             <div class="top h-5 w-full">
-                                <span
-                                    class="text-gray-500"
-                                    v-if="day.day !== null"
-                                    >{{ day.day }}</span
-                                >
+                                <span class="text-gray-500" v-if="day.day !== null">{{ day.day }}</span>
                             </div>
                             <div
                                 class="flex flex-col h-40 mx-auto xl:w-40 lg:w-30 md:w-30 sm:w-full w-10 mx-auto overflow-hidden"
-                                v-if="
-                                    !day.isNextMonth &&
-                                    !day.isPrevMonth &&
-                                    dayIndex < 6
-                                "
+                                v-if="!day.daysInNextMonth && !day.daysInPrevMonth && isWorkDay(day) && dayIndex <6"
                             >
-                                <div
-                                    v-for="weekInfo in filteredDataToShow[
-                                        weekIndex
-                                    ]"
-                                    :key="weekInfo.id"
-                                >
-                                    <div
-                                        class="bottom flex-grow h-30 py-1 w-full cursor-pointer"
-                                    >
-                                        <div
-                                            class="event bg-gray-300 text-white rounded p-1 text-sm mb-1"
-                                        >
-                                            <span class="time">
-                                                {{ weekInfo.turn_data.start }}
-                                            </span>
+                                <div v-for="weekInfo in filteredDataToShow[weekIndex]" :key="weekInfo.id">
+                                    <div class="bottom flex-grow h-30 py-1 w-full cursor-pointer">
+                                        <div class="event bg-gray-300 text-white rounded p-1 text-sm mb-1">
+                                            <span class="time">{{ weekInfo.turn_data.start }}</span>
                                         </div>
-                                        <div
-                                            class="event bg-gray-900 text-white rounded p-1 text-sm mb-1"
-                                        >
-                                            <span class="time">
-                                                {{ weekInfo.turn_data.end }}
-                                            </span>
+                                        <div class="event bg-gray-900 text-white rounded p-1 text-sm mb-1">
+                                            <span class="time">{{ weekInfo.turn_data.end }}</span>
                                         </div>
-                                        <div
-                                            class="event bg-orange-500 text-white rounded p-1 text-sm mb-1"
-                                        >
-                                            <span class="time">
-                                                {{ weekInfo.turn_data.breaking }}
-                                            </span>
+                                        <div class="event bg-orange-500 text-white rounded p-1 text-sm mb-1">
+                                            <span class="time">{{ weekInfo.turn_data.breaking }}</span>
                                         </div>
-                                        <div
-                                            class="event bg-blue-700 text-white rounded p-1 text-sm mb-1"
-                                        >
-                                            <span class="time">
-                                                {{ weekInfo.turn_data.working }}
-                                            </span>
+                                        <div class="event bg-blue-700 text-white rounded p-1 text-sm mb-1">
+                                            <span class="time">{{ weekInfo.turn_data.working }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -269,6 +236,7 @@
   import html2canvas from 'html2canvas'
   export default {
     computed: {
+        
         totalFreeDays() {
             if (!Array.isArray(this.dataToShow)) {
                 return 0;
@@ -326,6 +294,7 @@
     },
     data() {
         return {
+            workDays: [],
             rutAndPeriodPDf: [],
             loading:true,
             days: [],
@@ -334,7 +303,19 @@
             dataToPdf: [],
         }
     },
+    
     methods: {
+            isWorkDay(day) {
+                const actualYear = new Date().getFullYear();
+                const monthPeriod = Number(this.rutAndPeriodPDf.period.split('-')[1])
+                // Convierte la cadena de texto a un objeto Date
+                const date = new Date(actualYear, monthPeriod-1, day.day);
+                // Convierte la fecha a una cadena en el formato de tus datos
+                const dateString = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+                // Verifica si la fecha está en tus datos
+                console.log(this.workDays.includes(dateString.split('-')[2]));
+                return this.workDays.includes(dateString.split('-')[2]);
+                },
         async printPDF() {
             console.log(this.dataToPdf)
             // Selecciona el elemento que quieres convertir en PDF
@@ -387,7 +368,6 @@
             const employeeRutPeriodNames = JSON.parse(localStorage.getItem('employeeRutPeriodNames'))
             this.rutAndPeriodPDf = employeeRutPeriodNames
             const monthPeriod = Number(employeeRutPeriodNames.period.split('-')[1])
-            console.log(monthPeriod)
             const year = new Date().getFullYear()
             const nextMonth = new Date().getMonth() + monthPeriod
             const daysInMonth = new Date(year, nextMonth, 0).getDate()
@@ -431,6 +411,10 @@
   
     async mounted() {
         await this.calculateWeeksPerMonth()
+        this.workDays = this.dataToShow.flatMap(item => item.date.map(date => date.split('-')[2]));
+        
+        
+        console.log(this.workDays)
         this.printPDF()
        
     },
