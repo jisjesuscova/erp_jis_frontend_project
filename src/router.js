@@ -75,6 +75,8 @@ import OldVacation from './pages/OldVacation.vue'
 import Alert from './pages/Alert.vue'
 import Schedule from './pages/Schedule.vue'
 import ScheduleProcess from './pages/ScheduleProcess.vue'
+import ScheduleProcessCalendar from './pages/ScheduleProcessCalendar.vue'
+import SchedulePdfCalendar from './pages/SchedulePdfCalendar.vue'
 import CreateSchedule from './pages/CreateSchedule.vue'
 import UploadEmployeeContract from './pages/UploadEmployeeContract.vue'
 import GeneralSalarySettlement from './pages/GeneralSalarySettlement.vue'
@@ -410,6 +412,14 @@ const routes = [
     {
         path:'/schedule_process',
         component: ScheduleProcess
+    },
+    {
+        path:'/schedule_process_calendar',
+        component: ScheduleProcessCalendar
+    },
+    {
+        path:'/schedule_pdf_calendar',
+        component: SchedulePdfCalendar
     },
     {
         path:'/create_schedule',
