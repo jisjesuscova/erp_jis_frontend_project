@@ -110,7 +110,7 @@
             <tbody>
                 <tr v-for="(week, weekIndex) in weeks" :key="'week-' + week[0]">
                     <td 
-                        v-for="(day, dayIndex) in week"
+                        v-for="(day) in week"
                         :key="day.day"
                         class="border border-gray-900 p-1 h-40 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 overflow-auto transition cursor-pointer duration-500 ease hover:bg-gray-300"
                         :class="{
@@ -125,7 +125,7 @@
                             </div>
                             <div
                                 class="flex flex-col h-40 mx-auto xl:w-40 lg:w-30 md:w-30 sm:w-full w-10 mx-auto overflow-hidden"
-                                v-if="!day.daysInNextMonth && !day.daysInPrevMonth && isWorkDay(day) && dayIndex <6"
+                                v-if="!day.daysInNextMonth && !day.daysInPrevMonth && isWorkDay(day)"
                             >
                                 <div v-for="weekInfo in filteredDataToShow[weekIndex]" :key="weekInfo.id">
                                     <div class="bottom flex-grow h-30 py-1 w-full cursor-pointer">
@@ -359,7 +359,7 @@
                 )
                 heightLeft -= pageHeight
             }
-  
+            
             // Descarga el PDF
             pdf.save(`Malla_horaria_${this.rutAndPeriodPDf.rut}_${this.rutAndPeriodPDf.period}.pdf`)
             window.location.href = '/schedule'
@@ -372,9 +372,7 @@
             const nextMonth = new Date().getMonth() + monthPeriod
             const daysInMonth = new Date(year, nextMonth, 0).getDate()
             const daysInPrevMonth = new Date(year, nextMonth - 1, 0).getDate()
-            const daysInNextMonth = new Date(
-                year,
-                (nextMonth % 12) + 1,
+            const daysInNextMonth = new Date(year,(nextMonth % 12) + 1,
                 0
             ).getDate()
             this.firstDayOfWeek = new Date(year, nextMonth - 1, 1 - 1).getDay()
@@ -393,13 +391,13 @@
                             }
                         } else if (day <= 0) {
                             return {
-                                day: daysInPrevMonth + day,
+                                // day: daysInPrevMonth + day,
                                 isNextMonth: false,
                                 isPrevMonth: true,
                             }
                         } else {
                             return {
-                                day: day - daysInMonth,
+                                // day: day - daysInMonth,
                                 isNextMonth: true,
                                 isPrevMonth: false,
                             }
@@ -415,7 +413,9 @@
         
         
         console.log(this.workDays)
-        this.printPDF()
+        setTimeout(() => {
+            this.printPDF()
+        }, 10);
        
     },
   }

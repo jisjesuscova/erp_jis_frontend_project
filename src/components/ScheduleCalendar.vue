@@ -85,7 +85,7 @@
             <tbody>
                 <tr v-for="(week, weekIndex) in weeks" :key="'week-' + week[0]">
                     <td
-                        v-for="(day, dayIndex) in week"
+                        v-for="(day) in week"
                         :key="day.day"
                         class="border border-gray-900 p-1 h-40 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 overflow-auto transition cursor-pointer duration-500 ease hover:bg-gray-300"
                         :class="{
@@ -106,10 +106,7 @@
                             </div>
                             <div
                                 class="flex flex-col h-40 mx-auto xl:w-40 lg:w-30 md:w-30 sm:w-full w-10 mx-auto overflow-hidden"
-                                v-if="
-                                    !day.isNextMonth &&
-                                    !day.isPrevMonth &&
-                                    dayIndex < 6
+                                v-if="!day.isNextMonth &&!day.isPrevMonth && isWorkDay(day) 
                                 "
                             >
                                 <div
@@ -240,40 +237,60 @@
   <script>
   import jsPDF from 'jspdf'
   import html2canvas from 'html2canvas'
+import { is } from 'date-fns/locale';
   export default {
     computed: {
         totalFreeDays() {
-            return this.dataToShow.reduce(
-                (total, week) => total + week.free_day_group_id,
-                0
-            )
+            if (!Array.isArray(this.dataToShow)) {
+                return 0;
+            }
+            const month = new Date(this.dataToShow[0].datesInRange[0]).getMonth() + 1
+            const year = new Date(this.dataToShow[0].datesInRange[0]).getFullYear()
+            const totalDaysInMonth = new Date(year, month, 0).getDate();
+            const totalProgrammedDays = this.totalProgrammedDays
+            return totalDaysInMonth - totalProgrammedDays;
         },
         totalProgrammedDays() {
-            console.log(this.totalFreeDays)
+            if (!Array.isArray(this.dataToShow)) {
+                return 0;
+            }
             return this.dataToShow.reduce(
-                (total, week) => total + week.group_day_id,
-                0
-            )
+                (total, week) => {
+                    console.log(week)
+                    console.log(total)
+                    total + week.datesInRange.length,0
+                }
+            );
         },
         totalTurns() {
             //devuelve un string con el siguiente format "week.group_day_id x free_g day_group_id "
             return this.totalProgrammedDays + ' X ' + this.totalFreeDays
         },
         totalWeekHours() {
+            if (!Array.isArray(this.dataToShow)) {
+                return 0;
+            }
             return this.dataToShow.reduce(
-                (total, week) => total + week.total_week_hours,
+                (total, week) => {
+                    const [hours, minutes] = week.working.split(':').map(Number);
+                    const decimalHours = hours + (minutes / 60);
+                    return total + (week.datesInRange.length * decimalHours);
+                },
                 0
-            )
+            );
         },
         filteredDataToShow() {
+            if (!Array.isArray(this.dataToShow)) {
+                return [];
+            }
             return this.weeks.map((week, weekIndex) => {
                 return this.dataToShow.filter((weekInfo, infoIndex) => {
                     return (
                         weekInfo.week_id === weekIndex + 1 &&
                         infoIndex < weekInfo.group_day_id
-                    )
-                })
-            })
+                    );
+                });
+            });
         },
     },
   
@@ -286,6 +303,7 @@
 
     data() {
         return {
+            workDays: [],
             days: [],
             weeks: [],
             firstDayOfWeek: 0,
@@ -293,6 +311,16 @@
         }
     },
     methods: {
+        isWorkDay(day) {
+                const actualYear = new Date().getFullYear();
+                const monthPeriod = new Date(this.dataToShow[0].datesInRange[0]).getMonth() + 1
+                // Convierte la cadena de texto a un objeto Date
+                const date = new Date(actualYear, monthPeriod-1, day.day);
+                // Convierte la fecha a una cadena en el formato de tus datos
+                const dateString = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+                // Verifica si la fecha está en tus datos
+                return this.workDays.includes(dateString.split('-')[2]);
+                },
         async printPDF() {
             console.log(this.dataToPdf)
             // Selecciona el elemento que quieres convertir en PDF
@@ -341,16 +369,12 @@
             pdf.save('output.pdf')
             window.location.href = '/schedule'
         },
-        calculateWeeksPerMonth() {
+        async calculateWeeksPerMonth() {
             const year = new Date().getFullYear()
-            const nextMonth = new Date().getMonth() + 2
+            const nextMonth = new Date(this.dataToShow[0].datesInRange[0]).getMonth() + 1
             const daysInMonth = new Date(year, nextMonth, 0).getDate()
             const daysInPrevMonth = new Date(year, nextMonth - 1, 0).getDate()
-            const daysInNextMonth = new Date(
-                year,
-                (nextMonth % 12) + 1,
-                0
-            ).getDate()
+            const daysInNextMonth = new Date(year,(nextMonth % 12) + 1,0).getDate()
             this.firstDayOfWeek = new Date(year, nextMonth - 1, 1 - 1).getDay()
   
             this.days = Array.from({ length: daysInMonth }, (_, i) => i + 1)
@@ -380,11 +404,16 @@
                         }
                     })
             )
+           
         },
     },
   
-    mounted() {
-        this.calculateWeeksPerMonth()
+    async mounted() {
+        await this.calculateWeeksPerMonth()
+        this.workDays = this.dataToShow.flatMap(item => 
+            item.datesInRange.map(date => date.split('T')[0].split('-')[2])
+        );
+        console.log(this.workDays)
     },
   }
   </script>
