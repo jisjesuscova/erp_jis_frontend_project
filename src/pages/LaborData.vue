@@ -273,7 +273,7 @@
                     </router-link>
                 </h2>
 
-                <div class="p-1.5 min-w-full inline-block align-middle" v-if="1==2">
+                <div class="p-1.5 min-w-full inline-block align-middle">
                     <div class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
                         <div class="overflow-hidden">
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
