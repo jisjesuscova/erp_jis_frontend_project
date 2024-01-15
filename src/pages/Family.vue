@@ -23,6 +23,10 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
+            <h1 class="text-3xl dark:text-white pb-10">
+                <strong>Trabajador:</strong> {{ this.full_name }}
+            </h1>
+            <hr class="pb-10">
             <h2 class="text-4xl dark:text-white pb-10">
                 Familiares
                 <router-link
@@ -158,7 +162,10 @@ export default {
     },
     data() {
         return {
-            loading: false,
+            loading: true,
+            loading_1: true,
+            loading_2: true,
+            full_name: '', 
             families: [],
             created_family: 0,
             updated_family: 0,
@@ -168,7 +175,8 @@ export default {
     async created() {
         const rol_id = localStorage.getItem('rol_id')
         this.rol_id = rol_id
-        this.getFamilies()
+        await this.getPersonalDataEmployee()
+        await this.getFamilies()
 
         this.created_family = localStorage.getItem('created_family')
         if (this.created_family == 1) {
@@ -179,12 +187,47 @@ export default {
         if (this.updated_family == 1) {
             localStorage.removeItem('updated_family')
         }
+
+        if (this.loading_1 == false && this.loading_2 == false) {
+            this.loading = false
+        }
     },
     methods: {
-        async getFamilies() {
+        async getPersonalDataEmployee() {
             const accessToken = localStorage.getItem('accessToken')
 
-            this.loading = true
+            try {
+                const response = await axios.get(
+                    'https://apijis.com/employees/edit/' +
+                        this.$route.params.rut,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                        },
+                    }
+                )
+
+                const decodedData = JSON.parse(response.data.message)
+
+                this.loading_1 = false
+
+                this.full_name = decodedData.employee_data.names +' '+ decodedData.employee_data.father_lastname +' '+ decodedData.employee_data.mother_lastname
+
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error(
+                        'Error al obtener la lista de nacionalidades:',
+                        error
+                    )
+                }
+            }
+        },
+        async getFamilies() {
+            const accessToken = localStorage.getItem('accessToken')
 
             try {
                 const response = await axios.get(
@@ -198,13 +241,11 @@ export default {
                         },
                     },
                 )
-                console.log(response)
+
                 const decodedData = JSON.parse(response.data.message)
                 this.families = decodedData
 
-                console.log(this.families)
-
-                this.loading = false
+                this.loading_2 = false
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
