@@ -15,7 +15,10 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
-
+            <h1 class="text-3xl dark:text-white pb-10">
+                <strong>Trabajador:</strong> {{ this.full_name }}
+            </h1>
+            <hr class="pb-10">
             <h2 class="text-4xl dark:text-white pb-10">
                 Uniforme
                 <router-link href="javascript:;" :to="`/create_uniform/${this.$route.params.rut}`" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
@@ -72,29 +75,67 @@ export default {
     },
     data() {
         return {
-            loading: false,
+            loading: true,
+            loading_1: true,
+            loading_2: true,
             uniforms: [],
             created_uniform: 0,
+            full_name: '',
         };
     },
     async created() {
-        this.getUniforms();
+        await this.getPersonalDataEmployee()
+        await this.getUniforms();
 
         this.created_uniform = localStorage.getItem('created_uniform');
 
         if (this.created_uniform == 1) {
             localStorage.removeItem('created_uniform');
         }
+
+        if (this.loading_1 == false && this.loading_2 == false) {
+            this.loading = false;
+        }
     },
     methods: {
+        async getPersonalDataEmployee() {
+            const accessToken = localStorage.getItem('accessToken')
+
+            try {
+                const response = await axios.get(
+                    'https://apijis.com/employees/edit/' +
+                        this.$route.params.rut,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                        },
+                    }
+                )
+
+                const decodedData = JSON.parse(response.data.message)
+
+                this.full_name = decodedData.employee_data.names +' '+ decodedData.employee_data.father_lastname +' '+ decodedData.employee_data.mother_lastname
+                
+                this.loading_1 = false;
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error(
+                        'Error al obtener la lista de nacionalidades:',
+                        error
+                    )
+                }
+            }
+        },
         formatDate(date) {
             const [year, month, day] = date.split('-')
             return `${day}-${month}-${year}`
         },
         async getUniforms() {
             const accessToken = localStorage.getItem('accessToken');
-
-            this.loading = true;
 
             try {
                 const response = await axios.get('https://apijis.com/uniforms/edit/' + this.$route.params.rut, {
@@ -106,9 +147,8 @@ export default {
 
                 const decodedData = JSON.parse(response.data.message)
                 this.uniforms = decodedData;
-                console.log(this.uniforms);
 
-                this.loading = false;
+                this.loading_2 = false;
             } catch (error) {
                 if (error.message == "Request failed with status code 401") {
                     localStorage.removeItem('accessToken');
