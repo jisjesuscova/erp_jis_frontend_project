@@ -188,6 +188,12 @@
                         >
                             Total programados
                         </th>
+                       
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium uppercase"
+                        >
+                            Domingos libres
+                        </th>
                         <th
                             class="px-6 py-3 text-left text-xs font-medium uppercase"
                         >
@@ -215,8 +221,14 @@
                         <td
                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                         >
+                            {{ totalFreeSundays }}
+                        </td>
+                        <td
+                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                        >
                             {{ totalFreeDays }}
                         </td>
+                       
                         <td
                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                         >
@@ -227,6 +239,7 @@
                         >
                             {{ totalWeekHours }}
                         </td>
+                       
                     </tr>
                 </tbody>
             </table>
@@ -240,6 +253,9 @@
 import { is } from 'date-fns/locale';
   export default {
     computed: {
+        totalFreeSundays() {
+        return this.sundays.length - this.sundaysInUse ;
+        },
         totalFreeDays() {
             if (!Array.isArray(this.dataToShow)) {
                 return 0;
@@ -255,15 +271,11 @@ import { is } from 'date-fns/locale';
                 return 0;
             }
             return this.dataToShow.reduce(
-                (total, week) => {
-                    console.log(week)
-                    console.log(total)
-                    total + week.datesInRange.length,0
-                }
+                (total, week) => total + week.datesInRange.length,
+                0
             );
         },
         totalTurns() {
-            //devuelve un string con el siguiente format "week.group_day_id x free_g day_group_id "
             return this.totalProgrammedDays + ' X ' + this.totalFreeDays
         },
         totalWeekHours() {
@@ -299,6 +311,14 @@ import { is } from 'date-fns/locale';
             type: Array,
             required: false,
         },
+        sundays : {
+            type: Array,
+            required: false,
+        },
+        sundaysInUse : {
+            type: Number,
+            required: false,
+        },
     },
 
     data() {
@@ -313,16 +333,16 @@ import { is } from 'date-fns/locale';
     methods: {
         isWorkDay(day) {
                 const actualYear = new Date().getFullYear();
-                const monthPeriod = new Date(this.dataToShow[0].datesInRange[0]).getMonth() + 1
+                const monthPeriod = new Date(this.dataToShow[0].datesInRange[0]).getMonth() 
                 // Convierte la cadena de texto a un objeto Date
-                const date = new Date(actualYear, monthPeriod-1, day.day);
+                const date = new Date(actualYear, monthPeriod, day.day);
+                console.log(date)
                 // Convierte la fecha a una cadena en el formato de tus datos
                 const dateString = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
                 // Verifica si la fecha está en tus datos
                 return this.workDays.includes(dateString.split('-')[2]);
                 },
         async printPDF() {
-            console.log(this.dataToPdf)
             // Selecciona el elemento que quieres convertir en PDF
             const element = document.getElementById('PDF')
   
@@ -413,7 +433,6 @@ import { is } from 'date-fns/locale';
         this.workDays = this.dataToShow.flatMap(item => 
             item.datesInRange.map(date => date.split('T')[0].split('-')[2])
         );
-        console.log(this.workDays)
     },
   }
   </script>

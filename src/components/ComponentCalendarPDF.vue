@@ -177,12 +177,18 @@
             <table
                 class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
             >
-                <thead class="bg-blue-500 text-white">
+            <thead class="bg-blue-500 text-white">
                     <tr>
                         <th
                             class="px-6 py-3 text-left text-xs font-medium uppercase"
                         >
                             Total programados
+                        </th>
+                       
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium uppercase"
+                        >
+                            Domingos libres
                         </th>
                         <th
                             class="px-6 py-3 text-left text-xs font-medium uppercase"
@@ -211,8 +217,14 @@
                         <td
                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                         >
+                            {{ totalFreeSundays }}
+                        </td>
+                        <td
+                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                        >
                             {{ totalFreeDays }}
                         </td>
+                       
                         <td
                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                         >
@@ -223,6 +235,7 @@
                         >
                             {{ totalWeekHours }}
                         </td>
+                       
                     </tr>
                 </tbody>
             </table>
@@ -236,7 +249,10 @@
   import html2canvas from 'html2canvas'
   export default {
     computed: {
-        
+        totalFreeSundays() {
+         
+        return this.sundays.length - this.sundaysInUse;
+        },
         totalFreeDays() {
             if (!Array.isArray(this.dataToShow)) {
                 return 0;
@@ -291,6 +307,11 @@
             type: Array,
             required: false,
         },
+        sundays : {
+            type: Array,
+            required: false,
+        },
+
     },
     data() {
         return {
@@ -300,6 +321,7 @@
             days: [],
             weeks: [],
             firstDayOfWeek: 0,
+            sundaysInUse:0,
             dataToPdf: [],
         }
     },
@@ -307,28 +329,25 @@
     methods: {
             isWorkDay(day) {
                 const actualYear = new Date().getFullYear();
-                const monthPeriod = Number(this.rutAndPeriodPDf.period.split('-')[1])
+                const monthPeriod = Number(this.rutAndPeriodPDf.period.split('-')[1]);
                 // Convierte la cadena de texto a un objeto Date
-                const date = new Date(actualYear, monthPeriod-1, day.day);
+                const date = new Date(actualYear, monthPeriod - 1, day.day);
                 // Convierte la fecha a una cadena en el formato de tus datos
                 const dateString = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
                 // Verifica si la fecha está en tus datos
-                console.log(this.workDays.includes(dateString.split('-')[2]));
+                
+               
                 return this.workDays.includes(dateString.split('-')[2]);
                 },
         async printPDF() {
-            console.log(this.dataToPdf)
-            // Selecciona el elemento que quieres convertir en PDF
+            
             const element = document.getElementById('PDF')
   
-            // Crea una captura de pantalla del elemento
             const canvas = await html2canvas(element)
   
-            // Crea un nuevo documento PDF
             const pdf = new jsPDF('p', 'mm', 'a4')
   
-            // Calcula la proporción de la imagen para que se ajuste al tamaño del PDF
-            const imgWidth = 210 // Cambiado de 210 a 150
+            const imgWidth = 210 
             const pageHeight = 400
             const imgHeight = (canvas.height * imgWidth) / canvas.width
             let heightLeft = imgHeight
@@ -362,7 +381,7 @@
             
             // Descarga el PDF
             pdf.save(`Malla_horaria_${this.rutAndPeriodPDf.rut}_${this.rutAndPeriodPDf.period}.pdf`)
-            window.location.href = '/schedule'
+            // window.location.href = '/schedule'
         },
         async calculateWeeksPerMonth() {
             const employeeRutPeriodNames = JSON.parse(localStorage.getItem('employeeRutPeriodNames'))
@@ -405,14 +424,32 @@
                     })
             )
         },
+        async verifyQuantityOfSundaysOfWork() {
+            let quantityOfSundays = this.dataToShow.reduce((count, day) => {
+            // Itera sobre el array de fechas
+            day.date.forEach(dateString => {
+                // Divide la cadena de fecha en partes
+                let [year, month, dayOfMonth] = dateString.split('-');
+
+                // Crea un nuevo objeto Date con las partes de la fecha
+                let date = new Date(year, month - 1, dayOfMonth); // Los meses en JavaScript van de 0 a 11
+
+                // Si el día es domingo, incrementa el contador
+                if (date.getDay() == 0) {
+                    this.sundaysInUse++;
+                }
+                console.log(this.sundaysInUse)
+            });
+
+            return this.sundaysInUse;
+        }, 0); // Inicializa el contador a 0
+        }
     },
   
     async mounted() {
         await this.calculateWeeksPerMonth()
         this.workDays = this.dataToShow.flatMap(item => item.date.map(date => date.split('-')[2]));
-        
-        
-        console.log(this.workDays)
+        await this.verifyQuantityOfSundaysOfWork()
         setTimeout(() => {
             this.printPDF()
         }, 10);

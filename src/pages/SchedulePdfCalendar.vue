@@ -52,7 +52,7 @@
                             </div>
                         </div> -->
 
-                        <ComponentCalendarPDF  :data-to-show="dataToShow" />
+                        <ComponentCalendarPDF  :data-to-show="dataToShow" :sundays="sundays"  />
                         <!--TABLESSS-->
                     </div>
                     </div>
@@ -119,7 +119,7 @@ export default {
             endDate: null,
             date: new Date(),
             initialPage: {
-                month: new Date().getMonth() + 2,
+                month: new Date().getMonth() + 1,
                 year: new Date().getFullYear(),
             },
             colors: ['blue'],
@@ -751,7 +751,7 @@ export default {
         //     this.getRandomColorForWeeks()
         // },
         getMonthAndYear() {
-            let month = this.date.getMonth() + 1
+            let month = new Date(this.dataToShow[0].date[0]).getMonth() 
             let year = this.date.getFullYear()
 
             if (month > 11) {
