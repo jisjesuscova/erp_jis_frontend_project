@@ -517,7 +517,7 @@ export default {
                     search_term: this.search_term,
                 }
                 const response = await axios.get(
-                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
+                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}/`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -602,7 +602,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/last_week_working_days/20202020/2023-11-06`,
+                    `https://apijis.com/meshes/last_week_working_days/20202020/2023-11-06/`,
 
                     {
                         headers: {
