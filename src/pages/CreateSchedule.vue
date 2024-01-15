@@ -373,7 +373,7 @@ export default {
                 this.attributes = [
                     ...this.attributes,
                     {
-                        dates: new Date(year, month, day),
+                        dates: new Date(year, month-1, day),
                         content: 'red',
                     },
                 ]
@@ -453,7 +453,7 @@ export default {
                 this.attributes = [
                     ...this.attributes,
                     {
-                        dates: new Date(year, month, day),
+                        dates: new Date(year, month-1, day),
                         content: 'red',
                     },
                 ]
@@ -936,7 +936,7 @@ export default {
                     this.attributes = [
                         ...this.attributes,
                         {
-                            dates: new Date(year, month, day),
+                            dates: new Date(year, month-1, day),
                             content: 'red',
                         },
                     ]
