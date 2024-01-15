@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72">
+    <div class="w-full  sm:px-6 md:px-8 lg:pl-64 lg:pr-px">
         <div v-if="loading" class="flex justify-center items-center h-screen">
             <div role="status">
                 <!-- SVG spinner -->
@@ -25,209 +25,73 @@
             <!-- You can use a spinner or any other loading animation here -->
         </div>
         <div v-else>
-            <form>
-                <div
-                    class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
-                >
-                    <p
-                        class="mt-1 text-sm text-gray-500 dark:text-gray-500"
-                    ></p>
-                </div>
-
-                <div
-                    class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                >
-                    <div>
-                        <label
-                            for="hs-validation-name-error"
-                            class="block text-sm font-medium mb-2 dark:text-white"
-                            >Periodo</label
-                        >
-                        <input
-                            type="month"
-                            id="period_input"
-                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            v-model="period_input"
-                            @change="periodToInitialPage(period_input)"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label
-                            for="hs-validation-name-error"
-                            class="block text-sm font-medium mb-2 dark:text-white"
-                            >Sucursal</label
-                        >
-                        <select
-                            v-model="branch_office_input"
-                            @change="getEmployeeByBranchOffice"
-                            required
-                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        >
-                            <option value="">- Sucursal -</option>
-                            <option
-                                v-for="branch_office in branch_offices"
-                                :key="branch_office.id"
-                                :value="branch_office.id"
-                            >
-                                {{ branch_office.branch_office }}
-                            </option>
-                        </select>
-                    </div>
-                    <div>
-                        <label
-                            for="hs-validation-name-error"
-                            class="block text-sm font-medium mb-2 dark:text-white"
-                            >Trabajador</label
-                        >
-                        <select
-                            v-model="employee_input"
-                            required
-                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        >
-                            <option value="">- Trabajadores -</option>
-                            <option
-                                v-for="employee in employees_labor_data"
-                                :key="employee.id"
-                                :value="[
-                                    employee.employee_type_id,
-                                    employee.rut,
-                                    employee.names,
-                                    employee.father_lastname,
-                                    employee.mother_lastname,
-                                ]"
-                            >
-                                {{
-                                    `${employee.names}  ${employee.father_lastname}  ${employee.mother_lastname}`
-                                }}
-                            </option>
-                        </select>
-                    </div>
-                    <div>
-                        <label
-                            for="hs-validation-name-error"
-                            class="block text-sm font-medium mb-2 dark:text-white"
-                            >Horario</label
-                        >
-                        <select
-                            v-model="schedule_input"
-                            required
-                            @change="getTurns"
-                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        >
-                            <option value="">- Horario -</option>
-                            <option value="1">Mañana</option>
-                            <option value="2">Tarde</option>
-                            <option value="3">Intermedio</option>
-                        </select>
-                    </div>
-                </div>
-            </form>
-            <div
-                v-if="savedWeek == true"
-                class="bg-green-500 text-sm text-white rounded-md p-4 mb-10"
-                role="alert"
-            >
-                Semana Ingresada Con <span class="font-bold">Exito</span>.
-            </div>
-            <div
-                v-if="showButtonProcess "
-                class="bg-blue-500 text-sm text-white rounded-md p-4 mb-10"
-                role="alert"
-            >
-                Ya Ingreso Todas Las Semanas correspondientes al mes 
-               
-            </div>
-            <div
-                v-else
-                class="bg-blue-500 text-sm text-white rounded-md p-4 mb-10"
-                role="alert"
-            >
-                Ingrese Semana:
-                <span class="font-bold">{{ weekCounter + 1 }}</span>
-            </div>
-            <div class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5">
-                <div v-if="startDate != null">
-                    <label
-                        for="hs-validation-name-error"
-                        class="block text-sm font-medium mb-2 dark:text-white"
-                        >Turnos</label
-                    >
-                    <input
-                        v-model="search_term"
-                        @input="getTurns"
-                        class="bg-white-50 border border-gray-950 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        type="text"
-                        placeholder="Buscar turno"
-                    />
-                    <ul>
-                        <li
-                            @click="
-                                pickCalendarDatesForTurns(
-                                    turn.working,
-                                    turn.breaking,
-                                    turn.start,
-                                    turn.end,
-                                    turn.turn,
-                                    turn.group_day_id,
-                                    turn.free_day_group_id,
-                                    turn.id,
-                                    turn.total_week_hours,
-                                    $event
-                                )
-                            "
-                            draggable="true"
-                            class="mt-1 mb-2 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            v-for="turn in turns"
-                            :key="turn.id"
-                            :value="turn.turn"
-                            v-text="turn.turn"
-                        ></li>
-                    </ul>
-                </div>
-                <div>
-                    <VCalendar
-                        :key="`${initialPage.month}-${initialPage.year}`"
-                        expanded
-                        :attributes="attributes"
-                        show-adjacent-months
-                        @click="handleDateEvent"
-                        :initial-page="initialPage"
-                    />
+            <div class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5">
+                <VCalendar
+                    v-if="1 == 2"
+                    :key="`${initialPage.month}-${initialPage.year}`"
+                    expanded
+                    :attributes="attributes"
+                    show-adjacent-months
+                    @click="handleDateEvent"
+                    :initial-page="initialPage"
+                />
+                <div class="p-1.5 min-w-full inline-block align-middle">
                     <div
-                        class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                        class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
                     >
-                        <div v-if="startDate != null && endDate != null && !showButtonProcess">
-                            <button
-                                @click="saveDatesInRangeToLocalstorage"
-                                type="submit"
-                                class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                            >
-                                Agregar
-                                <i class="fa-solid fa-save"></i>
-                            </button>
-                        </div>
-                        <div v-if="showButtonProcess">
-                            <button
-                                @click="$router.push('/schedule_process_calendar')"
-                                class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                            >
-                                Procesar
-                                <i class="fa-solid fa-refresh"></i>
-                            </button>
-                        </div>
-                        <div>
-                            <button
-                                @click="confirmDeleteDatesInLocalStorage"
-                                type="submit"
-                                class="py-3 px-4 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                            >
-                                Borrar
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </div>
+                    <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <!-- <div class="flex justify-between items-center bg-blue-500 text-white p-5 mb-5">
+                            <div>
+                                <p class="font-medium">Mes : <span class="font-bold">{{ new Date(dataToShow[0].datesInRange[0]).getMonth() + 1 }}</span></p>
+                                <p class="font-medium">Año : <span class="font-bold">{{ new Date(dataToShow[0].datesInRange[0]).getFullYear()  }}</span></p>
+                            </div>
+                            <div>
+                                <p class="font-medium">Nombre: <span class="font-bold">{{ dataToShow[0].names }}</span></p>
+                                <p class="font-medium">Rut: <span class="font-bold">{{ dataToShow[0].rut }}</span></p>
+                                <p class="font-medium">Sucursal: <span class="font-bold">{{ branch_offices}}</span></p>
+                            </div>
+                        </div> -->
+
+                        <ComponentCalendarPDF  :data-to-show="dataToShow" />
+                        <!--TABLESSS-->
+                    </div>
                     </div>
                 </div>
+                <!-- <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-5 grid grid-cols-2 gap-5">
+                    <div v-for="(week, index) in dataToShow" :key="index" class="mb-5">
+                        <p class="p-5 font-medium text-orange-600">
+                            Semana {{ week.week_id }}
+                        </p>
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead class="bg-blue-500 text-white">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Programados</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Libre</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total turno</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Horas sem.</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                        {{ week.group_day_id }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                        {{ week.free_day_group_id }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                        {{week.group_day_id }} x  {{ week.free_day_group_id }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                        {{ week.total_week_hours }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div> -->
+               
+               
             </div>
         </div>
     </div>
@@ -235,13 +99,13 @@
   <script>
 import { BROKEN_CARET, s } from 'pdfmake/build/pdfmake'
 import EmployeeMenu from '../components/EmployeeMenu.vue'
+import ComponentCalendarPDF from '../components/ComponentCalendarPDF.vue'
 import axios from 'axios'
-import { set } from 'date-fns'
-import { start } from '@popperjs/core'
 
 export default {
     components: {
         EmployeeMenu,
+        ComponentCalendarPDF,
     },
     data() {
         return {
@@ -258,33 +122,29 @@ export default {
                 month: new Date().getMonth() + 2,
                 year: new Date().getFullYear(),
             },
-            sundaysAndHolidays: '',
-            branch_offices: [],
             colors: ['blue'],
+            branch_offices: [],
             sections: [],
             turns: [],
             ArrayDates: [],
             attributes: [],
             employees_labor_data: [],
+            dataToShow: JSON.parse(localStorage.getItem('pdfData')),
             datesInRange: [],
+            employee_input: [],
+            sundays: [],
+            dataToSend: [],
+            search_term: 'Buscar Turno',
+            sundaysAndHolidays: '',
             branch_office_input: '',
             period_input: '',
-            employee_input: [],
             schedule_input: '',
             turn_input: '',
-            working: '',
-            breaking: '',
-            start: '',
-            end: '',
-            dataToShow: [],
-            sundays: [],
-            search_term: 'Buscar Turno',
-            dataToSend: [],
+            weekCounter: Number(localStorage.getItem('week')) || 0,
             sundaysInUse: 0,
             turnDays: 0,
             sundaysAvailable: 0,
             turnId: 0,
-            weekCounter: Number(localStorage.getItem('week')) || 0,
             total_week_hours: 0,
             year: 0,
             month: 0,
@@ -293,26 +153,39 @@ export default {
             weekPerMonth: 0,
         }
     },
+   
     methods: {
+        
         async saveWeeksJsonToSend() {
+            this.loading = true
+            const weekdatatosend = this.dataToShow.map((item) => ({
+                week_id: item.week_id,
+                turn_id: item.turn_id,
+                rut: item.rut,
+                dates_in_range: item.datesInRange,
+                added_date: new Date().toISOString(), 
+            }))
+            const meshes = { meshes: weekdatatosend }
+
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
-                    'https://apijis.com/meshes/store',
-                    this.dataToSend,
+                    'https://apijis.com/meshes/store/',
+                    meshes,
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`,
                         },
                     }
                 )
+                this.loading = false
+                alert('Malla creada con exito')
+                this.confirmDeleteDatesInLocalStorage()
                 console.log(response)
             } catch (error) {
                 console.error('Error al obtener la lista de sucursales:', error)
             }
-
-            console.log(this.dataToSend)
         },
         getSundays(year, month) {
             let date = new Date(year, month, 1)
@@ -344,9 +217,7 @@ export default {
             }
         },
         confirmDeleteDatesInLocalStorage() {
-            const shouldDelete = confirm(
-                'una vez borrada la malla tendra que volver a crearla, ¿desea continuar?'
-            )
+            const shouldDelete = true
 
             if (!shouldDelete) {
                 return
@@ -354,11 +225,10 @@ export default {
 
             this.deleteLocalStorageDates()
             this.deleteLocalStorageDates()
-            //refresh the page
-            window.location.reload()
+
             localStorage.setItem('week', 0)
             this.weekCounter = Number(localStorage.getItem('week'))
-            this.getDatesInRangeFromLocalStorage()
+            // this.getDatesInRangeFromLocalStorage()
             this.attributes = [
                 ...this.attributes,
                 {
@@ -378,6 +248,11 @@ export default {
                     },
                 ]
             })
+
+            // Redirige al usuario después de limpiar los datos
+            setTimeout(() => {
+                this.$router.push('/schedule')
+            }, 300)
         },
         periodToInitialPage(period) {
             // localStorage.setItem('week', 0)
@@ -387,7 +262,8 @@ export default {
             const year = Number(period.split('-')[0])
             this.initialPage = { month, year }
             this.getSundays(year, month)
- 
+
+            // Calculate the number of weeks in the month
             const firstDayOfMonth = new Date(year, month - 1, 1).getDay()
             const adjustedFirstDayOfMonth =
                 firstDayOfMonth === 0 ? 0 : firstDayOfMonth
@@ -418,19 +294,12 @@ export default {
                 console.log(week)
             }
             const weekData = {
-                week_id: week,
-                turn_id: this.turnId,
-                rut: this.employee_input[1],
-                names: this.employee_input[2] + ' ' + this.employee_input[3] + ' ' + this.employee_input[4],
+                week: week,
+                turnId: this.turnId,
+                rutEmployee: this.employee_input[1],
                 turn: this.turn_input,
-                start_turn: this.start,
-                end_turn: this.end,
-                collation: this.breaking,
-                working:this.working,
-                group_day_id: this.turnDays,
-                free_day_group_id: this.freeDays,
+                workedDays: this.turnDays,
                 total_week_hours: this.total_week_hours,
-                branch_office: this.branch_office_input,
                 datesInRange: this.datesInRange,
             }
 
@@ -438,7 +307,7 @@ export default {
 
             this.datesInRange = []
             this.sundaysInUse = 0
-            this.getDatesInRangeFromLocalStorage()
+            // this.getDatesInRangeFromLocalStorage()
             this.attributes = [
                 ...this.attributes,
                 {
@@ -463,7 +332,7 @@ export default {
             }, 500)
             setTimeout(() => {
                 this.savedWeek = false
-            }, 1500)
+            }, 2000)
         },
         handleDateEvent(event) {
             const datePicked = event.target.getAttribute('aria-label')
@@ -540,45 +409,26 @@ export default {
         },
 
         async pickCalendarDatesForTurns(
-            working,
-            breaking,
-            start,
-            end,
             turn,
             turnDays,
             freeDays,
             turnId,
             hoursWeek,
             event
-            )
-            {
-            this.working = working
-            this.breaking = breaking
-            this.start = start
-            this.end = end
+        ) {
             this.turn_input = turn
             this.turnDays = turnDays
-            this.freeDays = freeDays
             this.turnId = turnId
             this.total_week_hours = hoursWeek
 
-            const verifyWeek = Number(localStorage.getItem('week'))
-            console.log(verifyWeek)
-            if (verifyWeek === 0 ) {
-                await this.getLastWeekWorkingDays()
-                console.log(this.workedDays)
-            }
-            else {
-                this.workedDays = 0
-            }
-            
-           
+            // await this.getLastWeekWorkingDays()
             let date = new Date(this.startDate)
+            this.workedDays = 0
             turnDays = turnDays - this.workedDays
             date.setDate(date.getDate() + turnDays - 1)
             if (turnDays == 0) {
                 alert(
-                   ' El empleado ya trabajo los turnos que le correspondian en la semana'
+                    'Hola, el empleado ya trabajo los turnos que le correspondian en la semana'
                 )
                 this.startDate = 0
                 this.attributes = [
@@ -593,7 +443,7 @@ export default {
                 return
             } else if (turnDays < 0) {
                 alert(
-                    'El empleado ya trabajo los turnos que le correspondian en la semana'
+                    'Hola, el empleado ya trabajo los turnos que le correspondian en la semana'
                 )
                 this.startDate = 0
                 this.attributes = [
@@ -672,13 +522,13 @@ export default {
                 }
             }
         },
-        async getBranchOffices() {
+        async getBranchOffice() {
             this.loading_1 = true
             const accessToken = localStorage.getItem('accessToken')
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/branch_offices/',
+                    'https://apijis.com/branch_offices/edit/' +this.dataToShow[0].branch_office,
                     {
                         headers: {
                             accept: 'application/json',
@@ -687,7 +537,7 @@ export default {
                     }
                 )
 
-                this.branch_offices = response.data.message
+                this.branch_offices = response.data.message.branch_office
                 console.log(response)
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
@@ -734,12 +584,10 @@ export default {
         },
         async getLastWeekWorkingDays() {
             const accessToken = localStorage.getItem('accessToken')
-            const year = this.startDate.getFullYear()
-            const month = this.startDate.getMonth()  
-            const yearAndPreviuosMonth = `${year}-${month}`
+
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/last_week_working_days/${this.employee_input[1]}/${yearAndPreviuosMonth}`,
+                    `https://apijis.com/meshes/last_week_working_days/20202020/2023-11-06`,
 
                     {
                         headers: {
@@ -749,7 +597,6 @@ export default {
                     }
                 )
                 const decodedData = JSON.parse(response.data.message)
-                console.log(response)
 
                 this.workedDays = decodedData
             } catch (error) {
@@ -806,7 +653,7 @@ export default {
                                 )
                                 this.alertShown = true
                                 setTimeout(() => {
-                                    this.getDatesInRangeFromLocalStorage() // Añade esta línea
+                                    // this.getDatesInRangeFromLocalStorage() // Añade esta línea
                                 }, 100)
                                 this.sundaysInUse--
                             }
@@ -838,7 +685,7 @@ export default {
                         localStorage.removeItem('week_value' + this.weekCounter)
                         localStorage.setItem('week', this.weekCounter - 1)
                         if (this.shouldCall) {
-                            this.getDatesInRangeFromLocalStorage()
+                            // this.getDatesInRangeFromLocalStorage()
                         }
                         break
                     }
@@ -855,53 +702,54 @@ export default {
 
             return hasSevenConsecutive
         },
-        getDatesInRangeFromLocalStorage() {
-            this.datesInRange = [[], [], [], [], [], []]
+        // // getDatesInRangeFromLocalStorage() {
+        //     this.datesInRange = [[], [], [], [], [], []]
 
-            let items = []
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i)
-                if (key.startsWith('week_value')) {
-                    const value = JSON.parse(localStorage.getItem(key))
-                    items.push({ key, value })
-                }
-            }
+        //     let items = []
+        //     for (let i = 0; i < localStorage.length; i++) {
+        //         const key = localStorage.key(i)
+        //         if (key.startsWith('week_value')) {
+        //             const value = JSON.parse(localStorage.getItem(key))
+        //             items.push({ key, value })
+        //         }
+        //     }
 
-            items.sort((a, b) => a.key.localeCompare(b.key))
+        //     items.sort((a, b) => a.key.localeCompare(b.key))
 
-            for (let item of items) {
-                const weekData = item.value
+        //     for (let item of items) {
+        //         const weekData = item.value
 
-                this.verifyQuantityOfSundays(weekData.datesInRange)
-                const dates = weekData.datesInRange
-                this.ArrayDates.push(...weekData.datesInRange)
-                this.dataToSend.push(weekData)
+        //         this.verifyQuantityOfSundays(weekData.datesInRange)
+        //         const dates = weekData.datesInRange
+        //         this.ArrayDates.push(...weekData.datesInRange)
+        //         this.dataToShow.push(weekData)
+        //         console.log('this.datatoshow', this.dataToShow)
 
-                const formattedDates = dates.map((date) => {
-                    const d = new Date(date)
-                    d.setDate(d.getDate() + 1)
-                    const year = d.getFullYear()
-                    const month = (d.getMonth() + 1).toString().padStart(2, '0')
-                    const day = d.getDate().toString().padStart(2, '0')
-                    return `${year}-${month}-${day}`
-                })
+        //         const formattedDates = dates.map((date) => {
+        //             const d = new Date(date)
+        //             d.setDate(d.getDate() + 1)
+        //             const year = d.getFullYear()
+        //             const month = (d.getMonth() + 1).toString().padStart(2, '0')
+        //             const day = d.getDate().toString().padStart(2, '0')
+        //             return `${year}-${month}-${day}`
+        //         })
 
-                const targetArray = this.datesInRange.find(
-                    (week) => week.length < 7
-                )
+        //         const targetArray = this.datesInRange.find(
+        //             (week) => week.length < 7
+        //         )
 
-                if (targetArray) {
-                    targetArray.push(...formattedDates)
-                } else {
-                    console.log(
-                        'No puedes agregar más datos a las semanas existentes.'
-                    )
-                }
-            }
+        //         if (targetArray) {
+        //             targetArray.push(...formattedDates)
+        //         } else {
+        //             console.log(
+        //                 'No puedes agregar más datos a las semanas existentes.'
+        //             )
+        //         }
+        //     }
 
-            this.checkConsecutiveDays(this.ArrayDates)
-            this.getRandomColorForWeeks()
-        },
+        //     this.checkConsecutiveDays(this.ArrayDates)
+        //     this.getRandomColorForWeeks()
+        // },
         getMonthAndYear() {
             let month = this.date.getMonth() + 1
             let year = this.date.getFullYear()
@@ -918,7 +766,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/holidays/',
+                    'https://apijis.com/holidays',
                     {
                         headers: {
                             accept: 'application/json',
@@ -945,21 +793,21 @@ export default {
                 console.error('Error al obtener la lista de sucursales:', error)
             }
         },
+        consoleLog() {
+            console.log(this.employee_input[1])
+        },
     },
-    created() {
+    async created() {
         this.periodToInitialPage(
             this.initialPage.year + '-' + this.initialPage.month
         )
-        this.getDatesInRangeFromLocalStorage()
-        this.getBranchOffices()
+        // this.getDatesInRangeFromLocalStorage()
         this.year = this.date.getFullYear()
         this.month = this.date.getMonth()
         this.getMonthAndYear()
         this.getHolidays()
-        if (this.weekPerMonth === Number(localStorage.getItem('week'))) {
-            this.showButtonProcess = true
-        }
-
+        await this.getBranchOffice()
+        console.log(this.dataToShow)
     },
 }
 </script>
