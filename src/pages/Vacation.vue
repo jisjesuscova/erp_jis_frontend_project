@@ -2609,7 +2609,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/vacations/legal/' +
+                    'http://localhost:8000/vacations/legal/' +
                         this.$route.params.rut,
                     {
                         headers: {
