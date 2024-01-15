@@ -279,7 +279,6 @@
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-gray-700">
                                     <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha de Emisión</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estatus</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
                                     </tr>
@@ -293,11 +292,6 @@
                                         :key="employee_contract.id"
                                     >
                                         <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
-                                        >
-                                            {{ formatDate(employee_contract.added_date)}}
-                                        </td>
-                                        <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                             >
                                                 <span
@@ -305,7 +299,7 @@
                                                         employee_contract.status_id ==
                                                         3
                                                     "
-                                                    class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-500 text-white"
+                                                    class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-500 text-white"
                                                     >Aceptada</span
                                                 >
                                                 <span
@@ -313,7 +307,7 @@
                                                         employee_contract.status_id ==
                                                         4
                                                     "
-                                                    class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-500 text-white"
+                                                    class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-primary-500 text-white"
                                                     >Firmada</span
                                                 >
                                             </td>
