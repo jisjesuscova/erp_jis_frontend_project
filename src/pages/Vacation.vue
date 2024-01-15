@@ -26,7 +26,11 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
-            <h2 class="text-4xl dark:text-white pb-10">
+            <h1 class="text-3xl dark:text-white pb-10">
+                <strong>Trabajador:</strong> {{ this.full_name }}
+            </h1>
+            <hr class="pb-10">
+            <h2 class="text-xl dark:text-white pb-10">
                 Vacaciones
                 <router-link
                     href="javascript:;"
@@ -792,6 +796,7 @@ export default {
             pdf_vacations: [],
             pdf_progressive_vacations: [],
             signature: '',
+            full_name: '',
         }
     },
     async mounted() {
@@ -2609,7 +2614,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/vacations/legal/' +
+                    'https://apijis.com/vacations/legal/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -2748,6 +2753,8 @@ export default {
                 )
 
                 const decodedData = JSON.parse(response.data.message)
+
+                this.full_name = decodedData.employee_data.names +' '+ decodedData.employee_data.father_lastname +' '+ decodedData.employee_data.mother_lastname
 
                 if (decodedData.signature == null) {
                     this.signature = ''

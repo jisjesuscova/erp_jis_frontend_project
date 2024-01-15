@@ -12,6 +12,10 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
+            <h1 class="text-3xl dark:text-white pb-10">
+                <strong>Trabajador:</strong> {{ this.full_name }}
+            </h1>
+            <hr class="pb-10">
             <h2 class="text-4xl dark:text-white pb-10">
                 Datos de Contrato
             </h2>
@@ -461,6 +465,7 @@ export default {
             employee_contract_document: '',
             error_employee_contract_document: 0,
             pention_name: '',
+            full_name: '',
         };
     },
     methods: {
@@ -3085,6 +3090,7 @@ export default {
 
                 this.employee_personal_data = JSON.parse(response.data.message)
                 this.employee_personal_data = this.employee_personal_data.employee_data
+                this.full_name = this.employee_personal_data.names + ' ' + this.employee_personal_data.father_lastname + ' ' + this.employee_personal_data.mother_lastname
 
                 this.loading_12 = false
             } catch (error) {

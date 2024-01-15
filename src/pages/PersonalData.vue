@@ -23,6 +23,11 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
+            <h1 class="text-3xl dark:text-white pb-10">
+                <strong>Trabajador:</strong> {{ this.full_name }}
+            </h1>
+            <hr class="pb-10">
+
             <h2 class="text-4xl dark:text-white pb-10">Datos Personales</h2>
 
             <EmployeeMenu />
@@ -934,6 +939,7 @@ export default {
             fullNameRut: null,
             rolAndPictureValidate: false,
             created_employee_bank_account: 0,
+            full_name: '',
         }
     },
     methods: {
@@ -1431,6 +1437,8 @@ export default {
                     'signature_type_id',
                     decodedData.employee_data.signature_type_id
                 )
+
+                this.full_name = decodedData.employee_data.names + ' ' + decodedData.employee_data.father_lastname + ' ' + decodedData.employee_data.mother_lastname
 
                 this.loading = false
             } catch (error) {

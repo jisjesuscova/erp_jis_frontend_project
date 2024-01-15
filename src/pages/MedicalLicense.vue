@@ -26,6 +26,10 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
+            <h1 class="text-3xl dark:text-white pb-10">
+                <strong>Trabajador:</strong> {{ this.full_name }}
+            </h1>
+            <hr class="pb-10">
             <h2 class="text-4xl dark:text-white pb-10">
                 Licencias Médicas
                 <router-link
@@ -244,7 +248,9 @@ export default {
     },
     data() {
         return {
-            loading: false,
+            loading: true,
+            loading_1: true,
+            loading_2: true,
             medical_licenses: [],
             created_medical_license: 0,
             kardex_document: '',
@@ -254,6 +260,7 @@ export default {
             currentPage: 1,
             totalItems: 0,
             rol_id: '',
+            full_name: '',
         }
     },
     async mounted() {
@@ -261,7 +268,8 @@ export default {
 
         this.rol_id = rol_id
 
-        this.getMedicalLicenses()
+        await this.getPersonalDataEmployee()
+        await this.getMedicalLicenses()
 
         this.created_medical_license = localStorage.getItem(
             'created_medical_license',
@@ -270,8 +278,44 @@ export default {
         if (this.created_medical_license == 1) {
             localStorage.removeItem('created_medical_license')
         }
+
+        if (this.loading_1 == false && this.loading_2 == false) {
+            this.loading = false
+        }
     },
     methods: {
+        async getPersonalDataEmployee() {
+            const accessToken = localStorage.getItem('accessToken')
+
+            try {
+                const response = await axios.get(
+                    'https://apijis.com/employees/edit/' +
+                        this.$route.params.rut,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                        },
+                    }
+                )
+
+                const decodedData = JSON.parse(response.data.message)
+
+                this.full_name = decodedData.employee_data.names +' '+ decodedData.employee_data.father_lastname +' '+ decodedData.employee_data.mother_lastname
+                
+                this.loading_1 = false
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error(
+                        'Error al obtener la lista de nacionalidades:',
+                        error
+                    )
+                }
+            }
+        },
         onClickHandler() {
             console.log(this.currentPage)
             this.getMedicalLicenses()
@@ -320,8 +364,6 @@ export default {
         async getMedicalLicenses() {
             const accessToken = localStorage.getItem('accessToken')
 
-            this.loading = true
-
             const page = this.currentPage
 
             try {
@@ -348,7 +390,7 @@ export default {
                     this.totalItems = 0
                 }
                 
-                this.loading = false
+                this.loading_2 = false
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')

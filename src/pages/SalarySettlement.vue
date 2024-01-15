@@ -23,6 +23,10 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
+            <h1 class="text-3xl dark:text-white pb-10">
+                <strong>Trabajador:</strong> {{ this.full_name }}
+            </h1>
+            <hr class="pb-10">
             <h2 class="text-4xl dark:text-white pb-10">
                 Liquidaciones
             </h2>
@@ -141,7 +145,9 @@ export default {
     },
     data() {
         return {
-            loading: false,
+            loading: true,
+            loading_1: true,
+            loading_2: true,
             salary_settlements: [],
             created_salary_settlement: 0,
             itemsPerPage: 10,
@@ -150,6 +156,7 @@ export default {
             totalItems: 0,
             rol_id: '',
             error_salary_settlement: 0,
+            full_name: '',
         }
     },
     async mounted() {
@@ -157,7 +164,8 @@ export default {
 
         this.rol_id = rol_id
 
-        this.getSalarySettlements()
+        await this.getPersonalDataEmployee()
+        await this.getSalarySettlements()
 
         this.created_salary_settlement = localStorage.getItem(
             'created_salary_settlement',
@@ -166,8 +174,45 @@ export default {
         if (this.created_salary_settlement == 1) {
             localStorage.removeItem('created_salary_settlement')
         }
+
+        if (this.loading_1 == false && this.loading_2 == false) {
+            this.loading = false
+        }
     },
     methods: {
+        async getPersonalDataEmployee() {
+            const accessToken = localStorage.getItem('accessToken')
+
+            try {
+                const response = await axios.get(
+                    'https://apijis.com/employees/edit/' +
+                        this.$route.params.rut,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                        },
+                    }
+                )
+
+                const decodedData = JSON.parse(response.data.message)
+
+                this.loading_1 = false
+
+                this.full_name = decodedData.employee_data.names +' '+ decodedData.employee_data.father_lastname +' '+ decodedData.employee_data.mother_lastname
+
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error(
+                        'Error al obtener la lista de nacionalidades:',
+                        error
+                    )
+                }
+            }
+        },
         onClickHandler() {
             console.log(this.currentPage)
             this.getSalarySettlements()
@@ -248,7 +293,7 @@ export default {
                     this.totalItems = 0;
                 }
 
-                this.loading = false
+                this.loading_2 = false
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')

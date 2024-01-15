@@ -26,6 +26,10 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
+            <h1 class="text-3xl dark:text-white pb-10">
+                <strong>Trabajador:</strong> {{ this.full_name }}
+            </h1>
+            <hr class="pb-10">
             <h2 class="text-4xl dark:text-white pb-10">Datos Extras</h2>
 
             <EmployeeMenu />
@@ -319,17 +323,51 @@ export default {
             pensioner_input: 1,
             suplemental_health_insurance_input: 2,
             progressive_vacation_input: 2,
-            loading: false,
+            loading: true,
+            loading_1: true,
+            loading_2: true,
             extra_data_employee: '',
             progressive_vacation_date_input: '',
             recognized_years_input: 0,
+            full_name: '',
         }
     },
     methods: {
-        async getExtraDataEmployee() {
+        async getPersonalDataEmployee() {
             const accessToken = localStorage.getItem('accessToken')
 
-            this.loading = true
+            try {
+                const response = await axios.get(
+                    'https://apijis.com/employees/edit/' +
+                        this.$route.params.rut,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                        },
+                    }
+                )
+
+                const decodedData = JSON.parse(response.data.message)
+
+                this.loading_1 = false
+
+                this.full_name = decodedData.employee_data.names +' '+ decodedData.employee_data.father_lastname +' '+ decodedData.employee_data.mother_lastname
+
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error(
+                        'Error al obtener la lista de nacionalidades:',
+                        error
+                    )
+                }
+            }
+        },
+        async getExtraDataEmployee() {
+            const accessToken = localStorage.getItem('accessToken')
 
             try {
                 const response = await axios.get(
@@ -405,7 +443,7 @@ export default {
 
                 this.progressive_vacation_date_input = response.data.message.progressive_vacation_date
 
-                this.loading = false
+                this.loading_2 = false
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
@@ -463,8 +501,13 @@ export default {
             }
         },
     },
-    async created() {
-        this.getExtraDataEmployee()
+    async mounted() {
+        await this.getPersonalDataEmployee()
+        await this.getExtraDataEmployee()
+
+        if (this.loading_1 == false && this.loading_2 == false) {
+            this.loading = false
+        }
     },
 }
 </script>
