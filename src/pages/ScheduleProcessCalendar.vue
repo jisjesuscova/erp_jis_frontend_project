@@ -191,7 +191,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
-                    'https://apijis.com/meshes/store/',
+                    'https://apijis.com/meshes/store',
                     meshes,
                     {
                         headers: {
