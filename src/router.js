@@ -90,6 +90,7 @@ import BulkPayrollManualInput from './pages/BulkPayrollManualInput.vue'
 import PayrollCalculation from './pages/PayrollCalculation.vue'
 import FamilyBurden from './pages/FamilyBurden.vue'
 import WorkingDays from './pages/WorkingDays.vue'
+import SecondLevelInsurance from './pages/SecondLevelInsurance.vue'
 
 const routes = [
     {
@@ -468,6 +469,9 @@ const routes = [
     {
         path:'/working_days',
         component: WorkingDays
+    },{
+        path:'/second_level_insurances',
+        component: SecondLevelInsurance
     },
 ]
 
