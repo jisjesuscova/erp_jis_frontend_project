@@ -262,23 +262,21 @@ export default {
                     meshes.EmployeeModel.names ||
                     'No se encontro el nombre del trabajador'
                 const period = meshes.MeshModel.period || 'No period'
-                alert(
-                    `Rut: ${visual_rut}\nTrabajador: ${names}\nPeriodo: ${period}`
-                )
-                this.getMeshesByEmployeeRutAndPeriod(rut, period, names)
+                this.getMeshesByEmployeeRutAndPeriod(rut, period, names, visual_rut)
             }
         },
-        async getMeshesByEmployeeRutAndPeriod(rut, period, names) {
+        async getMeshesByEmployeeRutAndPeriod(rut, period, names,visual_rut) {
             const employeeRutPeriodNames = {
                 rut,
                 period,
                 names,
+                visual_rut
             }
             const accessToken = localStorage.getItem('accessToken')
 
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/get_mesh_by_rut_week_period/${rut}/${period}`,
+                    `http://localhost:8000/meshes/get_mesh_by_rut_week_period/${rut}/${period}`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -300,7 +298,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/meshes/',
+                    'http://localhost:8000/meshes/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,

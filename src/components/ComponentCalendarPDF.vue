@@ -24,7 +24,17 @@
 
             <!-- You can use a spinner or any other loading animation here -->
         </div>
-    <div id="PDF" v-show="1==1" class="mt-96">
+    <div id="PDF" v-show="1==1" class="mt-96 ">
+        <div class="flex flex-col items-stretch ">
+            <img :src="logo" alt="" class="w-20 mb-2 mt-12 ms-24">
+        </div>
+        <div>
+            <h1 class="text-center text-3xl font-bold mb-5">Malla horaria</h1>
+            <hr class="my-10 border-1 border-black mx-24 ">
+            <h2 class="ms-24 text-lg font-bold mb-5">Nombre Completo: {{ rutAndPeriodPDf.names }}, Rut: {{ rutAndPeriodPDf.visual_rut }}</h2>
+            <h2 class="ms-24 text-lg font-bold mb-5">Periodo: {{ rutAndPeriodPDf.period }}</h2>
+
+        </div>
         <table class="w-full">
             <thead>
                 <tr>
@@ -240,6 +250,17 @@
                 </tbody>
             </table>
         </div>
+        <div>
+        <div class="flex flex-row items-between justify-around mt-12 -mb-3.5">
+            <img :src="signatureCompany" alt="" class="w-40 ">
+            <img :src="0" alt="" class="w-40 ">
+        </div>
+        <div class="flex flex-row items-between justify-around -mt-3.5 ">
+            <p class="w-40 mb-5 font-bold text-xl">Empleador</p>
+            <p class="w-40 mb-5 font-bold text-xl">Trabajador</p>
+            
+        </div>
+    </div>
     </div>
 </div>
   </template>
@@ -315,6 +336,8 @@
     },
     data() {
         return {
+            signatureCompany: '',
+            logo : '',
             workDays: [],
             rutAndPeriodPDf: [],
             loading:true,
@@ -327,6 +350,36 @@
     },
     
     methods: {
+        async getImages() {
+            this.logo = await this.getBase64ImageFromURL('https://erpjis.com/assets/logo.png')
+            this.signatureCompany = await this.getBase64ImageFromURL('https://erpjis.com/assets/signature.png')
+            
+        },
+        getBase64ImageFromURL(url) {
+            return new Promise((resolve, reject) => {
+                var img = new Image()
+                img.setAttribute('crossOrigin', 'anonymous')
+
+                img.onload = () => {
+                    var canvas = document.createElement('canvas')
+                    canvas.width = img.width
+                    canvas.height = img.height
+
+                    var ctx = canvas.getContext('2d')
+                    ctx.drawImage(img, 0, 0)
+
+                    var dataURL = canvas.toDataURL('image/png')
+
+                    resolve(dataURL)
+                }
+
+                img.onerror = (error) => {
+                    reject(error)
+                }
+
+                img.src = url
+            })
+            },
             isWorkDay(day) {
                 const actualYear = new Date().getFullYear();
                 const monthPeriod = Number(this.rutAndPeriodPDf.period.split('-')[1]);
@@ -450,6 +503,7 @@
         await this.calculateWeeksPerMonth()
         this.workDays = this.dataToShow.flatMap(item => item.date.map(date => date.split('-')[2]));
         await this.verifyQuantityOfSundaysOfWork()
+        await this.getImages()
         setTimeout(() => {
             this.printPDF()
         }, 10);

@@ -298,7 +298,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
-                    'https://apijis.com/meshes/store',
+                    'http://localhost:8000/meshes/store',
                     this.dataToSend,
                     {
                         headers: {
@@ -651,7 +651,7 @@ export default {
                     search_term: this.search_term,
                 }
                 const response = await axios.get(
-                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
+                    `http://localhost:8000/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -678,7 +678,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/branch_offices/',
+                    'http://localhost:8000/branch_offices/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -709,7 +709,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employee_labor_data/edit/branch/' +
+                    'http://localhost:8000/employee_labor_data/edit/branch/' +
                         this.branch_office_input,
                     {
                         headers: {
@@ -739,7 +739,7 @@ export default {
             const yearAndPreviuosMonth = `${year}-${month}`
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/last_week_working_days/${this.employee_input[1]}/${yearAndPreviuosMonth}`,
+                    `http://localhost:8000/meshes/last_week_working_days/${this.employee_input[1]}/${yearAndPreviuosMonth}`,
 
                     {
                         headers: {
@@ -918,7 +918,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/holidays/',
+                    'http://localhost:8000/holidays/',
                     {
                         headers: {
                             accept: 'application/json',

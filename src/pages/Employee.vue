@@ -444,7 +444,7 @@ export default {
                     const accessToken = localStorage.getItem('accessToken')
 
                     const response = await axios.post(
-                        'https://apijis.com/employees/search',
+                        'http://localhost:8000/employees/search',
                         dataToSend,
                         {
                             headers: {
@@ -495,7 +495,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'https://apijis.com/employees/',
+                    'http://localhost:8000/employees/',
                     dataToSend,
                     {
                         headers: {
