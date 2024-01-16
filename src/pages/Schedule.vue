@@ -278,7 +278,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/get_mesh_by_rut_week_period/${rut}/${period}/`,
+                    `https://apijis.com/meshes/get_mesh_by_rut_week_period/${rut}/${period}`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
