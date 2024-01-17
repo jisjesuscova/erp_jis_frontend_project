@@ -202,7 +202,7 @@ export default {
             this.loading = true
 
             axios
-                .post('https://apijis.com/login_users/token', formData)
+                .post('https:://apijis.com/login_users/token', formData)
                 .then((response) => {
                     // Maneja la respuesta del backend
                     console.log(response)

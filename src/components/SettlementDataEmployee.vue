@@ -236,7 +236,7 @@ export default {
         const accessToken = localStorage.getItem('accessToken');
 
         try {
-            const response = await axios.get('https://apijis.com/nationalities', {
+            const response = await axios.get('https:://apijis.com/nationalities', {
                 headers: {
                 accept: 'application/json',
                 Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -256,7 +256,7 @@ export default {
         }
 
         try {
-            const response = await axios.get('https://apijis.com/banks', {
+            const response = await axios.get('https:://apijis.com/banks', {
                 headers: {
                 accept: 'application/json',
                 Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud

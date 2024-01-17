@@ -53,7 +53,109 @@
                         <div
                             class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
                         >
-                            <div class="overflow-hidden">
+                            <div class="overflow-hidden" v-if="rol_id == 3">
+                                <table
+                                    class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+                                >
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                            >
+                                                Rut
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                            >
+                                                Trabajador
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                            >
+                                                Periodo
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody
+                                        class="divide-y divide-gray-200 dark:divide-gray-700"
+                                    >
+                                        <tr
+                                            v-for="meshesBySupervisor in meshesBySupervisor"
+                                            :key="meshesBySupervisor.id"
+                                        >
+                                            <td
+                                                v-if="
+                                                    meshesBySupervisor &&
+                                                    meshesBySupervisor.EmployeeModel &&
+                                                    meshesBySupervisor.EmployeeModel
+                                                        .visual_rut
+                                                "
+                                                class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                                            >
+                                                {{
+                                                    meshesBySupervisor.EmployeeModel
+                                                        .visual_rut
+                                                }}
+                                            </td>
+                                            <td
+                                                v-else
+                                                class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                                            >
+                                                No rut
+                                            </td>
+                                            <div>
+                                                <td
+                                                    v-if="
+                                                        meshesBySupervisor &&
+                                                        meshesBySupervisor.EmployeeModel &&
+                                                        meshesBySupervisor.EmployeeModel
+                                                            .names
+                                                    "
+                                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                                >
+                                                    {{
+                                                        meshesBySupervisor.EmployeeModel
+                                                            .names +
+                                                        ' ' +
+                                                        meshesBySupervisor.EmployeeModel
+                                                            .father_lastname +
+                                                        ' ' +
+                                                        meshesBySupervisor.EmployeeModel
+                                                            .mother_lastname
+                                                    }}
+                                                </td>
+                                                <td
+                                                    v-else
+                                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                                >
+                                                    No se encontro el nombre del
+                                                    trabajador
+                                                </td>
+                                            </div>
+                                            <td
+                                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                            >
+                                                {{ meshesBySupervisor.MeshModel.period }}
+                                            </td>
+                                            <button
+                                                @click="
+                                                    showData(
+                                                        meshesBySupervisor,
+                                                        meshesBySupervisor.EmployeeModel.rut
+                                                    )
+                                                "
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i class="fa-solid fa-file"></i>
+                                            </button>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="overflow-hidden " v-else>
                                 <table
                                     class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
                                 >
@@ -175,7 +277,9 @@ export default {
     },
     data() {
         return {
+            rol_id: localStorage.getItem('rol_id'),
             meshes: [],
+            meshesBySupervisor: [],
             loading: true,
             delete_bank: 0,
             dataToShow: [],
@@ -262,23 +366,21 @@ export default {
                     meshes.EmployeeModel.names ||
                     'No se encontro el nombre del trabajador'
                 const period = meshes.MeshModel.period || 'No period'
-                alert(
-                    `Rut: ${visual_rut}\nTrabajador: ${names}\nPeriodo: ${period}`
-                )
-                this.getMeshesByEmployeeRutAndPeriod(rut, period, names)
+                this.getMeshesByEmployeeRutAndPeriod(rut, period, names, visual_rut)
             }
         },
-        async getMeshesByEmployeeRutAndPeriod(rut, period, names) {
+        async getMeshesByEmployeeRutAndPeriod(rut, period, names,visual_rut) {
             const employeeRutPeriodNames = {
                 rut,
                 period,
                 names,
+                visual_rut
             }
             const accessToken = localStorage.getItem('accessToken')
 
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/get_mesh_by_rut_week_period/${rut}/${period}`,
+                    `https:://apijis.com/meshes/get_mesh_by_rut_week_period/${rut}/${period}`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -300,7 +402,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/meshes/',
+                    'https:://apijis.com/meshes/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -311,6 +413,28 @@ export default {
 
                 this.meshes = response.data.message
                 console.log(this.meshes)
+                
+            } catch (error) {
+                console.error('Error al obtener la lista de bancos:', error)
+            }
+        },
+        async getMeshesBySupervisor() {
+            const supervisor_rut = localStorage.getItem('rut')
+            const accessToken = localStorage.getItem('accessToken')
+
+            try {
+                const response = await axios.get(
+                    `https:://apijis.com/meshes/get_all_by_supervisor/${supervisor_rut}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            accept: 'application/json',
+                        },
+                    }
+                )
+
+                this.meshesBySupervisor = response.data.message
+                console.log(this.meshesBySupervisor)
                 this.loading = false
             } catch (error) {
                 console.error('Error al obtener la lista de bancos:', error)
@@ -319,6 +443,7 @@ export default {
     },
     async mounted() {
         await this.getMeshes()
+        await this.getMeshesBySupervisor()
     },
 }
 </script>

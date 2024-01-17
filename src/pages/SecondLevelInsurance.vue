@@ -397,7 +397,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'https://apijis.com/payroll_manual_inputs/store',
+                    'https:://apijis.com/payroll_manual_inputs/store',
                     dataToSend,
                     {
                         headers: {
@@ -417,6 +417,100 @@ export default {
                     window.location.reload()
                 } else {
                     console.error('Error al guardar los inputs manuales:', error)
+                }
+            }
+        },
+        applyBulkAmount() {
+            this.amount_input = 0
+
+            this.payroll_employees.forEach((employee) => {
+                employee.amount_input = this.massive_amount_input
+
+                this.amount_input += parseInt(employee.amount_input)
+            })
+        },
+        async searchPayrollEmployees() {
+            const accessToken = localStorage.getItem('accessToken')
+            try {
+                const dataToSend = {
+                    rut: this.rut_input,
+                    father_lastname: this.father_lastname_input,
+                }
+
+                const response = await axios.post(
+                    'https:://apijis.com/payroll_employees/search',
+                    dataToSend,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    },
+                )
+
+                this.payroll_employees = response.data.message
+
+                this.payroll_employees.forEach((employee) => {
+                    employee.amount_input = 0
+                })
+
+                this.loading_2 = false
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error('Error al obtener los empleados:', error)
+                }
+            }
+        },
+        async getPayrollItems() {
+            const accessToken = localStorage.getItem('accessToken')
+            try {
+                const response = await axios.get(
+                    'https:://apijis.com/payroll_items/',
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    },
+                )
+                console.log(response)
+                this.payroll_managements_inputs = response.data.message
+
+                this.loading_1 = false
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error('Error al obtener los items:', error)
+                }
+            }
+        },
+        async getPayrollEmployees() {
+            const accessToken = localStorage.getItem('accessToken')
+            try {
+                const response = await axios.get(
+                    'https:://apijis.com/payroll_employees/' + this.period_input,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    },
+                )
+
+                this.payroll_employees = response.data.message
+
+                this.loading_2 = false
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error('Error al obtener los empleados:', error)
                 }
             }
         },

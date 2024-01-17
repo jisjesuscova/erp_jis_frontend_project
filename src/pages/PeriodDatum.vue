@@ -170,7 +170,7 @@ export default {
                 }
 
                 const response = await axios.post(
-                    'https://apijis.com/payrolls/open',
+                    'https:://apijis.com/payrolls/open',
                     dataToSend,
                     {
                         headers: {
@@ -216,7 +216,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/payroll_periods/',
+                    'https:://apijis.com/payroll_periods/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,

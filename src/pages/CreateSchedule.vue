@@ -298,7 +298,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
-                    'https://apijis.com/meshes/store',
+                    'https:://apijis.com/meshes/store',
                     this.dataToSend,
                     {
                         headers: {
@@ -366,15 +366,24 @@ export default {
                     content: 'red',
                 },
             ]
+            this.holidaysDescription()
+        },
+        holidaysDescription() {
             this.sundaysAndHolidays.forEach((item) => {
                 const year = item.date.split('-')[0]
                 const month = item.date.split('-')[1]
                 const day = item.date.split('-')[2]
                 this.attributes = [
                     ...this.attributes,
-                    {
+                    {   
                         dates: new Date(year, month-1, day),
-                        content: 'red',
+                        dot: {
+                            color: 'red',
+                            
+                        },
+                        popover: {
+                            label: item.holiday,
+                        },
                     },
                 ]
             })
@@ -446,18 +455,7 @@ export default {
                     content: 'red',
                 },
             ]
-            this.sundaysAndHolidays.forEach((item) => {
-                const year = item.date.split('-')[0]
-                const month = item.date.split('-')[1]
-                const day = item.date.split('-')[2]
-                this.attributes = [
-                    ...this.attributes,
-                    {
-                        dates: new Date(year, month-1, day),
-                        content: 'red',
-                    },
-                ]
-            })
+            this.holidaysDescription()
             setTimeout(() => {
                 this.loading = false
             }, 500)
@@ -651,7 +649,7 @@ export default {
                     search_term: this.search_term,
                 }
                 const response = await axios.get(
-                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
+                    `https:://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -678,7 +676,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/branch_offices/',
+                    'https:://apijis.com/branch_offices/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -709,7 +707,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employee_labor_data/edit/branch/' +
+                    'https:://apijis.com/employee_labor_data/edit/branch/' +
                         this.branch_office_input,
                     {
                         headers: {
@@ -739,7 +737,7 @@ export default {
             const yearAndPreviuosMonth = `${year}-${month}`
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/last_week_working_days/${this.employee_input[1]}/${yearAndPreviuosMonth}`,
+                    `https:://apijis.com/meshes/last_week_working_days/${this.employee_input[1]}/${yearAndPreviuosMonth}`,
 
                     {
                         headers: {
@@ -918,7 +916,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/holidays/',
+                    'https:://apijis.com/holidays/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -929,18 +927,7 @@ export default {
 
                 console.log(response)
                 this.sundaysAndHolidays = response.data.message
-                this.sundaysAndHolidays.forEach((item) => {
-                    const year = item.date.split('-')[0]
-                    const month = item.date.split('-')[1]
-                    const day = item.date.split('-')[2]
-                    this.attributes = [
-                        ...this.attributes,
-                        {
-                            dates: new Date(year, month-1, day),
-                            content: 'red',
-                        },
-                    ]
-                })
+                this.holidaysDescription()
             } catch (error) {
                 console.error('Error al obtener la lista de sucursales:', error)
             }

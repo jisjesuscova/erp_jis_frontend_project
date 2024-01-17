@@ -24,7 +24,16 @@
 
             <!-- You can use a spinner or any other loading animation here -->
         </div>
-    <div id="PDF" v-show="1==1" class="mt-96">
+    <div id="PDF" v-show="1==1" class="mt-96 ">
+        <div class="flex flex-col items-stretch ">
+            <img :src="logo" alt="" class="w-20   ms-24">
+        </div>
+        <div>
+            <h1 class="text-center text-2xl font-bold ">Malla horaria</h1>
+            <hr class="my-5 border-1 border-black mx-24 ">
+            <h2 class="ms-24 text-lg font-bold ">Trabajador: {{ rutAndPeriodPDf.names }}, Rut: {{ rutAndPeriodPDf.visual_rut }},Periodo: {{ rutAndPeriodPDf.period }}</h2>
+
+        </div>
         <table class="w-full">
             <thead>
                 <tr>
@@ -129,16 +138,16 @@
                             >
                                 <div v-for="weekInfo in filteredDataToShow[weekIndex]" :key="weekInfo.id">
                                     <div class="bottom flex-grow h-30 py-1 w-full cursor-pointer">
-                                        <div class="event bg-gray-300 text-white rounded p-1 text-sm mb-1">
+                                        <div class="event bg-gray-300 text-black rounded p-1 text-sm ">
                                             <span class="time">{{ weekInfo.turn_data.start }}</span>
                                         </div>
-                                        <div class="event bg-gray-900 text-white rounded p-1 text-sm mb-1">
+                                        <div class="event bg-gray-900 text-white rounded p-1 text-sm ">
                                             <span class="time">{{ weekInfo.turn_data.end }}</span>
                                         </div>
-                                        <div class="event bg-orange-500 text-white rounded p-1 text-sm mb-1">
+                                        <div class="event bg-orange-500 text-white rounded p-1 text-sm ">
                                             <span class="time">{{ weekInfo.turn_data.breaking }}</span>
                                         </div>
-                                        <div class="event bg-blue-700 text-white rounded p-1 text-sm mb-1">
+                                        <div class="event bg-blue-700 text-white rounded p-1 text-sm ">
                                             <span class="time">{{ weekInfo.turn_data.working }}</span>
                                         </div>
                                     </div>
@@ -150,7 +159,7 @@
             </tbody>
         </table>
         <div
-            class="legend mt-10 grid md:grid-cols-5 sm:grid-cols-12 gap-10 p-4 md:p-5"
+            class="legend  grid md:grid-cols-5 sm:grid-cols-12 gap-10 p-4 md:p-5"
         >
             <div class="legend-item flex flex-row items-center">
                 <div class="color-box bg-gray-300"></div>
@@ -172,74 +181,96 @@
         </div>
         <div
             id="table"
-            class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-5 grid grid-cols-1 gap-5"
+            class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700  grid grid-cols-1 gap-5"
         >
-            <table
-                class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
-            >
-            <thead class="bg-blue-500 text-white">
-                    <tr>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium uppercase"
-                        >
-                            Total programados
-                        </th>
-                       
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium uppercase"
-                        >
-                            Domingos libres
-                        </th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium uppercase"
-                        >
-                            Total libre
-                        </th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium uppercase"
-                        >
-                            Total turno
-                        </th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium uppercase"
-                        >
-                            Total horas sem.
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                    <tr>
+        <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700  grid grid-cols-1 gap-5">
+                    <div  class="-my-3.5">
+                        <p class="p-5 font-medium text-orange-600">
+                           
+                        </p>
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
+                            <thead class="bg-blue-500 text-white">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Semana</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Progr.</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Domingos</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Libre</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Tot. turno</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Horas sem.</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                <tr v-for="(week, index) in dataToShow" :key="index">
+                                    <td class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200">
+                                        Semana {{ week.week_id }} 
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200">
+                                        {{ week.date.length }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200">
+                                        dom
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200">
+                                        {{ week.turn_data.free_day_group_id }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200">
+                                        {{week.turn_data.scheduled }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200">
+                                        {{ week.turn_data.total_week_hours }}
+                                    </td>
+                                </tr>
+                                
+                                <tr clas>
                         <td
-                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                            class="px-6 py-4 whitespace-nowrap text-lg font-bold text-gray-800 dark:text-gray-200"
+                        >
+                            Total
+                        </td>
+                        <td
+                            class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200"
                         >
                             {{ totalProgrammedDays }}
                         </td>
                         <td
-                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                            class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200"
                         >
                             {{ totalFreeSundays }}
                         </td>
                         <td
-                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                            class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200"
                         >
                             {{ totalFreeDays }}
                         </td>
                        
                         <td
-                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                            class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200"
                         >
-                            {{ totalTurns }}
+                            
                         </td>
                         <td
-                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                            class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200"
                         >
                             {{ totalWeekHours }}
                         </td>
                        
                     </tr>
-                </tbody>
-            </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
         </div>
+        <div>
+        <div class="flex flex-row items-between justify-around  -mb-3.5">
+            <img :src="signatureCompany" alt="" class="w-40 ">
+            <img :src="0" alt="" class="w-40 ">
+        </div>
+        <div class="flex flex-row items-between justify-around -mt-3.5 ">
+            <p class="w-40 mb-5 font-bold text-xl">Empleador</p>
+            <p class="w-40 mb-5 font-bold text-xl">Trabajador</p>
+            
+        </div>
+    </div>
     </div>
 </div>
   </template>
@@ -315,6 +346,8 @@
     },
     data() {
         return {
+            signatureCompany: '',
+            logo : '',
             workDays: [],
             rutAndPeriodPDf: [],
             loading:true,
@@ -327,6 +360,36 @@
     },
     
     methods: {
+        async getImages() {
+            this.logo = await this.getBase64ImageFromURL('https://erpjis.com/assets/logo.png')
+            this.signatureCompany = await this.getBase64ImageFromURL('https://erpjis.com/assets/signature.png')
+            
+        },
+        getBase64ImageFromURL(url) {
+            return new Promise((resolve, reject) => {
+                var img = new Image()
+                img.setAttribute('crossOrigin', 'anonymous')
+
+                img.onload = () => {
+                    var canvas = document.createElement('canvas')
+                    canvas.width = img.width
+                    canvas.height = img.height
+
+                    var ctx = canvas.getContext('2d')
+                    ctx.drawImage(img, 0, 0)
+
+                    var dataURL = canvas.toDataURL('image/png')
+
+                    resolve(dataURL)
+                }
+
+                img.onerror = (error) => {
+                    reject(error)
+                }
+
+                img.src = url
+            })
+            },
             isWorkDay(day) {
                 const actualYear = new Date().getFullYear();
                 const monthPeriod = Number(this.rutAndPeriodPDf.period.split('-')[1]);
@@ -381,7 +444,7 @@
             
             // Descarga el PDF
             pdf.save(`Malla_horaria_${this.rutAndPeriodPDf.rut}_${this.rutAndPeriodPDf.period}.pdf`)
-            window.location.href = '/schedule'
+            // window.location.href = '/schedule'
         },
         async calculateWeeksPerMonth() {
             const employeeRutPeriodNames = JSON.parse(localStorage.getItem('employeeRutPeriodNames'))
@@ -450,6 +513,7 @@
         await this.calculateWeeksPerMonth()
         this.workDays = this.dataToShow.flatMap(item => item.date.map(date => date.split('-')[2]));
         await this.verifyQuantityOfSundaysOfWork()
+        await this.getImages()
         setTimeout(() => {
             this.printPDF()
         }, 10);
