@@ -366,15 +366,24 @@ export default {
                     content: 'red',
                 },
             ]
+            this.holidaysDescription()
+        },
+        holidaysDescription() {
             this.sundaysAndHolidays.forEach((item) => {
                 const year = item.date.split('-')[0]
                 const month = item.date.split('-')[1]
                 const day = item.date.split('-')[2]
                 this.attributes = [
                     ...this.attributes,
-                    {
+                    {   
                         dates: new Date(year, month-1, day),
-                        content: 'red',
+                        dot: {
+                            color: 'red',
+                            
+                        },
+                        popover: {
+                            label: item.holiday,
+                        },
                     },
                 ]
             })
@@ -446,18 +455,7 @@ export default {
                     content: 'red',
                 },
             ]
-            this.sundaysAndHolidays.forEach((item) => {
-                const year = item.date.split('-')[0]
-                const month = item.date.split('-')[1]
-                const day = item.date.split('-')[2]
-                this.attributes = [
-                    ...this.attributes,
-                    {
-                        dates: new Date(year, month-1, day),
-                        content: 'red',
-                    },
-                ]
-            })
+            this.holidaysDescription()
             setTimeout(() => {
                 this.loading = false
             }, 500)
@@ -929,18 +927,7 @@ export default {
 
                 console.log(response)
                 this.sundaysAndHolidays = response.data.message
-                this.sundaysAndHolidays.forEach((item) => {
-                    const year = item.date.split('-')[0]
-                    const month = item.date.split('-')[1]
-                    const day = item.date.split('-')[2]
-                    this.attributes = [
-                        ...this.attributes,
-                        {
-                            dates: new Date(year, month-1, day),
-                            content: 'red',
-                        },
-                    ]
-                })
+                this.holidaysDescription()
             } catch (error) {
                 console.error('Error al obtener la lista de sucursales:', error)
             }

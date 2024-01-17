@@ -139,7 +139,7 @@
                             >
                                 <div v-for="weekInfo in filteredDataToShow[weekIndex]" :key="weekInfo.id">
                                     <div class="bottom flex-grow h-30 py-1 w-full cursor-pointer">
-                                        <div class="event bg-gray-300 text-white rounded p-1 text-sm mb-1">
+                                        <div class="event bg-gray-300 text-black rounded p-1 text-sm mb-1">
                                             <span class="time">{{ weekInfo.turn_data.start }}</span>
                                         </div>
                                         <div class="event bg-gray-900 text-white rounded p-1 text-sm mb-1">
@@ -160,7 +160,7 @@
             </tbody>
         </table>
         <div
-            class="legend mt-10 grid md:grid-cols-5 sm:grid-cols-12 gap-10 p-4 md:p-5"
+            class="legend mt-2 grid md:grid-cols-5 sm:grid-cols-12 gap-10 p-4 md:p-5"
         >
             <div class="legend-item flex flex-row items-center">
                 <div class="color-box bg-gray-300"></div>
@@ -184,6 +184,7 @@
             id="table"
             class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-5 grid grid-cols-1 gap-5"
         >
+        
             <table
                 class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
             >
@@ -434,7 +435,7 @@
             
             // Descarga el PDF
             pdf.save(`Malla_horaria_${this.rutAndPeriodPDf.rut}_${this.rutAndPeriodPDf.period}.pdf`)
-            window.location.href = '/schedule'
+            // window.location.href = '/schedule'
         },
         async calculateWeeksPerMonth() {
             const employeeRutPeriodNames = JSON.parse(localStorage.getItem('employeeRutPeriodNames'))
