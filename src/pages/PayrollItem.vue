@@ -180,7 +180,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `http://localhost:8000/payroll_items/delete/${id}`,
+                    `https:://apijis.com/payroll_items/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -205,7 +205,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'http://localhost:8000/payroll_items/',dataToSend,
+                    'https:://apijis.com/payroll_items/',dataToSend,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,

@@ -240,7 +240,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/payroll_family_burdens/' + section_id + '/' + this.period_input,
+                    'https:://apijis.com/payroll_family_burdens/' + section_id + '/' + this.period_input,
                     {
                         headers: {
                             accept: 'application/json',
@@ -295,7 +295,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'http://localhost:8000/payroll_manual_inputs/store',
+                    'https:://apijis.com/payroll_manual_inputs/store',
                     dataToSendFamilyBurdenNumber,
                     {
                         headers: {
@@ -325,7 +325,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'http://localhost:8000/payroll_manual_inputs/store',
+                    'https:://apijis.com/payroll_manual_inputs/store',
                     dataToSendFamilyBurdenLetter,
                     {
                         headers: {
@@ -355,7 +355,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'http://localhost:8000/payroll_manual_inputs/store',
+                    'https:://apijis.com/payroll_manual_inputs/store',
                     dataToSendFamilyBurdenTotal,
                     {
                         headers: {
@@ -385,7 +385,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'http://localhost:8000/payroll_manual_inputs/store',
+                    'https:://apijis.com/payroll_manual_inputs/store',
                     dataToSendFamilyBurdenRetroactive,
                     {
                         headers: {
@@ -412,7 +412,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/payroll_items/',
+                    'https:://apijis.com/payroll_items/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -437,7 +437,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/payroll_employees/' + this.period_input,
+                    'https:://apijis.com/payroll_employees/' + this.period_input,
                     {
                         headers: {
                             accept: 'application/json',

@@ -111,7 +111,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             // Make the POST request using axios
-            axios.post('http://localhost:8000/medical_licenses/upload', formData, {
+            axios.post('https:://apijis.com/medical_licenses/upload', formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     'Content-Type': 'multipart/form-data',

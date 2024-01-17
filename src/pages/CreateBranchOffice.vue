@@ -257,7 +257,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/regions/', {
+                const response = await axios.get('https:://apijis.com/regions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -283,7 +283,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/segments/', {
+                const response = await axios.get('https:://apijis.com/segments/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -309,7 +309,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/principals/', {
+                const response = await axios.get('https:://apijis.com/principals/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -335,7 +335,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/users/supervisor' , {
+                const response = await axios.get('https:://apijis.com/users/supervisor' , {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -360,7 +360,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/communes/' + this.region_input, {
+                const response = await axios.get('https:://apijis.com/communes/' + this.region_input, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -402,7 +402,7 @@ export default {
                 }
                 console.log(dataToSend)
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.post('http://localhost:8000/branch_offices/store/', dataToSend, 
+                await axios.post('https:://apijis.com/branch_offices/store/', dataToSend, 
                 {
                     headers: {
                                 accept: 'application/json',

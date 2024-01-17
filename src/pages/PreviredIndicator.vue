@@ -1285,7 +1285,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .post('http://localhost:8000/provisional_indicators/store', dataToSend, {
+                .post('https:://apijis.com/provisional_indicators/store', dataToSend, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',
@@ -1306,7 +1306,7 @@ export default {
 
             const accessToken = localStorage.getItem('accessToken')
             
-            const response = await axios.get('http://localhost:8000/provisional_indicators/scrape/' + this.period_input, {
+            const response = await axios.get('https:://apijis.com/provisional_indicators/scrape/' + this.period_input, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         accept: 'application/json',

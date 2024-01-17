@@ -491,7 +491,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/documents_employees/requested/' +
+                    'https:://apijis.com/documents_employees/requested/' +
                         this.$route.params.rut +
                         '/' +
                         page,

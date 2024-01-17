@@ -380,7 +380,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employees/select_inputs',
+                    'https:://apijis.com/employees/select_inputs',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -410,7 +410,7 @@ export default {
 
             axios
                 .post(
-                'http://localhost:8000/salary_settlements/multiple_store',
+                'https:://apijis.com/salary_settlements/multiple_store',
                 formData,
                 {
                     headers: {
@@ -445,7 +445,7 @@ export default {
 
             axios
                 .post(
-                    'http://localhost:8000/salary_settlements/store',
+                    'https:://apijis.com/salary_settlements/store',
                     formData,
                     {
                         headers: {

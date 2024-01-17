@@ -155,7 +155,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/job_positions/edit/' +
+                    'https:://apijis.com/job_positions/edit/' +
                         this.$route.params.id,
                     {
                         headers: {
@@ -201,7 +201,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.patch(
-                    'http://localhost:8000/job_positions/update/' +
+                    'https:://apijis.com/job_positions/update/' +
                         this.$route.params.id,
                         dataToSend,
                     {

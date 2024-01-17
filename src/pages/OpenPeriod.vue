@@ -106,7 +106,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/payroll_periods/check',
+                    'https:://apijis.com/payroll_periods/check',
                     {
                         headers: {
                             accept: 'application/json',
@@ -143,7 +143,7 @@ export default {
                 }
 
                 const response = await axios.post(
-                    'http://localhost:8000/payrolls/close',
+                    'https:://apijis.com/payrolls/close',
                     dataToSend,
                     {
                         headers: {
@@ -185,7 +185,7 @@ export default {
                 }
 
                 const response = await axios.post(
-                    'http://localhost:8000/payrolls/open',
+                    'https:://apijis.com/payrolls/open',
                     dataToSend,
                     {
                         headers: {

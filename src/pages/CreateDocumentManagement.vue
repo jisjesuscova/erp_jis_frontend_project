@@ -159,7 +159,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/document_types/2',
+                    'https:://apijis.com/document_types/2',
                     {
                         headers: {
                             accept: 'application/json',
@@ -196,7 +196,7 @@ export default {
 
             const response = await axios
                 .post(
-                    'http://localhost:8000/documents_employees/store',
+                    'https:://apijis.com/documents_employees/store',
                     dataToSend,
                     {
                         headers: {

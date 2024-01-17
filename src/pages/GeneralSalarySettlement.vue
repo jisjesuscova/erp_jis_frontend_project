@@ -200,7 +200,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/salary_settlements/download/' + id,
+                    'https:://apijis.com/salary_settlements/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -239,7 +239,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/salary_settlements/all/' + page,
+                    'https:://apijis.com/salary_settlements/all/' + page,
                     {
                         headers: {
                             accept: 'application/json',

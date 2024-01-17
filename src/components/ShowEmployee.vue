@@ -65,7 +65,7 @@ export default {
         const accessToken = localStorage.getItem('accessToken');
 
         try {
-            const response = await axios.get('http://localhost:8000/nationalities', {
+            const response = await axios.get('https:://apijis.com/nationalities', {
                 headers: {
                 accept: 'application/json',
                 Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
