@@ -797,6 +797,7 @@ export default {
             pdf_progressive_vacations: [],
             signature: '',
             full_name: '',
+            employee_rut: '',
         }
     },
     async mounted() {
@@ -1389,7 +1390,7 @@ export default {
                                             margin: [0, -30, 0, 0],
                                         },
                                         {
-                                            text: 'RUT: ' + visual_rut,
+                                            text: 'RUT: ' + this.employee_rut,
                                             alignment: 'center',
                                             fontSize: 10,
                                             bold: true,
@@ -1547,7 +1548,7 @@ export default {
                                             margin: [0, -20, 0, 0],
                                         },
                                         {
-                                            text: 'RUT: ' + visual_rut,
+                                            text: 'RUT: ' + this.employee_rut,
                                             alignment: 'center',
                                             fontSize: 10,
                                             bold: true,
@@ -2114,7 +2115,7 @@ export default {
                                             margin: [0, -30, 0, 0],
                                         },
                                         {
-                                            text: 'RUT: ' + visual_rut,
+                                            text: 'RUT: ' + this.employee_rut,
                                             alignment: 'center',
                                             fontSize: 10,
                                             bold: true,
@@ -2275,7 +2276,7 @@ export default {
                                             margin: [0, -20, 0, 0],
                                         },
                                         {
-                                            text: 'RUT: ' + visual_rut,
+                                            text: 'RUT: ' + this.employee_rut,
                                             alignment: 'center',
                                             fontSize: 10,
                                             bold: true,
@@ -2456,7 +2457,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/vacations/all/' +
+                    'https://apijis.com/vacations/pdf_all/' +
                         this.$route.params.rut +
                         '/' +
                         page,
@@ -2755,6 +2756,8 @@ export default {
                 const decodedData = JSON.parse(response.data.message)
 
                 this.full_name = decodedData.employee_data.names +' '+ decodedData.employee_data.father_lastname +' '+ decodedData.employee_data.mother_lastname
+                
+                this.employee_rut = decodedData.employee_data.visual_rut
 
                 if (decodedData.signature == null) {
                     this.signature = ''

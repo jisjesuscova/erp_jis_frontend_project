@@ -215,9 +215,17 @@
                                                 <span
                                                     v-if="
                                                         document_management.status_id ==
+                                                        1
+                                                    "
+                                                    class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-blue-500 text-white"
+                                                    >Solicitada</span
+                                                >
+                                                <span
+                                                    v-if="
+                                                        document_management.status_id ==
                                                         2
                                                     "
-                                                    class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-500 text-white"
+                                                    class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-yellow-500 text-white"
                                                     >Aceptada por
                                                     Supervisor</span
                                                 >
@@ -234,6 +242,23 @@
                                                         class="fa-solid fa-eye"
                                                     ></i>
                                                 </router-link>
+
+                                                <button
+                                                    v-if="
+                                                        rol_id == 4
+                                                    "
+                                                    type="button"
+                                                    @click="
+                                                        confirmVacation(
+                                                            vacation.document_employee_id,
+                                                        )
+                                                    "
+                                                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                                >
+                                                    <i
+                                                        class="fa-solid fa-trash"
+                                                    ></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -355,6 +380,33 @@ export default {
         }
     },
     methods: {
+        async confirmVacation(id) {
+            const shouldDelete = window.confirm(
+                '¿Estás seguro de que deseas borrar el registro?',
+            )
+
+            if (shouldDelete) {
+                await this.deleteVacation(id)
+            }
+        },
+        async deleteVacation(id) {
+            this.loading = true
+
+            try {
+                const accessToken = localStorage.getItem('accessToken')
+
+                await axios.delete(`https://apijis.com/vacations/delete/${id}`, {
+                    headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+
+                this.getVacations()
+            } catch (error) {
+                console.error('Error al borrar las vacaciones:', error)
+            }
+        },
         formatDateToCustomFormat(dateString) {
             const date = new Date(dateString)
 

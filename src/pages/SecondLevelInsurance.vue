@@ -29,6 +29,7 @@
             <div
                 class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
             >
+                
                 <div
                     class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
                 >
@@ -60,6 +61,12 @@
             <hr
                 class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
             />
+            <div
+                    class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
+                    role="alert"
+                >
+                    Se está mostrando los valores del periodo <span class="font-bold">éxito</span>. Usted debe revisar y actualizar al periodo actual.
+            </div>
             <div
                 class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
             >
@@ -145,10 +152,10 @@
                         >
                         <input
                             type="date"
-                            id="since_input"
+                            id="since_input_2"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Desde"
-                            v-model="since_input"
+                            v-model="since_input_2"
                             required
                         />
                     </div>
@@ -160,10 +167,10 @@
                         >
                         <input
                             type="date"
-                            id="until_input"
+                            id="until_input_2"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Hasta"
-                            v-model="until_input"
+                            v-model="until_input_2"
                             required
                         />
                     </div>
@@ -175,10 +182,10 @@
                         >
                         <input
                             type="number"
-                            id="factor_input"
+                            id="factor_input_2"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Factor"
-                            v-model="factor_input"
+                            v-model="factor_input_2"
                             required
                         />
                     </div>
@@ -190,10 +197,10 @@
                         >
                         <input
                             type="number"
-                            id="amount_input"
+                            id="amount_input_2"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Monto"
-                            v-model="father_lastname_input"
+                            v-model="amount_input_2"
                             required
                         />
                     </div>
@@ -208,11 +215,11 @@
                             >Desde</label
                         >
                         <input
-                            type="text"
-                            id="rut_input"
+                            type="date"
+                            id="since_input_3"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Desde"
-                            v-model="rut_input"
+                            v-model="since_input_3"
                             required
                         />
                     </div>
@@ -223,11 +230,11 @@
                             >Hasta</label
                         >
                         <input
-                            type="text"
-                            id="father_lastname_input"
+                            type="date"
+                            id="until_input_3"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Hasta"
-                            v-model="father_lastname_input"
+                            v-model="until_input_3"
                             required
                         />
                     </div>
@@ -238,11 +245,11 @@
                             >Factor</label
                         >
                         <input
-                            type="text"
-                            id="factor_input"
+                            type="number"
+                            id="factor_input_3"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Factor"
-                            v-model="factor_input"
+                            v-model="factor_input_3"
                             required
                         />
                     </div>
@@ -253,11 +260,11 @@
                             >Monto</label
                         >
                         <input
-                            type="numebr"
-                            id="amount_input"
+                            type="number"
+                            id="amount_input_3"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Monto"
-                            v-model="amount_input"
+                            v-model="amount_input_3"
                             required
                         />
                     </div>
@@ -272,11 +279,11 @@
                             >Desde</label
                         >
                         <input
-                            type="text"
-                            id="rut_input"
+                            type="date"
+                            id="since_input_4"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Desde"
-                            v-model="since_input"
+                            v-model="since_input_4"
                             required
                         />
                     </div>
@@ -287,11 +294,11 @@
                             >Hasta</label
                         >
                         <input
-                            type="text"
-                            id="until_input"
+                            type="date"
+                            id="until_input_4"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Hasta"
-                            v-model="until_input"
+                            v-model="until_input_4"
                             required
                         />
                     </div>
@@ -302,11 +309,11 @@
                             >Factor</label
                         >
                         <input
-                            type="text"
-                            id="father_lastname_input"
+                            type="number"
+                            id="factor_input_4"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Factor"
-                            v-model="factor_input"
+                            v-model="factor_input_4"
                             required
                         />
                     </div>
@@ -317,11 +324,11 @@
                             >Monto</label
                         >
                         <input
-                            type="text"
-                            id="father_lastname_input"
+                            type="number"
+                            id="amount_input_4"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Monto"
-                            v-model="amount_input"
+                            v-model="amount_input_4"
                             required
                         />
                     </div>
@@ -341,9 +348,6 @@
                     </div>
                 </div>
             </div>
-            <hr
-                class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
-            />
         </div>
     </div>
 </template>
@@ -355,31 +359,28 @@ export default {
     directives: { mask },
     data() {
         return {
-            loading: true,
-            loading_1: true,
-            loading_2: true,
-            rut_input: '',
-            father_lastname_input: '',
+            loading: false,
+            since_input_1: '',
+            until_input_1: '',
+            factor_input_1: 0,
+            amount_input_1: 0,
+            since_input_2: '',
+            until_input_2: '',
+            factor_input_2: 0,
+            amount_input_2: 0,
+            since_input_3: '',
+            until_input_3: '',
+            factor_input_3: 0,
+            amount_input_3: 0,
+            since_input_4: '',
+            until_input_4: '',
+            factor_input_4: 0,
+            amount_input_4: 0,
             period_input: '',
-            data: [],
-            payroll_employees: [],
-            payroll_managements_inputs: [],
-            amount_input: 0,
-            massive_amount_input: 0,
-            total_amount: 0,
-            payroll_item_input: ''
+            old_period: '',
         }
     },
     methods: {
-        async cleanForm() {
-            this.payroll_employees.forEach((employee) => {
-                employee.amount_input = 0
-            })
-
-            this.amount_input = 0
-
-            this.massive_amount_input = 0
-        },
         async submit() {
             const accessToken = localStorage.getItem('accessToken')
 
@@ -419,104 +420,8 @@ export default {
                 }
             }
         },
-        applyBulkAmount() {
-            this.amount_input = 0
-
-            this.payroll_employees.forEach((employee) => {
-                employee.amount_input = this.massive_amount_input
-
-                this.amount_input += parseInt(employee.amount_input)
-            })
-        },
-        async searchPayrollEmployees() {
-            const accessToken = localStorage.getItem('accessToken')
-            try {
-                const dataToSend = {
-                    rut: this.rut_input,
-                    father_lastname: this.father_lastname_input,
-                }
-
-                const response = await axios.post(
-                    'https://apijis.com/payroll_employees/search',
-                    dataToSend,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    },
-                )
-
-                this.payroll_employees = response.data.message
-
-                this.payroll_employees.forEach((employee) => {
-                    employee.amount_input = 0
-                })
-
-                this.loading_2 = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error('Error al obtener los empleados:', error)
-                }
-            }
-        },
-        async getPayrollItems() {
-            const accessToken = localStorage.getItem('accessToken')
-            try {
-                const response = await axios.get(
-                    'https://apijis.com/payroll_items/',
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    },
-                )
-                console.log(response)
-                this.payroll_managements_inputs = response.data.message
-
-                this.loading_1 = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error('Error al obtener los items:', error)
-                }
-            }
-        },
-        async getPayrollEmployees() {
-            const accessToken = localStorage.getItem('accessToken')
-            try {
-                const response = await axios.get(
-                    'https://apijis.com/payroll_employees/' + this.period_input,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    },
-                )
-
-                this.payroll_employees = response.data.message
-
-                this.loading_2 = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error('Error al obtener los empleados:', error)
-                }
-            }
-        },
     },
     async mounted() {
-        await this.getPayrollItems()
-
         const opened_period = localStorage.getItem('opened_period')
         if (opened_period != null && opened_period != 'null' && opened_period != '' && opened_period != 'undefined' && opened_period != undefined) {
             this.period_input = opened_period
@@ -526,15 +431,9 @@ export default {
                 )
         }
 
-        await this.getPayrollEmployees()
-
-        this.payroll_employees.forEach((employee) => {
-            employee.amount_input = 0
-        })
-        
-        if (this.loading_1 === false && this.loading_2 === false) {
-            this.loading = false
-        }
+        const new_period = opened_period
+        const old_period = new_period.split('-')
+        this.old_period = old_period[0] + '-' + old_period[1]
     },
 }
 </script>

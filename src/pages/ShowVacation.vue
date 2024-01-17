@@ -94,7 +94,7 @@
                             </div>
                         </div>
                         <div
-                            v-if="rol_id == 4"
+                            v-if="status_id == 2 && rol_id == 4"
                             class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5"
                         >
                             <div>
@@ -179,7 +179,7 @@
                                     <span class="sr-only">Loading...</span>
                                 </div>
                             </div>
-                            <button
+                            <button v-if="status_id == 2 && rol_id == 4"
                                 @click="updateDocumentManagement"
                                 type="submit"
                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
@@ -188,8 +188,16 @@
                                 <i class="fa-solid fa-check"></i>
                             </button>
 
-                            <router-link
-                                :to="`/document_management/${$route.params.rut}`"
+                            <router-link v-if="rol_id == 4"
+                                :to="`/document_managements`"
+                                class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                            >
+                                Cancelar
+                                <i class="fa-solid fa-remove"></i>
+                            </router-link>
+
+                            <router-link v-if="rol_id != 4"
+                                :to="`/document_managements/${$route.params.rut}`"
                                 class="py-3 px-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                             >
                                 Cancelar
@@ -290,7 +298,7 @@ export default {
                 }
 
                 if (rol_id == 4) {
-                    this.$router.push('/requested_document_management')
+                    this.$router.push('/document_managements')
                 } else {
                     this.$router.push('/document_management_employee/' + rut)
                 }
@@ -324,7 +332,8 @@ export default {
                 )
                 .then((response) => {
                     console.log(response.data.message)
-
+                    
+                    this.status_id = response.data.message.status_id
                     this.since_input = response.data.message.since
                     this.until_input = response.data.message.until
                     this.no_valid_days_input =

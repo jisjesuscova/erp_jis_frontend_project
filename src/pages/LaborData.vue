@@ -481,21 +481,21 @@ export default {
             )
         },
         formatCollationInput() {
-        this.collation_input = this.collation_input.replace(/\D/g, '');
-        this.collation_input = this.collation_input.replace(/([0-9])([0-9]{3})$/, '$1.$2');
-        this.collation_input = this.collation_input.replace(/(?=(\d{3})+(\D))\B/g, '.');
+            this.collation_input = this.collation_input.replace(/\D/g, '');
+            this.collation_input = this.collation_input.replace(/([0-9])([0-9]{3})$/, '$1.$2');
+            this.collation_input = this.collation_input.replace(/(?=(\d{3})+(\D))\B/g, '.');
         },
 
         formatLocomotionInput() {
-        this.locomotion_input = this.locomotion_input.replace(/\D/g, '');
-        this.locomotion_input = this.locomotion_input.replace(/([0-9])([0-9]{3})$/, '$1.$2');
-        this.locomotion_input = this.locomotion_input.replace(/(?=(\d{3})+(\D))\B/g, '.');
+            this.locomotion_input = this.locomotion_input.replace(/\D/g, '');
+            this.locomotion_input = this.locomotion_input.replace(/([0-9])([0-9]{3})$/, '$1.$2');
+            this.locomotion_input = this.locomotion_input.replace(/(?=(\d{3})+(\D))\B/g, '.');
         },
 
         formatApvAmountInput() {
-        this.apv_amount_input = this.apv_amount_input.replace(/\D/g, '');
-        this.apv_amount_input = this.apv_amount_input.replace(/([0-9])([0-9]{3})$/, '$1.$2');
-        this.apv_amount_input = this.apv_amount_input.replace(/(?=(\d{3})+(\D))\B/g, '.');
+            this.apv_amount_input = this.apv_amount_input.replace(/\D/g, '');
+            this.apv_amount_input = this.apv_amount_input.replace(/([0-9])([0-9]{3})$/, '$1.$2');
+            this.apv_amount_input = this.apv_amount_input.replace(/(?=(\d{3})+(\D))\B/g, '.');
         },
         async downloadEmployeeContract(id) {
             const accessToken = localStorage.getItem('accessToken')
