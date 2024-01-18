@@ -195,7 +195,7 @@
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase">Progr.</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase">Domingos</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase">Libre</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Tot. turno</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Turno</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase">Horas sem.</th>
                                 </tr>
                             </thead>
@@ -214,10 +214,10 @@
                                         {{ week.turn_data.free_day_group_id }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200">
-                                        {{week.turn_data.scheduled }}
+                                        {{ week.date.length }} X  {{ week.turn_data.free_day_group_id }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200">
-                                        {{ week.turn_data.total_week_hours }}
+                                        {{ totalHoursPerWeek()[week.week_id] }}
                                     </td>
                                 </tr>
                                 
@@ -319,6 +319,7 @@
                 0
             );
         },
+       
         filteredDataToShow() {
             if (!Array.isArray(this.dataToShow)) {
                 return [];
@@ -360,6 +361,21 @@
     },
     
     methods: {
+         totalHoursPerWeek() {
+            if (!Array.isArray(this.dataToShow)) {
+                return {};
+            }
+            return this.dataToShow.reduce((totals, week) => {
+                const weekNumber = week.week_id;
+                if (!totals[weekNumber]) {
+                    totals[weekNumber] = 0;
+                }
+                const [hours, minutes] = week.turn_data.working.split(':').map(Number);
+                const decimalHours = hours + (minutes / 60);
+                totals[weekNumber] += (week.date.length * decimalHours);
+                return totals;
+            }, {});
+        },
         async getImages() {
             this.logo = await this.getBase64ImageFromURL('https://erpjis.com/assets/logo.png')
             this.signatureCompany = await this.getBase64ImageFromURL('https://erpjis.com/assets/signature.png')

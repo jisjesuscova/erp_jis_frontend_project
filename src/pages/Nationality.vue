@@ -127,7 +127,7 @@ export default {
 
         try {
             const response = await axios.get(
-                'https:://apijis.com/nationalities/',
+                'http://localhost:8000/nationalities/',
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -157,7 +157,7 @@ export default {
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`https:://apijis.com/nationalities/delete/${id}`, {
+                await axios.delete(`http://localhost:8000/nationalities/delete/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,

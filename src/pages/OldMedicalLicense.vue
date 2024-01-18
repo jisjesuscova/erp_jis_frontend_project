@@ -214,7 +214,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/medical_licenses/download/' + id,
+                    'http://localhost:8000/medical_licenses/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -253,7 +253,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/old_medical_licenses/edit/' +
+                    'http://localhost:8000/old_medical_licenses/edit/' +
                         this.$route.params.rut +
                         '/' +
                         page,
@@ -300,7 +300,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `https:://apijis.com/medical_licenses/delete/${id}`,
+                    `http://localhost:8000/medical_licenses/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',

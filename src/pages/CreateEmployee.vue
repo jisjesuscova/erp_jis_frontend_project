@@ -368,7 +368,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.post(
-                    'https:://apijis.com/employees/store',
+                    'http://localhost:8000/employees/store',
                     dataToSend,
                     {
                         headers: {
@@ -393,7 +393,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.post(
-                    'https:://apijis.com/employee_extras/store',
+                    'http://localhost:8000/employee_extras/store',
                     dataToSend,
                     {
                         headers: {
@@ -418,7 +418,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.post(
-                    'https:://apijis.com/employee_labor_data/store',
+                    'http://localhost:8000/employee_labor_data/store',
                     dataToSend,
                     {
                         headers: {
@@ -447,7 +447,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.post(
-                    'https:://apijis.com/clock_users/store',
+                    'http://localhost:8000/clock_users/store',
                     dataToSend,
                     {
                         headers: {
@@ -479,7 +479,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.post(
-                    'https:://apijis.com/users/store',
+                    'http://localhost:8000/users/store',
                     dataToSend,
                     {
                         headers: {
@@ -513,7 +513,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.get(
-                    'https:://apijis.com/employees/validate_cellphone/' +
+                    'http://localhost:8000/employees/validate_cellphone/' +
                         this.cellphone_input,
                     {
                         headers: {
@@ -556,7 +556,7 @@ export default {
             var rut = this.rut_input.split('-')
 
             try {
-                const response = await axios.get('https:://apijis.com/employees/validate_rut/' + rut[0], {
+                const response = await axios.get('http://localhost:8000/employees/validate_rut/' + rut[0], {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -594,7 +594,7 @@ export default {
 
         try {
             const response = await axios.get(
-                'https:://apijis.com/nationalities/',
+                'http://localhost:8000/nationalities/',
                 {
                     headers: {
                         accept: 'application/json',

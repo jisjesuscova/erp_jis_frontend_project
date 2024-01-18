@@ -338,7 +338,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/employees/edit/' +
+                    'http://localhost:8000/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -371,7 +371,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/employee_extras/edit/' +
+                    'http://localhost:8000/employee_extras/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -463,7 +463,7 @@ export default {
 
             try {
                 const response = await axios.patch(
-                    `https:://apijis.com/employee_extras/update/${this.$route.params.rut}`,
+                    `http://localhost:8000/employee_extras/update/${this.$route.params.rut}`,
                     {
                         extreme_zone_id: this.extreme_zone_input,
                         employee_type_id: this.employee_type_input,

@@ -231,7 +231,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .get('https:://apijis.com/patology_types/', {
+                .get('http://localhost:8000/patology_types/', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'multipart/form-data',
@@ -250,7 +250,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .get('https:://apijis.com/medical_license_types/', {
+                .get('http://localhost:8000/medical_license_types/', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'multipart/form-data',
@@ -287,7 +287,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .post('https:://apijis.com/medical_licenses/store', formData, {
+                .post('http://localhost:8000/medical_licenses/store', formData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'multipart/form-data',

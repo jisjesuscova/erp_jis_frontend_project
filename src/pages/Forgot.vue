@@ -173,7 +173,7 @@ export default {
             this.loading = true
 
             axios
-                .post('https:://apijis.com/login_users/forgot', dataToSend)
+                .post('http://localhost:8000/login_users/forgot', dataToSend)
                 .then((response) => {
                     window.location.href = '/sent'
                 })

@@ -173,7 +173,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .post('https:://apijis.com/kardex_data/store', formData, {
+                .post('http://localhost:8000/kardex_data/store', formData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'multipart/form-data',
@@ -200,7 +200,7 @@ export default {
 
         try {
             const response = await axios.get(
-                'https:://apijis.com/document_types/1',
+                'http://localhost:8000/document_types/1',
                 {
                     headers: {
                         accept: 'application/json',

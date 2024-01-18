@@ -54,7 +54,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/payroll_calculations/' +
+                    'http://localhost:8000/payroll_calculations/' +
                     opened_period,
                     {
                         headers: {
