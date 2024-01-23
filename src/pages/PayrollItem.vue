@@ -201,6 +201,7 @@ export default {
             const dataToSend = {
                 page: this.currentPage,
             }
+            console.log(dataToSend)
             this.loading = true
 
             try {
@@ -215,7 +216,7 @@ export default {
                 )
                 this.totalItems = response.data.message.total_items
                 this.itemsPerPage = response.data.message.items_per_page
-                this.payroll_items = response.data.message.data
+                this.payroll_items = response.data.message
                 console.log(response.data.message)
 
                 this.loading = false

@@ -424,7 +424,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `http://localhost:8000/meshes/get_all_by_supervisor/${supervisor_rut}`,
+                    `http://localhost:8000/meshes/get_all_meshes_by_supervisor/${supervisor_rut}`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
