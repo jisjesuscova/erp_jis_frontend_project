@@ -126,7 +126,7 @@
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
                                             {{
-                                                formatDate(honorary.start_date)
+                                                formatDate(honorary.added_date)
                                             }}
                                         </td>
                                         <td
@@ -273,7 +273,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'https://apijis.com/honoraries/',
+                    'https://apijis.com/honoraries',
                     dataToSend,
                     {
                         headers: {

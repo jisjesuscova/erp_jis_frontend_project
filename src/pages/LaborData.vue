@@ -2685,7 +2685,6 @@ export default {
                 apv_amount: await this.replacedotandtransformtoint(this.apv_amount_input),
             };  
 
-            console.log(dataToSend)
             try {
                 
                 const response = await axios.patch('https://apijis.com/employee_labor_data/update/'+ this.$route.params.rut, dataToSend, {
@@ -2700,6 +2699,8 @@ export default {
                 if (response.data.message == 1) {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
+
+                this.getEmployeeLaborData();
 
                 this.loading = false
 

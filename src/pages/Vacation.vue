@@ -779,12 +779,14 @@ export default {
             balance: '',
             error_kardex: 0,
             itemsPerPage: 10,
+            pdf_itemsPerPage: 10,
             progressive_itemsPerPage: 10,
             maxPagesShown: 5,
             progressive_maxPagesShown: 5,
             currentPage: 1,
             progressive_currentPage: 1,
             totalItems: 0,
+            pdf_totalItems: 0,
             progressive_totalItems: 0,
             vacation_document: '',
             progressive_vacation_document: '',
@@ -798,6 +800,9 @@ export default {
             signature: '',
             full_name: '',
             employee_rut: '',
+            total_holidays: 0,
+            total_taken_days: 0,
+            total_balance: 0,
         }
     },
     async mounted() {
@@ -838,6 +843,10 @@ export default {
         ) {
             this.loading = false
         }
+
+        this.total_holidays = parseFloat(this.legal_holiday) + parseFloat(this.progressive_legal_holiday)	
+        this.total_taken_days = parseFloat(this.taken_days) + parseFloat(this.progressive_taken_days)
+        this.total_balance = parseFloat(this.balance) + parseFloat(this.progressive_balance)
     },
     methods: {
         formatDateToCustomFormat(dateString) {
@@ -1286,6 +1295,31 @@ export default {
                         },
                         {
                             table: {
+                                widths: ['*'],
+                                body: [
+                                    [
+                                        {
+                                            text: [
+                                                {
+                                                    text: 'Trabajador: ',
+                                                    bold: true,
+                                                },
+                                                {
+                                                    text:
+                                                        this.full_name,
+                                                },
+                                            ],
+                                            alignment: 'left',
+                                            fontSize: 11,
+                                            margin: [0, 0, 0, 30],
+                                        },
+                                    ],
+                                ],
+                            },
+                            layout: 'noBorders',
+                        },
+                        {
+                            table: {
                                 widths: ['*', '*', '*'],
                                 body: [
                                     [
@@ -1333,7 +1367,7 @@ export default {
                                                 },
                                             ],
                                             alignment: 'center',
-                                            fontSize: 9,
+                                            fontSize: 13,
                                             margin: [0, 0, 0, 0],
                                         },
                                     ],
@@ -1344,16 +1378,14 @@ export default {
                         {
                             table: {
                                 headerRows: 1,
-                                widths: ['auto', '*', '*', 'auto'],
+                                widths: ['*', '*', 'auto'],
                                 body: [
                                     [
-                                        { text: 'Id', bold: true },
                                         { text: 'Desde', bold: true },
                                         { text: 'Hasta', bold: true },
-                                        { text: 'Días', bold: true },
+                                        { text: 'Días Hábiles', bold: true },
                                     ],
                                     ...vacationRows.map((row) => [
-                                        row[0],
                                         row[1],
                                         row[2],
                                         row[3],
@@ -1362,6 +1394,31 @@ export default {
                             },
                             fontSize: 10,
                             margin: [0, 0, 0, 10],
+                        },
+                        {
+                            table: {
+                                widths: ['*'],
+                                body: [
+                                    [
+                                        {
+                                            text: [
+                                                {
+                                                    text: 'Importante: ',
+                                                    bold: true,
+                                                },
+                                                {
+                                                    text: 'Solo se muestra los últimos cincos (5) registros en el comprobante, si usted quiere visualizarlos todos debe ingresar a la Intranet.',
+                                                    bold: true,
+                                                },
+                                            ],
+                                            alignment: 'left',
+                                            fontSize: 8,
+                                            margin: [0, 0, 0, 0],
+                                        },
+                                    ],
+                                ],
+                            },
+                            layout: 'noBorders',
                         },
                         {
                             table: {
@@ -1394,7 +1451,7 @@ export default {
                                             alignment: 'center',
                                             fontSize: 10,
                                             bold: true,
-                                            margin: [0, -30, 0, 0],
+                                            margin: [0, -40, 0, 0],
                                         },
                                     ],
                                 ],
@@ -1444,6 +1501,31 @@ export default {
                         },
                         {
                             table: {
+                                widths: ['*'],
+                                body: [
+                                    [
+                                        {
+                                            text: [
+                                                {
+                                                    text: 'Trabajador: ',
+                                                    bold: true,
+                                                },
+                                                {
+                                                    text:
+                                                        this.full_name,
+                                                },
+                                            ],
+                                            alignment: 'left',
+                                            fontSize: 11,
+                                            margin: [0, 0, 0, 30],
+                                        },
+                                    ],
+                                ],
+                            },
+                            layout: 'noBorders',
+                        },
+                        {
+                            table: {
                                 widths: ['*', '*', '*'],
                                 body: [
                                     [
@@ -1491,7 +1573,7 @@ export default {
                                                 },
                                             ],
                                             alignment: 'center',
-                                            fontSize: 9,
+                                            fontSize: 13,
                                             margin: [0, 0, 0, 0],
                                         },
                                     ],
@@ -1502,16 +1584,14 @@ export default {
                         {
                             table: {
                                 headerRows: 1,
-                                widths: ['auto', '*', '*', 'auto'],
+                                widths: ['*', '*', 'auto'],
                                 body: [
                                     [
-                                        { text: 'Id', bold: true },
                                         { text: 'Desde', bold: true },
                                         { text: 'Hasta', bold: true },
-                                        { text: 'Días', bold: true },
+                                        { text: 'Días Hábiles', bold: true },
                                     ],
                                     ...vacationRows.map((row) => [
-                                        row[0],
                                         row[1],
                                         row[2],
                                         row[3],
@@ -1520,6 +1600,31 @@ export default {
                             },
                             fontSize: 10,
                             margin: [0, 0, 0, 10],
+                        },
+                        {
+                            table: {
+                                widths: ['*'],
+                                body: [
+                                    [
+                                        {
+                                            text: [
+                                                {
+                                                    text: 'Importante: ',
+                                                    bold: true,
+                                                },
+                                                {
+                                                    text: 'Solo se muestra los últimos cincos (5) registros en el comprobante, si usted quiere visualizarlos todos debe ingresar a la Intranet.',
+                                                    bold: true,
+                                                },
+                                            ],
+                                            alignment: 'left',
+                                            fontSize: 8,
+                                            margin: [0, 0, 0, 0],
+                                        },
+                                    ],
+                                ],
+                            },
+                            layout: 'noBorders',
                         },
                         {
                             table: {
@@ -1552,7 +1657,7 @@ export default {
                                             alignment: 'center',
                                             fontSize: 10,
                                             bold: true,
-                                            margin: [0, -20, 0, 0],
+                                            margin: [0, -40, 0, 0],
                                         },
                                     ],
                                 ],
@@ -2457,7 +2562,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/vacations/pdf_all/' +
+                    'https://apijis.com/vacations/all/' +
                         this.$route.params.rut +
                         '/' +
                         page,

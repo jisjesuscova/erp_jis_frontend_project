@@ -9,7 +9,7 @@
                         <p
                             class="mt-1 text-xs sm:text-sm text-gray-600 dark:text-gray-400"
                         >
-                            © 2023 Jisparking.com.
+                            © 2024 Jisparking.com.
                         </p>
                     </div>
                 </div>

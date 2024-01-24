@@ -94,7 +94,6 @@
                             </div>
                         </div>
                         <div
-                            v-if="status_id == 2 && rol_id == 4"
                             class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5"
                         >
                             <div>
@@ -179,7 +178,7 @@
                                     <span class="sr-only">Loading...</span>
                                 </div>
                             </div>
-                            <button v-if="status_id == 2 && rol_id == 4"
+                            <button
                                 @click="updateDocumentManagement"
                                 type="submit"
                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
