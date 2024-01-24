@@ -799,7 +799,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/employee_contracts/download/' + id,
+                    'https://apijis.comemployee_contracts/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -3410,7 +3410,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `https:://apijis.com/employee_contracts/delete/${id}`,
+                    `https://apijis.comemployee_contracts/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -3479,7 +3479,7 @@ export default {
             console.log(dataToSend)
             try {
                 const response = await axios.patch(
-                    'https:://apijis.com/employee_labor_data/update/' +
+                    'https://apijis.comemployee_labor_data/update/' +
                         this.$route.params.rut,
                     dataToSend,
                     {
@@ -3505,7 +3505,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/old_employee_labor_data/edit/' +
+                    'https://apijis.comold_employee_labor_data/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -3584,7 +3584,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/pentions/',
+                    'https://apijis.compentions/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -3617,7 +3617,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'https:://apijis.com/contract_data/expiration',
+                    'https://apijis.comcontract_data/expiration',
                     dataToSend,
                     {
                         headers: {
@@ -3648,7 +3648,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/healths/',
+                    'https://apijis.comhealths/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -3677,7 +3677,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/regimes/',
+                    'https://apijis.comregimes/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -3706,7 +3706,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/job_positions/',
+                    'https://apijis.comjob_positions/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -3735,7 +3735,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/employee_types/',
+                    'https://apijis.comemployee_types/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -3764,7 +3764,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/contract_types/',
+                    'https://apijis.comcontract_types/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -3793,7 +3793,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/branch_offices/',
+                    'https://apijis.combranch_offices/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -3822,7 +3822,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/communes/' + this.region_input,
+                    'https://apijis.comcommunes/' + this.region_input,
                     {
                         headers: {
                             accept: 'application/json',
@@ -3849,7 +3849,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/regions/',
+                    'https://apijis.comregions/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -3878,7 +3878,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/civil_states/',
+                    'https://apijis.comcivil_states/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -3907,7 +3907,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/employee_contracts/edit/' +
+                    'https://apijis.comemployee_contracts/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -3939,7 +3939,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/old_employees/edit/' +
+                    'https://apijis.comold_employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -3970,7 +3970,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/end_documents/edit/' +
+                    'https://apijis.comend_documents/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -3991,7 +3991,7 @@ export default {
                 }
 
                 const responseCausals = await axios.get(
-                    'https:://apijis.com/causals/',
+                    'https://apijis.comcausals/',
                     {
                         headers: {
                             accept: 'application/json',

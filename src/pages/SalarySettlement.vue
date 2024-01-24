@@ -185,7 +185,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/employees/edit/' +
+                    'https://apijis.comemployees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -232,7 +232,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/salary_settlements/download/' + id,
+                    'https://apijis.comsalary_settlements/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -271,7 +271,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/salary_settlements/edit/' +
+                    'https://apijis.comsalary_settlements/edit/' +
                         this.$route.params.rut +
                         '/' +
                         page,

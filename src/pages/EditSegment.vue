@@ -144,7 +144,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/segments/edit/' + this.$route.params.id,
+                    'https://apijis.comsegments/edit/' + this.$route.params.id,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -183,7 +183,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.patch(
-                    'https:://apijis.com/segments/update/' +
+                    'https://apijis.comsegments/update/' +
                         this.$route.params.id,
                         dataToSend,
                     {

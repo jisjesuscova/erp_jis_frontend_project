@@ -103,7 +103,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'https:://apijis.com/alerts/',
+                    'https://apijis.comalerts/',
                     dataToSend,
                     {
                         headers: {

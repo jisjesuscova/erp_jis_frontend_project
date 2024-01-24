@@ -158,7 +158,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/payroll_items/edit/' +
+                    'https://apijis.compayroll_items/edit/' +
                         this.$route.params.id,
                     {
                         headers: {
@@ -202,7 +202,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.patch(
-                    'https:://apijis.com/payroll_items/update/' +
+                    'https://apijis.compayroll_items/update/' +
                         this.$route.params.id,
                     formData,
                     {

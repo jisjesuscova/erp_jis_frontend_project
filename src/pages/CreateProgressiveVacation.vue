@@ -185,7 +185,7 @@ export default {
 
             const response = await axios
                 .post(
-                    'https:://apijis.com/progressive_vacations/store',
+                    'https://apijis.comprogressive_vacations/store',
                     dataToSend,
                     {
                         headers: {

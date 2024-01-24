@@ -258,7 +258,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             const branch_office_id = this.$route.params.id
             try {
-                const response = await axios.get('https:://apijis.com/branch_offices/edit/' + branch_office_id, {
+                const response = await axios.get('https://apijis.combranch_offices/edit/' + branch_office_id, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
@@ -295,7 +295,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https:://apijis.com/regions/', {
+                const response = await axios.get('https://apijis.comregions/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -320,7 +320,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https:://apijis.com/segments/', {
+                const response = await axios.get('https://apijis.comsegments/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -345,7 +345,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https:://apijis.com/users/supervisor' , {
+                const response = await axios.get('https://apijis.comusers/supervisor' , {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -371,7 +371,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https:://apijis.com/principals/', {
+                const response = await axios.get('https://apijis.comprincipals/', {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -395,7 +395,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https:://apijis.com/communes/' + this.region_input, {
+                const response = await axios.get('https://apijis.comcommunes/' + this.region_input, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -435,7 +435,7 @@ export default {
                 }
                 console.log(dataToSend)
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.patch('https:://apijis.com/branch_offices/update/' +this.$route.params.id, dataToSend, 
+                await axios.patch('https://apijis.combranch_offices/update/' +this.$route.params.id, dataToSend, 
                 {
                     headers: {
                                 accept: 'application/json',

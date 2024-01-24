@@ -486,7 +486,7 @@ export default {
             ) {
                 try {
                     const response = await axios.get(
-                        'https:://apijis.com/document_managements/' +
+                        'https://apijis.comdocument_managements/' +
                             this.$route.params.rut +
                             '/' +
                             page,
@@ -530,7 +530,7 @@ export default {
             } else {
                 try {
                     const response = await axios.get(
-                        'https:://apijis.com/document_managements/' + page,
+                        'https://apijis.comdocument_managements/' + page,
                         {
                             headers: {
                                 accept: 'application/json',

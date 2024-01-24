@@ -600,7 +600,7 @@ export default {
 
             const response = await axios
                 .post(
-                    'https:://apijis.com/documents_employees/store',
+                    'https://apijis.comdocuments_employees/store',
                     dataToSend,
                     {
                         headers: {
@@ -626,7 +626,7 @@ export default {
         async getEmployeeLaborData() {
           const accessToken = localStorage.getItem('accessToken');
             try {
-                const response = await axios.get('https:://apijis.com/employee_labor_data/edit/'+ this.$route.params.rut, {
+                const response = await axios.get('https://apijis.comemployee_labor_data/edit/'+ this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -676,7 +676,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/pentions/',
+                    'https://apijis.compentions/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -704,7 +704,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             try {
-                const response = await axios.get('https:://apijis.com/healths/', {
+                const response = await axios.get('https://apijis.comhealths/', {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
@@ -730,7 +730,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             try {
-                const response = await axios.get('https:://apijis.com/regimes/', {
+                const response = await axios.get('https://apijis.comregimes/', {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
@@ -757,7 +757,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/job_positions/',
+                    'https://apijis.comjob_positions/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -786,7 +786,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/employee_types/',
+                    'https://apijis.comemployee_types/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -815,7 +815,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/contract_types/',
+                    'https://apijis.comcontract_types/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -844,7 +844,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/branch_offices/',
+                    'https://apijis.combranch_offices/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -872,7 +872,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             try {
-                const response = await axios.get('https:://apijis.com/regions/', {
+                const response = await axios.get('https://apijis.comregions/', {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
@@ -899,7 +899,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/civil_states/',
+                    'https://apijis.comcivil_states/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -927,7 +927,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('https:://apijis.com/communes/' + this.region_input, {
+                const response = await axios.get('https://apijis.comcommunes/' + this.region_input, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud

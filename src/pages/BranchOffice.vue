@@ -136,7 +136,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https:://apijis.com/branch_offices/',
+                    'https://apijis.combranch_offices/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -166,7 +166,7 @@ export default {
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`https:://apijis.com/branch_offices/delete/${id}`, {
+                await axios.delete(`https://apijis.combranch_offices/delete/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,
