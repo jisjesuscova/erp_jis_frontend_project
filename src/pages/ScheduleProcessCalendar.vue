@@ -178,15 +178,18 @@ export default {
     methods: {
         
         async saveWeeksJsonToSend() {
-            console.log('1',1)
+            
             this.loading = true
-            const weekdatatosend = this.dataToShow.map((item) => ({
-                week_id: item.week_id,
-                turn_id: item.turn_id,
-                rut: item.rut,
-                dates_in_range: item.datesInRange,
-                added_date: new Date().toISOString(), 
-            }))
+            console.log(this.dataToShow)
+            const weekdatatosend = this.dataToShow.flatMap((item) => 
+                item.datesInRange.map(date => ({
+                    week_id: item.week_id,
+                    turn_id: item.turn_id,
+                    rut: item.rut,
+                    date: date,
+                    added_date: new Date().toISOString(), 
+                }))
+            )
             const meshes = { meshes: weekdatatosend }
 
             const accessToken = localStorage.getItem('accessToken')

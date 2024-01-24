@@ -524,13 +524,11 @@ export default {
 
             if (this.weekPerMonth === week) {
                 this.showButtonProcess = true
-                console.log(this.weekPerMonth)
-                console.log(week)
             }
             const weekData = {
                 week_id: week,
                 turn_id: this.turnId,
-                rut: this.employee_input[1],
+                rut: this.employee_input[0][1],
                 names: this.employee_input[2] + ' ' + this.employee_input[3] + ' ' + this.employee_input[4],
                 turn: this.turn_input,
                 start_turn: this.start,
@@ -746,9 +744,10 @@ export default {
                 }
                 const dataToSend = {
                     group_id: Number(this.schedule_input),
-                    employee_type_id: this.employee_input[0],
+                    employee_type_id: this.employee_input[0][0],
                     search_term: this.search_term,
                 }
+                console.log(this.employee_input[0][0])
                 const response = await axios.get(
                     `http://localhost:8000/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
                     {
@@ -838,7 +837,7 @@ export default {
             const yearAndPreviuosMonth = `${year}-${month}`
             try {
                 const response = await axios.get(
-                    `http://localhost:8000/meshes/last_week_working_days/${this.employee_input[1]}/${yearAndPreviuosMonth}`,
+                    `http://localhost:8000/meshes/last_week_working_days/${this.employee_input[0][1]}/${yearAndPreviuosMonth}`,
 
                     {
                         headers: {
