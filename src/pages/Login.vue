@@ -201,7 +201,7 @@ export default {
             this.loading = true
 
             axios
-                .post('https://apijis.com/login_users/token', formData)
+                .post('http://localhost:8000/login_users/token', formData)
                 .then((response) => {
                     console.log(response)
                     this.accessToken = response.data.access_token

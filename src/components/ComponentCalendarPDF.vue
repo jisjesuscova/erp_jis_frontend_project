@@ -192,8 +192,8 @@
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase">Semana</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase">Progr.</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Domingos</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Libre</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Domingos Libres</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase">Libre Totales</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase">Turno</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase">Horas sem.</th>
                                 </tr>
@@ -467,7 +467,7 @@
             
             // Descarga el PDF
             pdf.save(`Malla_horaria_${this.rutAndPeriodPDf.rut}_${this.rutAndPeriodPDf.period}.pdf`)
-            // window.location.href = '/schedule'
+            window.location.href = '/schedule'
         },
         async calculateWeeksPerMonth() {
             const employeeRutPeriodNames = JSON.parse(localStorage.getItem('employeeRutPeriodNames'))
