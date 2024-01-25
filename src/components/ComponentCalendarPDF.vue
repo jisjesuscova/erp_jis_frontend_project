@@ -205,16 +205,16 @@
                                         Semana {{ week.week_id }} 
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200">
-                                        {{ week.date.length }}
+                                        {{ week.date.filter(dateObj => dateObj.is_working === 1).length }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200">
-                                        dom
+                                        {{ week.date.filter(dateObj => dateObj.is_sunday === 1 && dateObj.is_working === 0).length }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200">
-                                        {{ week.turn_data.free_day_group_id }}
+                                        {{ week.date.filter(dateObj => dateObj.is_working === 0).length }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200">
-                                        {{ week.date.length }} X  {{ week.turn_data.free_day_group_id }}
+                                        {{ week.date.filter(dateObj => dateObj.is_working === 1).length }} X  {{ week.date.filter(dateObj => dateObj.is_working === 0).length }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-gray-200">
                                         {{ totalHoursPerWeek()[week.week_id] }}
@@ -281,8 +281,14 @@
   export default {
     computed: {
         totalFreeSundays() {
+            if (!Array.isArray(this.dataToShow)) {
+                return 0;
+            }
+            return this.dataToShow.reduce(
+                (total, week) => total + week.date.filter(dateObj => dateObj.is_sunday === 1  && dateObj.is_working === 0).length,
+                0
+            );
          
-        return this.sundays.length - this.sundaysInUse;
         },
         totalFreeDays() {
             if (!Array.isArray(this.dataToShow)) {
@@ -299,7 +305,7 @@
                 return 0;
             }
             return this.dataToShow.reduce(
-                (total, week) => total + week.date.length,
+                (total, week) => total +   week.date.filter(dateObj => dateObj.is_working === 1).length ,
                 0
             );
         },
@@ -314,7 +320,7 @@
                 (total, week) => {
                     const [hours, minutes] = week.turn_data.working.split(':').map(Number);
                     const decimalHours = hours + (minutes / 60);
-                    return total + (week.date.length * decimalHours);
+                    return total + ( week.date.filter(dateObj => dateObj.is_working === 1).length * decimalHours);
                 },
                 0
             );
@@ -326,6 +332,7 @@
             }
             return this.weeks.map((week, weekIndex) => {
                 return this.dataToShow.filter((weekInfo, infoIndex) => {
+                
                     return (
                         weekInfo.week_id === weekIndex + 1 &&
                         infoIndex < weekInfo.turn_data.group_day_id
@@ -372,7 +379,7 @@
                 }
                 const [hours, minutes] = week.turn_data.working.split(':').map(Number);
                 const decimalHours = hours + (minutes / 60);
-                totals[weekNumber] += (week.date.length * decimalHours);
+                totals[weekNumber] += ( week.date.filter(dateObj => dateObj.is_working === 1).length  * decimalHours);
                 return totals;
             }, {});
         },
@@ -407,6 +414,7 @@
             })
             },
             isWorkDay(day) {
+                
                 const actualYear = new Date().getFullYear();
                 const monthPeriod = Number(this.rutAndPeriodPDf.period.split('-')[1]);
                 // Convierte la cadena de texto a un objeto Date
@@ -508,7 +516,7 @@
             // Itera sobre el array de fechas
             day.date.forEach(dateString => {
                 // Divide la cadena de fecha en partes
-                let [year, month, dayOfMonth] = dateString.split('-');
+                let [year, month, dayOfMonth] = dateString.date.split('-');
 
                 // Crea un nuevo objeto Date con las partes de la fecha
                 let date = new Date(year, month - 1, dayOfMonth); // Los meses en JavaScript van de 0 a 11
@@ -527,7 +535,11 @@
   
     async mounted() {
         await this.calculateWeeksPerMonth()
-        this.workDays = this.dataToShow.flatMap(item => item.date.map(date => date.split('-')[2]));
+        this.workDays = this.dataToShow.flatMap(item => 
+            item.date
+                .filter(dateObj => dateObj.is_working === 1)
+                .map(dateObj => dateObj.date.split('-')[2])
+        );
         await this.verifyQuantityOfSundaysOfWork()
         await this.getImages()
         setTimeout(() => {
