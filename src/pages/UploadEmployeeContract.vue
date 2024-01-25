@@ -104,7 +104,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             // Make the POST request using axios
-            axios.post('https://apijis.comemployee_contracts/upload', formData, {
+            axios.post('https://apijis.com/employee_contracts/upload', formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     'Content-Type': 'multipart/form-data',

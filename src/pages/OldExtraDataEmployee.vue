@@ -316,7 +316,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.comold_employee_extras/edit/' +
+                    'https://apijis.com/old_employee_extras/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {

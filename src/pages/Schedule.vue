@@ -380,7 +380,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.commeshes/get_mesh_by_rut_week_period/${rut}/${period}`,
+                    `https://apijis.com/meshes/get_mesh_by_rut_week_period/${rut}/${period}`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -402,7 +402,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.commeshes/',
+                    'https://apijis.com/meshes/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -424,7 +424,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.commeshes/get_all_by_supervisor/${supervisor_rut}`,
+                    `https://apijis.com/meshes/get_all_by_supervisor/${supervisor_rut}`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
