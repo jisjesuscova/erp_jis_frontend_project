@@ -170,7 +170,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
-                    'https://apijis.commeshes/store/',
+                    'https://apijis.com/meshes/store/',
                     meshes,
                     {
                         headers: {
@@ -182,7 +182,7 @@ export default {
                 this.loading = false
                 alert('Malla creada con exito')
                 this.confirmDeleteDatesInLocalStorage()
-                console.log(response)
+              
             } catch (error) {
                 console.error('Error al obtener la lista de sucursales:', error)
             }
@@ -205,7 +205,7 @@ export default {
                     content: 'red',
                 },
             ]
-            console.log(this.sundays)
+          
             return this.sundays
         },
         deleteLocalStorageDates() {
@@ -290,8 +290,7 @@ export default {
 
             if (this.weekPerMonth === week) {
                 this.showButtonProcess = true
-                console.log(this.weekPerMonth)
-                console.log(week)
+               
             }
             const weekData = {
                 week: week,
@@ -501,7 +500,7 @@ export default {
                     search_term: this.search_term,
                 }
                 const response = await axios.get(
-                    `https://apijis.comturns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}/`,
+                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}/`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -528,7 +527,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.combranch_offices/edit/' +this.dataToShow[0].branch_office,
+                    'https://apijis.com/branch_offices/edit/' +this.dataToShow[0].branch_office,
                     {
                         headers: {
                             accept: 'application/json',
@@ -538,7 +537,7 @@ export default {
                 )
 
                 this.branch_offices = response.data.message.branch_office
-                console.log(response)
+              
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
@@ -559,7 +558,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.comemployee_labor_data/edit/branch/' +
+                    'https://apijis.com/employee_labor_data/edit/branch/' +
                         this.branch_office_input,
                     {
                         headers: {
@@ -587,7 +586,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.commeshes/last_week_working_days/20202020/2023-11-06/`,
+                    `https://apijis.com/meshes/last_week_working_days/20202020/2023-11-06/`,
 
                     {
                         headers: {
@@ -639,7 +638,7 @@ export default {
                     if (sundays[i].getTime() == date.getTime()) {
                         this.sundaysInUse = this.sundaysInUse + 1
                         if (this.sundaysInUse > this.sundaysAvailable) {
-                            console.log(this.sundaysInUse)
+                        
                             if (!this.alertShown) {
                                 alert(
                                     'Tiene que tener Minimo 2 domingos libres al mes'
@@ -663,7 +662,7 @@ export default {
                 }
             }
             this.alertShown = false
-            console.log(this.sundaysInUse)
+           
 
             return this.sundaysInUse
         },
@@ -766,7 +765,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.comholidays/',
+                    'https://apijis.com/holidays/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -775,7 +774,7 @@ export default {
                     }
                 )
 
-                console.log(response)
+                
                 this.sundaysAndHolidays = response.data.message
                 this.sundaysAndHolidays.forEach((item) => {
                     const year = item.date.split('-')[0]
@@ -793,9 +792,7 @@ export default {
                 console.error('Error al obtener la lista de sucursales:', error)
             }
         },
-        consoleLog() {
-            console.log(this.employee_input[1])
-        },
+       
     },
     async created() {
         this.periodToInitialPage(

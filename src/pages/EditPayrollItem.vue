@@ -48,7 +48,7 @@
                             <div
                                 class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5"
                             >
-                                <div>
+                            <div>
                                     <label
                                         for="hs-validation-name-error"
                                         class="block text-sm font-medium mb-2 dark:text-white"
@@ -65,12 +65,53 @@
                                         <option value="1">Input Manual</option>
                                         <option value="2">Calculada</option>
                                     </select>
+                                  
                                 </div>
                                 <div>
                                     <label
                                         for="hs-validation-name-error"
                                         class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Nomima</label
+                                        >Clasificación</label
+                                    >
+                                    <select
+                                        v-model="classification_id_input"
+                                        required
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    >
+                                        <option value="0">
+                                            - Clasificación -
+                                        </option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                  
+                                </div>
+                                <div>
+                                    <label
+                                        for="hs-validation-name-error"
+                                        class="block text-sm font-medium mb-2 dark:text-white"
+                                        >Orden</label
+                                    >
+                                    <select
+                                        v-model="order_id_input"
+                                        required
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    >
+                                        <option value="0">
+                                            - Orden -
+                                        </option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                  
+                                </div>
+                                <div>
+                                    <label
+                                        for="hs-validation-name-error"
+                                        class="block text-sm font-medium mb-2 dark:text-white"
+                                        >Nomina</label
                                     >
                                     <input
                                         type="text"
@@ -78,6 +119,21 @@
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Aguinaldo, Ahorro Afp, Ahorro Voluntario, etc..."
                                         v-model="item_input"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        for="hs-validation-name-error"
+                                        class="block text-sm font-medium mb-2 dark:text-white"
+                                        >Nombre de Liquidacion </label
+                                    >
+                                    <input
+                                        type="text"
+                                        id="mother_lastname_input"
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Aguinaldo, Ahorro Afp, Ahorro Voluntario, etc..."
+                                        v-model="salary_settlement_name_input"
                                         required
                                     />
                                 </div>
@@ -143,6 +199,9 @@ export default {
         return {
             loading: false,
             item_type_id_input: 0,
+            classification_id_input: 0,
+            order_id_input: 0,
+            salary_settlement_name_input: '',
             item_input: '',
             validate_update_payroll:0
         }
@@ -158,7 +217,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.compayroll_items/edit/' +
+                    'https://apijis.com/payroll_items/edit/' +
                         this.$route.params.id,
                     {
                         headers: {
@@ -168,7 +227,10 @@ export default {
                 )
                 console.log(response)
                 this.item_type_id_input = response.data.message.item_type_id
+                this.classification_id_input = response.data.message.classification_id
+                this.order_id_input = response.data.message.order_id
                 this.item_input = response.data.message.item
+                this.salary_settlement_name_input = response.data.message.salary_settlement_name
 
 
              
@@ -195,14 +257,17 @@ export default {
 
                 const formData = new FormData()
                 formData.append('item_type_id', this.item_type_id_input)
+                formData.append('classification_id', this.classification_id_input)
+                formData.append('order_id', this.order_id_input)
                 formData.append('item', this.item_input)
+                formData.append('salary_settlement_name', this.salary_settlement_name_input)
                 console.log(formData)
              
 
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.patch(
-                    'https://apijis.compayroll_items/update/' +
+                    'https://apijis.com/payroll_items/update/' +
                         this.$route.params.id,
                     formData,
                     {

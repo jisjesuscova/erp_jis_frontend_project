@@ -180,7 +180,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `https://apijis.compayroll_items/delete/${id}`,
+                    `https://apijis.com/payroll_items/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -201,11 +201,12 @@ export default {
             const dataToSend = {
                 page: this.currentPage,
             }
+            console.log(dataToSend)
             this.loading = true
 
             try {
                 const response = await axios.post(
-                    'https://apijis.compayroll_items/',dataToSend,
+                    'https://apijis.com/payroll_items/',dataToSend,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -215,7 +216,7 @@ export default {
                 )
                 this.totalItems = response.data.message.total_items
                 this.itemsPerPage = response.data.message.items_per_page
-                this.payroll_items = response.data.message.data
+                this.payroll_items = response.data.message
                 console.log(response.data.message)
 
                 this.loading = false

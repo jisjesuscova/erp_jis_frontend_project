@@ -65,12 +65,53 @@
                                         <option value="1">Input Manual</option>
                                         <option value="2">Calculada</option>
                                     </select>
+                                  
                                 </div>
                                 <div>
                                     <label
                                         for="hs-validation-name-error"
                                         class="block text-sm font-medium mb-2 dark:text-white"
-                                        >nomina</label
+                                        >Clasificación</label
+                                    >
+                                    <select
+                                        v-model="classification_id_input"
+                                        required
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    >
+                                        <option value="0">
+                                            - Clasificación -
+                                        </option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                  
+                                </div>
+                                <div>
+                                    <label
+                                        for="hs-validation-name-error"
+                                        class="block text-sm font-medium mb-2 dark:text-white"
+                                        >Orden</label
+                                    >
+                                    <select
+                                        v-model="order_id_input"
+                                        required
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    >
+                                        <option value="0">
+                                            - Orden -
+                                        </option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                  
+                                </div>
+                                <div>
+                                    <label
+                                        for="hs-validation-name-error"
+                                        class="block text-sm font-medium mb-2 dark:text-white"
+                                        >Nomina</label
                                     >
                                     <input
                                         type="text"
@@ -78,6 +119,21 @@
                                         class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Aguinaldo, Ahorro Afp, Ahorro Voluntario, etc..."
                                         v-model="item_input"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        for="hs-validation-name-error"
+                                        class="block text-sm font-medium mb-2 dark:text-white"
+                                        >Nombre de Liquidacion </label
+                                    >
+                                    <input
+                                        type="text"
+                                        id="mother_lastname_input"
+                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Aguinaldo, Ahorro Afp, Ahorro Voluntario, etc..."
+                                        v-model="salary_settlement_name_input"
                                         required
                                     />
                                 </div>
@@ -145,6 +201,9 @@ export default {
         return {
             loading: false,
             loading_1: false,
+            classification_id_input: 0,
+            order_id_input: 0,
+            salary_settlement_name_input: '',
             item_type_id_input: 0,
             item_input: '',
             birth_certificate: null,
@@ -161,13 +220,16 @@ export default {
                 this.loading_1 = true
                 const dataToSend = {
                     item_type_id: Number(this.item_type_id_input),
+                    classification_id: Number(this.classification_id_input),
+                    order_id: Number(this.order_id_input),
                     item: this.item_input,
+                    salary_settlement_name: this.salary_settlement_name_input,
                     added_date: new Date(),
                     updated_date: new Date(),   
                 }
                 console.log(dataToSend)
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.post('https://apijis.compayroll_items/store/', dataToSend, 
+                await axios.post('https://apijis.com/payroll_items/store/', dataToSend, 
                 {
                     headers: {
                                 accept: 'application/json',
@@ -182,6 +244,7 @@ export default {
             this.item_input = ''
             if (this.loading_1 == false ) {
                 this.loading = false
+                window.location.href = '/payroll_item/'
             }
         }
             catch(error){

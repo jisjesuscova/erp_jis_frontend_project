@@ -172,7 +172,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.comkardex_data/download/' + id,
+                    'https://apijis.com/kardex_data/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -209,7 +209,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.comkardex_data/edit/' +
+                    'https://apijis.com/kardex_data/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -255,7 +255,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `https://apijis.comkardex_data/delete/${id}`,
+                    `https://apijis.com/kardex_data/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',

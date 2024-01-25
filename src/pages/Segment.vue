@@ -133,7 +133,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.comsegments/',
+                    'https://apijis.com/segments/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -163,7 +163,7 @@ export default {
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`https://apijis.comsegments/delete/${id}`, {
+                await axios.delete(`https://apijis.com/segments/delete/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,

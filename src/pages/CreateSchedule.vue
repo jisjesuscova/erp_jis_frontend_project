@@ -25,7 +25,106 @@
             <!-- You can use a spinner or any other loading animation here -->
         </div>
         <div v-else>
-            <form>
+            <form v-if="rol_id ==3">
+                <div
+                    class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                >
+                    <p
+                        class="mt-1 text-sm text-gray-500 dark:text-gray-500"
+                    ></p>
+                </div>
+
+                <div
+                    class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                >
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >Periodo</label
+                        >
+                        <input
+                            type="month"
+                            id="period_input"
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            v-model="period_input"
+                            @change="periodToInitialPage(period_input)"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >Sucursal</label
+                        >
+                        <select
+                            v-model="branch_office_input"
+                            @change="getEmployeeByBranchOffice"
+                            required
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                            <option value="" disabled>- Sucursal -</option>
+                            <option
+                                v-for="branch_office in branch_offices"
+                                :key="branch_office.id"
+                                :value="branch_office.id"
+                                disabled
+                            >
+                                {{ branch_office.branch_office }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >Trabajador</label
+                        >
+                        <select
+                            v-model="employee_input[0]"
+                            required
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                            <option value="">- Trabajadores -</option>
+                            <option
+                                v-for="employee in branch_office_supervisor"
+                                :key="employee.id"
+                                :value="[
+                                    employee.employee_type_id,
+                                    employee.rut,
+                                    employee.names,
+                                    employee.father_lastname,
+                                    employee.mother_lastname,
+                                ]"
+                            >
+                                {{
+                                    `${employee.names}  ${employee.father_lastname}  ${employee.mother_lastname}`
+                                }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >Horario</label
+                        >
+                        <select
+                            v-model="schedule_input"
+                            required
+                            @change="getTurns"
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                            <option value="">- Horario -</option>
+                            <option value="1">Mañana</option>
+                            <option value="2">Tarde</option>
+                            <option value="3">Intermedio</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <form v-else>
                 <div
                     class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
                 >
@@ -81,7 +180,7 @@
                             >Trabajador</label
                         >
                         <select
-                            v-model="employee_input"
+                            v-model="employee_input[0]"
                             required
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         >
@@ -260,6 +359,7 @@ export default {
             },
             sundaysAndHolidays: '',
             branch_offices: [],
+            branch_office_supervisor: [],
             colors: ['blue'],
             sections: [],
             turns: [],
@@ -269,7 +369,7 @@ export default {
             datesInRange: [],
             branch_office_input: '',
             period_input: '',
-            employee_input: [],
+            employee_input: [""],
             schedule_input: '',
             turn_input: '',
             working: '',
@@ -280,6 +380,7 @@ export default {
             sundays: [],
             search_term: 'Buscar Turno',
             dataToSend: [],
+            rol_id: Number(localStorage.getItem('rol_id')),
             sundaysInUse: 0,
             turnDays: 0,
             sundaysAvailable: 0,
@@ -298,7 +399,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
-                    'https://apijis.commeshes/store',
+                    'https://apijis.com/meshes/store',
                     this.dataToSend,
                     {
                         headers: {
@@ -423,13 +524,11 @@ export default {
 
             if (this.weekPerMonth === week) {
                 this.showButtonProcess = true
-                console.log(this.weekPerMonth)
-                console.log(week)
             }
             const weekData = {
                 week_id: week,
                 turn_id: this.turnId,
-                rut: this.employee_input[1],
+                rut: this.employee_input[0][1],
                 names: this.employee_input[2] + ' ' + this.employee_input[3] + ' ' + this.employee_input[4],
                 turn: this.turn_input,
                 start_turn: this.start,
@@ -645,11 +744,12 @@ export default {
                 }
                 const dataToSend = {
                     group_id: Number(this.schedule_input),
-                    employee_type_id: this.employee_input[0],
+                    employee_type_id: this.employee_input[0][0],
                     search_term: this.search_term,
                 }
+                console.log(this.employee_input[0][0])
                 const response = await axios.get(
-                    `https://apijis.comturns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
+                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -676,7 +776,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.combranch_offices/',
+                    'https://apijis.com/branch_offices/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -707,7 +807,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.comemployee_labor_data/edit/branch/' +
+                    'https://apijis.com/employee_labor_data/edit/branch/' +
                         this.branch_office_input,
                     {
                         headers: {
@@ -737,7 +837,7 @@ export default {
             const yearAndPreviuosMonth = `${year}-${month}`
             try {
                 const response = await axios.get(
-                    `https://apijis.commeshes/last_week_working_days/${this.employee_input[1]}/${yearAndPreviuosMonth}`,
+                    `https://apijis.com/meshes/last_week_working_days/${this.employee_input[0][1]}/${yearAndPreviuosMonth}`,
 
                     {
                         headers: {
@@ -916,7 +1016,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.comholidays/',
+                    'https://apijis.com/holidays/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -932,19 +1032,44 @@ export default {
                 console.error('Error al obtener la lista de sucursales:', error)
             }
         },
+        async getAllEmployeesBySupervisor() {
+            this.loading = true
+            const supervisor_rut = localStorage.getItem('rut')
+            const accessToken = localStorage.getItem('accessToken')
+
+            try {
+                const response = await axios.get(
+                    `https://apijis.com/meshes/get_all_employees_by_supervisor/${supervisor_rut}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            accept: 'application/json',
+                        },
+                    }
+                    )
+                this.branch_office_supervisor = response.data.message
+                this.branch_office_input = response.data.message[0].branch_office_id
+                console.log(response.data.message[0])
+                this.loading = false
+            } catch (error) {
+                console.error('Error al obtener la lista de bancos:', error)
+            }
+        },
     },
-    created() {
-        this.periodToInitialPage(
-            this.initialPage.year + '-' + this.initialPage.month
-        )
+    async created() {
+        this.periodToInitialPage(this.initialPage.year + '-' + this.initialPage.month)
         this.getDatesInRangeFromLocalStorage()
-        this.getBranchOffices()
+        await this.getBranchOffices()
+        
         this.year = this.date.getFullYear()
         this.month = this.date.getMonth()
         this.getMonthAndYear()
         this.getHolidays()
         if (this.weekPerMonth === Number(localStorage.getItem('week'))) {
             this.showButtonProcess = true
+        }
+        if(this.rol_id == 3) {
+            await this.getAllEmployeesBySupervisor()
         }
 
     },
