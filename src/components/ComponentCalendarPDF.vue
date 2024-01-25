@@ -32,7 +32,6 @@
             <h1 class="text-center text-2xl font-bold ">Malla horaria</h1>
             <hr class="my-5 border-1 border-black mx-24 ">
             <h2 class="ms-24 text-lg font-bold ">Trabajador: {{ rutAndPeriodPDf.names }}, Rut: {{ rutAndPeriodPDf.visual_rut }},Periodo: {{ rutAndPeriodPDf.period }}</h2>
-
         </div>
         <table class="w-full">
             <thead>
