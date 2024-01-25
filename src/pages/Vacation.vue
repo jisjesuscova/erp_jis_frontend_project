@@ -2562,7 +2562,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/vacations/all/' +
+                    'https://apijis.com//vacations/all/' +
                         this.$route.params.rut +
                         '/' +
                         page,

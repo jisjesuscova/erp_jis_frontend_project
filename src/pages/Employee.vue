@@ -115,6 +115,20 @@
                                             v-if="employee.status_id == 1"
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
+                                            <button
+                                                type="button"
+                                                @click="
+                                                    confirmRefreshPassword(
+                                                        employee.rut,
+                                                    )
+                                                "
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-700 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-refresh"
+                                                ></i>
+                                            </button>
+
                                             <router-link
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-800 text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2 transition-all text-sm dark:focus:ring-gray-900 dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
@@ -409,6 +423,44 @@ export default {
         }
     },
     methods: {
+        async confirmRefreshPassword(rut) {
+            const shouldRefresh = window.confirm(
+                '¿Estás seguro de que deseas refrescar la contraseña?',
+            )
+
+            if (shouldRefresh) {
+                await this.refreshPassword(rut)
+            }
+        },
+        async refreshPassword(rut) {
+            const accessToken = localStorage.getItem('accessToken')
+
+            this.loading = true
+
+            try {
+                const response = await axios.get(
+                    'https://apijis.com/users/refresh_password/' + rut,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            accept: 'application/json',
+                        },
+                    },
+                )
+
+                this.loading = false
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error(
+                        'Error al refrescar la contraseña del empleado:',
+                        error,
+                    )
+                }
+            }
+        },
         onClickHandler() {
             console.log(this.currentPage)
             this.getPosts()
