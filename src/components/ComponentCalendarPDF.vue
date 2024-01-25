@@ -31,7 +31,7 @@
         <div>
             <h1 class="text-center text-2xl font-bold ">Malla horaria</h1>
             <hr class="my-5 border-1 border-black mx-24 ">
-            <h2 class="ms-24 text-lg font-bold ">Trabajador: {{ rutAndPeriodPDf.names }}, Rut: {{ rutAndPeriodPDf.visual_rut }},Periodo: {{ rutAndPeriodPDf.period }}</h2>
+            <h2 class="ms-24 text-lg font-bold ">Trabajador: {{ rutAndPeriodPDf.names }}, Rut: {{ rutAndPeriodPDf.visual_rut }},Periodo: {{ formattedPeriod }}</h2>
         </div>
         <table class="w-full">
             <thead>
@@ -266,7 +266,7 @@
         </div>
         <div class="flex flex-row items-between justify-around -mt-3.5 ">
             <p class="w-40 mb-5 font-bold text-xl">Empleador</p>
-            <p class="w-40 mb-5 font-bold text-xl">Trabajador</p>
+            <p class="w-40 mb-5 font-bold text-xl">Firma Trabajador</p>
             
         </div>
     </div>
@@ -279,6 +279,14 @@
   import html2canvas from 'html2canvas'
   export default {
     computed: {
+        formattedPeriod() {
+        if (!this.rutAndPeriodPDf || !this.rutAndPeriodPDf.period) {
+            return '';
+        }
+        const [year, month] = this.rutAndPeriodPDf.period.split('-');
+        const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        return `${monthNames[month - 1]} del ${year}`;
+    },
         totalFreeSundays() {
             if (!Array.isArray(this.dataToShow)) {
                 return 0;
