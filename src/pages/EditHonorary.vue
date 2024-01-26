@@ -588,7 +588,7 @@ export default {
 
             axios
                 .patch(
-                    'https://apijis.com/honoraries/update/' +
+                    'http://localhost:8000/honoraries/update/' +
                         this.$route.params.id,
                     dataToSend,
                     {
