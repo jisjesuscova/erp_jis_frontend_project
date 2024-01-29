@@ -37,7 +37,7 @@
                 />
                 <div class="p-1.5 min-w-full inline-block align-middle">
                     <div
-                        class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
+                        class=""
                     >
                     <div id="table" class="overflow-x-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <!-- <div class="flex justify-between items-center bg-blue-500 text-white p-5 mb-5">

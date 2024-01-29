@@ -127,12 +127,12 @@
                         }"
                         
                      >
-                        <div class="flex flex-col h-40 mx-auto xl:w-40 lg:w-30 md:w-30 sm:w-full w-10 mx-auto overflow-hidden">
+                        <div class="flex flex-col h-40 mx-auto xl:w-40 lg:w-30 md:w-30 sm:w-full w-10  overflow-hidden">
                             <div class="top h-5 w-full">
                                 <span class="text-gray-500" v-if="day.day !== null">{{ day.day }}</span>
                             </div>
                             <div
-                                class="flex flex-col h-40 mx-auto xl:w-40 lg:w-30 md:w-30 sm:w-full w-10 mx-auto overflow-hidden"
+                                class="flex flex-col h-40  xl:w-40 lg:w-30 md:w-30 sm:w-full w-10 mx-auto overflow-hidden"
                                 v-if="!day.daysInNextMonth && !day.daysInPrevMonth && isWorkDay(day)"
                             >
                                 <div v-for="weekInfo in filteredDataToShow[weekIndex]" :key="weekInfo.id">
