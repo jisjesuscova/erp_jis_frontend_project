@@ -269,6 +269,11 @@
             <p class="w-40 mb-5 font-bold text-xl">Firma Trabajador</p>
             
         </div>
+        <div class="flex flex-row items-between justify-around -mt-3.5 ">
+            <p class="w-40 mb-5 font-bold text-xl">76063822-6</p>
+            <p class="w-40 mb-5 font-bold text-xl">{{ rutAndPeriodPDf.visual_rut }}</p>
+            
+        </div>
     </div>
     </div>
 </div>
@@ -475,7 +480,7 @@
             
             // Descarga el PDF
             pdf.save(`Malla_horaria_${this.rutAndPeriodPDf.rut}_${this.rutAndPeriodPDf.period}.pdf`)
-            window.location.href = '/schedule'
+            window.location.href = '/schedule'  
         },
         async calculateWeeksPerMonth() {
             const employeeRutPeriodNames = JSON.parse(localStorage.getItem('employeeRutPeriodNames'))
