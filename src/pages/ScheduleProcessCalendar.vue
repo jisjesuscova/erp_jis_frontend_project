@@ -188,11 +188,10 @@ export default {
                     rut: item.rut,
                     date: date,
                     added_date: new Date().toISOString(), 
-                    dates_in_range: [],  // Añade un campo vacío 'dates_in_range'
                 }))
             )
             const meshes = { meshes: weekdatatosend }
-            console .log(meshes)
+
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(

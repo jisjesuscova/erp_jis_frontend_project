@@ -847,9 +847,15 @@ export default {
                     }
                 )
                 const decodedData = JSON.parse(response.data.message)
+                if(decodedData >=6) {
+                    this.workedDays = 0
+                }
+                else {
+                    this.workedDays = decodedData
+                }
                 console.log(response)
 
-                this.workedDays = decodedData
+                
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
