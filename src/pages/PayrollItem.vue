@@ -24,7 +24,7 @@
 
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">
-                Mantenedor Nominas
+                Items de Nomina
                 <router-link
                     href="javascript:;"
                     to="/create_payroll_item"

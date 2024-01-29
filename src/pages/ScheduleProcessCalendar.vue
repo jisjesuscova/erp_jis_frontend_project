@@ -249,6 +249,10 @@ export default {
             this.deleteLocalStorageDates()
             this.deleteLocalStorageDates()
 
+            setTimeout(() => {
+                this.$router.push('/schedule')
+            }, 300)
+
             localStorage.setItem('week', 0)
             this.weekCounter = Number(localStorage.getItem('week'))
             this.getDatesInRangeFromLocalStorage()
@@ -273,9 +277,7 @@ export default {
             })
 
             // Redirige al usuario después de limpiar los datos
-            setTimeout(() => {
-                this.$router.push('/schedule')
-            }, 300)
+            
         },
         periodToInitialPage(period) {
             // localStorage.setItem('week', 0)
