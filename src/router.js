@@ -47,7 +47,8 @@ import ExtraDataEmployee from './pages/ExtraDataEmployee.vue'
 import OldExtraDataEmployee from './pages/OldExtraDataEmployee.vue'
 import Family from './pages/Family.vue'
 import OldFamily from './pages/OldFamily.vue'
-import Forgot from './pages/Forgot.vue'
+import ForgotNewPassword from './pages/ForgotNewPassword.vue'
+import NewPassword from './pages/NewPassword.vue'
 import Home from './pages/Home.vue'
 import Honorary from './pages/Honorary.vue'
 import KardexDocument from './pages/KardexDocument.vue'
@@ -154,14 +155,18 @@ const routes = [
         component: OldPersonalData
     },
     {
-        path:'/forgot',
-        component: Forgot
+        path:'/forgot_new_password/',
+        component: ForgotNewPassword
+    },
+    {
+        path:'/new_password/:rut',
+        component: NewPassword
     },
     {
         path:'/create_employee',
         component: CreateEmployee
     },
-    {
+    {  
         path:'/extra_data/:rut',
         component: ExtraDataEmployee
     },

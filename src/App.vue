@@ -8,8 +8,8 @@
     </template>
 
     <template v-else>
-      <div v-if="showForgotComponent">
-        <Forgot />
+      <div v-if="showForgotNewPassWordComponent">
+        <ForgotNewPassword />
       </div>
       <div v-else>
         <Login />
@@ -25,7 +25,8 @@ import Siderbar from './components/Sidebar.vue';
 import Home from './pages/Home.vue';
 import Footer from './components/Footer.vue';
 import Login from './pages/Login.vue';
-import Forgot from './pages/Forgot.vue';
+import ForgotNewPassword from './pages/ForgotNewPassword.vue';
+
 
 export default {
   name: 'App',
@@ -43,12 +44,14 @@ export default {
     Home,
     Footer,
     Login,
-    Forgot,
-  },
+    ForgotNewPassword,
+    
+},
   computed: {
-    showForgotComponent() {
+    showForgotNewPassWordComponent() {
       return window.location.href.includes('/forgot');
     },
+   
   },
 };
 </script>

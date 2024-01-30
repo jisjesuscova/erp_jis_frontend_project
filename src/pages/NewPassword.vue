@@ -18,7 +18,7 @@
                     <h1
                         class="block text-2xl font-bold text-gray-800 dark:text-white"
                     >
-                        ¿Olvidastes Contraseña?
+                        Recuperar Contraseña
                     </h1>
                 </div>
 
@@ -32,7 +32,7 @@
                                     <label
                                         for="password"
                                         class="block text-sm mb-2 dark:text-white"
-                                        >RUT</label
+                                        >Contraseña</label
                                     >
                                 </div>
                                 <div class="relative">
@@ -76,7 +76,7 @@
                                     <label
                                         for="password"
                                         class="block text-sm mb-2 dark:text-white"
-                                        >Correo</label
+                                        >Confirmar  Contraseña</label
                                     >
                                 </div>
                                 <div class="relative">
@@ -158,29 +158,32 @@ export default {
     directives: { mask },
     data() {
         return {
+            loded : false,
             loading: false,
             rut: '',
             email: '',
         }
     },
     methods: {
-        forgot() {
+        async forgot() {
+            const accessToken = localStorage.getItem('accessToken')
+            this.loading = true
             const dataToSend = {
                 rut: this.rut,
                 email: this.email,
             }
-
-            this.loading = true
-
-            axios
-                .post('https://apijis.com/login_users/forgot', dataToSend)
-                .then((response) => {
-                    window.location.href = '/sent'
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+            const response = await axios.post(
+                'http://localhost:8000/login_users/forgot',dataToSend,{
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                        },
+                    },
+            )
+            console.log(response)
+            this.loading = false
         },
     },
+    
 }
 </script>

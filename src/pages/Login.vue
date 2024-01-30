@@ -87,7 +87,7 @@
                                     >
                                     <a
                                         class="text-sm text-blue-600 decoration-2 hover:underline font-medium"
-                                        href="/forgot"
+                                        href="/forgot_new_password"
                                         >¿Olvidastes la contraseña?</a
                                     >
                                 </div>
@@ -201,7 +201,7 @@ export default {
             this.loading = true
 
             axios
-                .post('https://apijis.com/login_users/token', formData)
+                .post('http://localhost:8000/login_users/token', formData)
                 .then((response) => {
                     console.log(response)
                     this.accessToken = response.data.access_token
@@ -242,7 +242,7 @@ export default {
                         this.signature_type_id,
                     )
 
-                    window.location.reload()
+                    // window.location.reload()
                 })
                 .catch((error) => {
                     if (

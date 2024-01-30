@@ -395,7 +395,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
 
-                await axios.delete(`https://apijis.com/vacations/delete/${id}`, {
+                await axios.delete(`http://localhost:8000/vacations/delete/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,
@@ -486,7 +486,7 @@ export default {
             ) {
                 try {
                     const response = await axios.get(
-                        'https://apijis.com/document_managements/' +
+                        'http://localhost:8000/document_managements/' +
                             this.$route.params.rut +
                             '/' +
                             page,
@@ -530,7 +530,7 @@ export default {
             } else {
                 try {
                     const response = await axios.get(
-                        'https://apijis.com/document_managements/' + page,
+                        'http://localhost:8000/document_managements/' + page,
                         {
                             headers: {
                                 accept: 'application/json',

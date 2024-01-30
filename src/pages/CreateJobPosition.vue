@@ -160,7 +160,7 @@ export default {
                 }
                 console.log(dataToSend)
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.post('https://apijis.com/job_positions/store/', dataToSend, 
+                await axios.post('http://localhost:8000/job_positions/store/', dataToSend, 
                 {
                     headers: {
                                 accept: 'application/json',
