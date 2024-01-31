@@ -181,6 +181,7 @@ export default {
             password: '',
             accessToken: '',
             rol_id: '',
+            status_id: '',
             rut: '',
             nickname: '',
             incorrect_login_data: false,
@@ -206,6 +207,7 @@ export default {
                     console.log(response)
                     this.accessToken = response.data.access_token
                     this.rol_id = response.data.rol_id
+                    this.status_id = response.data.status_id
                     this.rut = response.data.rut
                     this.nickname = response.data.nickname
                     this.visual_rut = response.data.visual_rut
@@ -219,6 +221,7 @@ export default {
 
                     localStorage.setItem('accessToken', this.accessToken)
                     localStorage.setItem('rol_id', this.rol_id)
+                    localStorage.setItem('status_id', this.status_id)
                     localStorage.setItem('rut', this.rut)
                     localStorage.setItem('nickname', this.nickname)
                     localStorage.setItem('visual_rut', this.visual_rut)
@@ -241,8 +244,15 @@ export default {
                         'signature_type_id',
                         this.signature_type_id,
                     )
+                    if(response.data.status_id == 1){
+                     
+                        window.location.reload()
+                    }
+                    else {
+                       
+                        window.location.href = `/confirm_email/${this.visual_rut}`
+                    }
 
-                    // window.location.reload()
                 })
                 .catch((error) => {
                     if (

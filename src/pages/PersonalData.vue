@@ -23,9 +23,7 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
-            <h1 class="text-3xl dark:text-white pb-10">
-                <strong>Trabajador:</strong> {{ this.full_name }}
-            </h1>
+            <EmployeeName  v-if="rol_id==4" :names="full_name" />
             <hr class="pb-10">
 
             <h2 class="text-4xl dark:text-white pb-10">Datos Personales</h2>
@@ -885,12 +883,14 @@
 <script>
 import axios from 'axios'
 import EmployeeMenu from '../components/EmployeeMenu.vue'
+import EmployeeName from '../components/EmployeeName.vue'
 import { mask } from 'vue-the-mask'
 
 export default {
     directives: { mask },
     components: {
         EmployeeMenu,
+        EmployeeName
     },
     data() {
         return {

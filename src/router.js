@@ -48,6 +48,7 @@ import OldExtraDataEmployee from './pages/OldExtraDataEmployee.vue'
 import Family from './pages/Family.vue'
 import OldFamily from './pages/OldFamily.vue'
 import ForgotNewPassword from './pages/ForgotNewPassword.vue'
+import ConfirmEmail from './pages/ConfirmEmail.vue'
 import NewPassword from './pages/NewPassword.vue'
 import Home from './pages/Home.vue'
 import Honorary from './pages/Honorary.vue'
@@ -157,6 +158,10 @@ const routes = [
     {
         path:'/forgot_new_password/',
         component: ForgotNewPassword
+    },
+    {
+        path:'/confirm_email/:rut',
+        component: ConfirmEmail
     },
     {
         path:'/new_password/:rut',

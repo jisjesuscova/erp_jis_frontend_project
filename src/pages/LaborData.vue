@@ -12,9 +12,7 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
-            <h1 class="text-3xl dark:text-white pb-10">
-                <strong>Trabajador:</strong> {{ this.full_name }}
-            </h1>
+            <EmployeeName  v-if="rol_id==4" :names="full_name" />
             <hr class="pb-10">
             <h2 class="text-4xl dark:text-white pb-10">
                 Datos de Contrato
@@ -400,11 +398,13 @@
 <script>
 import axios from 'axios';
 import EmployeeMenu from '../components/EmployeeMenu.vue';
+import EmployeeName from '../components/EmployeeName.vue';
 import { format } from 'date-fns'
 
 export default {
     components: {
-        EmployeeMenu
+        EmployeeMenu,
+        EmployeeName,
     },
     data() {
         return {
@@ -422,6 +422,7 @@ export default {
             loading_11: true,
             loading_12: true,
             loading_13: true,
+            rol_id: '',
             contract_types: [],
             branch_offices: [],
             regions: [],
@@ -2784,6 +2785,7 @@ export default {
             }
         },
         async getExpirations() {
+            this.loading = true
             const accessToken = localStorage.getItem('accessToken');
 
             const dataToSend = {
@@ -3131,6 +3133,9 @@ export default {
         // },
     },
     async mounted() {
+        const rol_id = localStorage.getItem('rol_id')
+
+        this.rol_id = rol_id
         this.created_employee_contract = localStorage.getItem(
             'created_contract_employee',
         )

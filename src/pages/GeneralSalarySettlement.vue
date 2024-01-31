@@ -65,7 +65,7 @@
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            Id
+                                            Rut
                                         </th>
                                         <th
                                             scope="col"
@@ -95,7 +95,7 @@
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ salary_settlement.id }}
+                                            {{ salary_settlement.visual_rut }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
@@ -250,7 +250,7 @@ export default {
                 console.log(response.data.message)
                 if (response.data.message != 'Invalid page number') {
                     const decodedData = JSON.parse(response.data.message)
-
+                    console.log(decodedData)
                     this.salary_settlements = decodedData.data
                     this.totalItems = decodedData.total_items
                     this.itemsPerPage = decodedData.items_per_page

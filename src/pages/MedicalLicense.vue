@@ -26,9 +26,7 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
-            <h1 class="text-3xl dark:text-white pb-10">
-                <strong>Trabajador:</strong> {{ this.full_name }}
-            </h1>
+            <EmployeeName v-if="rol_id == 4" :names="full_name" />
             <hr class="pb-10">
             <h2 class="text-4xl dark:text-white pb-10">
                 Licencias Médicas
@@ -240,11 +238,13 @@
 <script>
 import axios from 'axios'
 import EmployeeMenu from '../components/EmployeeMenu.vue'
+import EmployeeName from '../components/EmployeeName.vue'
 import { format } from 'date-fns'
 
 export default {
     components: {
         EmployeeMenu,
+        EmployeeName,
     },
     data() {
         return {

@@ -26,9 +26,7 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
-            <h1 class="text-3xl dark:text-white pb-10">
-                <strong>Trabajador:</strong> {{ this.full_name }}
-            </h1>
+           <EmployeeName v-if="rol_id ==4" :names="full_name" />
             <hr class="pb-10">
             <h2 class="text-4xl dark:text-white pb-10">Datos Extras</h2>
 
@@ -308,11 +306,13 @@
 <script>
 import axios from 'axios'
 import EmployeeMenu from '../components/EmployeeMenu.vue'
+import EmployeeName from '../components/EmployeeName.vue'
 
 export default {
     components: {
-        EmployeeMenu,
-    },
+    EmployeeMenu,
+    EmployeeName
+},
     data() {
         return {
             extreme_zone_input: 2,
@@ -502,6 +502,9 @@ export default {
         },
     },
     async mounted() {
+        const rol_id = localStorage.getItem('rol_id')
+
+        this.rol_id = rol_id
         await this.getPersonalDataEmployee()
         await this.getExtraDataEmployee()
 

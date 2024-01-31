@@ -315,7 +315,7 @@ export default {
                 rut: this.rut,
                 email: this.email,
             }
-            const response = await axios.patch(
+            const response = await axios.post(
                 'http://localhost:8000/login_users/forgot',
                 dataToSend,
                 {
@@ -341,19 +341,26 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
                 const dataToSend = {
                     visual_rut: this.rut,
-                    hashed_password: this.email,
+                    hashed_password: this.password,
+                    updated_date: new Date().toISOString(),
                 }
-                const response = await axios.post(
-                    'http://localhost:8000/login_users/update_password',
-                    dataToSend,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
-                        },
-                    }
-                )
-                console.log(response)
+                try {
+                        const response = await axios.patch(
+                        'http://localhost:8000/login_users/update_password',
+                        dataToSend,
+                        {
+                            headers: {
+                                accept: 'application/json',
+                                Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            },
+                        }
+                    )
+                    window.location.href = '/login'
+                    console.log(response)
+                } catch (error) {
+                    console.log(error)
+                }
+               
             }
         },
     },

@@ -23,9 +23,7 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
-            <h1 class="text-3xl dark:text-white pb-10">
-                <strong>Trabajador:</strong> {{ this.full_name }}
-            </h1>
+            <EmployeeName v-if="rol_id == 4" :names="full_name" />
             <hr class="pb-10">
             <h2 class="text-4xl dark:text-white pb-10">
                 Liquidaciones
@@ -33,7 +31,112 @@
 
             <EmployeeMenu />
 
-            <div class="-m-1.5 overflow-x-auto pt-12">
+            <div class="-m-1.5 overflow-x-auto pt-12" v-if="rol_id== 4">
+                <div
+                    class="bg-green-500 text-sm text-white rounded-md p-4 mb-10"
+                    role="alert"
+                    v-if="created_salary_settlement == 1"
+                >
+                    Registro agregado con <span class="font-bold">éxito</span>.
+                </div>
+                <div
+                    class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
+                    role="alert"
+                    v-if="error_salary_settlement == 1"
+                >
+                    <span class="font-bold">Error</span> para descargar el
+                    documento.
+                </div>
+                <div class="p-1.5 min-w-full inline-block align-middle">
+                    <div
+                        class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700"
+                    >
+                        <div class="overflow-hidden">
+                            <table
+                                class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+                            >
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            RUT
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Periodo
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        ></th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="divide-y divide-gray-200 dark:divide-gray-700"
+                                >
+                                    <tr
+                                        v-for="salary_settlement in salary_settlements"
+                                        :key="salary_settlement.id"
+                                    >
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                                        >
+                                              {{  $route.params.rut}}
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            {{
+                                                formatPeriod(
+                                                    salary_settlement.added_date,
+                                                )
+                                            }}
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            <button
+                                                type="button"
+                                                @click="
+                                                    downloadSalarySettlement(
+                                                        salary_settlement.id,
+                                                    )
+                                                "
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-arrow-down"
+                                                ></i>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                @click="
+                                                    deleteSalarySettlement(
+                                                        salary_settlement.id,
+                                                    )
+                                                "
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-trash"
+                                                ></i>
+                                            </button>
+                                           
+                                        </td>
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="-m-1.5 overflow-x-auto pt-12" v-else>
                 <div
                     class="bg-green-500 text-sm text-white rounded-md p-4 mb-10"
                     role="alert"
@@ -137,11 +240,13 @@
 <script>
 import axios from 'axios'
 import EmployeeMenu from '../components/EmployeeMenu.vue'
+import EmployeeName from '../components/EmployeeName.vue'
 import { format } from 'date-fns'
 
 export default {
     components: {
         EmployeeMenu,
+        EmployeeName,
     },
     data() {
         return {
@@ -180,6 +285,9 @@ export default {
         }
     },
     methods: {
+        deleteSalarySettlement() {
+            
+        },
         async getPersonalDataEmployee() {
             const accessToken = localStorage.getItem('accessToken')
 
