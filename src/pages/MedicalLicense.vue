@@ -289,7 +289,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employees/edit/' +
+                    'https://apijis.com/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -331,7 +331,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/medical_licenses/download/' + id,
+                    'https://apijis.com/medical_licenses/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -368,7 +368,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/medical_licenses/edit/' +
+                    'https://apijis.com/medical_licenses/edit/' +
                         this.$route.params.rut +
                         '/' +
                         page,
@@ -415,7 +415,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `http://localhost:8000/medical_licenses/delete/${id}`,
+                    `https://apijis.com/medical_licenses/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',

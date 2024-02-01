@@ -207,7 +207,7 @@
                                             <button
                                                 type="button"
                                                 @click="
-                                                    downloadSalarySettlement(
+                                                    deleteSalarySettlement(
                                                         salary_settlement.id,
                                                     )
                                                 "
@@ -285,15 +285,42 @@ export default {
         }
     },
     methods: {
-        deleteSalarySettlement() {
-            
+       async  deleteSalarySettlement(id) {
+            const shouldDelete = window.confirm(
+                '¿Estás seguro de que deseas borrar la liquidación?'
+            )
+            if (shouldDelete) {
+                const accessToken = localStorage.getItem('accessToken')
+                try {
+                    const response = await axios.delete('https://apijis.com/salary_settlements/delete/' + id,
+                            {
+                                headers: {
+                                    accept: 'application/json',
+                                    Authorization: `Bearer ${accessToken}`,
+                                },
+                            },
+                        )
+                        window.location.reload()
+                       
+                } catch (error) {
+                    if (error.message == 'Request failed with status code 401') {
+                        localStorage.removeItem('accessToken')
+                        window.location.reload()
+                    } else {
+                        console.error(
+                            'Error al borrar la liquidación :',
+                            error
+                        )
+                    }
+                }
+            }
         },
         async getPersonalDataEmployee() {
             const accessToken = localStorage.getItem('accessToken')
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employees/edit/' +
+                    'https://apijis.com/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -340,7 +367,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/salary_settlements/download/' + id,
+                    'https://apijis.com/salary_settlements/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -379,7 +406,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/salary_settlements/edit/' +
+                    'https://apijis.com/salary_settlements/edit/' +
                         this.$route.params.rut +
                         '/' +
                         page,
