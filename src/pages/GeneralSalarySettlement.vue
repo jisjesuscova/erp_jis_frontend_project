@@ -127,6 +127,19 @@
                                                     class="fa-solid fa-arrow-down"
                                                 ></i>
                                             </button>
+                                            <button
+                                                type="button"
+                                                @click="
+                                                    deleteSalarySettlement(
+                                                        salary_settlement.id,
+                                                    )
+                                                "
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-trash"
+                                                ></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -181,6 +194,36 @@ export default {
         }
     },
     methods: {
+        async  deleteSalarySettlement(id) {
+            const shouldDelete = window.confirm(
+                '¿Estás seguro de que deseas borrar la liquidación?'
+            )
+            if (shouldDelete) {
+                const accessToken = localStorage.getItem('accessToken')
+                try {
+                    const response = await axios.delete('https://apijis.com/salary_settlements/delete/' + id,
+                            {
+                                headers: {
+                                    accept: 'application/json',
+                                    Authorization: `Bearer ${accessToken}`,
+                                },
+                            },
+                        )
+                        window.location.reload()
+                       
+                } catch (error) {
+                    if (error.message == 'Request failed with status code 401') {
+                        localStorage.removeItem('accessToken')
+                        window.location.reload()
+                    } else {
+                        console.error(
+                            'Error al borrar la liquidación :',
+                            error
+                        )
+                    }
+                }
+            }
+        },
         onClickHandler() {
             console.log(this.currentPage)
             this.getSalarySettlements()
