@@ -487,7 +487,8 @@
             this.rutAndPeriodPDf = employeeRutPeriodNames
             const monthPeriod = Number(employeeRutPeriodNames.period.split('-')[1])
             const year = new Date().getFullYear()
-            const nextMonth = new Date().getMonth() + monthPeriod
+            const nextMonth =  monthPeriod 
+            
             const daysInMonth = new Date(year, nextMonth, 0).getDate()
             const daysInPrevMonth = new Date(year, nextMonth - 1, 0).getDate()
             const daysInNextMonth = new Date(year,(nextMonth % 12) + 1,

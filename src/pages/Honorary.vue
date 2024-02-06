@@ -160,7 +160,7 @@
                                                 <i class="fa-solid fa-eye"></i>
                                             </router-link>
                                             <router-link
-                                                v-if="honorary.status_id == 3"
+                                                v-if="honorary.status_id == 1 || honorary.status_id ==2"
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
                                                 :to="`/show_honorary/${honorary.id}`"
@@ -241,7 +241,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `https://apijis.com/honoraries/delete/${id}`,
+                    `http://localhost:8000/honoraries/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -273,7 +273,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'https://apijis.com//honoraries/',
+                    'http://localhost:8000//honoraries/',
                     dataToSend,
                     {
                         headers: {

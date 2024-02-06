@@ -44,9 +44,9 @@
                     <div
                         class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
                         role="alert"
-                        v-if="delete_bank == 1"
+                        v-if="delete_mesh== 1"
                     >
-                        Banco eliminado con
+                        Horario eliminado con
                         <span class="font-bold">éxito</span>.
                     </div>
                     <div class="p-1.5 min-w-full inline-block align-middle">
@@ -151,6 +151,17 @@
                                             >
                                                 <i class="fa-solid fa-file"></i>
                                             </button>
+                                            <button
+                                                @click="
+                                                    deleteMesh(
+                                                        
+                                                        meshes.MeshModel.id
+                                                    )
+                                                "
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -253,6 +264,17 @@
                                             >
                                                 <i class="fa-solid fa-file"></i>
                                             </button>
+                                            <button
+                                                @click="
+                                                    deleteMesh(
+                                                        
+                                                        meshes.MeshModel.id
+                                                    )
+                                                "
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -281,7 +303,7 @@ export default {
             meshes: [],
             meshesBySupervisor: [],
             loading: true,
-            delete_bank: 0,
+            delete_mesh: 0,
             dataToShow: [],
         }
     },
@@ -365,7 +387,7 @@ export default {
                 const names =
                     meshes.EmployeeModel.names ||
                     'No se encontro el nombre del trabajador'
-                const period = meshes.MeshModel.period || 'No period'
+                const period = meshes.MeshModel.period || 'No period' 
                 this.getMeshesByEmployeeRutAndPeriod(rut, period, names, visual_rut)
             }
         },
@@ -380,7 +402,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/get_mesh_by_rut_week_period/${rut}/${period}`,
+                    `http://localhost:8000/meshes/get_mesh_by_rut_week_period/${rut}/${period}`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -402,7 +424,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/meshes/',
+                    'http://localhost:8000/meshes/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -424,7 +446,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/get_all_meshes_by_supervisor/${supervisor_rut}`,
+                    `http://localhost:8000/meshes/get_all_meshes_by_supervisor/${supervisor_rut}`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -441,6 +463,38 @@ export default {
                 console.error('Error al obtener la lista de bancos:', error)
             }
         },
+        async deleteMesh(id) {
+            const confirm = window.confirm('¿Estás seguro de eliminar el horario?')
+            if (confirm) {
+
+            this.loading = true
+            const accessToken = localStorage.getItem('accessToken')
+
+            try {
+                const response = await axios.delete(
+                    `http://localhost:8000/meshes/delete/${id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            accept: 'application/json',
+                        },
+                    }
+                )
+                this.delete_mesh = 1
+                if(this.rol_id == 3){
+                    this.getMeshesBySupervisor()
+                }
+                else{
+                    this.getMeshes()
+                }
+                this.loading = false
+            
+            } catch (error) {
+                console.error('Error al obtener la lista de bancos:', error)
+            }
+        }
+        },
+
     },
     async mounted() {
         await this.getMeshes()

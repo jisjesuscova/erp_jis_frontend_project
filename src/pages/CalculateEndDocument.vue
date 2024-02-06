@@ -613,7 +613,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'https://apijis.com/branch_offices/edit/' + this.employee_labor_data.branch_office_id,
+                    'http://localhost:8000/branch_offices/edit/' + this.employee_labor_data.branch_office_id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -640,7 +640,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'https://apijis.com/job_positions/edit/' + this.employee_labor_data.job_position_id,
+                    'http://localhost:8000/job_positions/edit/' + this.employee_labor_data.job_position_id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -725,7 +725,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             await axios
                 .get(
-                    'https://apijis.com/employees/edit/' +
+                    'http://localhost:8000/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -745,7 +745,7 @@ export default {
                     this.validationsPassed = false
                 })
             const responseExtras = await axios.get(
-                'https://apijis.com/employee_extras/edit/' +
+                'http://localhost:8000/employee_extras/edit/' +
                     this.$route.params.rut,
                 {
                     headers: {
@@ -760,7 +760,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employee_labor_data/edit/' +
+                    'http://localhost:8000/employee_labor_data/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -793,7 +793,7 @@ export default {
                 this.personal_data_status = 1
 
                 await axios.post(
-                    'https://apijis.com/old_employees/transfer',
+                    'http://localhost:8000/old_employees/transfer',
                     this.employee_data,
                     {
                         headers: {
@@ -838,7 +838,7 @@ export default {
                 this.employee_extras_status = 1
 
                 await axios.post(
-                    'https://apijis.com/old_employee_extras/transfer',
+                    'http://localhost:8000/old_employee_extras/transfer',
                     employeeExtraDataToSend,
                     {
                         headers: {
@@ -971,7 +971,7 @@ export default {
                 this.employee_labor_data_status = 1
 
                 await axios.post(
-                    'https://apijis.com/old_employee_labor_data/transfer',
+                    'http://localhost:8000/old_employee_labor_data/transfer',
                     employeeLaborDataToSend,
                     {
                         headers: {
@@ -987,7 +987,7 @@ export default {
                 this.employee_documents_status = 1
 
                 await axios.post(
-                    'https://apijis.com/old_documents_employees/transfer/' +
+                    'http://localhost:8000/old_documents_employees/transfer/' +
                         this.$route.params.rut,
                     {},
                     {
@@ -1004,7 +1004,7 @@ export default {
                 this.employee_family_data_status = 1
 
                 await axios.post(
-                    'https://apijis.com/old_family_core_data/transfer/' +
+                    'http://localhost:8000/old_family_core_data/transfer/' +
                         this.$route.params.rut,
                     {},
                     {
@@ -1020,7 +1020,7 @@ export default {
                 this.loading_6 = true
                 this.employee_vacations_status = 1
 
-                const response = await axios.get('https://apijis.com/vacations/edit/' + this.$route.params.rut, {
+                const response = await axios.get('http://localhost:8000/vacations/edit/' + this.$route.params.rut, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
@@ -1029,7 +1029,7 @@ export default {
                 console.log('vacationsResponse',response)
                 if(response.data.message != 'null' && response.data.message != undefined && response.data.message != ''  && response.data.message != null){
                     await axios.post(
-                    'https://apijis.com/old_vacations/transfer/' +
+                    'http://localhost:8000/old_vacations/transfer/' +
                         this.$route.params.rut,
                     {},
                     {
@@ -1048,7 +1048,7 @@ export default {
                 this.employee_medical_status = 1
 
                 await axios.post(
-                    'https://apijis.com/old_medical_licenses/transfer/' +
+                    'http://localhost:8000/old_medical_licenses/transfer/' +
                         this.$route.params.rut,
                     {},
                     {
@@ -1109,7 +1109,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             
             axios
-                .post('https://apijis.com/end_documents/store', dataToSend, {
+                .post('http://localhost:8000/end_documents/store', dataToSend, {
                     headers: {
                         'Content-Type': 'application/json',
                         Accept: 'application/json',
@@ -1130,7 +1130,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'https://apijis.com/causals/' + this.status_input,
+                    'http://localhost:8000/causals/' + this.status_input,
                     {
                         headers: {
                             accept: 'application/json',
@@ -1157,7 +1157,7 @@ export default {
 
             try {
                 const responseLegal = await axios.get(
-                    'https://apijis.com/vacations/legal/' +
+                    'http://localhost:8000/vacations/legal/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -1167,7 +1167,7 @@ export default {
                     }
                 )
                 const responseTakenDays = await axios.get(
-                    'https://apijis.com/vacations/taken/' +
+                    'http://localhost:8000/vacations/taken/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -1199,7 +1199,7 @@ export default {
 
             try {
                 const responseProgressiveLegal = await axios.get(
-                    'https://apijis.com/progressive_vacations/legal/' +
+                    'http://localhost:8000/progressive_vacations/legal/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -1209,7 +1209,7 @@ export default {
                     }
                 )
                 const responseProgresssiveTaken = await axios.get(
-                    'https://apijis.com/progressive_vacations/taken/' +
+                    'http://localhost:8000/progressive_vacations/taken/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -1250,7 +1250,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.post(
-                    'https://apijis.com/end_documents/indemnity_years',
+                    'http://localhost:8000/end_documents/indemnity_years',
                     dataToSend,
                     {
                         headers: {
@@ -1282,7 +1282,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.post(
-                    'https://apijis.com/end_documents/substitute_compensation',
+                    'http://localhost:8000/end_documents/substitute_compensation',
                     dataToSend,
                     {
                         headers: {
@@ -1316,7 +1316,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.post(
-                    'https://apijis.com/end_documents/human_resources/end_document/fertility_proportional',
+                    'http://localhost:8000/end_documents/human_resources/end_document/fertility_proportional',
                     dataToSend,
                     {
                         headers: {

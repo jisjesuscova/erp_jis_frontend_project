@@ -173,7 +173,7 @@ export default {
                 email: this.email,
             }
             const response = await axios.post(
-                'https://apijis.com/login_users/forgot',dataToSend,{
+                'http://localhost:8000/login_users/forgot',dataToSend,{
                         headers: {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
