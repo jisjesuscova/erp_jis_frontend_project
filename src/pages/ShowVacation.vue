@@ -273,7 +273,7 @@ export default {
 
             try {
                 const response = await axios.patch(
-                    `http://localhost:8000/documents_employees/update/${this.$route.params.id}`,
+                    `https://apijis.com/documents_employees/update/${this.$route.params.id}`,
                     {
                         document_type_id: 6,
                         since: this.since_input,
@@ -320,7 +320,7 @@ export default {
 
             const response = await axios
                 .get(
-                    'http://localhost:8000/vacations/edit/' +
+                    'https://apijis.com/vacations/edit/' +
                         this.$route.params.id,
                     {
                         headers: {
