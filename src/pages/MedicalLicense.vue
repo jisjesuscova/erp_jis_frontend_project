@@ -38,6 +38,13 @@
                 >
                     Agregar
                 </router-link>
+                <button v-if="rol_id == 4"
+                    type="button"
+                    @click="pdfMedical()"
+                    class=" mx-10  w-30 h-12 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                >
+                  Ver Detalle
+                </button>
             </h2>
 
             <EmployeeMenu />
@@ -252,6 +259,7 @@ export default {
             loading_1: true,
             loading_2: true,
             medical_licenses: [],
+            all_medical_licenses: [],
             created_medical_license: 0,
             kardex_document: '',
             error_kardex: 0,
@@ -264,12 +272,14 @@ export default {
         }
     },
     async mounted() {
+        
         const rol_id = localStorage.getItem('rol_id')
 
         this.rol_id = rol_id
 
         await this.getPersonalDataEmployee()
         await this.getMedicalLicenses()
+        await this.getMedicalLicensesWithNoPagination()
 
         this.created_medical_license = localStorage.getItem(
             'created_medical_license',
@@ -284,6 +294,90 @@ export default {
         }
     },
     methods: {
+        getBase64ImageFromURL(url) {
+            return new Promise((resolve, reject) => {
+                var img = new Image()
+                img.setAttribute('crossOrigin', 'anonymous')
+
+                img.onload = () => {
+                    var canvas = document.createElement('canvas')
+                    canvas.width = img.width
+                    canvas.height = img.height
+
+                    var ctx = canvas.getContext('2d')
+                    ctx.drawImage(img, 0, 0)
+
+                    var dataURL = canvas.toDataURL('image/png')
+
+                    resolve(dataURL)
+                }
+
+                img.onerror = (error) => {
+                    reject(error)
+                }
+
+                img.src = url
+            })
+        },
+        async pdfMedical() {
+            var logo = await this.getBase64ImageFromURL(
+                'https://erpjis.com/assets/logo.png'
+            )
+            // Preparar los datos de la tabla
+            let bodyData = []
+            bodyData.push(['Folio',  'Desde', 'Hasta', 'Días']) // Encabezados de la tabla
+
+            // Recorrer los datos y agregarlos a la tabla
+            this.all_medical_licenses.forEach((medical) => {
+                let medicalData = []
+                medicalData.push(medical.folio)
+                medicalData.push(this.formatDate(medical.since))
+                medicalData.push(this.formatDate(medical.until))
+                medicalData.push(medical.days )
+                bodyData.push(medicalData)
+            })
+
+            // Crear la definición del documento
+            var docDefinition = {
+                content: [
+                    {
+                        image: logo,
+                        width: 80,
+                        alignment: 'left',
+                        margin: [0, 0, 0, 20],
+                    },
+                    { text: 'Detalle de Licencias Medicas', style: 'header', alignment: 'center' },
+                    { text: `Nombre: ${this.all_medical_licenses[0].employee_name}`, style: 'subheader' },
+                    { text: `RUT: ${this.all_medical_licenses[0].visual_rut}`, style: 'subheader' },
+                    { text: `Sucursal: ${this.all_medical_licenses[0].branch_office_name}`, style: 'subheader' },
+                    {
+                        table: {
+                            headerRows: 1,
+                            widths: [ '*', '*', '*', '*'],  // Ajusta esto para tener seis columnas
+                            body: bodyData,
+                        },
+                    },
+                ],
+                styles: {
+                    header: {
+                        fontSize: 18,
+                        bold: true,
+                        margin: [0, 0, 0, 10]
+                    },
+                    subheader: {
+                        fontSize: 12,
+                        bold: false,
+                        margin: [0, 10, 0, 5]
+                    }
+                },
+                footer: function(currentPage, pageCount) { 
+                    return { text: currentPage.toString() + '/' + pageCount, alignment: 'center' }; 
+                }
+            }
+
+            // Generar y descargar el PDF
+            pdfMake.createPdf(docDefinition).download()
+        },
         async getPersonalDataEmployee() {
             const accessToken = localStorage.getItem('accessToken')
 
@@ -358,6 +452,34 @@ export default {
                         'Error al obtener el documento del kardex:',
                         error,
                     )
+                }
+            }
+        },
+        async getMedicalLicensesWithNoPagination() {
+            const accessToken = localStorage.getItem('accessToken')
+
+            try {
+                const response = await axios.get(
+                    'https://apijis.com/medical_licenses/get_all_with_no_pagination/' +
+                        this.$route.params.rut, 
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                        },
+                    },
+                )
+  
+             this.all_medical_licenses = response.data.message
+             console.log(this.all_medical_licenses)
+                
+                this.loading_2 = false
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error('Error al obtener la lista licencias:', error)
                 }
             }
         },

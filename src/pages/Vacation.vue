@@ -27,7 +27,7 @@
 
         <div v-else class="flex flex-col pt-10">
             <EmployeeName v-if="rol_id == 4" :names="full_name" />
-            <hr class="pb-10">
+            <hr class="pb-10" />
             <h2 class="text-xl dark:text-white pb-10">
                 Vacaciones
                 <router-link
@@ -37,6 +37,13 @@
                 >
                     Agregar
                 </router-link>
+                <button v-if="rol_id == 4"
+                    type="button"
+                    @click="pdfVacation()"
+                    class=" mx-10  w-30 h-12 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                >
+                  Ver Detalle
+                </button>
             </h2>
 
             <EmployeeMenu />
@@ -378,7 +385,10 @@
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ vacation.days - vacation.no_valid_days }}
+                                            {{
+                                                vacation.days -
+                                                vacation.no_valid_days
+                                            }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
@@ -396,7 +406,8 @@
                                             <span
                                                 v-if="
                                                     vacation.status_id == 3 &&
-                                                    (vacation.support == null || vacation.support == '')
+                                                    (vacation.support == null ||
+                                                        vacation.support == '')
                                                 "
                                                 class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-500 text-white"
                                                 >Aceptada</span
@@ -415,7 +426,7 @@
                                                 type="button"
                                                 @click="
                                                     confirmSignVacation(
-                                                        vacation.document_employee_id,
+                                                        vacation.document_employee_id
                                                     )
                                                 "
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-purple-500 text-white hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
@@ -426,9 +437,7 @@
                                             </button>
 
                                             <router-link
-                                                v-if="
-                                                    vacation.status_id == 3
-                                                "
+                                                v-if="vacation.status_id == 3"
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
                                                 :to="`/upload_vacation_data_employee/${vacation.rut}/${vacation.id}`"
@@ -438,13 +447,11 @@
                                                 ></i>
                                             </router-link>
 
-                                            
-
                                             <button
                                                 type="button"
                                                 @click="
                                                     generateFalseVacation(
-                                                        vacation.document_employee_id,
+                                                        vacation.document_employee_id
                                                     )
                                                 "
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
@@ -453,11 +460,14 @@
                                             </button>
 
                                             <button
-                                                v-if="vacation.support != null && vacation.support != ''"
+                                                v-if="
+                                                    vacation.support != null &&
+                                                    vacation.support != ''
+                                                "
                                                 type="button"
                                                 @click="
                                                     downloadVacation(
-                                                        vacation.document_employee_id,
+                                                        vacation.document_employee_id
                                                     )
                                                 "
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
@@ -468,13 +478,11 @@
                                             </button>
 
                                             <button
-                                                v-if="
-                                                    rol_id == 4
-                                                "
+                                                v-if="rol_id == 4"
                                                 type="button"
                                                 @click="
                                                     confirmVacation(
-                                                        vacation.document_employee_id,
+                                                        vacation.document_employee_id
                                                     )
                                                 "
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
@@ -519,6 +527,13 @@
                 >
                     Agregar
                 </router-link>
+                <button v-if="rol_id == 4"
+                    type="button"
+                    @click="pdfProgressiveVacation()"
+                    class=" mx-10 w-20 h-12 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                >
+                    <i class="fa-solid fa-file"></i>
+                </button>
             </h2>
 
             <div
@@ -605,7 +620,7 @@
                                         >
                                             {{
                                                 formatDate(
-                                                    progressive_vacation.since,
+                                                    progressive_vacation.since
                                                 )
                                             }}
                                         </td>
@@ -614,7 +629,7 @@
                                         >
                                             {{
                                                 formatDate(
-                                                    progressive_vacation.until,
+                                                    progressive_vacation.until
                                                 )
                                             }}
                                         </td>
@@ -654,7 +669,7 @@
                                                 type="button"
                                                 @click="
                                                     confirmSignProgressiveVacation(
-                                                        progressive_vacation.document_employee_id,
+                                                        progressive_vacation.document_employee_id
                                                     )
                                                 "
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-purple-500 text-white hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
@@ -663,10 +678,11 @@
                                                     class="fa-solid fa-pencil"
                                                 ></i>
                                             </button>
-                                            
+
                                             <router-link
                                                 v-if="
-                                                    progressive_vacation.status_id == 3
+                                                    progressive_vacation.status_id ==
+                                                    3
                                                 "
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                                 href="javascript:;"
@@ -685,7 +701,7 @@
                                                 type="button"
                                                 @click="
                                                     generateFalseProgressiveVacation(
-                                                        progressive_vacation.document_employee_id,
+                                                        progressive_vacation.document_employee_id
                                                     )
                                                 "
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
@@ -701,7 +717,7 @@
                                                 type="button"
                                                 @click="
                                                     generateProgressiveVacation(
-                                                        progressive_vacation.document_employee_id,
+                                                        progressive_vacation.document_employee_id
                                                     )
                                                 "
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
@@ -711,13 +727,11 @@
                                                 ></i>
                                             </button>
                                             <button
-                                                v-if="
-                                                    rol_id == 4
-                                                "
+                                                v-if="rol_id == 4"
                                                 type="button"
                                                 @click="
                                                     confirmProgressiveVacation(
-                                                        progressive_vacation.document_employee_id,
+                                                        progressive_vacation.document_employee_id
                                                     )
                                                 "
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
@@ -725,6 +739,15 @@
                                                 <i
                                                     class="fa-solid fa-trash"
                                                 ></i>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                @click="
+                                                    pdfProgressiveVacation()
+                                                "
+                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                                            >
+                                                <i class="fa-solid fa-file"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -770,6 +793,7 @@ export default {
             loading_6: true,
             loading_7: true,
             loading_8: true,
+            all_vacations: [],
             vacations: [],
             progressive_vacations: [],
             created_vacation: 0,
@@ -806,6 +830,7 @@ export default {
         }
     },
     async mounted() {
+        await this.getPersonalDataEmployee()
         await this.getExtraDataEmployee()
         await this.getVacations()
         await this.getProgressiveVacations()
@@ -814,8 +839,8 @@ export default {
         await this.getProgressiveLegal()
         await this.getProgressiveTakenDays()
         await this.getPdfVacations()
+        await this.getVacationWithNoPagination()
         await this.getPdfProgressiveVacations()
-        await this.getPersonalDataEmployee()
 
         const rol_id = localStorage.getItem('rol_id')
 
@@ -844,11 +869,105 @@ export default {
             this.loading = false
         }
 
-        this.total_holidays = parseFloat(this.legal_holiday) + parseFloat(this.progressive_legal_holiday)	
-        this.total_taken_days = parseFloat(this.taken_days) + parseFloat(this.progressive_taken_days)
-        this.total_balance = parseFloat(this.balance) + parseFloat(this.progressive_balance)
+        this.total_holidays =
+            parseFloat(this.legal_holiday) +
+            parseFloat(this.progressive_legal_holiday)
+        this.total_taken_days =
+            parseFloat(this.taken_days) +
+            parseFloat(this.progressive_taken_days)
+        this.total_balance =
+            parseFloat(this.balance) + parseFloat(this.progressive_balance)
     },
     methods: {
+        async pdfVacation() {
+            var logo = await this.getBase64ImageFromURL(
+                'https://erpjis.com/assets/logo.png'
+            )
+            // Preparar los datos de la tabla
+            let bodyData = []
+            bodyData.push(['DESDE', 'HASTA', 'DÍAS HÁBILES']) // Encabezados de la tabla
+
+            // Recorrer los datos y agregarlos a la tabla
+            this.all_vacations.forEach((vacation) => {
+                let vacationData = []
+                vacationData.push(this.formatDate(vacation.since))
+                vacationData.push(this.formatDate(vacation.until))
+                vacationData.push(vacation.days - vacation.no_valid_days)
+                bodyData.push(vacationData)
+            })
+
+            // Crear la definición del documento
+            var docDefinition = {
+                content: [
+                    {
+                        image: logo,
+                        width: 80,
+                        alignment: 'left',
+                        margin: [0, 0, 0, 20],
+                    },
+                    { text: 'Detalle de Vacaciones', style: 'header', alignment: 'center' },
+                    { text: `Nombre: ${this.all_vacations[0].employee_name}`, style: 'subheader' },
+                    { text: `RUT: ${this.all_vacations[0].visual_rut}`, style: 'subheader' },
+                    { text: `Sucursal: ${this.all_vacations[0].branch_office_name}`, style: 'subheader' },
+                    {
+                        table: {
+                            headerRows: 1,
+                            widths: ['*', '*', '*'],  // Ajusta esto para tener tres columnas
+                            body: bodyData,
+                        },
+                    },
+                ],
+                styles: {
+                    header: {
+                        fontSize: 18,
+                        bold: true,
+                        margin: [0, 0, 0, 10]
+                    },
+                    subheader: {
+                        fontSize: 12,
+                        bold: false,
+                        margin: [0, 10, 0, 5]
+                    }
+                },
+                footer: function(currentPage, pageCount) { 
+                    return { text: currentPage.toString() + '/' + pageCount, alignment: 'center' }; 
+                }
+            }
+
+            // Generar y descargar el PDF
+            pdfMake.createPdf(docDefinition).download()
+        },
+        pdfProgressiveVacation() {
+            // Preparar los datos de la tabla
+            let bodyData = []
+            bodyData.push(['Nombre', 'DESDE', 'HASTA', 'DÍAS HÁBILES']) // Encabezados de la tabla
+
+            // Recorrer los datos y agregarlos a la tabla
+            this.progressive_vacations.forEach((vacation) => {
+                let vacationData = []
+                vacationData.push(this.full_name)
+                vacationData.push(this.formatDate(vacation.since))
+                vacationData.push(this.formatDate(vacation.until))
+                vacationData.push(vacation.days)
+                bodyData.push(vacationData)
+            })
+
+            // Crear la definición del documento
+            var docDefinition = {
+                content: [
+                    {
+                        table: {
+                            headerRows: 1,
+                            widths: ['*', '*', '*', '*'],
+                            body: bodyData,
+                        },
+                    },
+                ],
+            }
+
+            // Generar y descargar el PDF
+            pdfMake.createPdf(docDefinition).download()
+        },
         formatDateToCustomFormat(dateString) {
             // Parsea la cadena de fecha en un objeto Date
             const date = new Date(dateString)
@@ -901,7 +1020,7 @@ export default {
         },
         async generateFalseVacation() {
             var logo = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/logo.png',
+                'https://erpjis.com/assets/logo.png'
             )
 
             var signature_type_id = localStorage.getItem('signature_type_id')
@@ -1240,7 +1359,7 @@ export default {
         },
         async confirmSignVacation(id) {
             const shouldDelete = window.confirm(
-                '¿Estás seguro de que deseas firmar el documento?',
+                '¿Estás seguro de que deseas firmar el documento?'
             )
 
             if (shouldDelete) {
@@ -1249,11 +1368,11 @@ export default {
         },
         async generateVacation() {
             var logo = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/logo.png',
+                'https://erpjis.com/assets/logo.png'
             )
 
             var company_signature = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/signature.png',
+                'https://erpjis.com/assets/signature.png'
             )
 
             var visual_rut = localStorage.getItem('visual_rut')
@@ -1305,8 +1424,7 @@ export default {
                                                     bold: true,
                                                 },
                                                 {
-                                                    text:
-                                                        this.full_name,
+                                                    text: this.full_name,
                                                 },
                                             ],
                                             alignment: 'left',
@@ -1511,8 +1629,7 @@ export default {
                                                     bold: true,
                                                 },
                                                 {
-                                                    text:
-                                                        this.full_name,
+                                                    text: this.full_name,
                                                 },
                                             ],
                                             alignment: 'left',
@@ -1706,7 +1823,7 @@ export default {
         },
         async generateFalseProgressiveVacation() {
             var logo = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/logo.png',
+                'https://erpjis.com/assets/logo.png'
             )
 
             var signature_type_id = localStorage.getItem('signature_type_id')
@@ -1720,7 +1837,7 @@ export default {
                     this.formatDate(vacation.since),
                     this.formatDate(vacation.until),
                     vacation.days,
-                ],
+                ]
             )
 
             const watermarkText = 'Documento de muestra' // Texto de la marca de agua
@@ -1941,7 +2058,8 @@ export default {
                                                 },
                                                 {
                                                     text:
-                                                        this.progressive_taken_days +
+                                                        this
+                                                            .progressive_taken_days +
                                                         ' Días',
                                                 },
                                             ],
@@ -2054,7 +2172,7 @@ export default {
         },
         async confirmSignProgressiveVacation(id) {
             const shouldDelete = window.confirm(
-                '¿Estás seguro de que deseas firmar el documento?',
+                '¿Estás seguro de que deseas firmar el documento?'
             )
 
             if (shouldDelete) {
@@ -2063,14 +2181,13 @@ export default {
         },
         async generateProgressiveVacation() {
             var logo = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/logo.png',
+                'https://erpjis.com/assets/logo.png'
             )
 
             var company_signature = await this.getBase64ImageFromURL(
-                'https://erpjis.com/assets/signature.png',
+                'https://erpjis.com/assets/signature.png'
             )
-            
-            
+
             var visual_rut = localStorage.getItem('visual_rut')
 
             var signature_type_id = localStorage.getItem('signature_type_id')
@@ -2084,7 +2201,7 @@ export default {
                     this.formatDate(vacation.since),
                     this.formatDate(vacation.until),
                     vacation.days,
-                ],
+                ]
             )
 
             if (signature_type_id == 1) {
@@ -2205,11 +2322,11 @@ export default {
                                             margin: [0, 20, 0, 0],
                                         },
                                         {
-                                            text:'',
+                                            text: '',
                                             width: 120,
                                             alignment: 'center',
                                             margin: [0, 20, 0, 0],
-                                        }
+                                        },
                                     ],
                                     [
                                         {
@@ -2366,11 +2483,11 @@ export default {
                                             margin: [0, 70, 0, 0],
                                         },
                                         {
-                                            text:'',
+                                            text: '',
                                             width: 120,
                                             alignment: 'center',
                                             margin: [0, 20, 0, 0],
-                                        }
+                                        },
                                     ],
                                     [
                                         {
@@ -2450,7 +2567,7 @@ export default {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
-                    },
+                    }
                 )
 
                 this.progressive_vacation_input =
@@ -2464,7 +2581,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener los datos del empleado:',
-                        error,
+                        error
                     )
                 }
             }
@@ -2482,7 +2599,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`,
                         },
-                    },
+                    }
                 )
 
                 this.vacation_document = response.data.message
@@ -2501,7 +2618,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener el documento de vacaciones:',
-                        error,
+                        error
                     )
                 }
             }
@@ -2513,13 +2630,14 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/progressive_vacations/download/' + id,
+                    'https://apijis.com/progressive_vacations/download/' +
+                        id,
                     {
                         headers: {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
 
                 this.progressive_vacation_document = response.data.message
@@ -2538,7 +2656,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener el documento de vacaciones progresivas:',
-                        error,
+                        error
                     )
                 }
             }
@@ -2559,10 +2677,9 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             const page = this.currentPage
-
             try {
                 const response = await axios.get(
-                    'https://apijis.com//vacations/all/' +
+                    'https://apijis.com/vacations/all/' +
                         this.$route.params.rut +
                         '/' +
                         page,
@@ -2571,10 +2688,14 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`,
                         },
-                    },
+                    }
                 )
-                
-                if (response.data.message != '' && response.data.message != null && response.data.message != undefined) {
+
+                if (
+                    response.data.message != '' &&
+                    response.data.message != null &&
+                    response.data.message != undefined
+                ) {
                     const decodedData = JSON.parse(response.data.message)
 
                     this.vacations = decodedData.data
@@ -2590,7 +2711,33 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener la lista de vacaciones:',
-                        error,
+                        error
+                    )
+                }
+            }
+        },
+        async getVacationWithNoPagination() {
+            const accessToken = localStorage.getItem('accessToken')
+            try {
+                const response = await axios.get(
+                    'https://apijis.com/vacations/get_all_with_no_pagination/' +
+                        this.$route.params.rut ,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    }
+                )
+               this.all_vacations = response.data.message
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error(
+                        'Error al obtener la lista de vacaciones progresivas:',
+                        error
                     )
                 }
             }
@@ -2611,10 +2758,14 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`,
                         },
-                    },
+                    }
                 )
-                
-                if (response.data.message != '' && response.data.message != null && response.data.message != undefined) {
+
+                if (
+                    response.data.message != '' &&
+                    response.data.message != null &&
+                    response.data.message != undefined
+                ) {
                     const decodedData = JSON.parse(response.data.message)
 
                     this.pdf_vacations = decodedData.data
@@ -2626,7 +2777,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener la lista de vacaciones progresivas:',
-                        error,
+                        error
                     )
                 }
             }
@@ -2647,7 +2798,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`,
                         },
-                    },
+                    }
                 )
 
                 if (response.data.message != 'Invalid page number') {
@@ -2670,7 +2821,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener la lista de vacaciones progresivas:',
-                        error,
+                        error
                     )
                 }
             }
@@ -2691,9 +2842,9 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`,
                         },
-                    },
+                    }
                 )
-                
+
                 if (response.data.message != 'Invalid page number') {
                     const decodedData = JSON.parse(response.data.message)
 
@@ -2710,7 +2861,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener la lista de vacaciones progresivas:',
-                        error,
+                        error
                     )
                 }
             }
@@ -2727,10 +2878,10 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
 
-                console.log(response.data.message);
+                console.log(response.data.message)
 
                 this.legal_holiday = response.data.message
 
@@ -2742,7 +2893,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener las vacaciones legales:',
-                        error,
+                        error
                     )
                 }
             }
@@ -2759,7 +2910,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
 
                 this.progressive_legal_holiday = response.data.message
@@ -2772,7 +2923,7 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener las vacaciones progresivas legales:',
-                        error,
+                        error
                     )
                 }
             }
@@ -2789,17 +2940,17 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`,
                         },
-                    },
+                    }
                 )
 
                 this.taken_days = response.data.message
 
-                let legalHoliday = parseFloat(this.legal_holiday);
-                let takenDays = parseFloat(this.taken_days);
+                let legalHoliday = parseFloat(this.legal_holiday)
+                let takenDays = parseFloat(this.taken_days)
 
-                let difference = legalHoliday - takenDays;
+                let difference = legalHoliday - takenDays
 
-                let roundedDifference = difference.toFixed(2);
+                let roundedDifference = difference.toFixed(2)
 
                 this.balance = roundedDifference
 
@@ -2825,7 +2976,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
                         },
-                    },
+                    }
                 )
 
                 this.progressive_taken_days = response.data.message
@@ -2860,8 +3011,13 @@ export default {
 
                 const decodedData = JSON.parse(response.data.message)
 
-                this.full_name = decodedData.employee_data.names +' '+ decodedData.employee_data.father_lastname +' '+ decodedData.employee_data.mother_lastname
-                
+                this.full_name =
+                    decodedData.employee_data.names +
+                    ' ' +
+                    decodedData.employee_data.father_lastname +
+                    ' ' +
+                    decodedData.employee_data.mother_lastname
+
                 this.employee_rut = decodedData.employee_data.visual_rut
 
                 if (decodedData.signature == null) {
@@ -2871,7 +3027,6 @@ export default {
                 }
 
                 this.loading_8 = false
-
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
@@ -2886,7 +3041,7 @@ export default {
         },
         async confirmVacation(id) {
             const shouldDelete = window.confirm(
-                '¿Estás seguro de que deseas borrar el registro?',
+                '¿Estás seguro de que deseas borrar el registro?'
             )
 
             if (shouldDelete) {
@@ -2899,12 +3054,15 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
 
-                await axios.delete(`https://apijis.com/vacations/delete/${id}`, {
-                    headers: {
-                        accept: 'application/json',
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
+                await axios.delete(
+                    `https://apijis.com/vacations/delete/${id}`,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    }
+                )
 
                 this.getVacations()
             } catch (error) {
@@ -2913,7 +3071,7 @@ export default {
         },
         async confirmProgressiveVacation(id) {
             const shouldDelete = window.confirm(
-                '¿Estás seguro de que deseas borrar el registro?',
+                '¿Estás seguro de que deseas borrar el registro?'
             )
 
             if (shouldDelete) {
@@ -2932,7 +3090,7 @@ export default {
                             accept: 'application/json',
                             Authorization: `Bearer ${accessToken}`,
                         },
-                    },
+                    }
                 )
 
                 this.getProgressiveVacations()
@@ -2941,7 +3099,7 @@ export default {
             } catch (error) {
                 console.error(
                     'Error al borrar las vacaciones progressiva:',
-                    error,
+                    error
                 )
             }
         },
