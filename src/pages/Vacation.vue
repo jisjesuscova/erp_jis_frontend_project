@@ -530,9 +530,9 @@
                 <button v-if="rol_id == 4"
                     type="button"
                     @click="pdfProgressiveVacation()"
-                    class=" mx-10 w-20 h-12 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
+                    class=" mx-10  w-30 h-12 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                 >
-                    <i class="fa-solid fa-file"></i>
+                  Ver Detalle
                 </button>
             </h2>
 
@@ -937,18 +937,20 @@ export default {
             // Generar y descargar el PDF
             pdfMake.createPdf(docDefinition).download()
         },
-        pdfProgressiveVacation() {
+        async pdfProgressiveVacation() {
+            var logo = await this.getBase64ImageFromURL(
+                'https://erpjis.com/assets/logo.png'
+            )
             // Preparar los datos de la tabla
             let bodyData = []
-            bodyData.push(['Nombre', 'DESDE', 'HASTA', 'DÍAS HÁBILES']) // Encabezados de la tabla
+            bodyData.push(['DESDE', 'HASTA', 'DÍAS HÁBILES']) // Encabezados de la tabla
 
             // Recorrer los datos y agregarlos a la tabla
             this.progressive_vacations.forEach((vacation) => {
                 let vacationData = []
-                vacationData.push(this.full_name)
                 vacationData.push(this.formatDate(vacation.since))
                 vacationData.push(this.formatDate(vacation.until))
-                vacationData.push(vacation.days)
+                vacationData.push(vacation.days - vacation.no_valid_days)
                 bodyData.push(vacationData)
             })
 
@@ -956,13 +958,38 @@ export default {
             var docDefinition = {
                 content: [
                     {
+                        image: logo,
+                        width: 80,
+                        alignment: 'left',
+                        margin: [0, 0, 0, 20],
+                    },
+                    { text: 'Detalle de Vacaciones', style: 'header', alignment: 'center' },
+                    { text: `Nombre: ${this.all_vacations[0].employee_name}`, style: 'subheader' },
+                    { text: `RUT: ${this.all_vacations[0].visual_rut}`, style: 'subheader' },
+                    { text: `Sucursal: ${this.all_vacations[0].branch_office_name}`, style: 'subheader' },
+                    {
                         table: {
                             headerRows: 1,
-                            widths: ['*', '*', '*', '*'],
+                            widths: ['*', '*', '*'],  // Ajusta esto para tener tres columnas
                             body: bodyData,
                         },
                     },
                 ],
+                styles: {
+                    header: {
+                        fontSize: 18,
+                        bold: true,
+                        margin: [0, 0, 0, 10]
+                    },
+                    subheader: {
+                        fontSize: 12,
+                        bold: false,
+                        margin: [0, 10, 0, 5]
+                    }
+                },
+                footer: function(currentPage, pageCount) { 
+                    return { text: currentPage.toString() + '/' + pageCount, alignment: 'center' }; 
+                }
             }
 
             // Generar y descargar el PDF
