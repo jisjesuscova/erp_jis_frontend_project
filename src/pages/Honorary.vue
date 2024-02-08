@@ -273,7 +273,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'https://apijis.com//honoraries/',
+                    'https://apijis.com/honoraries/',
                     dataToSend,
                     {
                         headers: {
