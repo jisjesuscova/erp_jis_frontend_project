@@ -408,32 +408,6 @@ export default {
                 console.error('Error al borrar las vacaciones:', error)
             }
         },
-        formatDateToCustomFormat(dateString) {
-            const date = new Date(dateString)
-
-            const monthNames = [
-                'Enero',
-                'Febrero',
-                'Marzo',
-                'Abril',
-                'Mayo',
-                'Junio',
-                'Julio',
-                'Agosto',
-                'Septiembre',
-                'Octubre',
-                'Noviembre',
-                'Diciembre',
-            ]
-
-            const day = date.getDate()
-            const month = date.getMonth()
-            const year = date.getFullYear()
-
-            const formattedDate = `${day} de ${monthNames[month]} del ${year}`
-
-            return formattedDate
-        },
         onClickHandler() {
             console.log(this.currentPage)
             this.getDocumentManagements()
@@ -445,31 +419,7 @@ export default {
                 return date[1] + '-' + date[0]
             }
         },
-        getBase64ImageFromURL(url) {
-            return new Promise((resolve, reject) => {
-                const img = new Image()
-                img.setAttribute('crossOrigin', 'anonymous')
-
-                img.onload = () => {
-                    const canvas = document.createElement('canvas')
-                    canvas.width = img.width
-                    canvas.height = img.height
-
-                    const ctx = canvas.getContext('2d')
-                    ctx.drawImage(img, 0, 0)
-
-                    const dataURL = canvas.toDataURL('image/png')
-
-                    resolve(dataURL)
-                }
-
-                img.onerror = (error) => {
-                    reject(error)
-                }
-
-                img.src = url
-            })
-        },
+        
         formatDate(date) {
             return format(new Date(date), 'dd-MM-yyyy')
         },

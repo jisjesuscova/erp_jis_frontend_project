@@ -285,36 +285,6 @@ export default {
                 }
             }
         },
-        async confirmMedicalLicense(id) {
-            const shouldDelete = window.confirm(
-                '¿Estás seguro de que deseas borrar el registro?',
-            )
-
-            if (shouldDelete) {
-                await this.deleteMedicalLicense(id)
-            }
-        },
-        async deleteMedicalLicense(id) {
-            this.loading = true
-
-            try {
-                const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(
-                    `https://apijis.com/medical_licenses/delete/${id}`,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    },
-                )
-
-                this.getMedicalLicenses()
-            } catch (error) {
-                window.location.reload()
-                console.error('Error al borrar la licencia médica:', error)
-            }
-        },
     },
 }
 </script>

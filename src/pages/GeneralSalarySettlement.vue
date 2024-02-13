@@ -233,9 +233,6 @@ export default {
             date = date[0].split('-')
             return date[1] + '-' + date[0]
         },
-        formatDate(date) {
-            return format(new Date(date), 'dd-MM-yyyy')
-        },
         async downloadSalarySettlement(id) {
             const accessToken = localStorage.getItem('accessToken')
 
