@@ -1025,26 +1025,6 @@ export default {
 
             return formattedDate
         },
-        updateSignVacation(id) {
-            const accessToken = localStorage.getItem('accessToken')
-
-            axios
-                .get('https://apijis.com/vacations/sign/' + id, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        accept: 'application/json',
-                    },
-                })
-                .then((response) => {
-                    console.log(response)
-
-                    this.getVacations()
-                })
-                .catch((error) => {
-                    console.error(error)
-                    this.loading = false
-                })
-        },
         async generateFalseVacation() {
             var logo = await this.getBase64ImageFromURL(
                 'https://erpjis.com/assets/logo.png'
@@ -1827,26 +1807,6 @@ export default {
 
                 pdfMake.createPdf(docDefinition).download('certificado.pdf')
             }
-        },
-        updateSignProgressiveVacation(id) {
-            const accessToken = localStorage.getItem('accessToken')
-
-            axios
-                .get('https://apijis.com/progressive_vacations/sign/' + id, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        accept: 'application/json',
-                    },
-                })
-                .then((response) => {
-                    console.log(response)
-
-                    this.getProgressiveVacations()
-                })
-                .catch((error) => {
-                    console.error(error)
-                    this.loading = false
-                })
         },
         async generateFalseProgressiveVacation() {
             var logo = await this.getBase64ImageFromURL(
@@ -2645,44 +2605,6 @@ export default {
                 } else {
                     console.error(
                         'Error al obtener el documento de vacaciones:',
-                        error
-                    )
-                }
-            }
-        },
-        async downloadProgressiveVacation(id) {
-            const accessToken = localStorage.getItem('accessToken')
-
-            this.loading = true
-
-            try {
-                const response = await axios.get(
-                    'https://apijis.com/progressive_vacations/download/' +
-                        id,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
-                        },
-                    }
-                )
-
-                this.progressive_vacation_document = response.data.message
-
-                if (this.progressive_vacation_document == 0) {
-                    this.error_progressive_vacation = 1
-                } else {
-                    window.location.href = this.progressive_vacation_document
-                }
-
-                this.loading = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error(
-                        'Error al obtener el documento de vacaciones progresivas:',
                         error
                     )
                 }

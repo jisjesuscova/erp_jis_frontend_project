@@ -690,35 +690,6 @@ export default {
                 }
             }
         },
-        async getPatoloyTypes() {
-            const accessToken = localStorage.getItem('accessToken')
-
-            try {
-                const response = await axios.get(
-                    'https://apijis.com/patology_types/',
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
-                        },
-                    },
-                )
-
-                this.patology_types = response.data.message
-
-                this.loading_5 = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error(
-                        'Error al obtener la lista de patologias:',
-                        error,
-                    )
-                }
-            }
-        },
         async getBanks() {
             const accessToken = localStorage.getItem('accessToken')
 
