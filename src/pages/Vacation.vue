@@ -1398,6 +1398,7 @@ export default {
                 this.formatDate(vacation.since),
                 this.formatDate(vacation.until),
                 vacation.days,
+                vacation.no_valid_days
             ])
 
             if (signature_type_id == 1) {
@@ -1517,7 +1518,7 @@ export default {
                                     ...vacationRows.map((row) => [
                                         row[1],
                                         row[2],
-                                        row[3],
+                                        row[3] - row[4],
                                     ]),
                                 ],
                             },
@@ -1722,7 +1723,7 @@ export default {
                                     ...vacationRows.map((row) => [
                                         row[1],
                                         row[2],
-                                        row[3],
+                                        row[3] - row[4],
                                     ]),
                                 ],
                             },
