@@ -342,53 +342,6 @@ import { is } from 'date-fns/locale';
                 // Verifica si la fecha está en tus datos
                 return this.workDays.includes(dateString.split('-')[2]);
                 },
-        async printPDF() {
-            // Selecciona el elemento que quieres convertir en PDF
-            const element = document.getElementById('PDF')
-  
-            // Crea una captura de pantalla del elemento
-            const canvas = await html2canvas(element)
-  
-            // Crea un nuevo documento PDF
-            const pdf = new jsPDF('p', 'mm', 'a4')
-  
-            // Calcula la proporción de la imagen para que se ajuste al tamaño del PDF
-            const imgWidth = 210 // Cambiado de 210 a 150
-            const pageHeight = 400
-            const imgHeight = (canvas.height * imgWidth) / canvas.width
-            let heightLeft = imgHeight
-  
-            const contentDataURL = canvas.toDataURL('image/png')
-            let position = 0
-  
-            pdf.addImage(
-                contentDataURL,
-                'PNG',
-                0,
-                position,
-                imgWidth,
-                imgHeight
-            )
-            heightLeft -= pageHeight
-  
-            while (heightLeft >= 0) {
-                position = heightLeft - imgHeight
-                pdf.addPage()
-                pdf.addImage(
-                    contentDataURL,
-                    'PNG',
-                    0,
-                    position,
-                    imgWidth,
-                    imgHeight
-                )
-                heightLeft -= pageHeight
-            }
-  
-            // Descarga el PDF
-            pdf.save('output.pdf')
-            window.location.href = '/schedule'
-        },
         async calculateWeeksPerMonth() {
             const year = new Date().getFullYear()
             const nextMonth = new Date(this.dataToShow[0].datesInRange[0]).getMonth() + 1

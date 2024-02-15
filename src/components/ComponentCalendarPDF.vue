@@ -321,9 +321,6 @@
                 0
             );
         },
-        totalTurns() {
-            return this.totalProgrammedDays + ' X ' + this.totalFreeDays;
-        },
         totalWeekHours() {
             if (!Array.isArray(this.dataToShow)) {
                 return 0;
