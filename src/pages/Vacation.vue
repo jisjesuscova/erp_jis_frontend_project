@@ -1035,12 +1035,16 @@ export default {
             var current_date =
                 'Santiago, ' + this.formatDateToCustomFormat(new Date())
 
+           
             const vacationRows = this.pdf_vacations.map((vacation) => [
                 vacation.id,
                 this.formatDate(vacation.since),
                 this.formatDate(vacation.until),
                 vacation.days,
+                vacation.no_valid_days,
             ])
+
+            console.log(vacationRows)
 
             const watermarkText = 'Documento de muestra' // Texto de la marca de agua
 
@@ -1139,7 +1143,7 @@ export default {
                                         row[0],
                                         row[1],
                                         row[2],
-                                        row[3],
+                                        row[3] - row[4] ,
                                     ]),
                                 ],
                             },
@@ -1298,7 +1302,7 @@ export default {
                                         row[0],
                                         row[1],
                                         row[2],
-                                        row[3],
+                                        row[3]-row[4],
                                     ]),
                                 ],
                             },
