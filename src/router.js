@@ -1,5 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Bank from './pages/Bank.vue'
+import JisParkingImages from './pages/JisParkingImages.vue'
 import Zone from './pages/Zone.vue'
 import Segment from './pages/Segment.vue'
 import Principal from './pages/Principal.vue'
@@ -118,6 +119,10 @@ const routes = [
     {
         path:'/banks',
         component: Bank
+    },
+    {
+        path:'/jis_parking_images',
+        component: JisParkingImages
     },
     {
         path:'/zones',

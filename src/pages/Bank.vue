@@ -150,7 +150,7 @@ export default {
         },
         async confirmBank(id) {
             const shouldDelete = window.confirm(
-                '¿Estás seguro de que deseas borrar la nomina?'
+                '¿Estás seguro de que deseas borrar el banco?'
             )
             console.log(id)
 
