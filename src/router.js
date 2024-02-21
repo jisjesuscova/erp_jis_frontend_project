@@ -1,6 +1,9 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Bank from './pages/Bank.vue'
+import UploadJisParkingImages from './pages/UploadJisParkingImages.vue'
 import JisParkingImages from './pages/JisParkingImages.vue'
+import JisParkingLogo from './pages/JisParkingLogo.vue'
+import UploadJisParkingLogo from './pages/UploadJisParkingLogo.vue'
 import Zone from './pages/Zone.vue'
 import Segment from './pages/Segment.vue'
 import Principal from './pages/Principal.vue'
@@ -121,8 +124,20 @@ const routes = [
         component: Bank
     },
     {
+        path:'/upload_jis_parking_images',
+        component: UploadJisParkingImages
+    },
+    {
         path:'/jis_parking_images',
         component: JisParkingImages
+    },
+    {
+        path:'/jis_parking_logo',
+        component: JisParkingLogo
+    },
+    {
+        path:'/upload_jis_parking_logo',
+        component: UploadJisParkingLogo
     },
     {
         path:'/zones',

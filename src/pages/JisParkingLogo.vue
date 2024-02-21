@@ -27,10 +27,10 @@
 
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">
-                Mantenedor Sliders
+                Mantenedor Logo
                 <router-link
                     href="javascript:;"
-                    to="/upload_jis_parking_images"
+                    to="/upload_jis_parking_logo"
                     class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                 >
                     Agregar
@@ -40,9 +40,9 @@
                 <div
                     class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
                     role="alert"
-                    v-if="delete_image == 1"
+                    v-if="delete_logo == 1"
                 >
-                    Slider eliminada con <span class="font-bold">éxito</span>.
+                    Logo eliminada con <span class="font-bold">éxito</span>.
                 </div>
                 <div class="p-1.5 min-w-full inline-block align-middle">
                     <div
@@ -64,30 +64,30 @@
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            Imagen
+                                            LOGO
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody
                                     class="divide-y divide-gray-200 dark:divide-gray-700"
                                 >
-                                    <tr v-for="data_image in data_images" :key="data_image.id">
+                                    <tr v-for="data_logo in data_logos" :key="data_logo.id">
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ data_image.id }}
+                                            {{ data_logo.id }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ data_image.support }}
+                                            {{ data_logo.support }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
                                             <button
                                                 type="button"
-                                                @click="confirmImage(data_image.id)"
+                                                @click="confirmLogo(data_logo.id)"
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                             >
                                                 <i
@@ -115,18 +115,18 @@ export default {
     },
     data() {
         return {
-            data_images: [],
+            data_logos: [],
             loading: true,
-            delete_image: 0,
+            delete_logo: 0,
         }
     },
     methods: {
-        async getJisParkingImages() {
+        async getJisParkingLogo() {
             const accessToken = localStorage.getItem('accessToken')
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/slider/get_images/',
+                    'http://localhost:8000/logo/get_logos/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -135,45 +135,45 @@ export default {
                     }
                 )
 
-                this.data_images = response.data
+                this.data_logos = response.data
                 console.log(response)
                 this.loading = false
             } catch (error) {
-                console.error('Error al obtener la lista de imagenes:', error)
+                console.error('Error al obtener la lista de logos:', error)
             }
         },
-        async confirmImage(id) {
+        async confirmLogo(id) {
             const shouldDelete = window.confirm(
-                '¿Estás seguro de que deseas borrar el Slider?'
+                '¿Estás seguro de que deseas borrar el logo?'
             )
             console.log(id)
 
             if (shouldDelete) {
-                await this.deleteImage(id)
+                await this.deleteLogo(id)
             }
         },
-        async deleteImage(id) {
+        async deleteLogo(id) {
             this.loading = true
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`http://localhost:8000/slider/delete_image/${id}`, {
+                await axios.delete(`http://localhost:8000/logo/delete_logo/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,
                     },
                 })
 
-                this.getJisParkingImages()
+                this.getJisParkingLogo()
 
-                this.delete_image = 1
+                this.delete_logo = 1
             } catch (error) {
                 console.error('Error al borrar la nomina:', error)
             }
         },
     },
     async mounted() {
-        await this.getJisParkingImages()
+        await this.getJisParkingLogo()
     },
 }
 </script>
