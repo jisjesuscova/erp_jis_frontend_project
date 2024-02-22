@@ -87,7 +87,7 @@
                             >Desde</label
                         >
                         <input
-                            type="date"
+                            type="number"
                             id="since_input_1"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Desde"
@@ -102,7 +102,7 @@
                             >Hasta</label
                         >
                         <input
-                            type="date"
+                            type="number"
                             id="until_input_1"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Hasta"
@@ -117,7 +117,7 @@
                             >Factor</label
                         >
                         <input
-                            type="number"
+                            type="text"
                             id="factor_input_1"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Factor"
@@ -151,7 +151,7 @@
                             >Desde</label
                         >
                         <input
-                            type="date"
+                            type="number"
                             id="since_input_2"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Desde"
@@ -166,7 +166,7 @@
                             >Hasta</label
                         >
                         <input
-                            type="date"
+                            type="number"
                             id="until_input_2"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Hasta"
@@ -181,7 +181,7 @@
                             >Factor</label
                         >
                         <input
-                            type="number"
+                            type="text"
                             id="factor_input_2"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Factor"
@@ -215,7 +215,7 @@
                             >Desde</label
                         >
                         <input
-                            type="date"
+                            type="number"
                             id="since_input_3"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Desde"
@@ -230,7 +230,7 @@
                             >Hasta</label
                         >
                         <input
-                            type="date"
+                            type="number"
                             id="until_input_3"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Hasta"
@@ -245,7 +245,7 @@
                             >Factor</label
                         >
                         <input
-                            type="number"
+                            type="text"
                             id="factor_input_3"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Factor"
@@ -279,7 +279,7 @@
                             >Desde</label
                         >
                         <input
-                            type="date"
+                            type="number"
                             id="since_input_4"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Desde"
@@ -294,7 +294,7 @@
                             >Hasta</label
                         >
                         <input
-                            type="date"
+                            type="number"
                             id="until_input_4"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Hasta"
@@ -309,7 +309,7 @@
                             >Factor</label
                         >
                         <input
-                            type="number"
+                            type="text"
                             id="factor_input_4"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Factor"
@@ -381,138 +381,47 @@ export default {
         }
     },
     methods: {
-        async submit() {
-            const accessToken = localStorage.getItem('accessToken')
-
+        createFamily() {
             this.loading = true
 
-            const dataToSend = {
-                payroll_employees: this.payroll_employees.map(employee => ({
-                    rut: employee.rut,
-                    payroll_item_id: this.payroll_item_input,
-                    amount: employee.amount_input,
-                    period: this.period_input
-                }))
-            };
+            const formData = new FormData()
+            formData.append('period', this.period_input)
+            formData.append('since_1', this.since_input_1)
+            formData.append('until_1', this.until_input_1)
+            formData.append('factor_1', this.factor_input_1)
+            formData.append('amount_1', this.amount_input_1)
+            formData.append('since_2', this.since_input_2)
+            formData.append('until_2', this.until_input_2)
+            formData.append('factor_2', this.factor_input_2)
+            formData.append('amount_2', this.amount_input_2)
+            formData.append('since_3', this.since_input_3)
+            formData.append('until_3', this.until_input_3)
+            formData.append('factor_3', this.factor_input_3)
+            formData.append('amount_3', this.amount_input_3)
+            formData.append('since_4', this.since_input_4)
+            formData.append('until_4', this.until_input_4)
+            formData.append('factor_4', this.factor_input_4)
+            formData.append('amount_4', this.amount_input_4)
 
-            try {
-                const response = await axios.post(
-                    'https://apijis.com/payroll_manual_inputs/store',
-                    dataToSend,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    },
-                )
-
-                this.amount_input = 0
-
-                this.loading = false
-
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error('Error al guardar los inputs manuales:', error)
-                }
-            }
-        },
-        applyBulkAmount() {
-            this.amount_input = 0
-
-            this.payroll_employees.forEach((employee) => {
-                employee.amount_input = this.massive_amount_input
-
-                this.amount_input += parseInt(employee.amount_input)
-            })
-        },
-        async searchPayrollEmployees() {
             const accessToken = localStorage.getItem('accessToken')
-            try {
-                const dataToSend = {
-                    rut: this.rut_input,
-                    father_lastname: this.father_lastname_input,
-                }
 
-                const response = await axios.post(
-                    'https://apijis.com/payroll_employees/search',
-                    dataToSend,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
+            axios
+                .post('https://apijis.com/payroll_second_category_tax/store', formData, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'multipart/form-data',
                     },
-                )
-
-                this.payroll_employees = response.data.message
-
-                this.payroll_employees.forEach((employee) => {
-                    employee.amount_input = 0
                 })
+                .then((response) => {
+                    console.log(response)
+                    this.loading = false
 
-                this.loading_2 = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error('Error al obtener los empleados:', error)
-                }
-            }
-        },
-        async getPayrollItems() {
-            const accessToken = localStorage.getItem('accessToken')
-            try {
-                const response = await axios.get(
-                    'https://apijis.com/payroll_items/',
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    },
-                )
-                console.log(response)
-                this.payroll_managements_inputs = response.data.message
-
-                this.loading_1 = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error('Error al obtener los items:', error)
-                }
-            }
-        },
-        async getPayrollEmployees() {
-            const accessToken = localStorage.getItem('accessToken')
-            try {
-                const response = await axios.get(
-                    'https://apijis.com/payroll_employees/' + this.period_input,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    },
-                )
-
-                this.payroll_employees = response.data.message
-
-                this.loading_2 = false
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error('Error al obtener los empleados:', error)
-                }
-            }
+                    localStorage.setItem('second_category_tax', 1)
+                })
+                .catch((error) => {
+                    console.error(error)
+                    this.loading = false
+                })
         },
     },
     async mounted() {
