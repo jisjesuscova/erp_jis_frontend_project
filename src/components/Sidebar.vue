@@ -1056,7 +1056,7 @@
                                 <router-link
                                     class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
-                                    to="/job_positions"
+                                    to="/jis_parking_logo"
                                 >
                                 <i class="fa-solid fa-flag"></i>
                                     Logo
@@ -1066,7 +1066,7 @@
                                 <router-link
                                     class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
-                                    to="/job_positions"
+                                    to="/about_us"
                                 >
                                
                                 <i class="fa-solid fa-address-book"></i>
@@ -1077,7 +1077,7 @@
                                 <router-link
                                     class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
-                                    to="/job_positions"
+                                    to="/contact"
                                 >
                                 <i class="fa-solid fa-address-card"></i>
                                     Contacto
@@ -1087,7 +1087,7 @@
                                 <router-link
                                     class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-orange-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
                                     href="javascript:;"
-                                    to="/job_positions"
+                                    to="/blog"
                                 >
                                 <i class="fa-solid fa-blog"></i>
                                     Blog

@@ -4,6 +4,10 @@ import UploadJisParkingImages from './pages/UploadJisParkingImages.vue'
 import JisParkingImages from './pages/JisParkingImages.vue'
 import JisParkingLogo from './pages/JisParkingLogo.vue'
 import UploadJisParkingLogo from './pages/UploadJisParkingLogo.vue'
+import AboutUs from './pages/AboutUs.vue'
+import Blog from './pages/Blog.vue'
+import UploadBlog from './pages/UploadBlog.vue'
+import Contact from './pages/Contact.vue'
 import Zone from './pages/Zone.vue'
 import Segment from './pages/Segment.vue'
 import Principal from './pages/Principal.vue'
@@ -138,6 +142,22 @@ const routes = [
     {
         path:'/upload_jis_parking_logo',
         component: UploadJisParkingLogo
+    },
+    {
+        path:'/about_us',
+        component: AboutUs
+    },
+    {
+        path:'/contact',
+        component: Contact
+    },
+    {
+        path:'/blog',
+        component: Blog
+    },
+    {
+        path:'/upload_blog',
+        component: UploadBlog
     },
     {
         path:'/zones',
