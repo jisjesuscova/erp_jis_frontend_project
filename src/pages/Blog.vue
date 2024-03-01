@@ -27,10 +27,10 @@
 
         <div v-else class="flex flex-col pt-10">
             <h2 class="text-4xl dark:text-white pb-10">
-                Mantenedor Bancos
+                Mantenedor Blog
                 <router-link
                     href="javascript:;"
-                    to="/create_bank"
+                    to="/upload_blog"
                     class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                 >
                     Agregar
@@ -40,9 +40,9 @@
                 <div
                     class="bg-red-500 text-sm text-white rounded-md p-4 mb-10"
                     role="alert"
-                    v-if="delete_bank == 1"
+                    v-if="delete_image == 1"
                 >
-                    Banco eliminado con <span class="font-bold">éxito</span>.
+                    Slider eliminada con <span class="font-bold">éxito</span>.
                 </div>
                 <div class="p-1.5 min-w-full inline-block align-middle">
                     <div
@@ -64,37 +64,52 @@
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
                                         >
-                                            Banco
+                                            Titulo
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Descripción
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                                        >
+                                            Imagen
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody
                                     class="divide-y divide-gray-200 dark:divide-gray-700"
                                 >
-                                    <tr v-for="bank in banks" :key="bank.id">
+                                    <tr v-for="data_blog in data_blogs" :key="data_blog.id">
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ bank.id }}
+                                            {{ data_blog.id }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            {{ bank.bank }}
+                                            {{ data_blog.title }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
                                         >
-                                            <router-link
-                                                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
-                                                href="javascript:;"
-                                                :to="`/edit_bank/${bank.id}`"
-                                            >
-                                                <i class="fa-solid fa-pen"></i>
-                                            </router-link>
+                                            {{ data_blog.description }}
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
+                                            {{ data_blog.picture }}
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"
+                                        >
                                             <button
                                                 type="button"
-                                                @click="confirmBank(bank.id)"
+                                                @click="confirmImage(data_blog.id)"
                                                 class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                                             >
                                                 <i
@@ -122,18 +137,18 @@ export default {
     },
     data() {
         return {
-            banks: [],
+            data_blogs: [],
             loading: true,
-            delete_bank: 0,
+            delete_image: 0,
         }
     },
     methods: {
-        async getBanks() {
+        async getBlogs() {
             const accessToken = localStorage.getItem('accessToken')
 
             try {
-                const response = await axios.post(
-                    'https://apijis.com/banks/',
+                const response = await axios.get(
+                    'https://apijis.com/blog/get_all/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -142,44 +157,45 @@ export default {
                     }
                 )
 
-                this.banks = response.data.message
+                this.data_blogs = response.data.message
+                console.log(response)
                 this.loading = false
             } catch (error) {
-                console.error('Error al obtener la lista de bancos:', error)
+                console.error('Error al obtener la lista de imagenes:', error)
             }
         },
-        async confirmBank(id) {
+        async confirmImage(id) {
             const shouldDelete = window.confirm(
-                '¿Estás seguro de que deseas borrar el banco?'
+                '¿Estás seguro de que deseas borrar el Slider?'
             )
             console.log(id)
 
             if (shouldDelete) {
-                await this.deleteBank(id)
+                await this.deleteImage(id)
             }
         },
-        async deleteBank(id) {
+        async deleteImage(id) {
             this.loading = true
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`https://apijis.com/banks/delete/${id}`, {
+                await axios.delete(`https://apijis.com/slider/delete_image/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,
                     },
                 })
 
-                this.getBanks()
+                this.getBlogs()
 
-                this.delete_bank = 1
+                this.delete_image = 1
             } catch (error) {
                 console.error('Error al borrar la nomina:', error)
             }
         },
     },
     async mounted() {
-        await this.getBanks()
+        await this.getBlogs()
     },
 }
 </script>
