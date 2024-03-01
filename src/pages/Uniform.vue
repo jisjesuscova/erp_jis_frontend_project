@@ -107,7 +107,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employees/edit/' +
+                    'https://apijis.com/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -142,7 +142,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             try {
-                const response = await axios.get('http://localhost:8000/uniforms/edit/' + this.$route.params.rut, {
+                const response = await axios.get('https://apijis.com/uniforms/edit/' + this.$route.params.rut, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -172,7 +172,7 @@ export default {
         async deleteUniform(id) {
             try {
                 const accessToken = localStorage.getItem('accessToken');
-                await axios.delete(`http://localhost:8000/uniforms/delete/${id}`, {
+                await axios.delete(`https://apijis.com/uniforms/delete/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`

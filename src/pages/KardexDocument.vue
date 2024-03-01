@@ -190,7 +190,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/employees/edit/' +
+                    'https://apijis.com/employees/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -232,7 +232,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/kardex_data/download/' + id,
+                    'https://apijis.com/kardex_data/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -267,7 +267,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/kardex_data/edit/' +
+                    'https://apijis.com/kardex_data/edit/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -313,7 +313,7 @@ export default {
             try {
                 const accessToken = localStorage.getItem('accessToken')
                 await axios.delete(
-                    `http://localhost:8000/kardex_data/delete/${id}`,
+                    `https://apijis.com/kardex_data/delete/${id}`,
                     {
                         headers: {
                             accept: 'application/json',

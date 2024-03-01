@@ -126,7 +126,7 @@ export default {
             try{
                 this.loading = true
                 const accessToken = localStorage.getItem('accessToken')
-                const response = await axios.get('http://localhost:8000/about_us/get_about_us/', 
+                const response = await axios.get('https://apijis.com/about_us/get_about_us/', 
                 {
                     headers: {
                                 accept: 'application/json',
@@ -152,7 +152,7 @@ export default {
                 }
                 console.log(dataToSend)
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.patch('http://localhost:8000/about_us/update_about_us/', dataToSend, 
+                await axios.patch('https://apijis.com/about_us/update_about_us/', dataToSend, 
                 {
                     headers: {
                                 accept: 'application/json',

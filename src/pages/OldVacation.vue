@@ -246,7 +246,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/old_vacations/all/' +
+                    'https://apijis.com/old_vacations/all/' +
                         this.$route.params.rut,
                     {
                         headers: {
@@ -289,7 +289,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/old_progressive_vacations/all/' +
+                    'https://apijis.com/old_progressive_vacations/all/' +
                         this.$route.params.rut +
                         '/' +
                         page,
