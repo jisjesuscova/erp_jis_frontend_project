@@ -129,14 +129,14 @@
                         <label
                             for="hs-validation-name-error"
                             class="block text-sm font-medium mb-2 dark:text-white"
-                            >Monto</label
+                            >Descuento</label
                         >
                         <input
-                            type="number"
+                            type="text"
                             id="amount_input_1"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Monto"
-                            v-model="amount_input_1"
+                            placeholder="Descuento"
+                            v-model="discount_input_1"
                             required
                         />
                     </div>
@@ -193,14 +193,14 @@
                         <label
                             for="hs-validation-name-error"
                             class="block text-sm font-medium mb-2 dark:text-white"
-                            >Monto</label
+                            >Descuento</label
                         >
                         <input
-                            type="number"
+                            type="text"
                             id="amount_input_2"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Monto"
-                            v-model="amount_input_2"
+                            placeholder="Descuento"
+                            v-model="discount_input_2"
                             required
                         />
                     </div>
@@ -257,14 +257,14 @@
                         <label
                             for="hs-validation-name-error"
                             class="block text-sm font-medium mb-2 dark:text-white"
-                            >Monto</label
+                            >Descuento</label
                         >
                         <input
-                            type="number"
+                            type="text"
                             id="amount_input_3"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Monto"
-                            v-model="amount_input_3"
+                            placeholder="Descuento"
+                            v-model="discount_input_3"
                             required
                         />
                     </div>
@@ -321,14 +321,14 @@
                         <label
                             for="hs-validation-name-error"
                             class="block text-sm font-medium mb-2 dark:text-white"
-                            >Monto</label
+                            >Descuento</label
                         >
                         <input
-                            type="number"
+                            type="text"
                             id="amount_input_4"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Monto"
-                            v-model="amount_input_4"
+                            placeholder="Descuento"
+                            v-model="discount_input_4"
                             required
                         />
                     </div>
@@ -360,53 +360,53 @@ export default {
     data() {
         return {
             loading: false,
-            since_input_1: '',
-            until_input_1: '',
+            since_input_1: 0,
+            until_input_1: 0,
             factor_input_1: 0,
-            amount_input_1: 0,
-            since_input_2: '',
-            until_input_2: '',
+            discount_input_1: 0,
+            since_input_2: 0,
+            until_input_2: 0,
             factor_input_2: 0,
-            amount_input_2: 0,
-            since_input_3: '',
-            until_input_3: '',
+            discount_input_2: 0,
+            since_input_3: 0,
+            until_input_3: 0,
             factor_input_3: 0,
-            amount_input_3: 0,
-            since_input_4: '',
-            until_input_4: '',
+            discount_input_3: 0,
+            since_input_4: 0,
+            until_input_4: 0,
             factor_input_4: 0,
-            amount_input_4: 0,
+            discount_input_4: 0,
             period_input: '',
             old_period: '',
         }
     },
     methods: {
-        createFamily() {
+        submit() {
             this.loading = true
 
             const formData = new FormData()
-            formData.append('period', this.period_input)
-            formData.append('since_1', this.since_input_1)
-            formData.append('until_1', this.until_input_1)
-            formData.append('factor_1', this.factor_input_1)
-            formData.append('amount_1', this.amount_input_1)
-            formData.append('since_2', this.since_input_2)
-            formData.append('until_2', this.until_input_2)
-            formData.append('factor_2', this.factor_input_2)
-            formData.append('amount_2', this.amount_input_2)
-            formData.append('since_3', this.since_input_3)
-            formData.append('until_3', this.until_input_3)
-            formData.append('factor_3', this.factor_input_3)
-            formData.append('amount_3', this.amount_input_3)
-            formData.append('since_4', this.since_input_4)
-            formData.append('until_4', this.until_input_4)
-            formData.append('factor_4', this.factor_input_4)
-            formData.append('amount_4', this.amount_input_4)
+            formData.append('period', this.period_input);
+            formData.append('since_1', this.since_input_1);
+            formData.append('until_1', this.until_input_1);
+            formData.append('factor_1', this.factor_input_1);
+            formData.append('discount_1', String(this.discount_input_1));
+            formData.append('since_2', this.since_input_2);
+            formData.append('until_2', this.until_input_2);
+            formData.append('factor_2', this.factor_input_2);
+            formData.append('discount_2', String(this.discount_input_2));
+            formData.append('since_3', this.since_input_3);
+            formData.append('until_3', this.until_input_3);
+            formData.append('factor_3', this.factor_input_3);
+            formData.append('discount_3', String(this.discount_input_3));
+            formData.append('since_4', this.since_input_4);
+            formData.append('until_4', this.until_input_4);
+            formData.append('factor_4', this.factor_input_4);
+            formData.append('discount_4', String(this.discount_input_4));
 
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .post('https://apijis.com/payroll_second_category_tax/store', formData, {
+                .post('http://localhost:8000/payroll_second_category_taxes/store', formData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'multipart/form-data',

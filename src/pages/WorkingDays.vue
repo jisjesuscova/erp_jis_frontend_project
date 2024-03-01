@@ -60,6 +60,53 @@
             <hr
                 class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
             />
+            <div
+                class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
+            >
+                <div
+                    class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
+                >
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
+                        Monto Masivo
+                    </p>
+                </div>
+                <div
+                    class="grid md:grid-cols-1 sm:grid-cols-1 gap-4 p-4 md:p-5"
+                >
+                    <div>
+                        <label
+                            for="hs-validation-name-error"
+                            class="block text-sm font-medium mb-2 dark:text-white"
+                            >Monto Masivo</label
+                        >
+                        <input
+                            type="text"
+                            id="massive_amount_input"
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Monto Maivo"
+                            v-model="massive_amount_input"
+                            required
+                        />
+                    </div>
+                </div>
+                <div
+                    class="grid md:grid-cols-6 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                >
+                    <div class="w-full">
+                        <button
+                            @click="applyBulkAmount"
+                            class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                        >
+                            
+                            Agregar
+                            <i class="fa-solid fa-plus p-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr
+                class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
+            />
 
             <div
                 id="bar-with-underline-1"
@@ -178,6 +225,15 @@ export default {
         }
     },
     methods: {
+        applyBulkAmount() {
+            this.amount_input = 0
+
+            this.payroll_employees.forEach((employee) => {
+                employee.amount_input = this.massive_amount_input
+
+                this.amount_input += parseInt(employee.amount_input)
+            })
+        },
         async cleanForm() {
             this.payroll_employees.forEach((employee) => {
                 employee.amount_input = 0
