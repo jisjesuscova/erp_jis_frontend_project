@@ -416,7 +416,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'https://apijis.com/payroll_items/',
+                    'http://localhost:8000/payroll_items',
                     {
                         headers: {
                             accept: 'application/json',
