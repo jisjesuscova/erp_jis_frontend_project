@@ -223,7 +223,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
-                    'https://apijis.com/meshes/store/',
+                    'http://localhost:8000/meshes/store/',
                     meshes,
                     {
                         headers: {
@@ -469,7 +469,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/branch_offices/edit/' +this.dataToShow[0].branch_office,
+                    'http://localhost:8000/branch_offices/edit/' +this.dataToShow[0].branch_office,
                     {
                         headers: {
                             accept: 'application/json',
@@ -652,7 +652,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/holidays',
+                    'http://localhost:8000/holidays',
                     {
                         headers: {
                             accept: 'application/json',

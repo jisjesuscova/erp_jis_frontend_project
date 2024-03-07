@@ -30,7 +30,7 @@
                 Mantenedor Sliders
                 <router-link
                     href="javascript:;"
-                    to="/upload_jis_parking_images"
+                    to="/slider"
                     class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                 >
                     Agregar
@@ -126,7 +126,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/slider/get_images/',
+                    'http://localhost:8000/slider/get_images/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -157,7 +157,7 @@ export default {
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`https://apijis.com/slider/delete_image/${id}`, {
+                await axios.delete(`http://localhost:8000/slider/delete_image/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,

@@ -148,7 +148,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/blog/get_all/',
+                    'http://localhost:8000/blog/get_all/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -179,7 +179,7 @@ export default {
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`https://apijis.com/slider/delete_image/${id}`, {
+                await axios.delete(`http://localhost:8000/slider/delete_image/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,
@@ -190,7 +190,7 @@ export default {
 
                 this.delete_image = 1
             } catch (error) {
-                console.error('Error al borrar la nomina:', error)
+                console.error('Error al borrar el blog:', error)
             }
         },
     },

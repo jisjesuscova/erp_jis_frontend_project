@@ -1,6 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Bank from './pages/Bank.vue'
-import UploadJisParkingImages from './pages/UploadJisParkingImages.vue'
+import Slider from './pages/Slider.vue'
 import JisParkingImages from './pages/JisParkingImages.vue'
 import JisParkingLogo from './pages/JisParkingLogo.vue'
 import UploadJisParkingLogo from './pages/UploadJisParkingLogo.vue'
@@ -128,8 +128,8 @@ const routes = [
         component: Bank
     },
     {
-        path:'/upload_jis_parking_images',
-        component: UploadJisParkingImages
+        path:'/slider',
+        component: Slider
     },
     {
         path:'/jis_parking_images',

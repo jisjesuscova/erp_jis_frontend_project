@@ -143,7 +143,7 @@ export default {
             formData.append('support', this.support)
             try {
                 const response = await axios.post(
-                    'https://apijis.com/slider/upload_image',
+                    'http://localhost:8000/slider/upload_image',
                     formData,
                     {
                         headers: {

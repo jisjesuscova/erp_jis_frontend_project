@@ -46,7 +46,7 @@
                             ></div>
 
                             <div
-                                class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                                class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5"
                             >
                                 <div>
                                     <label
@@ -62,21 +62,7 @@
                                         required
                                     />
                                 </div>
-                                <div>
-                                    <label
-                                        for="hs-validation-name-error"
-                                        class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Descripcion</label
-                                    >
-                                    <input
-                                        type="text"
-                                        id="bank_name"
-                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        
-                                        v-model="description_input"
-                                        required
-                                    />
-                                </div>
+                              
                                 <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Foto</label>
                                     <input type="file" name="file-input-medium" id="file-input-medium" class="block w-full border border-gray-200 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400
@@ -88,6 +74,29 @@
                                         @change="handleFileChange"
                                         >
                                 </div>
+                               
+                            </div>
+                            <div
+                                class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                            >
+                            <div>
+                        <editor v-model="description_input"
+                            api-key="z1b05n0szvcd7zujxum0bd2wa293du52z4n40xfv9ndrnp30"
+                            :init="{
+                                height: 500,
+                                menubar: false,
+                                plugins: [
+                                'advlist autolink lists link image charmap print preview anchor',
+                                'searchreplace visualblocks code fullscreen',
+                                'insertdatetime media table paste code help wordcount'
+                                ],
+                                toolbar:
+                                'undo redo | formatselect | bold italic backcolor | \
+                                alignleft aligncenter alignright alignjustify | \
+                                bullist numlist outdent indent | removeformat | help'
+                            }"
+                            placeholder="Escribe una descripción del blog"
+                            /></div>
                                
                             </div>
                             <div
@@ -138,9 +147,14 @@
 </template>
 <script>
 import axios from 'axios'
+import Editor from '@tinymce/tinymce-vue'
 import { mask } from 'vue-the-mask'
 
 export default {
+    name: 'UploadBlog',
+    components: { 
+        'editor': Editor
+     },
     directives: { mask },
     data() {
         return {
@@ -171,7 +185,7 @@ export default {
                 formData.append('support', this.support)
 
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.post('https://apijis.com/blog/store', formData, 
+                await axios.post('http://localhost:8000/blog/store', formData, 
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
