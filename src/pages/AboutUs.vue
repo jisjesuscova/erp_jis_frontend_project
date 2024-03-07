@@ -45,21 +45,22 @@
                                 class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
                             ></div>
 
-                            <div
-                                class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5"
-                            >
-                                <div>
-                                    
-                                    <textarea
-                                        type="text"
-                                        id="bank_name"
-                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="Sobre Nosotros..."
-                                        v-model="about_us_input"
-                                        required
-                                    />
-                                </div>
-                            </div>
+                            <editor v-model="about_us_input"
+       api-key="z1b05n0szvcd7zujxum0bd2wa293du52z4n40xfv9ndrnp30"
+       :init="{
+         height: 500,
+         menubar: false,
+         plugins: [
+           'advlist autolink lists link image charmap print preview anchor',
+           'searchreplace visualblocks code fullscreen',
+           'insertdatetime media table paste code help wordcount'
+         ],
+         toolbar:
+           'undo redo | formatselect | bold italic backcolor | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist outdent indent | removeformat | help'
+       }"
+     />
                             <div
                                 class="grid md:grid-cols-8 sm:grid-cols-12 gap-4 p-4 md:p-5"
                             >
@@ -104,13 +105,19 @@
                 </div>
             </div>
         </div>
+     
     </div>
 </template>
 <script>
 import axios from 'axios'
+import Editor from '@tinymce/tinymce-vue'
 import { mask } from 'vue-the-mask'
 
 export default {
+    name: 'AboutUs',
+    components: { 
+        'editor': Editor
+     },
     directives: { mask },
     data() {
         return {
