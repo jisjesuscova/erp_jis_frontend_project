@@ -26,7 +26,7 @@
         </div>
 
         <div v-else class="flex flex-col pt-10">
-            <h2 class="text-4xl dark:text-white pb-10">Ingresar Slider</h2>
+            <h2 class="text-4xl dark:text-white pb-10"> Slider</h2>
 
             <div class="mt-3">
                 <div v-if="validate_upload_image == 1" class="bg-green-500 text-sm text-white rounded-md p-4 mb-10 mt-10" role="alert">
@@ -46,7 +46,7 @@
                             ></div>
 
                             <div
-                                class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                                class="grid md:grid-cols-1 sm:grid-cols-12 gap-4 p-4 md:p-5"
                             >
                             <div>
                                     <label for="hs-validation-name-error" class="block text-sm font-medium mb-2 dark:text-white">Imagen</label>
