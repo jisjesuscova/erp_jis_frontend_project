@@ -185,7 +185,7 @@ export default {
                 formData.append('support', this.support)
 
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.post('http://localhost:8000/blog/store', formData, 
+                await axios.post('https://apijis.com/blog/store', formData, 
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,

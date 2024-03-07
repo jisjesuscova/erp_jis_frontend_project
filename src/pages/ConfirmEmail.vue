@@ -152,7 +152,7 @@ export default {
             }
             console.log(dataToSend)
             const response = await axios.patch(
-                'http://localhost:8000/users/confirm_email',
+                'https://apijis.com/users/confirm_email',
                 dataToSend,
                 {
                     headers: {

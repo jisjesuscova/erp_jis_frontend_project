@@ -214,7 +214,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/medical_licenses/download/' + id,
+                    'https://apijis.com/medical_licenses/download/' + id,
                     {
                         headers: {
                             accept: 'application/json',
@@ -253,7 +253,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/old_medical_licenses/edit/' +
+                    'https://apijis.com/old_medical_licenses/edit/' +
                         this.$route.params.rut +
                         '/' +
                         page,

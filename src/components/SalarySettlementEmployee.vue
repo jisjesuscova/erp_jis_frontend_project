@@ -122,7 +122,7 @@ export default {
             this.loading = true;
 
             try {
-                const response = await axios.get('http://localhost:8000/salary_settlements/download/' + id, {
+                const response = await axios.get('https://apijis.com/salary_settlements/download/' + id, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
@@ -155,7 +155,7 @@ export default {
             const page = this.currentPage;
 
             try {
-                const response = await axios.get('http://localhost:8000/salary_settlements/edit/' + this.$route.params.rut + '/' + page, {
+                const response = await axios.get('https://apijis.com/salary_settlements/edit/' + this.$route.params.rut + '/' + page, {
                     headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${accessToken}` // Agregar el token al encabezado de la solicitud
