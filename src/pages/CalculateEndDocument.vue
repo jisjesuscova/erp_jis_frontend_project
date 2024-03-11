@@ -973,7 +973,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.post(
-                    'http://apijis.com/end_documents/human_resources/end_document/fertility_proportional',
+                    'https://apijis.com/end_documents/human_resources/end_document/fertility_proportional',
                     dataToSend,
                     {
                         headers: {
@@ -982,6 +982,8 @@ export default {
                         },
                     }
                 )
+                console.log(dataToSend)
+                console.log(response)
                 this.fertility_proportional_input = response.data.message
                 this.fertility_proportional_total_input = response.data.total
 
