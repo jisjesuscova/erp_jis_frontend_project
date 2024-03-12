@@ -143,7 +143,7 @@ export default {
             formData.append('support', this.support)
             try {
                 const response = await axios.post(
-                    'http://localhost:8000/logo/upload_logo',
+                    'https://apijis.com/logo/upload_logo',
                     formData,
                     {
                         headers: {
