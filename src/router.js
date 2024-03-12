@@ -87,6 +87,7 @@ import Schedule from './pages/Schedule.vue'
 import ScheduleProcess from './pages/ScheduleProcess.vue'
 import ScheduleProcessCalendar from './pages/ScheduleProcessCalendar.vue'
 import SchedulePdfCalendar from './pages/SchedulePdfCalendar.vue'
+import CreateMesh from './pages/CreateMesh.vue'
 import CreateSchedule from './pages/CreateSchedule.vue'
 import UploadEmployeeContract from './pages/UploadEmployeeContract.vue'
 import GeneralSalarySettlement from './pages/GeneralSalarySettlement.vue'
@@ -475,6 +476,10 @@ const routes = [
     {
         path:'/create_schedule',
         component: CreateSchedule
+    },
+    {
+        path:'/create_mesh',
+        component: CreateMesh
     },
     {
         path:'/upload_employee_contract/:rut/:id',
