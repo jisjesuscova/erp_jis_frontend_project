@@ -406,7 +406,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
 
             axios
-                .post('https://apijis.com/payroll_second_category_taxes/store', formData, {
+                .post('http://localhost:8000/payroll_second_category_taxes/store', formData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'multipart/form-data',

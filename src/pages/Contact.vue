@@ -162,7 +162,7 @@ export default {
             try{
                 this.loading = true
                 const accessToken = localStorage.getItem('accessToken')
-                const response = await axios.get('https://apijis.com/contact/get_contact/', 
+                const response = await axios.get('http://localhost:8000/contact/get_contact/', 
                 {
                     headers: {
                                 accept: 'application/json',
@@ -194,7 +194,7 @@ export default {
                 }
                 console.log(dataToSend)
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.patch('https://apijis.com/contact/update_contact/', dataToSend, 
+                await axios.patch('http://localhost:8000/contact/update_contact/', dataToSend, 
                 {
                     headers: {
                                 accept: 'application/json',

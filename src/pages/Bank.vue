@@ -133,7 +133,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    'https://apijis.com/banks/',
+                    'http://localhost:8000/banks/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -163,7 +163,7 @@ export default {
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`https://apijis.com/banks/delete/${id}`, {
+                await axios.delete(`http://localhost:8000/banks/delete/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,

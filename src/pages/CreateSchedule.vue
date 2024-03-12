@@ -24,29 +24,53 @@
 
             <!-- You can use a spinner or any other loading animation here -->
         </div>
+         
+        <div  v-else>
+            <div v-if="create_scheedule == 1" class="bg-green-500 text-sm text-white rounded-md p-4 mb-10 mt-10" role="alert">
+                    Horario Ingresado con <span class="font-bold">éxito</span> 
+                </div>      
 
-        <div class="flex">
-            <div class="flex">
-                <div class="p-4">
-                    <h2>Horario</h2>
+            <div class="flex flex-col md:flex-row">
+                <div class="p-4 w-full">
+                    <h2 class="my-5">Ingresar Nuevo Horario</h2>
                     <form @submit.prevent="createSchedule">
-                        <div class="mb-4">
-                            <label for="turn" class="mr-2"
-                                >Turno a asignar:</label
-                            >
-                            <select
-                                id="turn"
-                                v-model="selectedTurn"
-                                class="border-2 border-gray-300 rounded-md p-1"
-                            >
-                                <option
-                                    v-for="turn in turns"
-                                    :key="turn.id"
-                                    :value="turn"
+                        <div class="mb-4 flex flex-col md:flex-row md:items-center md:space-x-4">
+                            <input
+                                v-model="horary_name_input"
+                                class="border-2 border-gray-950 w-full p-2 rounded-md mb-4 md:mb-0 md:w-52"
+                                type="text"
+                                placeholder="Nombre del horario"
+                            />
+                            <div class="flex flex-col md:flex-row md:items-center md:space-x-4">
+                                <label for="turn" class="mr-1">Jornada: </label>
+                                <select
+                                    v-model="horary_input"
+                                    required
+                                    @change="getByGroup"
+                                    class="border-2 border-gray-950 rounded-md p-2 w-full md:w-auto"
                                 >
-                                    {{ turn.turn }}
-                                </option>
-                            </select>
+                                    <option value="">- Horario -</option>
+                                    <option value="1">Mañana</option>
+                                    <option value="2">Tarde</option>
+                                    <option value="3">Intermedio</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center md:space-x-4">
+                                <label for="turn" class="mr-2">Turno a asignar:</label>
+                                <select
+                                    id="turn"
+                                    v-model="selectedTurn"
+                                    class="border-2 border-gray-950 rounded-md p-2 w-full md:w-auto"
+                                >
+                                    <option
+                                        v-for="turn in turns"
+                                        :key="turn.id"
+                                        :value="turn"
+                                    >
+                                        {{ turn.turn }}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                         <div
                             v-for="day in days"
@@ -55,18 +79,18 @@
                         >
                             <input
                                 type="checkbox"
+                            
                                 :id="day"
                                 @change="assignTurn(day, $event)"
-                                class="mr-2"
+                                class="mr-2 border-2 border-black rounded-md p-2 w-4 h-4"
                             />
-                            <label :for="day"
-                                >{{ day }}
-                                {{ schedule[day].turn? `(${schedule[day].turn})`: '(No hay turno para este día)'}}</label
-                            >
+                            <label :for="day">
+                                {{ day }}
+                                {{ schedule[day].turn? `(${schedule[day].turn})`: '(No hay turno para este día)'}}
+                            </label>
                         </div>
                         <button
                             type="submit"
-                          
                             class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                         >
                             Crear horario
@@ -96,21 +120,21 @@ export default {
             ],
             shifts: [],
             schedule: {
-                Lunes: 'No hay turno para este día',
-                Martes: 'No hay turno para este día',
-                Miércoles: 'No hay turno para este día',
-                Jueves: 'No hay turno para este día',
-                Viernes: 'No hay turno para este día',
-                Sábado: 'No hay turno para este día',
-                Domingo: 'No hay turno para este día',
+                Lunes: { message: 'No hay turno para este día' },
+                Martes: { message: 'No hay turno para este día' },
+                Miércoles: { message: 'No hay turno para este día' },
+                Jueves: { message: 'No hay turno para este día' },
+                Viernes: { message: 'No hay turno para este día' },
+                Sábado: { message: 'No hay turno para este día' },
+                Domingo: { message: 'No hay turno para este día' },
             },
             turns: [],
             selectedTurn: null,
             loading: false,
             loading_1: false,
-            validate_create_Job_position: 0,
-            job_position_name_input: '',
-            functions_input: '',
+            create_scheedule: 0,
+            horary_input: '',
+            horary_name_input: '',
         }
     },
     methods: {
@@ -123,12 +147,14 @@ export default {
         if (event.target.checked && this.selectedTurn) {
             this.schedule[day] = this.selectedTurn
         } else {
-            this.schedule[day] = {}
+            this.schedule[day] = { 'message': 'No hay turno para este día' }
         }
         },
         async createSchedule() {
+            this.loading = true
             const dataToSend = {
                 schedule: this.schedule,
+                horary_name: this.horary_name_input,
                 added_date: new Date(),
                 updated_date: new Date(),
             }
@@ -136,7 +162,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
-                    'https://apijis.com/schedule/store',dataToSend,
+                    'http://localhost:8000/schedule/store',dataToSend,
                     {
                         headers: {
                             accept: 'application/json',
@@ -145,16 +171,25 @@ export default {
                     },
 
                 )
-                console.log(response.data)
+                this.create_scheedule = 1
+
+                setTimeout(() => {
+                    this.create_scheedule = 0
+                }, 3000)
+                this.resetData()
+                this.loading = false
+
+                console.log(response.data.message)
             } catch (error) {
                 console.error(error)
+                this.loading = false
             }
         },
-        async getTurns() {
+        async getByGroup() {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'https://apijis.com/turns/get_all/',
+                    `http://localhost:8000/turns/get_by_group/${this.horary_input}/`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -168,9 +203,44 @@ export default {
                 console.error(error)
             }
         },
+        async getSchedules() {
+            const accessToken = localStorage.getItem('accessToken')
+            try {
+                const response = await axios.get(
+                    'http://localhost:8000/schedule/get_all/',
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                        },
+                    },
+                )
+                console.log(response)
+                
+            } catch (error) {
+                console.error(error)
+            }
+        },
+        resetData() {
+            this.horary_input = ''
+            this.horary_name_input = ''
+            this.schedule = {
+                Lunes: { message: 'No hay turno para este día' },
+                Martes: { message: 'No hay turno para este día' },
+                Miércoles: { message: 'No hay turno para este día' },
+                Jueves: { message: 'No hay turno para este día' },
+                Viernes: { message: 'No hay turno para este día' },
+                Sábado: { message: 'No hay turno para este día' },
+                Domingo: { message: 'No hay turno para este día' },
+            }
+            this.selectedTurn = null
+
+            console.log('Data reset', this.schedule)
+        },
     },
     async mounted() {
-        this.getTurns()
+        // this.getTurns()
+        // this.getSchedules()
     },
 }
 </script>
