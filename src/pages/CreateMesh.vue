@@ -263,24 +263,25 @@
                         <li
                             @click="
                                 pickCalendarDatesForTurns(
-                                    turn.working,
-                                    turn.breaking,
-                                    turn.start,
-                                    turn.end,
-                                    turn.turn,
-                                    turn.group_day_id,
-                                    turn.free_day_group_id,
-                                    turn.id,
-                                    turn.total_week_hours,
+                                    schedule,
+                                    // turn.working,
+                                    // turn.breaking,
+                                    // turn.start,
+                                    // turn.end,
+                                    // turn.turn,
+                                    // turn.group_day_id,
+                                    // turn.free_day_group_id,
+                                    // turn.id,
+                                    // turn.total_week_hours,
                                     $event
                                 )
                             "
                             draggable="true"
                             class="mt-1 mb-2 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            v-for="turn in turns"
-                            :key="turn.id"
-                            :value="turn.turn"
-                            v-text="turn.turn"
+                            v-for="schedule in schedules"
+                            :key="schedule[0].id"
+                            :value="schedule[0].horary_name"
+                            v-text="`ID : ${schedule[[0]].week_schedule_id}  ${schedule[[0]].horary_name}`"
                         ></li>
                     </ul>
                 </div>
@@ -392,6 +393,7 @@ export default {
             turnsDaysInUse: 0,
             workedDays: 0,
             weekPerMonth: 0,
+            schedules: [],
         }
     },
     methods: {
@@ -637,45 +639,47 @@ export default {
         },
 
         async pickCalendarDatesForTurns(
-            working,
-            breaking,
-            start,
-            end,
-            turn,
-            turnDays,
-            freeDays,
-            turnId,
-            hoursWeek,
+            schedule,
+            // working,
+            // breaking,
+            // start,
+            // end,
+            // turn,
+            // schedule,
+            // turnId,
+            // hoursWeek,
             event
-            )
-            {
-            this.working = working
-            this.breaking = breaking
-            this.start = start
-            this.end = end
-            this.turn_input = turn
-            this.turnDays = turnDays
-            this.freeDays = freeDays
-            this.turnId = turnId
-            this.total_week_hours = hoursWeek
+        ) {
+            console.log(this.schedules[0])
+            // this.working = working
+            // this.breaking = breaking
+            // this.start = start
+            // this.end = end
+            // this.turn_input = turn
+            // this.turnId = turnId
+            // this.total_week_hours = hoursWeek
+            console.log(schedule)
+            let turnDays = schedule.filter(day => day.turn_id !== 0).length;
+            const freeDays = schedule.filter(day => day.turn_id === 0).length;
+            console.log(turnDays)
+            console.log(freeDays)
 
             const verifyWeek = Number(localStorage.getItem('week'))
             console.log(verifyWeek)
             if (verifyWeek === 0 ) {
-                await this.getLastWeekWorkingDays()
+                // await this.getLastWeekWorkingDays()
                 console.log(this.workedDays)
             }
             else {
                 this.workedDays = 0
             }
-            
-           
+
             let date = new Date(this.startDate)
             turnDays = turnDays - this.workedDays
             date.setDate(date.getDate() + turnDays - 1)
             if (turnDays == 0) {
                 alert(
-                   ' El empleado ya trabajo los turnos que le correspondian en la semana'
+                    ' El empleado ya trabajo los turnos que le correspondian en la semana'
                 )
                 this.startDate = 0
                 this.attributes = [
@@ -710,7 +714,20 @@ export default {
                 if (turnPicked == null) {
                     return
                 }
-                this.whileForDatesInRange(turnDays, freeDays)
+                console.log(schedule)
+                this.datesInRange = schedule.map((day, index) => {
+                    if (day.turn_id !== 0) {
+                        const date = new Date(this.startDate);
+                        // Adjust index to match days of the week
+                        const dayOfWeek = (index + 1) % 7;
+                        const startDateDayOfWeek = this.startDate.getDay();
+                        const daysToAdd = (dayOfWeek < startDateDayOfWeek) 
+                            ? (7 - startDateDayOfWeek + dayOfWeek) 
+                            : (dayOfWeek - startDateDayOfWeek);
+                        date.setDate(date.getDate() + daysToAdd);
+                        return date;
+                    }
+                }).filter(date => date !== undefined);
                 let indexColor = Math.floor(Math.random() * 5)
 
                 this.attributes = [
@@ -1061,6 +1078,28 @@ export default {
                 console.error('Error al obtener la lista de bancos:', error)
             }
         },
+        async getSchedules() {
+            this.loading = true
+            const accessToken = localStorage.getItem('accessToken')
+            try {
+                const response = await axios.get(
+                    `https://apijis.com/schedule/get_all/`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            accept: 'application/json',
+                        },
+                    }
+                    )
+                for (let i = 0; i < response.data.message.length; i++) {
+                    this.schedules.push(response.data.message[i])
+                    console.log(this.schedules)
+                }
+                this.loading = false
+            } catch (error) {
+                console.error('Error al obtener la lista de bancos:', error)
+            }
+        },
     },
     async created() {
         this.periodToInitialPage(this.initialPage.year + '-' + this.initialPage.month)
@@ -1077,6 +1116,7 @@ export default {
         if(this.rol_id == 3) {
             await this.getAllEmployeesBySupervisor()
         }
+        this.getSchedules()
 
     },
 }
