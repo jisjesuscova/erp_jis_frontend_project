@@ -2834,7 +2834,6 @@ export default {
                         },
                     }
                 )
-
                 console.log(response.data.message)
 
                 this.legal_holiday = response.data.message
@@ -2907,6 +2906,8 @@ export default {
                 let roundedDifference = difference.toFixed(2)
 
                 this.balance = roundedDifference
+                console.log(this.balance)
+                
 
                 this.loading_6 = false
             } catch (error) {

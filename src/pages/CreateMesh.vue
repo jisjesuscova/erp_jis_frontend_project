@@ -658,14 +658,12 @@ export default {
             // this.turn_input = turn
             // this.turnId = turnId
             // this.total_week_hours = hoursWeek
-            console.log(schedule)
             let turnDays = schedule.filter(day => day.turn_id !== 0).length;
             const freeDays = schedule.filter(day => day.turn_id === 0).length;
             console.log(turnDays)
             console.log(freeDays)
 
             const verifyWeek = Number(localStorage.getItem('week'))
-            console.log(verifyWeek)
             if (verifyWeek === 0 ) {
                 // await this.getLastWeekWorkingDays()
                 console.log(this.workedDays)
@@ -721,9 +719,13 @@ export default {
                         // Adjust index to match days of the week
                         const dayOfWeek = (index + 1) % 7;
                         const startDateDayOfWeek = this.startDate.getDay();
-                        const daysToAdd = (dayOfWeek < startDateDayOfWeek) 
-                            ? (7 - startDateDayOfWeek + dayOfWeek) 
-                            : (dayOfWeek - startDateDayOfWeek);
+                        const daysToAdd = (dayOfWeek < startDateDayOfWeek) ? (7 - startDateDayOfWeek + dayOfWeek) : (dayOfWeek - startDateDayOfWeek);
+                        console.log(daysToAdd)
+                      
+                        if (daysToAdd + startDateDayOfWeek > 6) {
+                         
+                            return undefined;
+                        }
                         date.setDate(date.getDate() + daysToAdd);
                         return date;
                     }
@@ -766,7 +768,7 @@ export default {
                 }
                 console.log(this.employee_input[0][0])
                 const response = await axios.get(
-                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}`,
+                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}/`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -774,6 +776,7 @@ export default {
                         },
                     }
                 )
+                console.log(response)
                 this.turns = response.data.message
                 if (this.search_term == 'Buscar Turno') {
                     this.search_term = ''
@@ -854,7 +857,7 @@ export default {
             const yearAndPreviuosMonth = `${year}-${month}`
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/last_week_working_days/${this.employee_input[0][1]}/${yearAndPreviuosMonth}`,
+                    `https://apijis.com/meshes/last_week_working_days/${this.employee_input[0][1]}/${yearAndPreviuosMonth}/`,
 
                     {
                         headers: {
@@ -1062,7 +1065,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/get_all_employees_by_supervisor/${supervisor_rut}`,
+                    `https://apijis.com/meshes/get_all_employees_by_supervisor/${supervisor_rut}/`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
