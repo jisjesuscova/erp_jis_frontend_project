@@ -511,6 +511,35 @@
                             </tr>
                         </tbody>
                     </table>
+                    <table
+                        class="mx-auto border-collapse w-full border-gray-400 my-3"
+                    >
+                        <thead>
+                            <tr>
+                                <th
+                                    class="bg-blue-600 text-white text-center border border-gray-400 py-2 px-4"
+                                    colspan="3"
+                                >
+                                    OTROS VALORES
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-left border py-2 px-4">
+                                    Mutual
+                                </td>
+                                <td class="text-right border py-2 px-4">
+                                    <input
+                                        type="text"
+                                        class="bg-white-50 border border-gray-300 text-right text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        v-model="mutual_value_input"
+                                        required
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="bg-gray-100 p-4">
                     <table
@@ -1187,7 +1216,8 @@ export default {
             c_family_assignment_rent_requirement_input_top_value: '',
             fix_d_family_assignment_rent_requirement_input: '',
             d_family_assignment_rent_requirement_input_minimum_value: 0,
-            d_family_assignment_rent_requirement_input_top_value: ''
+            d_family_assignment_rent_requirement_input_top_value: '',
+            mutual_value_input: 0,
         }
     },
     methods: {
@@ -1280,6 +1310,7 @@ export default {
                     .distribution_7_percent_health_employeer_ccaf_input,
                 distribution_7_percent_health_employeer_fonasa: this
                     .distribution_7_percent_health_employeer_fonasa_input,
+                mutual_value: this.mutual_value_input
             }
 
             const accessToken = localStorage.getItem('accessToken')

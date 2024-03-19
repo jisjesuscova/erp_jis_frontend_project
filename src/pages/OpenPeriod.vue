@@ -185,7 +185,7 @@ export default {
                 }
 
                 const response = await axios.post(
-                    'https://apijis.com/payrolls/open',
+                    'http://localhost:8000/payrolls/open',
                     dataToSend,
                     {
                         headers: {
