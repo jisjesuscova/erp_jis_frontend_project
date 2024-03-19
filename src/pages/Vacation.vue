@@ -2821,12 +2821,13 @@ export default {
             }
         },
         async getLegal() {
+            console.log('entro')
             const accessToken = localStorage.getItem('accessToken')
 
             try {
                 const response = await axios.get(
                     'https://apijis.com/vacations/legal/' +
-                        this.$route.params.rut,
+                        this.$route.params.rut +'/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -2857,7 +2858,7 @@ export default {
             try {
                 const response = await axios.get(
                     'https://apijis.com/progressive_vacations/legal/' +
-                        this.$route.params.rut,
+                        this.$route.params.rut +'/',
                     {
                         headers: {
                             accept: 'application/json',
