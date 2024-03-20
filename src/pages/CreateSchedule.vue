@@ -162,7 +162,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
-                    'https://apijis.com/schedule/store',dataToSend,
+                    'http://localhost:8000/schedule/store',dataToSend,
                     {
                         headers: {
                             accept: 'application/json',
@@ -189,7 +189,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    `https://apijis.com/turns/get_by_group/${this.horary_input}/`,
+                    `http://localhost:8000/turns/get_by_group/${this.horary_input}/`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -207,7 +207,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'https://apijis.com/schedule/get_all/',
+                    'http://localhost:8000/schedule/get_all/',
                     {
                         headers: {
                             accept: 'application/json',

@@ -126,7 +126,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/slider/get_images/',
+                    'http://localhost:8000/slider/get_images/',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -157,7 +157,7 @@ export default {
 
             try {
                 const accessToken = localStorage.getItem('accessToken')
-                await axios.delete(`https://apijis.com/slider/delete_image/${id}`, {
+                await axios.delete(`http://localhost:8000/slider/delete_image/${id}`, {
                     headers: {
                         accept: 'application/json',
                         Authorization: `Bearer ${accessToken}`,

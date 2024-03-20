@@ -211,7 +211,7 @@
                         <select
                             v-model="schedule_input"
                             required
-                            @change="getTurns"
+                            @change="getWeekSchedulesByGroup"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         >
                             <option value="">- Horario -</option>
@@ -254,7 +254,7 @@
                     >
                     <input
                         v-model="search_term"
-                        @input="getTurns"
+                        @input="getWeekSchedulesByGroup"
                         class="bg-white-50 border border-gray-950 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         type="text"
                         placeholder="Buscar turno"
@@ -279,9 +279,9 @@
                             draggable="true"
                             class="mt-1 mb-2 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             v-for="schedule in schedules"
-                            :key="schedule[0].id"
-                            :value="schedule[0].horary_name"
-                            v-text="`ID : ${schedule[[0]].week_schedule_id}  ${schedule[[0]].horary_name}`"
+                            :key="schedule.id"
+                            :value="schedule.horary_name"
+                            v-text="`${schedule.horary_name}`"
                         ></li>
                     </ul>
                 </div>
@@ -394,6 +394,7 @@ export default {
             workedDays: 0,
             weekPerMonth: 0,
             schedules: [],
+            pickedSchedule: [],
         }
     },
     methods: {
@@ -401,7 +402,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.post(
-                    'https://apijis.com/meshes/store',
+                    'http://localhost:8000/meshes/store',
                     this.dataToSend,
                     {
                         headers: {
@@ -650,16 +651,11 @@ export default {
             // hoursWeek,
             event
         ) {
-            console.log(this.schedules[0])
-            // this.working = working
-            // this.breaking = breaking
-            // this.start = start
-            // this.end = end
-            // this.turn_input = turn
-            // this.turnId = turnId
-            // this.total_week_hours = hoursWeek
-            let turnDays = schedule.filter(day => day.turn_id !== 0).length;
-            const freeDays = schedule.filter(day => day.turn_id === 0).length;
+            // console.log(schedule.id)
+            await this.getByWeekScheduleId(schedule.id)
+            console.log(this.pickedSchedule)
+            let turnDays = this.pickedSchedule.filter(day => day.turn_id !== 0).length;
+            const freeDays = this.pickedSchedule.filter(day => day.turn_id === 0).length;
             console.log(turnDays)
             console.log(freeDays)
 
@@ -713,7 +709,7 @@ export default {
                     return
                 }
                 console.log(schedule)
-                this.datesInRange = schedule.map((day, index) => {
+                this.datesInRange = this.pickedSchedule.map((day, index) => {
                     if (day.turn_id !== 0) {
                         const date = new Date(this.startDate);
                         // Adjust index to match days of the week
@@ -768,7 +764,7 @@ export default {
                 }
                 console.log(this.employee_input[0][0])
                 const response = await axios.get(
-                    `https://apijis.com/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}/`,
+                    `http://localhost:8000/turns/edit/${dataToSend.employee_type_id}/${dataToSend.group_id}/${dataToSend.search_term}/`,
                     {
                         headers: {
                             accept: 'application/json',
@@ -796,7 +792,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/branch_offices/',
+                    'http://localhost:8000/branch_offices/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -827,7 +823,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/employee_labor_data/edit/branch/' +
+                    'http://localhost:8000/employee_labor_data/edit/branch/' +
                         this.branch_office_input,
                     {
                         headers: {
@@ -857,7 +853,7 @@ export default {
             const yearAndPreviuosMonth = `${year}-${month}`
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/last_week_working_days/${this.employee_input[0][1]}/${yearAndPreviuosMonth}/`,
+                    `http://localhost:8000/meshes/last_week_working_days/${this.employee_input[0][1]}/${yearAndPreviuosMonth}/`,
 
                     {
                         headers: {
@@ -1042,7 +1038,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/holidays/',
+                    'http://localhost:8000/holidays/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -1065,7 +1061,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `https://apijis.com/meshes/get_all_employees_by_supervisor/${supervisor_rut}/`,
+                    `http://localhost:8000/meshes/get_all_employees_by_supervisor/${supervisor_rut}/`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -1081,12 +1077,12 @@ export default {
                 console.error('Error al obtener la lista de bancos:', error)
             }
         },
-        async getSchedules() {
-            this.loading = true
+        async getByWeekScheduleId(id) {
+            
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    `https://apijis.com/schedule/get_all/`,
+                    `http://localhost:8000/schedule/get_by_week_schedule_id/${id}` ,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -1094,13 +1090,37 @@ export default {
                         },
                     }
                     )
-                for (let i = 0; i < response.data.message.length; i++) {
-                    this.schedules.push(response.data.message[i])
-                    console.log(this.schedules)
-                }
-                this.loading = false
+                console.log(response)
+                this.pickedSchedule = response.data.message
             } catch (error) {
-                console.error('Error al obtener la lista de bancos:', error)
+                console.error('Error al obtener el horario seleccionado:', error)
+            }
+        },
+        async getWeekSchedulesByGroup() {
+            const accessToken = localStorage.getItem('accessToken')
+            const dataToSend = {
+                    search_term: this.search_term,
+                }
+            try {
+                const response = await axios.get(
+                    `http://localhost:8000/schedule/get_by_group/${this.schedule_input}/${dataToSend.search_term}/` ,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            accept: 'application/json',
+                        },
+                    }
+                    )
+                this.schedules = response.data.message
+                if (this.search_term == 'Buscar Turno') {
+                    this.search_term = ''
+                }
+                // for (let i = 0; i < response.data.message.length; i++) {
+                //     this.schedules.push(response.data.message[i])
+                // }
+
+            } catch (error) {
+                console.error('Error al obtener los horarios por grupo:', error)
             }
         },
     },
@@ -1119,7 +1139,7 @@ export default {
         if(this.rol_id == 3) {
             await this.getAllEmployeesBySupervisor()
         }
-        this.getSchedules()
+        // this.getWeekSchedulesByGroup()
 
     },
 }

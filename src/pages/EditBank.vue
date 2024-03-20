@@ -162,7 +162,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    'https://apijis.com/banks/edit/' + this.$route.params.id,
+                    'http://localhost:8000/banks/edit/' + this.$route.params.id,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -201,7 +201,7 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.patch(
-                    'https://apijis.com/banks/update/' +
+                    'http://localhost:8000/banks/update/' +
                         this.$route.params.id,
                         dataToSend,
                     {

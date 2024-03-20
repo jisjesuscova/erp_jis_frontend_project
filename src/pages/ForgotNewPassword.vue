@@ -316,7 +316,7 @@ export default {
                 email: this.email,
             }
             const response = await axios.post(
-                'https://apijis.com/login_users/forgot',
+                'http://localhost:8000/login_users/forgot',
                 dataToSend,
                 {
                     headers: {
@@ -346,7 +346,7 @@ export default {
                 }
                 try {
                         const response = await axios.patch(
-                        'https://apijis.com/login_users/update_password',
+                        'http://localhost:8000/login_users/update_password',
                         dataToSend,
                         {
                             headers: {
