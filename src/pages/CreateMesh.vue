@@ -528,22 +528,9 @@ export default {
             if (this.weekPerMonth === week) {
                 this.showButtonProcess = true
             }
-            const weekData = {
-                week_id: week,
-                turn_id: this.turnId,
-                rut: this.employee_input[0][1],
-                names: this.employee_input[2] + ' ' + this.employee_input[3] + ' ' + this.employee_input[4],
-                turn: this.turn_input,
-                start_turn: this.start,
-                end_turn: this.end,
-                collation: this.breaking,
-                working:this.working,
-                group_day_id: this.turnDays,
-                free_day_group_id: this.freeDays,
-                total_week_hours: this.total_week_hours,
-                branch_office: this.branch_office_input,
-                datesInRange: this.datesInRange,
-            }
+            const weekData = this.pickedSchedule
+            console.log(weekData)
+
 
             localStorage.setItem('week_value' + week, JSON.stringify(weekData))
 
@@ -654,8 +641,8 @@ export default {
             // console.log(schedule.id)
             await this.getByWeekScheduleId(schedule.id)
             console.log(this.pickedSchedule)
-            let turnDays = this.pickedSchedule.filter(day => day.turn_id !== 0).length;
-            const freeDays = this.pickedSchedule.filter(day => day.turn_id === 0).length;
+            let turnDays = this.pickedSchedule.filter(day => day.turn_id !== null).length;
+            const freeDays = this.pickedSchedule.filter(day => day.turn_id === null).length;
             console.log(turnDays)
             console.log(freeDays)
 
@@ -710,7 +697,7 @@ export default {
                 }
                 console.log(schedule)
                 this.datesInRange = this.pickedSchedule.map((day, index) => {
-                    if (day.turn_id !== 0) {
+                    if (day.turn_id !== null) {
                         const date = new Date(this.startDate);
                         // Adjust index to match days of the week
                         const dayOfWeek = (index + 1) % 7;
@@ -1100,10 +1087,12 @@ export default {
             const accessToken = localStorage.getItem('accessToken')
             const dataToSend = {
                     search_term: this.search_term,
+                    employee_type_id: this.employee_input[0][0],
+
                 }
             try {
                 const response = await axios.get(
-                    `http://localhost:8000/schedule/get_by_group/${this.schedule_input}/${dataToSend.search_term}/` ,
+                    `http://localhost:8000/schedule/get_by_group/${dataToSend.employee_type_id}/${this.schedule_input}/${dataToSend.search_term}/` ,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
