@@ -102,6 +102,8 @@ import PayrollCalculation from './pages/PayrollCalculation.vue'
 import FamilyBurden from './pages/FamilyBurden.vue'
 import WorkingDays from './pages/WorkingDays.vue'
 import SecondCategoryTax from "./pages/SecondCategoryTax.vue";
+import SocialLaw from "./pages/SocialLaw.vue";
+import SocialLawMovement from "./pages/SocialLawMovement.vue";
 
 const routes = [
     {
@@ -524,9 +526,18 @@ const routes = [
     {
         path:'/working_days',
         component: WorkingDays
-    },{
+    },
+    {
         path:'/second_category_taxes',
         component: SecondCategoryTax
+    },
+    {
+        path:'/social_laws',
+        component: SocialLaw
+    },
+    {
+        path:'/social_law_movements',
+        component: SocialLawMovement
     },
 ]
 
