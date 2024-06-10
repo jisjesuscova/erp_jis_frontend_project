@@ -57,7 +57,6 @@
                             required
                             v-model="payroll_item_input"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            @change="cleanForm()"
                         >
                             <option value="">- Seleccionar -</option>
                             <option
@@ -143,7 +142,6 @@
                             @click="searchPayrollEmployees"
                             class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                         >
-                            
                             Buscar
                             <i class="fa-solid fa-search p-1"></i>
                         </button>
@@ -412,11 +410,45 @@ export default {
                 }
             }
         },
+        async verify() {
+            this.loading = true
+            const accessToken = localStorage.getItem('accessToken')
+            try {
+                const response = await axios.get(
+                    'https://apijis.com/payroll_periods/check',
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                        },
+                    },
+                )
+
+                if (response.data.message == 0) {
+                    this.status_opened_period = 0
+                } else {
+                    this.period_input = response.data.message
+
+                    localStorage.setItem('opened_period', this.period_input)
+
+                    this.status_opened_period = 1
+                }
+
+                this.loading = false
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error('Error al obtener el periodo:', error)
+                }
+            }
+        },
         async getPayrollItems() {
             const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/payroll_items',
+                    'https://apijis.com/payroll_items/',
                     {
                         headers: {
                             accept: 'application/json',
@@ -464,6 +496,8 @@ export default {
         },
     },
     async mounted() {
+        this.verify()
+        
         await this.getPayrollItems()
 
         const opened_period = localStorage.getItem('opened_period')

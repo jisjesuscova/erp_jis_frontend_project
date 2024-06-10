@@ -1056,7 +1056,7 @@ export default {
                         },
                     }
                 )
-
+           
                 this.progressive_legal_vacations =
                     responseProgressiveLegal.data.message
                 this.progressive_taken_days =
@@ -1065,9 +1065,10 @@ export default {
                 this.progressive_balance =
                     this.progressive_legal_vacations -
                     this.progressive_taken_days
-
+                
                 this.loading_3 = false
-                this.vacations_input = this.balance + this.progressive_balance
+      
+                this.vacations_input = parseFloat(this.balance) + parseFloat(this.progressive_balance)
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')

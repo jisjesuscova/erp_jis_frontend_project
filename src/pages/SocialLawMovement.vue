@@ -55,7 +55,10 @@
                                 <thead>
                                     <tr>
                                         <th class="px-4 py-2 text-left">
-                                            Totales
+                                            RUT
+                                        </th>
+                                        <th class="px-4 py-2 text-left">
+                                            Trabajador
                                         </th>
                                         <th class="px-4 py-2 text-left">
                                             Entradas
@@ -69,50 +72,22 @@
                                         <th class="px-4 py-2 text-left">
                                             Ausentismo
                                         </th>
+                                        <th class="px-4 py-2 text-left">
+                                            Dias
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr
-                                    >
+                                    <tr v-for="(total, index) in totals" :key="index">
                                         <td class="border px-4 py-2">
-
+                                            {{ total.visual_rut }}
                                         </td>
-                                        <td class="border px-4 py-2">
-                                            <input
-                                                type="number"
-                                                id="'amount_input"
-                                                class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                placeholder="Monto"
-                                                required
-                                            />
-                                        </td>
-                                        <td class="border px-4 py-2">
-                                            <input
-                                                type="number"
-                                                id="'amount_input"
-                                                class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                placeholder="Monto"
-                                                required
-                                            />
-                                        </td>
-                                        <td class="border px-4 py-2">
-                                            <input
-                                                type="number"
-                                                id="'amount_input"
-                                                class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                placeholder="Monto"
-                                                required
-                                            />
-                                        </td>
-                                        <td class="border px-4 py-2">
-                                            <input
-                                                type="number"
-                                                id="'amount_input"
-                                                class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                placeholder="Monto"
-                                                required
-                                            />
-                                        </td>
+                                        <td class="border px-4 py-2">{{ total.names }} {{ total.father_lastname }} {{ total.mother_lastname }}</td>
+                                        <td class="border px-4 py-2">{{ total.entrance_total }}</td>
+                                        <td class="border px-4 py-2">{{ total.exit_total }}</td>
+                                        <td class="border px-4 py-2">{{ total.medical_license_total }}</td>
+                                        <td class="border px-4 py-2">{{ total.absenteeism_total }}</td>
+                                        <td class="border px-4 py-2">{{ total.total_days }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -124,13 +99,14 @@
                 <hr
                 class="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50"
                 />
-                <router-link
-                    href="javascript:;"
-                    to="/create_bulk_payroll_manual_inputs"
-                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                <button
+                    type="submit"
+                    @click="submit"
+                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                 >
-                    Calcular
-                </router-link>
+                    Procesar
+                    <i class="fa-solid fa-check"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -162,45 +138,9 @@ export default {
 
             this.loading = true
 
-            const dataToSend = {
-                payroll_employees: this.payroll_employees.map(employee => ({
-                    rut: employee.rut,
-                    payroll_item_id: this.payroll_item_input,
-                    amount: employee.amount_input,
-                    period: this.period_input
-                }))
-            };
-
-            try {
-                const response = await axios.post(
-                    'https://apijis.com/payroll_manual_inputs/store',
-                    dataToSend,
-                    {
-                        headers: {
-                            accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    },
-                )
-
-                this.amount_input = 0
-
-                this.loading = false
-
-            } catch (error) {
-                if (error.message == 'Request failed with status code 401') {
-                    localStorage.removeItem('accessToken')
-                    window.location.reload()
-                } else {
-                    console.error('Error al guardar los inputs manuales:', error)
-                }
-            }
-        },
-        async getTotals() {
-            const accessToken = localStorage.getItem('accessToken')
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/social_laws/totals',
+                    'https://apijis.com/social_laws/movements/' + this.period_input,
                     {
                         headers: {
                             accept: 'application/json',
@@ -215,6 +155,40 @@ export default {
                     },
                 )
                 console.log(response)
+                this.loading = false
+
+            } catch (error) {
+                if (error.message == 'Request failed with status code 401') {
+                    localStorage.removeItem('accessToken')
+                    window.location.reload()
+                } else {
+                    console.error('Error al obtener los totales:', error)
+                }
+            }
+        },
+        async getTotals() {
+            const accessToken = localStorage.getItem('accessToken')
+
+            this.loading = true
+
+            try {
+                const response = await axios.get(
+                    'http://localhost:8000/social_laws/totals/' + this.period_input,
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    },
+                    {
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    },
+                )
+                console.log(response)
+                this.loading = false
                 this.totals = response.data.message
 
             } catch (error) {
@@ -228,8 +202,6 @@ export default {
         },
     },
     async mounted() {
-        this.getTotals();
-
         const opened_period = localStorage.getItem('opened_period')
         if (opened_period != null && opened_period != 'null' && opened_period != '' && opened_period != 'undefined' && opened_period != undefined) {
             this.period_input = opened_period
@@ -238,6 +210,8 @@ export default {
                 '/open_period'
                 )
         }
+
+        await this.getTotals();
     },
 }
 </script>

@@ -104,6 +104,8 @@ import WorkingDays from './pages/WorkingDays.vue'
 import SecondCategoryTax from "./pages/SecondCategoryTax.vue";
 import SocialLaw from "./pages/SocialLaw.vue";
 import SocialLawMovement from "./pages/SocialLawMovement.vue";
+import DownloadSalarySettlement from "./pages/DownloadSalarySettlement.vue";
+import BulkFamilyBurden from './pages/BulkFamilyBurden.vue'
 
 const routes = [
     {
@@ -538,6 +540,14 @@ const routes = [
     {
         path:'/social_law_movements',
         component: SocialLawMovement
+    },
+    {
+        path:'/download_salary_settlements',
+        component: DownloadSalarySettlement
+    },
+    {
+        path:'/create_bulk_family_burdens',
+        component: BulkFamilyBurden
     },
 ]
 

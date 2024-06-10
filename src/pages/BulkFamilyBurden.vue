@@ -31,7 +31,7 @@
 
                 <router-link
                     href="javascript:;"
-                    to="/create_bulk_payroll_manual_inputs"
+                    to="/create_bulk_family_burdens"
                     class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                 >
                     Descargar Plantilla
@@ -47,7 +47,7 @@
                     <div
                         class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
                     >
-                        <form @submit.prevent="createBulkPayrollManualInput">
+                        <form @submit.prevent="createBulkFamilyBurden">
                             <div
                                 class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 dark:bg-gray-800 dark:border-gray-700"
                             >
@@ -58,29 +58,8 @@
                                 </p>
                             </div>
                             <div
-                                class="grid md:grid-cols-3 sm:grid-cols-12 gap-4 p-4 md:p-5"
+                                class="grid md:grid-cols-2 sm:grid-cols-12 gap-4 p-4 md:p-5"
                             >
-                                <div>
-                                    <label
-                                        for="hs-validation-name-error"
-                                        class="block text-sm font-medium mb-2 dark:text-white"
-                                        >Item</label
-                                    >
-                                    <select
-                                        required
-                                        v-model="payroll_item_input"
-                                        class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    >
-                                        <option value="">- Seleccionar -</option>
-                                        <option
-                                            v-for="payroll_item in payroll_managements_inputs"
-                                            :key="payroll_item.id"
-                                            :value="payroll_item.id"
-                                        >
-                                            {{ payroll_item.item }}
-                                        </option>
-                                    </select>
-                                </div>
                                 <div>
                                     <label
                                         for="hs-validation-name-error"
@@ -187,7 +166,7 @@ export default {
 
             this.file_input = selectedFile
         },
-        createBulkPayrollManualInput() {
+        createBulkFamilyBurden() {
             this.loading = true
             
             const accessToken = localStorage.getItem('accessToken')
@@ -200,7 +179,7 @@ export default {
             formData.append('file', this.file_input)
 
             axios
-                .post('https://apijis.com/payroll_manual_inputs/upload', formData, {
+                .post('https://apijis.com/payroll_family_burdens/upload', formData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'multipart/form-data',

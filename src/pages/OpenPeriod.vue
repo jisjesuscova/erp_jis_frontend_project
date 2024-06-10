@@ -120,6 +120,8 @@ export default {
                 } else {
                     this.period_input = response.data.message
 
+                    localStorage.setItem('opened_period', this.period_input)
+
                     this.status_opened_period = 1
                 }
 
@@ -185,7 +187,7 @@ export default {
                 }
 
                 const response = await axios.post(
-                    'http://localhost:8000/payrolls/open',
+                    'https://apijis.com/payrolls/open',
                     dataToSend,
                     {
                         headers: {

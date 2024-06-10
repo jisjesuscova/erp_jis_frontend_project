@@ -183,7 +183,7 @@
                             >Cantidad de Vacaciones</label
                         >
                         <input
-                            type="number"
+                            type="text"
                             v-model="vacations_input"
                             class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required
@@ -237,6 +237,7 @@
                                 <input
                                     type="number"
                                     v-model="indemnity_year_input"
+                                    @blur="sum"
                                     class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 />
                             </div>
@@ -284,6 +285,7 @@
                                 <input
                                     v-model="substitute_compensation_input"
                                     type="number"
+                                    @blur="sum"
                                     class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required
                                 />
@@ -332,6 +334,7 @@
                                 <input
                                     v-model="fertility_proportional_input"
                                     type="number"
+                                    @blur="sum"
                                     class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required
                                 />
@@ -428,7 +431,8 @@
                             @click="generateEndDocument()"
                             class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800 mr-2"
                             >
-                                <i class="fa-solid fa-file"></i>
+                                Calcular
+                                <i class="fa-solid fa-check"></i>
                             </button> 
                             
 
@@ -608,6 +612,14 @@ export default {
                 }
 
             pdfMake.createPdf(docDefinition).download('Calculo_Finiquito.pdf')
+        },
+        async sum() {
+            this.total_input =
+                    this.indemnity_year_input +
+                    this.substitute_compensation_input +
+                    this.fertility_proportional_input +
+                    this.voluntary_compensation_input
+
         },
         async getBranchOffices() {
             const accessToken = localStorage.getItem('accessToken')
@@ -838,7 +850,11 @@ export default {
 
                 this.loading_2 = false
 
-                this.balance = this.legal_vacations - this.taken_days
+                let legalHoliday = parseFloat(this.legal_vacations);
+                let takenDays = parseFloat(this.taken_days);
+                let difference = legalHoliday - takenDays;
+                let roundedDifference = difference.toFixed(2);
+                this.balance = parseFloat(roundedDifference);
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
@@ -886,7 +902,7 @@ export default {
                     this.progressive_taken_days
 
                 this.loading_3 = false
-                this.vacations_input = this.balance + this.progressive_balance
+                this.vacations_input = parseFloat(this.balance) + parseFloat(this.progressive_balance)
             } catch (error) {
                 if (error.message == 'Request failed with status code 401') {
                     localStorage.removeItem('accessToken')
@@ -973,17 +989,23 @@ export default {
                 const accessToken = localStorage.getItem('accessToken')
 
                 const response = await axios.post(
-                    'http://apijis.com/end_documents/human_resources/end_document/fertility_proportional',
+                    'https://apijis.com/end_documents/human_resources/end_document/fertility_proportional',
                     dataToSend,
                     {
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${accessToken}`, // Agregar el token al encabezado de la solicitud
+                            Authorization: `Bearer ${accessToken}`, 
                         },
                     }
                 )
+
                 this.fertility_proportional_input = response.data.message
-                this.fertility_proportional_total_input = response.data.total
+
+                let fertilityTotal = parseFloat(response.data.total);
+
+                let result = fertilityTotal.toFixed(2);
+
+                this.fertility_proportional_total_input = result
 
                 this.total_input =
                     this.indemnity_year_input +

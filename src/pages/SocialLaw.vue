@@ -82,7 +82,7 @@ export default {
                 }
 
                 const response = await axios.post(
-                    'http://localhost:8000/social_laws/calculate',
+                    'https://apijis.com/social_laws/calculate',
                     dataToSend,
                     {
                         headers: {
